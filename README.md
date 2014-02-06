@@ -7,23 +7,25 @@ npm install SenseBase
 
 # Manual install
 
-* Copy tika-app (tested with tika-app-1.4.jar) to ext-lib for document conversion
+* Copy tika-app (tested with tika-app-1.4.jar) to ext-lib for document conversion to match bin/extractText.sh
 
 
 # Configure
 
-create a config.js:
+* create a config.js:
 
+    // logging
     var winston = require('winston');
-    var domain = 'my.great.domain';
 
     GLOBAL.debug = winston.debug;
     GLOBAL.info = winston.info;
     GLOBAL.warn = winston.warn;
     GLOBAL.error = winston.error;
 
+    var domain = 'my.great.domain';
+
     exports.config = {
-      project: 'proxiris',
+      project: 'sensebase',
       DOMAIN: domain,
       FAYEHOST: 'http://faye.' + domain + ':9999/montr',
       ESEARCH: { _index : 'ps', server : { host : 'es.' + domain, port : 9200 } },
@@ -45,9 +47,9 @@ create a config.js:
     }
 
 
-# run
+# Run
 
-create a bootstrap that looks like this:
+* create a bootstrap that looks like this:
 
     var senseBase = require('SenseBase');
 
@@ -55,5 +57,12 @@ create a bootstrap that looks like this:
 
 * start services
 
-node bootstrap.js
+* then node bootstrap.js
+
+
+# Develop
+
+* npm install -g grunt-cli
+* grunt
+* Edit assets, grunt will generate final files
 
