@@ -14,16 +14,16 @@ npm install SenseBase
 
 * create a config.js:
 
+    var domain = 'my.great.domain';
+     
     // logging
     var winston = require('winston');
-
+     
     GLOBAL.debug = winston.debug;
     GLOBAL.info = winston.info;
     GLOBAL.warn = winston.warn;
     GLOBAL.error = winston.error;
-
-    var domain = 'my.great.domain';
-
+    
     exports.config = {
       project: 'sensebase',
       DOMAIN: domain,
@@ -45,7 +45,6 @@ npm install SenseBase
         wikiMeta: 186691395332
       }
     }
-
 
 # Run
 
