@@ -1,4 +1,4 @@
-Feature: Using Proxiris as a proxy
+Feature: Using sensebase as a proxy
 
 Scenario: View page annotations
 
@@ -7,6 +7,6 @@ Scenario: View page annotations
   Then I should see the login form
   Then I fill in my login info
   Then I should see the requested site
-  And it should have the Proxiris instrumentation
+  And it should have the sensebase instrumentation
 
 
