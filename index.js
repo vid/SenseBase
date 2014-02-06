@@ -17,7 +17,6 @@ exports.start = start;
 
 function start(config) {
   config.users = users;
-  config.pageCache = require('./lib/pageCache.js');
   config.indexer = require('./lib/indexer.js');
   config.pageCache = require('./lib/pageCache.js');
   config.prefrontal = require('./lib/auth.js');
@@ -32,8 +31,9 @@ function start(config) {
       if (m && m[1]) {
         var title = m[1].replace(/<.*?>/g);
         var psMember = browser_request.psMember.username;
-        pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
-        indexer.indexPage(uri, title, psMember, referer, browser_request.is_html, pageBuffer, contentType, saveHeaders);
+        GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
+        GLOBAL.config.indexer.indexPage({
+          uri: uri, title: title, member: psMember, referer: referer, isHTML: browser_request.is_html, contents: pageBuffer, contentType: contentType, headers: saveHeaders});
       }
     }
   }
@@ -159,8 +159,9 @@ app.get('/logout', function(req, res){
 
 app.post('/upload', function(req, res) {
   fileUpload.uploadFile(req, function(err, resp) {
+  console.log('GOGO', err, resp);
     GLOBAL.config.indexer.indexPage({
-      uri: GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName, title: resp.title, user: req.user, contents: resp.buffer, 
+    uri: GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName, isHTML: true, title: resp.title, member: req.user.username, content: resp.buffer, 
       callback: function(err, res) {
         console.log('okiokok');
       }
