@@ -1,8 +1,8 @@
 {
-  "name": "SenseBase",
-  "id": "SenseBase",
+  "name": "sensebase",
+  "id": "sensebase",
   "version": "0.0.0",
-  "description": "SenseBase.",
+  "description": "SenseBase basis for workgroup annotation.",
   "dependencies": {
     "queue-async": "~1.0.4",
     "filter-proxy": "0.0.0",
