@@ -49,7 +49,7 @@ create a config.js:
 
 create a bootstrap that looks like this:
 
-    var senseBase = require('./index.js');
+    var senseBase = require('SenseBase');
 
     senseBase.start(require('./config.js').config);
 
