@@ -159,10 +159,12 @@ app.get('/logout', function(req, res){
 
 app.post('/upload', function(req, res) {
   fileUpload.uploadFile(req, function(err, resp) {
-    GLOBAL.config.indexer.indexPage({ uri: GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName, title: resp.title, user: req.user, '', contents: resp.buffer} function(err, res) {
-      console.log('okiokok');
+    GLOBAL.config.indexer.indexPage({
+      uri: GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName, title: resp.title, user: req.user, contents: resp.buffer, 
+      callback: function(err, res) {
+        console.log('okiokok');
+      }
     });
-
   });
 });
 
