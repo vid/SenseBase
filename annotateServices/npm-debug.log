@@ -1,0 +1,64 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/vid/nvm/v0.8.21/bin/node',
+1 verbose cli   '/home/vid/nvm/v0.8.21/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '0.10.4' ]
+2 info using npm@1.2.11
+3 info using node@v0.8.21
+4 verbose node symlink /home/vid/nvm/v0.8.21/bin/node
+5 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/package.json
+6 warn package.json CSFGBro@0.0.0 No README.md file found!
+7 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/node_modules/jsdom/package.json
+8 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/node_modules/querystring/package.json
+9 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/node_modules/ecstatic/package.json
+10 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/node_modules/moment/package.json
+11 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/node_modules/memwatch/package.json
+12 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/node_modules/jquery/package.json
+13 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/node_modules/faye/package.json
+14 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/node_modules/colors/package.json
+15 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/node_modules/queue-async/package.json
+16 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/node_modules/require-analyzer/package.json
+17 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/node_modules/solr-client/package.json
+18 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/node_modules/xml2js/package.json
+19 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/node_modules/Sentimental/package.json
+20 verbose read json /mnt/hd/home/vid/Dropbox/workspace/nodeastory/node_modules/java/package.json
+21 verbose from cache /mnt/hd/home/vid/Dropbox/workspace/nodeastory/package.json
+22 verbose readDependencies using package.json deps
+23 verbose cache add [ '0.10.4', null ]
+24 verbose cache add name=undefined spec="0.10.4" args=["0.10.4",null]
+25 verbose parsed url { pathname: '0.10.4', path: '0.10.4', href: '0.10.4' }
+26 silly lockFile f4a7a0d5-0-10-4 0.10.4
+27 verbose lock 0.10.4 /home/vid/.npm/f4a7a0d5-0-10-4.lock
+28 silly lockFile f4a7a0d5-0-10-4 0.10.4
+29 silly lockFile f4a7a0d5-0-10-4 0.10.4
+30 verbose addNamed [ '0.10.4', '' ]
+31 verbose addNamed [ null, '' ]
+32 silly lockFile a68a3f25-0-10-4 0.10.4@
+33 verbose lock 0.10.4@ /home/vid/.npm/a68a3f25-0-10-4.lock
+34 silly addNameRange { name: '0.10.4', range: '', hasData: false }
+35 verbose url raw 0.10.4
+36 verbose url resolving [ 'https://registry.npmjs.org/', './0.10.4' ]
+37 verbose url resolved https://registry.npmjs.org/0.10.4
+38 info trying registry request attempt 1 at 13:29:25
+39 http GET https://registry.npmjs.org/0.10.4
+40 http 404 https://registry.npmjs.org/0.10.4
+41 silly registry.get cb [ 404,
+41 silly registry.get   { server: 'CouchDB/1.3.0 (Erlang OTP/R15B03)',
+41 silly registry.get     date: 'Tue, 02 Jul 2013 17:29:20 GMT',
+41 silly registry.get     'content-type': 'application/json',
+41 silly registry.get     'content-length': '52',
+41 silly registry.get     'cache-control': 'must-revalidate' } ]
+42 silly lockFile a68a3f25-0-10-4 0.10.4@
+43 silly lockFile a68a3f25-0-10-4 0.10.4@
+44 error 404 '0.10.4' is not in the npm registry.
+44 error 404 You should bug the author to publish it
+44 error 404
+44 error 404 Note that you can also install from a
+44 error 404 tarball, folder, or http url, or git url.
+45 error System Linux 3.2.0-45-generic
+46 error command "/home/vid/nvm/v0.8.21/bin/node" "/home/vid/nvm/v0.8.21/bin/npm" "install" "0.10.4"
+47 error cwd /mnt/hd/home/vid/Dropbox/workspace/nodeastory/annotateServices
+48 error node -v v0.8.21
+49 error npm -v 1.2.11
+50 error code E404
+51 verbose exit [ 1, true ]

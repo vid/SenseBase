@@ -1,0 +1,75 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="/__wm/semantic-ui/css/semantic.css">
+<link rel="stylesheet" href="lib/jquery-ui.css" />
+<link rel="stylesheet" href="dashboard.css" />
+<style type="text/css">
+@import "/__wm/lib/jquery-ui.css";
+@import "/__wm/lib/jquery-ui.css";
+@import "dt_page.css"; 
+@import "dt_header.css"; 
+@import "dt_table.css";
+</style>
+<script src="anno.js" defer="defer"></script>
+<script src="dashboard.js" defer="defer"></script>
+<script src="HOMEPAGE/member.js" defer="defer"></script>
+<script src="lib/jquery-1.9.1.js"></script>
+<script src="lib/jquery-ui.js"></script>
+<script src="lib/jstree/jquery.jstree.js"></script>
+<script src="lib/jquery.dataTables.js"></script>
+<script src="lib/jquery.cookie.js"></script>
+<script src="lib/jquery.address.js"></script>
+<script src="speech-router.js"></script>
+<script src="lib/faye-browser-min.js"></script>
+<script src="/__wm/semantic-ui/javascript/semantic.js"></script>
+<script src="/__wm/livereload.js"></script>
+<script src="lib/tablesort.js"></script>
+
+</head>
+<body>
+<div class="ui vertical details right sidebar active" style="-moz-box-shadow:    3px 3px 5px 6px #ccc; -webkit-box-shadow: 3px 3px 5px 6px #ccc; box-shadow:         3px 3px 5px 6px #ccc;background-image: url(/__wm/mesh.png)">
+  include "iframe-contents.html"
+</div>
+<div class="ui vertical facets left sidebar">
+  include "query.html"
+  
+  <div class="ui icons"><i title="List view" class="list layout icon"></i><i title="Grid view" class="inverted grid layout icon"></i><i title="Tag cloud view" class="cloud icon"></i></div>
+  <br style="clear: both" />
+</div>
+<div id="pxContent" class="tabs">
+  <div class="ui pointing secondary main menu">
+    <a class="active red item" data-tab="search">Search</a>
+    <a class="blue item" data-tab="manage">Manage</a>
+    <a class="green item" data-tab="input">Input</a>
+  </div>
+
+  <div class="ui active tab segment" data-tab="search">
+    <div class="ui buttons">
+     <button title="Search settings" class="ui mini facets attached right button">
+        <i class="search icon"></i>
+        <span id="searchCount"><img src="/__wm/loading.gif" alt="loading results" /><span>
+      </button>
+
+     <button title="Scraper settings" class="ui mini scrape button">
+        <i class="sitemap icon"></i>
+        Inactive
+      </button>
+    </div>
+
+    <br />
+    include "scrape.html"
+    <br />
+    <div id="results" style="position: relative"></div>
+  </div>
+
+  <div class="ui tab segment" data-tab="manage">
+    include "manage.html"
+  </div>
+
+  <div class="ui tab segment" data-tab="input">
+    include "input.html"
+  </div>
+</div>
+</body>
+</html>

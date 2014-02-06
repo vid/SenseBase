@@ -1,0 +1,80 @@
+<div id="pxControls" style="background-color: white; padding:3px; width: 95%">
+<div style="float: right">
+<img style="vertical-align: middle; width: 60px" src="/__wm/icons/manager.png" alt="Member" /><a id="pxMember" style="font-size: 120%; font-weight: bold; padding-left: 10px"></a>
+</div>
+<div>
+<a id="dashboardLink" target="_top" href="http://dashboard.fg.zooid.org"><img src="/__wm/images/dashboard.png" alt="dashboard" /></a>
+</div>
+<br style="clear: both" />
+    <h3 class="morenext">Annotations »</h3>
+      <div>
+      <div style="height: 300px; overflow: auto">
+        <div id="annoTree"></div>
+      </div>
+      <div id="annotateEditor" class="editor" style="display: none">
+        <form><input type="hidden" id="annoQuote" />
+        <fieldset>
+          <div id="schemas">
+          </div>
+          <div>
+            <label for="annoValue">Value</label>
+            <input name="annoValue" id="annoValue" style="width: 100%" />
+          </div>
+          <div>
+            <label for="types">Type</label>
+            <textarea style="width: 100%" name="types" id="types" class="text ui-widget-content ui-corner-all"></textarea>
+          </div>
+          <div>
+            <label for="annoDesc">Description</label>
+            <textarea style="width: 100%" name="annoDesc" id="annoDesc" class="text ui-widget-content ui-corner-all" /></textarea>
+          </div>
+          <div>
+            <label for="created">Created</label>
+            <input type="text" name="created" id="created" value="" class="text ui-widget-content ui-corner-all" />
+          </div>
+          <div>      
+            <button id="annoSave">Save</button> <button id="annoUnsave">Unsave</button> <button id="annoErase">Erase</button><span style="float: right"><button id="annoCancel">Cancel</button></span>
+          </div>
+        </fieldset>
+        </form>
+       </div>
+    </div>
+
+    <h3 class="morenext">Settings »</h3>
+    <div class="ui form segment">
+      <div class="field">
+        <div class="ui checkbox">
+          <input id="watch" type="checkbox" name="watch">
+          <label for="watch">Watch</label>
+        </div>
+      </div>
+      <div id="watchOptions" class="field">
+        <input id="scanEvery" class="spinner" value="1" size="8" title="when to recheck starting points">
+        <select><option>days</option><option>hours</option></select>
+      </div>
+      <br />
+      <div class="field">
+        <div class="ui checkbox">
+          <input id="filter" type="checkbox" name="filter">
+          <label for="filter">Filter</label>
+        </div>
+      </div>
+      <div id="filterOptions" class="field">
+        <label for="pattern">Pattern</label>
+        <div class="ui left input">
+          <input id="filterPattern" title="pattern to ignore pages" />
+        </div>
+      </div>
+    </div>
+
+    <h3 class="morenext">Collaboration »</h3>
+    <div class="editor hidden" id="collabEditor">
+      <div style="height: 100px; scroll: auto" id="collabStream"></div>
+      <input id="collabInput" />
+    </div>
+
+
+  <div class="teamToggle"></div>
+  <button id="updateAnnotations">Update</button>
+  <span style="float: right"><button id="annoNew">New</button></span> 
+</div>

@@ -1,0 +1,333 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="/__wm/semantic-ui/css/semantic.css">
+<link rel="stylesheet" href="lib/jquery-ui.css" />
+<link rel="stylesheet" href="dashboard.css" />
+<style type="text/css">
+@import "/__wm/lib/jquery-ui.css";
+@import "/__wm/lib/jquery-ui.css";
+@import "dt_page.css"; 
+@import "dt_header.css"; 
+@import "dt_table.css";
+</style>
+<script src="anno.js" defer="defer"></script>
+<script src="dashboard.js" defer="defer"></script>
+<script src="http://dashboard.fg.zooid.org/member.js" defer="defer"></script>
+<script src="lib/jquery-1.9.1.js"></script>
+<script src="lib/jquery-ui.js"></script>
+<script src="lib/jstree/jquery.jstree.js"></script>
+<script src="lib/jquery.dataTables.js"></script>
+<script src="lib/jquery.cookie.js"></script>
+<script src="lib/jquery.address.js"></script>
+<script src="speech-router.js"></script>
+<script src="lib/faye-browser-min.js"></script>
+<script src="/__wm/semantic-ui/javascript/semantic.js"></script>
+<script src="/__wm/livereload.js"></script>
+<script src="lib/tablesort.js"></script>
+
+</head>
+<body>
+<div class="ui vertical details right sidebar active" style="-moz-box-shadow:    3px 3px 5px 6px #ccc; -webkit-box-shadow: 3px 3px 5px 6px #ccc; box-shadow:         3px 3px 5px 6px #ccc;background-image: url(/__wm/mesh.png)">
+  <div id="pxControls" style="background-color: white; padding:3px; width: 95%">
+  <div style="float: right">
+  <img style="vertical-align: middle; width: 60px" src="/__wm/icons/manager.png" alt="Member" /><a id="pxMember" style="font-size: 120%; font-weight: bold; padding-left: 10px"></a>
+  </div>
+  <div>
+  <a id="dashboardLink" target="_top" href="http://dashboard.fg.zooid.org"><img src="/__wm/images/dashboard.png" alt="dashboard" /></a>
+  </div>
+  <br style="clear: both" />
+      <h3 class="morenext">Annotations »</h3>
+        <div>
+        <div style="height: 300px; overflow: auto">
+          <div id="annoTree"></div>
+        </div>
+        <div id="annotateEditor" class="editor" style="display: none">
+          <form><input type="hidden" id="annoQuote" />
+          <fieldset>
+            <div id="schemas">
+            </div>
+            <div>
+              <label for="annoValue">Value</label>
+              <input name="annoValue" id="annoValue" style="width: 100%" />
+            </div>
+            <div>
+              <label for="types">Type</label>
+              <textarea style="width: 100%" name="types" id="types" class="text ui-widget-content ui-corner-all"></textarea>
+            </div>
+            <div>
+              <label for="annoDesc">Description</label>
+              <textarea style="width: 100%" name="annoDesc" id="annoDesc" class="text ui-widget-content ui-corner-all" /></textarea>
+            </div>
+            <div>
+              <label for="created">Created</label>
+              <input type="text" name="created" id="created" value="" class="text ui-widget-content ui-corner-all" />
+            </div>
+            <div>      
+              <button id="annoSave">Save</button> <button id="annoUnsave">Unsave</button> <button id="annoErase">Erase</button><span style="float: right"><button id="annoCancel">Cancel</button></span>
+            </div>
+          </fieldset>
+          </form>
+         </div>
+      </div>
+
+      <h3 class="morenext">Settings »</h3>
+      <div class="ui form segment">
+        <div class="field">
+          <div class="ui checkbox">
+            <input id="watch" type="checkbox" name="watch">
+            <label for="watch">Watch</label>
+          </div>
+        </div>
+        <div id="watchOptions" class="field">
+          <input id="scanEvery" class="spinner" value="1" size="8" title="when to recheck starting points">
+          <select><option>days</option><option>hours</option></select>
+        </div>
+        <br />
+        <div class="field">
+          <div class="ui checkbox">
+            <input id="filter" type="checkbox" name="filter">
+            <label for="filter">Filter</label>
+          </div>
+        </div>
+        <div id="filterOptions" class="field">
+          <label for="pattern">Pattern</label>
+          <div class="ui left input">
+            <input id="filterPattern" title="pattern to ignore pages" />
+          </div>
+        </div>
+      </div>
+
+      <h3 class="morenext">Collaboration »</h3>
+      <div class="editor hidden" id="collabEditor">
+        <div style="height: 100px; scroll: auto" id="collabStream"></div>
+        <input id="collabInput" />
+      </div>
+
+
+    <div class="teamToggle"></div>
+    <button id="updateAnnotations">Update</button>
+    <span style="float: right"><button id="annoNew">New</button></span> 
+  </div>
+
+</div>
+<div class="ui vertical facets left sidebar">
+  <div class="ui segment">
+    <div class="ui form">
+      <div class="field">
+        <div class="field">
+          <label>Terms</label>
+          <input id="termSearch" />
+        </div>
+      </div>
+      <div class="field">
+        <div class="field">
+          <label>Annotations</label>
+          <input id="annoSearch" />
+        </div>
+      </div>
+      <div class="ui basic accordion">
+        <div class="small title" style="border: none">
+          <i class="icon dropdown"></i>
+          More
+        </div>
+        <div class="ui mini form content">
+          <div class="field">
+            <label>From</label>
+            <input id="fromDate" />
+          </div>
+          <div class="field">
+            <label>To</label>
+            <input id="toDate" />
+          </div>
+          <div class="field">
+            <label>Member</label>
+            <input id="searchMember" />
+          </div>
+          <div class="field">
+            <div class="ui checkbox">
+              <input id="watchSearch" type="checkbox" name="watchSearch">
+              <label for="watchSearch">Watched</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui checkbox">
+              <input id="filterSearch" type="checkbox" name="filterSearch">
+              <label for="filterSearch">Filtered</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Save</label>
+            <input id="saveName" />
+          </div>
+          <div class="field">
+            <div class="ui checkbox">
+              <input id="subscribeSearch" type="checkbox" name="subscribeSearch">
+              <label for="subscribeSearch">Subscribe</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="two fields">
+        <button class="ui blue mini search submit button" id="searchForm">Search</button>
+        <input id="refreshQueries" type="checkbox" /> <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label></div>
+      </div>
+  </div>
+
+  
+  <div class="ui icons"><i title="List view" class="list layout icon"></i><i title="Grid view" class="inverted grid layout icon"></i><i title="Tag cloud view" class="cloud icon"></i></div>
+  <br style="clear: both" />
+</div>
+<div id="pxContent" class="tabs">
+  <div class="ui pointing secondary main menu">
+    <a class="active red item" data-tab="search">Search</a>
+    <a class="blue item" data-tab="manage">Manage</a>
+    <a class="green item" data-tab="input">Input</a>
+  </div>
+
+  <div class="ui active tab segment" data-tab="search">
+    <div class="ui buttons">
+     <button title="Search settings" class="ui mini facets attached right button">
+        <i class="search icon"></i>
+        <span id="searchCount"><img src="/__wm/loading.gif" alt="loading results" /><span>
+      </button>
+
+     <button title="Scraper settings" class="ui mini scrape button">
+        <i class="sitemap icon"></i>
+        Inactive
+      </button>
+    </div>
+
+    <br />
+      <div class="scrape content hidden">
+          <div class="two column fluid stackable ui grid">
+            <div class="column">
+              <div class="ui fluid form segment">
+                <div class="field">
+                  <label for="applyTags">Apply tags</label>
+                  <input id="applyTags" />
+                </div>
+                <div class="field">
+                  <label for="startingPage">Starting page</label>
+                  <input id="startingPage" style="width: 100%" />
+                </div>
+                <div class="field">
+                  <label for="restriction" title="When entered, found links much match to be followed">Restriction</label>
+                  <input id="restriction" style="width: 100%" />
+                </div>
+                <div class="field">
+                  <label for="continueFinding">Continue scraping</label>
+                  <select id="continueFinding" title="when should search paths stop">
+                    <option>term within 1 link</option>
+                    <option>term within 2 links</option>
+                    <option>term within 3 links</option>
+                    <option selected>entire site</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="scanEvery">Scan every</label>
+                  <input id="scanEvery" class="spinner" value="once only" size="8" title="when to recheck starting points"> 
+                  <select style="width: 8em"><option>hours</option><option>days</option></select>
+                </div>
+                <div class="field">
+                  <label for="contentLocation">Content location</label>
+                  <input id="contentLocation" title="Page element with content" style="width: 100%" />
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <div class="ui fluid form segment">
+                <div class="field">
+                  <label for="scrapeSave">Name</label> 
+                  <input name="scrapeName" />  <button class="ui mini button"><i class="save icon"></i></button>
+                </div>
+                <h4>Existing scrapes</h4>
+                <div id="existingScrapes">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    <br />
+    <div id="results" style="position: relative"></div>
+  </div>
+
+  <div class="ui tab segment" data-tab="manage">
+        <div class="innerMoreNext">
+          <h3 class="morenext">Profile »</h3>
+          <div class="hidden innerMoreNext">
+            Image: <img alt="profile image" src="/__wm/icons/manager.png" /><br />
+            Email: <input id="changeEmail" /> <button>Change</button>
+          </div>
+          <h3 class="morenext">Team »</h3>
+          <div id="teamManage" class="innerMoreNext hidden">
+            <h3 class="morenext">New »</h3>
+            <div class="hidden innerMoreNext">
+              Name: <input id="newName" />
+              Type: <select id="newType"><option>User</option><option>Annotation set</option><option>Scraper</option></select>
+              <button id="newCreate">Add</button>
+            </div>
+            <div class="anedit" id="aneditor" style="float: right; width: 50%; border-left: 1px dotted grey; padding-left: 5px">
+              <a title="Change name by editing this field">Name</a>: <input id="username" /><input type="hidden" id="lastUsername" /><br />
+              Description:<br />
+              <textarea cols="40" rows="2" id="memberDescription"></textarea>
+
+              <div class="anedit" id="editAnnoSet">
+                <h4>Annotation set</h4>
+                <a title="Positive value or affecting words, seperated by a comma. Use a semicolon then value for weighting">Positive terms</a><br />
+                <textarea id="positiveTerms" cols="40" rows="5"></textarea><br />
+                <a title="Negative value or affecting words, seperated by a comma. Use a semicolon then value for weighting">Negative terms</a> <input type="checkbox" /> <a title="If checked, removes annotation if positive are outweighed by negative">nullify</a><br />
+                <textarea id="negativeTerms" cols="40" rows="5"></textarea><br />
+                <input id="doLemma" type="checkbox" /> <a title="If checked, merge forms of words">Lemmatize</a>
+                <input id="isTag" type="checkbox" /> <a title="If checked, make document rather than content level annotation">Tag</a>
+              </div>
+              <div class="anedit" id="editUser">
+                <h4>User</h4>
+                Email: <input id="newEmail" /><br />
+                Password: <input type="password" id="memberPassword" /><br />
+                Repeat: <input type="password" id="passwordRepeat" /><br />
+                <input id="canValidate" type="checkbox"> <a title="If checked, member can validate other member's annotations">Can approve</a><br />
+              </div>
+              <div class="anedit" id="editScraper">
+                <h4>Scraper</h4>
+                Password: <input type="password" id="memberPassword" /><br />
+                Repeat: <input type="password" id="passwordRepeat" /><br />
+              </div>
+              <div class="anedit" id="editAgent">
+                <h4>Agent</h4>
+              </div>
+              <input id="isInactive" type="checkbox"> <a title="If checked, member is inactive">Active</a><br />
+              <input id="needsValidation" type="checkbox"> <a title="If checked, values stored by this member must be validated by another">Needs validation</a><br />
+              <button id="teamUpdate">Update</button> <button id="teamRemove">Remove</button>
+              <h3>Statistics</h3>
+                created, queue, annotations, logins
+              </div>
+              <div id="teamList">
+              </div>
+            </div>
+            <h3 class="morenext">Annotations »</h3>
+            <div class="hidden innerMoreNext">
+              display, find, delete, merge, rename by name, date and member
+            </div>
+          </div>
+
+  </div>
+
+  <div class="ui tab segment" data-tab="input">
+        <div id="input" class="innerMoreNext">
+          <h3 class="morenext">Upload »</h3>
+          <div id="upload" class="hidden innerMoreNext"></div>
+          <h3 class="morenext">Test »</h3>
+          <div>
+            Enter text to be processed
+            <input onwebkitspeechchange="onChange(this)" x-webkit-speech="undefined" style="font-size: 25px;">
+            <input type="submit" class="processContent" value="Process" /><br />
+            <textarea id="ftInput" rows="10" cols="80">
+            </textarea>
+          </div>
+
+  </div>
+</div>
+</body>
+</html>

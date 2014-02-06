@@ -1,0 +1,29 @@
+<% if (message) { %>
+<p><%= message %></p>
+<% } %>
+<style>
+body { font-family: sans-serif; font-size: 80% }
+</style>
+
+<div style="width: 400px">
+<form action="/login" method="post">
+<h3 style="border-bottom: 1px dotted grey">Login</h3>
+	<div style="float:right">
+    <div>
+      <label for="username">Username:</label>
+      <input id="username" type="text" name="username"/>
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input id="password" type="password" name="password"/>
+    </div>
+    <div style="float: right">
+      <br />
+      <input type="submit" value="Submit"/>
+      <input type="submit" value="Forgot password"/>
+    </div>
+  </div>
+</form>
+</div>
+
+<p><small>demo - demo:demo</small></p>

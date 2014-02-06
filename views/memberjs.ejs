@@ -1,0 +1,8 @@
+<% if (!user) { %>
+  window.location = '/login';
+<% } else { %>
+  window.pxMember = '<%= user.username %>';
+  window.pxScraper = <%= user.type == 'Scraper' %>;
+<% } %>
+
+

@@ -1,0 +1,65 @@
+{
+  "name": "BaseProxy",
+  "id": "BaseProxy",
+  "version": "0.0.0",
+  "description": "BaseProxy.",
+  "dependencies": {
+    "querystring": "latest",
+    "faye": "latest",
+    "require-analyzer": "latest",
+    "jquery": "latest",
+    "jsdom": "latest",
+    "colors": "latest",
+    "connect-flash": "latest",
+    "ejs": "latest",
+    "es": "latest",
+    "express": "latest",
+    "forever": "latest",
+    "grunt": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-develop": "latest",
+    "grunt-forever": "latest",
+    "grunt-includes": "latest",
+    "passport": "latest",
+    "passport-local": "latest",
+    "request": "latest",
+    "grunt-string-replace": "~0.2.7",
+    "queue-async": "~1.0.4",
+    "filter-proxy": "0.0.0",
+    "natural": "~0.1.25",
+    "Sentimental": "0.0.4",
+    "winston": "~0.7.2",
+    "expect.js": "~0.2.0",
+    "commander": "~2.1.0",
+    "jshint": "~2.4.3",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-mocha-test": "~0.8.2",
+    "grunt-docco2": "~0.1.5",
+    "grunt-plato": "~0.2.1"
+  },
+  "main": "Gruntfile.js",
+  "devDependencies": {
+    "connect-livereload": "~0.3.2",
+    "yadda": "~0.5.2",
+    "mocha": "~1.12.0",
+    "selenium-webdriver": "2.35.x",
+    "glob": "~3.2.x",
+    "xunit-file": "0.0.4"
+  },
+  "scripts": {
+    "test": "grunt mochaTest:devUnitTest  mochaTest:configTest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Vid/BaseProxy"
+  },
+  "keywords": [
+    "node.js",
+    "semantic"
+  ],
+  "author": "Vid",
+  "license": "eventually",
+  "bugs": {
+    "url": "https://github.com/Vid/BaseProxy/issues"
+  }
+}

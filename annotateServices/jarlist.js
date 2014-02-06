@@ -1,0 +1,17 @@
+java.classpath.push("../../../../../target/");
+java.classpath.push("../../../resources/gate.jar");
+java.classpath.push("../../../resources/ant.jar");
+java.classpath.push("../../../resources/ivy.jar");
+java.classpath.push("../../../resources/jaxen.jar");
+java.classpath.push("../../../resources/commons-io.jar");
+java.classpath.push("../../../resources/commons-lang.jar");
+java.classpath.push("../../../resources/commons-logging.jar");
+java.classpath.push("../../../resources/dom4j.jar");
+java.classpath.push("../../../resources/gate-asm.jar");
+java.classpath.push("../../../resources/gate-compiler-jdt.jar");
+java.classpath.push("../../../resources/jdom.jar");
+java.classpath.push("../../../resources/log4j/log4j.jar");
+java.classpath.push("../../../resources/nekohtml.jar");
+java.classpath.push("../../../resources/tika-core.jar");
+java.classpath.push("../../../resources/xercesImpl.jar");
+java.classpath.push("../../../resources/xstream.jar");

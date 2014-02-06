@@ -1,0 +1,23 @@
+  <h3 class="morenext">Annotations »</h3>
+  <div id="annotateEditor" class="editor">
+    <form>
+    <fieldset>
+      <div id="schemas">
+      </div>
+      <div>
+        <label for="annoText">Text</label>
+        <textarea style="width: 100%" name="annoText" id="annoText" class="text ui-widget-content ui-corner-all" /></textarea>
+      </div>
+      <div>
+        <label for="created">Created</label>
+        <input type="text" name="created" id="created" value="" class="text ui-widget-content ui-corner-all" />
+      </div>
+      <div>      
+        <button id="annoCancel">Cancel</button> <button id="annoSave">Save</button> <button id="annoErase">Erase</button>
+      </div>
+    </fieldset>
+    </form>
+    <div style="height: 100px; overflow: auto">
+      <div id="annoTree"></div>
+    </div>
+  </div>

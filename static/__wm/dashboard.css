@@ -1,0 +1,78 @@
+body { font-family: sans-serif; font-size: 80% }
+
+fieldset {
+  border: none;
+}
+table {
+  font-size: 90%;
+}
+
+.anedit { 
+  display: none;
+}
+
+.resultRowSelected {
+  background: lightyellow;
+  opacity: .5;
+  border: 10px solid purple;
+}
+
+.resultRowClicked {
+  background: lightgreen;
+  opacity: .8;
+  border: 10px solid purple;
+}
+
+#anno {
+  float: right;
+  bottom:0;
+  overflow: hidden;
+  width: 300px;
+  height: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.message {
+  display: none; 
+  position: absolute; 
+  background: rgba(255,250,205,.5);
+  font-size: 80%;
+  color: black;
+}
+
+.message > a {
+  display: block;
+  opacity : .5;
+}
+
+.message > a:hover {
+  background: lightblue;
+  opacity : 1;
+}
+
+#preview {
+  width: 800px;
+  height: 600px;
+  display: block;
+}
+
+.selectURI {
+  color: blue;
+  width: 500px;
+  overflow: auto;
+}
+
+h3 {
+border-bottom: 1px dotted black;
+}
+
+a {
+  color: blue;
+}
+
+.innerMoreNext {
+  padding-left: 10px;
+}
