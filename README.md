@@ -67,3 +67,7 @@ then ```node bootstrap.js```
 * grunt
 * Edit assets, grunt will generate final files
 
+# Acknowledgement
+
+This project is supported by and forms the basis of http://www.github.com/TsangLang/Proxiris.
+
