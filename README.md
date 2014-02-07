@@ -5,14 +5,16 @@
 
 npm install SenseBase
 
-# Manual install
+You will need to have make and g++ installed for some components.
+
+# Manual install part
 
 * Copy tika-app (tested with tika-app-1.4.jar) to ext-lib for document conversion to match bin/extractText.sh
 
 
 # Configure
 
-* create a config.js:
+create a config.js:
 
     var domain = 'my.great.domain';
      
@@ -48,15 +50,15 @@ npm install SenseBase
 
 # Run
 
-* create a bootstrap that looks like this:
+create a bootstrap that looks like this:
 
     var senseBase = require('SenseBase');
 
     senseBase.start(require('./config.js').config);
 
-* start services
+start services
 
-* then node bootstrap.js
+then ```node bootstrap.js```
 
 
 # Develop
