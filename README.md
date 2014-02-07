@@ -69,5 +69,5 @@ then ```node bootstrap.js```
 
 # Acknowledgement
 
-This project is supported by and forms the basis of http://www.github.com/TsangLang/Proxiris.
+This project is supported by and forms the basis of http://www.github.com/TsangLab/Proxiris.
 
