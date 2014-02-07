@@ -7,8 +7,7 @@ var fs = require('fs'),
   util = require('util'),
   LocalStrategy = require('passport-local').Strategy;
   
-var fileUpload = require('./lib/file-upload.js'), 
-  annotateServices = require('./lib/annotateServices.js');
+var fileUpload = require('./lib/file-upload.js');
 
 GLOBAL.authed = GLOBAL.authed || {}; //FIXME  use auth scheme that works behind proxies
 var users = require('./users.json').logins;
