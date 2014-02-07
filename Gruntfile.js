@@ -34,7 +34,7 @@ module.exports = function(grunt) {
           replacements: [{
             pattern: /(DOMAIN|FAYEHOST|HOMEPAGE)/g,
             replacement: function (match, p1, offset, string) {
-              var rep = GLOBAL.config[match];
+              var rep = config.config[match];
               if (!rep) {
                 throw 'Missing ' + match + ' in config.js';
               }
