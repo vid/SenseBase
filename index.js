@@ -106,7 +106,6 @@ app.configure(function() {
   app.use(passport.session());
   app.use(app.router);
   app.use(express.static('static'));
-  app.use(require('connect-livereload')()); // FIXME
   app.enable('trust proxy');
 });
 
