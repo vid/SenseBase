@@ -32,7 +32,7 @@ function start(config) {
         var psMember = browser_request.psMember.username;
         GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
         GLOBAL.config.indexer.indexPage({
-          uri: uri, title: title, member: psMember, referer: referer, isHTML: browser_request.is_html, contents: pageBuffer, contentType: contentType, headers: saveHeaders});
+          uri: uri, title: title, member: psMember, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders});
       }
     }
   }
