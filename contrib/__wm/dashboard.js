@@ -2,7 +2,6 @@ var pxMember;
 
 $(function() {
   $('.ui.accordion').accordion();
-  $('.main.menu .item').tab('change tab', 'second'); // FIXME
   $('#dashboardLink').click(function() { $('.details.sidebar').sidebar('toggle'); return false;});
   $('.details.sidebar').sidebar('hide', { overlay: true});
   $('.facets.sidebar').sidebar('hide');

@@ -54,9 +54,12 @@ fayeClient.subscribe('/searchResults', function(results) {
   if (results.hits) {
     results.hits.hits.forEach(function(r) {
       var v = r.fields;
-      var row = '<tr><td><div><a target="_link" href="' + v.uri + '"><i class="external url icon"></i></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '<br />' +
-        '<a target="_debug" href="http://' + window.location.hostname + ':9200/ps/cachedPage/' + encodeURIComponent(v._id) + '?pretty=true"><i class="small bug icon"></i></a>' +
-        '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div></td>';
+      var row = '<tr><td>' + 
+        '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + v.uri + '"><i class="external url icon"></i>New window</a></div><div class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Delete</div> <div class="item"><a target="_debug" href="http://' + window.location.hostname + ':9200/ps/cachedPage/' + encodeURIComponent(v._id) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>' +
+
+        '<div><a target="_link" href="' + v.uri + '"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' + 
+        '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div>'+
+	'</td>';
 
       // roll up visitors
       var vv = '', va = {};
@@ -99,6 +102,8 @@ fayeClient.subscribe('/searchResults', function(results) {
       row += '<td><h4 class="showa">Validated (' + vc + ')</h4><div>' + validated + '</div><h4 class="showa">Unvalidated (' + uc + ')</h4><div class="hidden">' + unvalidated +'</div></td>';
       $('#resultsTable tbody').append(row);
     });
+    $('.item_options.dropdown').dropdown();
+
 
     $('.selectURI').click(selectedURI);
     $('.showa').click(function() {
