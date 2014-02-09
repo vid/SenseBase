@@ -1,6 +1,7 @@
 var pxMember;
 
 $(function() {
+  $('.main.menu .item').tab('change tab', 'second'); // FIXME to select second menu
   $('.ui.accordion').accordion();
   $('#dashboardLink').click(function() { $('.details.sidebar').sidebar('toggle'); return false;});
   $('.details.sidebar').sidebar('hide', { overlay: true});
