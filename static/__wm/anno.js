@@ -1,6 +1,6 @@
 // General setup and functions
 
-var fayeClient = new Faye.Client('http://faye.fg.zooid.org:9999/montr');
+var fayeClient = new Faye.Client('http://faye.wc.zooid.org:9999/montr');
 var services = [ 'Classify', 'AnnotationSet', 'WikiMeta', 'Spotlight', 'Sentiment'];
 var currentAnnoName = 'currentAnno';
 

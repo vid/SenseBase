@@ -3,9 +3,9 @@ var pxMember;
 $(function() {
   $('.ui.accordion').accordion();
   $('.main.menu .item').tab('change tab', 'second'); // FIXME
-  $('.details.sidebar').sidebar( { overlay: true});
   $('#dashboardLink').click(function() { $('.details.sidebar').sidebar('toggle'); return false;});
-  $('.facets.sidebar').sidebar('show');
+  $('.details.sidebar').sidebar('hide', { overlay: true});
+  $('.facets.sidebar').sidebar('hide');
   $('.ui.facets.button').click(function() { $('.facets.sidebar').sidebar('toggle'); });
   $('.ui.scrape.button').click(function() { $('.scrape.content').toggle('hidden'); });
   $('.sortable.table').tablesort();
@@ -23,7 +23,7 @@ $(function() {
   pxMember = window.pxMember || $.cookie('pxMember');
   $('#searchMember').val(pxMember);
   window.pxContent.style.width = window.parent.innerWidth - 340;
-  fayeClient = new Faye.Client('http://faye.fg.zooid.org:9999/montr');
+  fayeClient = new Faye.Client('http://faye.wc.zooid.org:9999/montr');
   fayeClient.publish('/search', { member: pxMember });
 
 

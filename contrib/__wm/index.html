@@ -7,33 +7,23 @@
 <style type="text/css">
 @import "/__wm/lib/jquery-ui.css";
 @import "/__wm/lib/jquery-ui.css";
-@import "dt_page.css"; 
-@import "dt_header.css"; 
-@import "dt_table.css";
-</style>
-<script src="anno.js" defer="defer"></script>
-<script src="dashboard.js" defer="defer"></script>
-<script src="HOMEPAGE/member.js" defer="defer"></script>
-<script src="lib/jquery-1.9.1.js"></script>
-<script src="lib/jquery-ui.js"></script>
-<script src="lib/jstree/jquery.jstree.js"></script>
-<script src="lib/jquery.dataTables.js"></script>
-<script src="lib/jquery.cookie.js"></script>
-<script src="lib/jquery.address.js"></script>
-<script src="speech-router.js"></script>
-<script src="lib/faye-browser-min.js"></script>
-<script src="/__wm/semantic-ui/javascript/semantic.js"></script>
-<script src="/__wm/livereload.js"></script>
-<script src="lib/tablesort.js"></script>
 
+/* file upload */
+#holder.hover { border: 4px dashed #0c0; }
+#holder img { display: block; margin: 10px auto; }
+#holder p { margin: 10px; font-size: 14px; }
+progress { width: 100%; }
+progress:after { content: '%'; }
+.fail { background: #c00; padding: 2px; color: #fff; }
+.hidden { display: none !important;}
+</style>
 </head>
 <body>
-<div class="ui vertical details right sidebar" style="-moz-box-shadow: 3px 3px 5px 6px #ccc; -webkit-box-shadow: 3px 3px 5px 6px #ccc; box-shadow:         3px 3px 5px 6px #ccc;background-image: url(/__wm/mesh.png)">
+<div class="ui vertical details right sidebar" style="-moz-box-shadow: 3px 3px 5px 6px #ccc; -webkit-box-shadow: 3px 3px 5px 6px #ccc; box-shadow: 3px 3px 5px 6px #ccc;background-image: url(/__wm/mesh.png)">
   include "iframe-contents.html"
 </div>
 <div class="ui vertical facets left sidebar">
   include "query.html"
-  
   <div class="ui icons"><i title="List view" class="list layout icon"></i><i title="Grid view" class="inverted grid layout icon"></i><i title="Tag cloud view" class="cloud icon"></i></div>
   <br style="clear: both" />
 </div>
@@ -41,7 +31,6 @@
   <div class="ui pointing secondary main menu">
     <a class="active red item" data-tab="search">Search</a>
     <a class="blue item" data-tab="manage">Manage</a>
-    <a class="green item" data-tab="input">Input</a>
   </div>
 
   <div class="ui active tab segment" data-tab="search">
@@ -60,16 +49,34 @@
     <br />
     include "scrape.html"
     <br />
-    <div id="results" style="position: relative"></div>
+    <div id="uploadInfo">
+      <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
+      <p id="filereader">File API & FileReader API not supported</p>
+      <p id="formdata">XHR2's FormData is not supported</p>
+      <p id="progress">XHR2's upload progress isn't supported</p>
+    </div>
+    <p class="hidden"><progress id="uploadprogress" min="0" max="100" value="0">0</progress></p>
+    <div id="holder">
+      <div id="results"></div>
+    </div>
   </div>
-
   <div class="ui tab segment" data-tab="manage">
     include "manage.html"
   </div>
-
-  <div class="ui tab segment" data-tab="input">
-    include "input.html"
-  </div>
 </div>
 </body>
+<script src="anno.js" defer="defer"></script>
+<script src="dragFile.js"></script>
+<script src="dashboard.js" defer="defer"></script>
+<script src="HOMEPAGE/member.js" defer="defer"></script>
+<script src="lib/jquery-1.9.1.js"></script>
+<script src="lib/jquery-ui.js"></script>
+<script src="lib/jstree/jquery.jstree.js"></script>
+<script src="lib/jquery.dataTables.js"></script>
+<script src="lib/jquery.cookie.js"></script>
+<script src="lib/jquery.address.js"></script>
+<script src="lib/faye-browser-min.js"></script>
+<script src="/__wm/semantic-ui/javascript/semantic.js"></script>
+<script src="lib/tablesort.js"></script>
+
 </html>
