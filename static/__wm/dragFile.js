@@ -44,7 +44,6 @@ function previewfile(file) {
 }
 
 function readfiles(files) {
-    debugger;
     var formData = tests.formdata ? new FormData() : null;
     for (var i = 0; i < files.length; i++) {
       if (tests.formdata) formData.append('file', files[i]);
@@ -54,6 +53,8 @@ function readfiles(files) {
     // now post a new XHR request
     if (tests.formdata) {
       var xhr = new XMLHttpRequest();
+      document.getElementById('uploadprogress').className = '';
+
       xhr.open('POST', '/upload');
       xhr.onload = function() {
         progress.value = progress.innerHTML = 100;
@@ -64,6 +65,9 @@ function readfiles(files) {
           if (event.lengthComputable) {
             var complete = (event.loaded / event.total * 100 | 0);
             progress.value = progress.innerHTML = complete;
+            if (complete === 100) {
+              document.getElementById('uploadprogress').className = 'hidden';
+            }
           }
         }
       }
