@@ -49,8 +49,34 @@ function doSearch() {
 
 fayeClient.subscribe('/searchResults', function(results) {
   console.log('searchResults', results);
+  updateResults(results);
+});
+
+fayeClient.subscribe('/updateItem', function(result) {
+  console.log('UPDATE', result);
+  var i = 0, l = lastResults.hits.hits.length;
+  for (i; i < l; i++) {
+    if (lastResults.hits.hits[i].fields.uri == result.fields.uri) {
+      delete lastResults.hits.hits[i];
+      lastResults.hits.hits.unshift(result);
+      updateResults(lastResults);
+      return;
+    }
+  }
+  console.log('did not find, adding', result);
+  lastResults.hits.hits.unshift(result);
+  lastResults.hits.total++;
+  updateResults(lastResults);
+});
+
+// for updating
+
+var lastResults;
+
+function updateResults(results) {
+  lastResults = results;
   $('.search.button').animate({opacity: 1}, 500, 'linear');
-  $('#results').html('<table id="resultsTable" class="ui sortable table segment"><thead><tr><th>Rank</th><th>Document</th><th>Accesses</th><th>Annotations</th></tr></thead><tbody></tbody></table>');
+  $('#holder').html('<div id="results"><table id="resultsTable" class="ui sortable table segment"><thead><tr><th>Rank</th><th>Document</th><th>Accesses</th><th>Annotations</th></tr></thead><tbody></tbody></table></div>');
   if (results.hits) {
     var count = 0;
     results.hits.hits.forEach(function(r) {
@@ -115,7 +141,7 @@ fayeClient.subscribe('/searchResults', function(results) {
   } else {
     $('#results').html('<i>No items.</i>');
   }
-});
+}
 
 var curURI;
 function selectedURI(ev) {

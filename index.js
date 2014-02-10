@@ -159,7 +159,8 @@ app.post('/upload', function(req, res) {
   fileUpload.uploadFile(req, function(err, resp) {
     GLOBAL.config.indexer.indexPage({
     uri: GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName, isHTML: true, title: resp.title, member: req.user.username, content: resp.buffer, 
-      callback: function(err, res) {
+      callback: function(err, res, esDoc) {
+        pubsub.updateItem(esDoc);
         console.log('uploaded', resp.fileName);
       }
     });
