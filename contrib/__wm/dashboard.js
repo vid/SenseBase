@@ -30,12 +30,5 @@ $(function() {
   include "users.js"
   include "scrape.js"
 
-  $('#searching').show();
-  resetUploadForm();
-  $('.processContent').click(function() {
-    processContent();
-    return false;
-  });
-
 });
 
