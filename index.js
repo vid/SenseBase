@@ -132,7 +132,7 @@ console.log('OO', req.session.user);
 });
 
 // used by client for identity
-app.get('/member.js', function(req, res){
+app.get('/member.js', function(req, res) {
   res.render('memberjs', { user: req.user });
 });
 
@@ -157,11 +157,10 @@ app.get('/logout', function(req, res){
 
 app.post('/upload', function(req, res) {
   fileUpload.uploadFile(req, function(err, resp) {
-  console.log('GOGO', err, resp);
     GLOBAL.config.indexer.indexPage({
     uri: GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName, isHTML: true, title: resp.title, member: req.user.username, content: resp.buffer, 
       callback: function(err, res) {
-        console.log('okiokok');
+        console.log('uploaded', resp.fileName);
       }
     });
   });

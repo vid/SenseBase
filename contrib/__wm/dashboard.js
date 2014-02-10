@@ -32,3 +32,6 @@ $(function() {
 
 });
 
+function moreLikeThis(uri) {
+  fayeClient.publish('/moreLikeThis', { uri: uri});
+}

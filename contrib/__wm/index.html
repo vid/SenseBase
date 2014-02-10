@@ -15,7 +15,6 @@
 progress { width: 100%; }
 progress:after { content: '%'; }
 .fail { background: #c00; padding: 2px; color: #fff; }
-.hidden { display: none !important;}
 </style>
 </head>
 <body>
@@ -40,9 +39,13 @@ progress:after { content: '%'; }
         <span id="searchCount"><img src="/__wm/loading.gif" alt="loading results" /><span>
       </button>
 
-     <button title="Scraper settings" class="ui mini scrape button">
+     <button title="Scraper settings" class="ui mini scrape attached button">
         <i class="sitemap icon"></i>
         Inactive
+      </button>
+
+     <button title="Conversations" class="ui mini chat attached button">
+        <i class="chat icon"></i>
       </button>
     </div>
 
@@ -55,7 +58,7 @@ progress:after { content: '%'; }
       <p id="formdata">XHR2's FormData is not supported</p>
       <p id="progress">XHR2's upload progress isn't supported</p>
     </div>
-    <p class="hidden"><progress id="uploadprogress" min="0" max="100" value="0">0</progress></p>
+    <p><progress class="hidden" id="uploadprogress" min="0" max="100" value="0">0</progress></p>
     <div id="holder">
       <div id="results"></div>
     </div>
