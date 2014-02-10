@@ -37,16 +37,5 @@ $(function() {
     return false;
   });
 
-  include "upload.js"
-
 });
-
-/* speech demo */
-
-function onChange(inp) {
-console.log(inp.value);
-  $('#input').val($('#input').val() + inp.value);
-  inp.value = '';
-}
-/* end speech demo */
 
