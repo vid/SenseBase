@@ -5,12 +5,11 @@
 
 npm install SenseBase
 
-You will need to have make and g++ installed for some components.
+Then npm install if you are working directly in the source base.
 
-# Manual install part
+Presuming a debian derived distro, you will need to have build-essentials installed
 
-* Copy tika-app (tested with tika-app-1.4.jar) to ext-lib for document conversion to match bin/extractText.sh
-
+For document conversion, copy tika-app (tested with tika-app-1.4.jar) to ext-lib to match bin/extractText.sh
 
 # Configure
 
@@ -50,15 +49,15 @@ create a config.js:
 
 # Run
 
-create a bootstrap that looks like this:
+if including SenseBase from your own project, create a bootstrap (app.js) that looks like this:
 
     var senseBase = require('SenseBase');
 
     senseBase.start(require('./config.js').config);
 
-start services
+start any services
 
-then ```node bootstrap.js```
+then ```node app.js```
 
 
 # Develop
