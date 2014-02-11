@@ -58,9 +58,3 @@ function flatten(level, map) {
   }
 }
 
-var h = require('./ohtnFieldMapping.json');
-flatten([], h);
-
-console.log(flatNodes.PTSAudit);
-console.log(flatNodes.JurisInc_High);
-
