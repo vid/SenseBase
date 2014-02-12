@@ -1,3 +1,5 @@
+// sample code to use annotations (TODO: convert to test)
+
 var annotations = require('../lib/annotations.js');
 
 var range = annotations.createRange({exact: 'test exact', offset: 20, range: 200});

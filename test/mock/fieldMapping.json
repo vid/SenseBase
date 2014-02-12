@@ -1,0 +1,23 @@
+{
+  "_TOP_" : {
+    "Author" : { "_VAL_" : ["Author"] },
+    "Title" : { "_VAL_" : ["title"] },
+    "Abstract" : { "_VAL_" : ["content"] },
+    "User" : { "_VAL_" : ["annotatedBy"] }
+  },
+  
+  "MeSH" : {
+    "MeSH Date" : { "_VAL_" : [""] },
+    "MeSH Terms" : { "_TAG_" : [""] }
+  },
+
+  "NLM" : {
+    "NLM Unique ID" : { "_VAL_" : [""] }
+  },
+
+  "PubMed" : {
+    "PubMed Central Identifier" : { "_VAL_" : [""] },
+    "PubMed Unique Identifier" : { "_VAL_" : [""] }
+  },
+
+}
