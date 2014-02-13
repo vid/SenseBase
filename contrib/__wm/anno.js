@@ -131,13 +131,13 @@ console.log('markAnno', startingHTML.substr(start, 90));
 }
 
 function annotateCurrentURI(u) {
-    currentURI = u.replace('#'+currentAnnoName, '').replace(/#$/, '');
-    resetTreeData();
-    console.log('resetting to', currentURI);
-    if (currentURI) {
-      $('#annoTree').html('<img src="/__wm/spinner.gif" alt="spinner" />');
-      fayeClient.publish('/annotate', { services : services, uri: currentURI});
-    }
+  currentURI = u.replace('#'+currentAnnoName, '').replace(/#$/, '');
+  resetTreeData();
+  console.log('resetting to', currentURI);
+  if (currentURI) {
+    $('#annoTree').html('<img src="/__wm/spinner.gif" alt="spinner" />');
+    fayeClient.publish('/annotate', { services : services, uri: currentURI});
+  }
 }
 
 function addChat(msg) {
