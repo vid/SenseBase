@@ -40,14 +40,10 @@ create a config.js:
       SENTIMENT: { host: 'sentiment' + domain, port: 9002},
       NOCACHE_REGEX: '.*.' + domain,
       CACHE_DIR : '/some/dir',
-      uploadDirectory: './uploads',
+      uploadDirectory: './static/files',
       doCache : true,
       doAuth: true,
-      logStream : { write: function() {}},
-    //  logStream : fs.createWriteStream('/tmp/connect.log'),
-      serviceKeys: {
-        wikiMeta: 186691395332
-      }
+      logStream : { write: function() {}}
     }
 
 # Run
