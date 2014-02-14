@@ -1,8 +1,8 @@
 curl -XDELETE http://localhost:9200/ps/
 curl -XPUT http://localhost:9200/ps/
-curl -XPUT 'http://localhost:9200/ps/cachedPage/_mapping' -d '
+curl -XPUT 'http://localhost:9200/ps/annotationItem/_mapping' -d '
 {
-  "cachedPage" : {
+  "annotationItem" : {
       "_id" : {
         "path" : "uri",
         "index": "not_analyzed", "store" : "yes"

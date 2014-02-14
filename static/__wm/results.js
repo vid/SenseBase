@@ -49,20 +49,47 @@ function doSearch() {
 
 fayeClient.subscribe('/searchResults', function(results) {
   console.log('searchResults', results);
+  updateResults(results);
+});
+
+fayeClient.subscribe('/updateItem', function(result) {
+  console.log('UPDATE', result);
+  var i = 0, l = lastResults.hits.hits.length;
+  for (i; i < l; i++) {
+    if (lastResults.hits.hits[i].fields.uri == result.fields.uri) {
+      delete lastResults.hits.hits[i];
+      lastResults.hits.hits.unshift(result);
+      updateResults(lastResults);
+      return;
+    }
+  }
+  console.log('did not find, adding', result);
+  lastResults.hits.hits.unshift(result);
+  lastResults.hits.total++;
+  updateResults(lastResults);
+});
+
+// for updating
+
+var lastResults;
+
+function updateResults(results) {
+  lastResults = results;
   $('.search.button').animate({opacity: 1}, 500, 'linear');
-  $('#results').html('<table id="resultsTable" class="ui sortable table segment"><thead><tr><th>Document</th><th>Accesses</th><th>Annotations</th></tr></thead><tbody></tbody></table>');
+  $('#holder').html('<div id="results"><table id="resultsTable" class="ui sortable table segment"><thead><tr><th>Rank</th><th>Document</th><th>Accesses</th><th>Annotations</th></tr></thead><tbody></tbody></table></div>');
   if (results.hits) {
+    var count = 0;
     results.hits.hits.forEach(function(r) {
-      var v = r.fields;
-      var row = '<tr><td>' + 
-        '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + v.uri + '"><i class="external url icon"></i>New window</a></div><div class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Delete</div> <div class="item"><a target="_debug" href="http://' + window.location.hostname + ':9200/ps/cachedPage/' + encodeURIComponent(v._id) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>' +
+      var v = r.fields || r._source;
+      var row = '<tr><td>' + (r._score ? r._score : ++count) + '</td><td>' +
+        '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + v.uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + (v._id ||r._id) +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Delete</div> <div class="item"><a target="_debug" href="http://es.wc.zooid.org:9200/ps/annotationItem/' + encodeURIComponent(v._id || r._id) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>' +
 
         '<div><a target="_link" href="' + v.uri + '"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' + 
         '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div>'+
 	'</td>';
 
-      // roll up visitors
       var vv = '', va = {};
+      // roll up visitors
       v.visitors.forEach(function(visitor) {
         var a = va[visitor.member] || { visits: []};
         a.visits.push(visitor['@timestamp']);
@@ -114,7 +141,7 @@ fayeClient.subscribe('/searchResults', function(results) {
   } else {
     $('#results').html('<i>No items.</i>');
   }
-});
+}
 
 var curURI;
 function selectedURI(ev) {

@@ -15,7 +15,6 @@ For document conversion, copy tika-app (tested with tika-app-1.4.jar) to ext-lib
 
 create a config.js:
 
-    var domain = 'my.great.domain';
      
     // logging
     var winston = require('winston');
@@ -24,12 +23,16 @@ create a config.js:
     GLOBAL.info = winston.info;
     GLOBAL.warn = winston.warn;
     GLOBAL.error = winston.error;
+
+    var domain = 'my.great.domain';
+    var esOptions ={ _index : 'ps', server : { host : 'es.' + domain, port : 9200 }};
     
     exports.config = {
       project: 'sensebase',
       DOMAIN: domain,
       FAYEHOST: 'http://faye.' + domain + ':9999/montr',
-      ESEARCH: { _index : 'ps', server : { host : 'es.' + domain, port : 9200 } },
+      ESEARCH:  esOptions,
+      ESEARCH_URI: 'http://es.' + domain + ':' + esOptions.server.port + '/' + esOptions._index,
       HOMEPAGE: 'http://dashboard.' + domain,
       AUTH_PORT: 9999,
       PROXY_PORT: 8089,

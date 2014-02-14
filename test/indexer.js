@@ -12,7 +12,7 @@ var testContent = 'This is test content.\nIt has the unique term wooglybat and t
 var testAnnotations = [ { "ranges": "item", "quote": { "label": "Disease Progression", "value": 0.00684931506849315 }, "created": "2014-01-04T01:56:42.127Z", "creator": "Classify" }, { "ranges": "item", "quote": { "label": "Disease Progression", "value": 0.00684931506849315 }, "created": "2014-01-04T01:56:42.127Z", "creator": "Classify" }, { "ranges": "item", "quote": "AFINN sentiment", "score": 0, "created": "2014-01-04T01:56:42.183Z", "creator": "Sentiment" }, { "ranges": "item", "quote": "Disease Progression", "created": "2014-01-04T23:52:41.728Z", "creator": "Classify" } ];
 
 describe('Indexer', function(){
-  it('should format a cachedPage', function() {
+  it('should format an annotationItem', function() {
     var d = indexer.getEsDoc({ uri: uniqURI, title: 'testdocument', member: uniqMember, isHTML: true, content: testContent, contentType: "text/text", annotations: testAnnotations});
   });
 
