@@ -1,6 +1,10 @@
-curl -XDELETE http://localhost:9200/ps/
-curl -XPUT http://localhost:9200/ps/
-curl -XPUT 'http://localhost:9200/ps/annotationItem/_mapping' -d '
+#!/bin/bash
+
+if [ "e$1" == "e" ]; then echo "usage: $0 <indexname>"; exit 1; fi
+
+curl -XDELETE http://localhost:9200/$1/
+curl -XPUT http://localhost:9200/$1/
+curl -XPUT "http://localhost:9200/$1/annotationItem/_mapping" -d '
 {
   "annotationItem" : {
       "_id" : {
@@ -19,4 +23,4 @@ curl -XPUT 'http://localhost:9200/ps/annotationItem/_mapping' -d '
   }
 }'
 
-curl -XGET http://localhost:9200/ps/_mapping?pretty=true
+curl -XGET http://localhost:9200/$1/_mapping?pretty=true
