@@ -57,7 +57,7 @@ while (risLines.length && processed < maxProcess) { // or until we find an item
   }
 }
 
-indexer.index({ _index: 'ps', _type: 'cachedPage'}, bulk, function(err, foo) {
+indexer.index({ _index: GLOBAL.config.ESEARCH._index, _type: 'annotationItem'}, bulk, function(err, foo) {
     if (err) {
         throw "Bulk error " + err;
     } else {
