@@ -1,4 +1,3 @@
-  <div class="manage content hidden">
     <div class="innerMoreNext">
       <h3 class="morenext">Profile »</h3>
       <div class="hidden innerMoreNext">
@@ -13,47 +12,46 @@
           Type: <select id="newType"><option>User</option><option>Annotation set</option><option>Scraper</option></select>
           <button id="newCreate">Add</button>
         </div>
-        <div class="anedit" id="aneditor" style="float: right; width: 50%; border-left: 1px dotted grey; padding-left: 5px">
-          <a title="Change name by editing this field">Name</a>: <input id="username" /><input type="hidden" id="lastUsername" /><br />
-          Description:<br />
-          <textarea cols="40" rows="2" id="memberDescription"></textarea>
+      <div id="teamList">
+      </div>
+      <div class="anedit" id="aneditor">
+        <a title="Change name by editing this field">Name</a>: <input id="username" /><input type="hidden" id="lastUsername" /><br />
+        Description:<br />
+        <textarea cols="40" rows="2" id="memberDescription"></textarea>
 
-          <div class="anedit" id="editAnnoSet">
-            <h4>Annotation set</h4>
-            <a title="Positive value or affecting words, seperated by a comma. Use a semicolon then value for weighting">Positive terms</a><br />
-            <textarea id="positiveTerms" cols="40" rows="5"></textarea><br />
-            <a title="Negative value or affecting words, seperated by a comma. Use a semicolon then value for weighting">Negative terms</a> <input type="checkbox" /> <a title="If checked, removes annotation if positive are outweighed by negative">nullify</a><br />
-            <textarea id="negativeTerms" cols="40" rows="5"></textarea><br />
-            <input id="doLemma" type="checkbox" /> <a title="If checked, merge forms of words">Lemmatize</a>
-            <input id="isTag" type="checkbox" /> <a title="If checked, make document rather than content level annotation">Tag</a>
-          </div>
-          <div class="anedit" id="editUser">
-            <h4>User</h4>
-            Email: <input id="newEmail" /><br />
-            Password: <input type="password" id="memberPassword" /><br />
-            Repeat: <input type="password" id="passwordRepeat" /><br />
-            <input id="canValidate" type="checkbox"> <a title="If checked, member can validate other member's annotations">Can approve</a><br />
-          </div>
-          <div class="anedit" id="editScraper">
-            <h4>Scraper</h4>
-            Password: <input type="password" id="memberPassword" /><br />
-            Repeat: <input type="password" id="passwordRepeat" /><br />
-          </div>
-          <div class="anedit" id="editAgent">
-            <h4>Agent</h4>
-          </div>
-          <input id="isInactive" type="checkbox"> <a title="If checked, member is inactive">Active</a><br />
-          <input id="needsValidation" type="checkbox"> <a title="If checked, values stored by this member must be validated by another">Needs validation</a><br />
-          <button id="teamUpdate">Update</button> <button id="teamRemove">Remove</button>
-          <h3>Statistics</h3>
-            created, queue, annotations, logins
-          </div>
-          <div id="teamList">
-          </div>
+        <div class="anedit" id="editAnnoSet">
+          <h4>Annotation set</h4>
+          <a title="Positive value or affecting words, seperated by a comma. Use a semicolon then value for weighting">Positive terms</a><br />
+          <textarea id="positiveTerms" cols="40" rows="5"></textarea><br />
+          <a title="Negative value or affecting words, seperated by a comma. Use a semicolon then value for weighting">Negative terms</a> <input type="checkbox" /> <a title="If checked, removes annotation if positive are outweighed by negative">nullify</a><br />
+          <textarea id="negativeTerms" cols="40" rows="5"></textarea><br />
+          <input id="doLemma" type="checkbox" /> <a title="If checked, merge forms of words">Lemmatize</a>
+          <input id="isTag" type="checkbox" /> <a title="If checked, make document rather than content level annotation">Tag</a>
         </div>
-        <h3 class="morenext">Annotations »</h3>
-        <div class="hidden innerMoreNext">
-          display, find, delete, merge, rename by name, date and member
+        <div class="anedit" id="editUser">
+          <h4>User</h4>
+          Email: <input id="newEmail" /><br />
+          Password: <input type="password" id="memberPassword" /><br />
+          Repeat: <input type="password" id="passwordRepeat" /><br />
+          <input id="canValidate" type="checkbox"> <a title="If checked, member can validate other member's annotations">Can approve</a><br />
+        </div>
+        <div class="anedit" id="editScraper">
+          <h4>Scraper</h4>
+          Password: <input type="password" id="memberPassword" /><br />
+          Repeat: <input type="password" id="passwordRepeat" /><br />
+        </div>
+        <div class="anedit" id="editAgent">
+          <h4>Agent</h4>
+        </div>
+        <input id="isInactive" type="checkbox"> <a title="If checked, member is inactive">Active</a><br />
+        <input id="needsValidation" type="checkbox"> <a title="If checked, values stored by this member must be validated by another">Needs validation</a><br />
+        <button id="teamUpdate">Update</button> <button id="teamRemove">Remove</button>
+        <h3>Statistics</h3>
+          created, queue, annotations, logins
         </div>
       </div>
-  </div>
+      <h3 class="morenext">Annotations »</h3>
+      <div class="hidden innerMoreNext">
+        display, find, delete, merge, rename by name, date and member
+      </div>
+    </div>

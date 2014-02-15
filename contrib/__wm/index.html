@@ -15,21 +15,17 @@
 progress { width: 100%; }
 progress:after { content: '%'; }
 .fail { background: #c00; padding: 2px; color: #fff; }
+
 </style>
 </head>
 <body>
 <div class="ui vertical details right sidebar" style="-moz-box-shadow: 3px 3px 5px 6px #ccc; -webkit-box-shadow: 3px 3px 5px 6px #ccc; box-shadow: 3px 3px 5px 6px #ccc;background-image: url(/__wm/mesh.png)">
   include "iframe-contents.html"
 </div>
-<div class="ui vertical facets left sidebar">
-  include "query.html"
-  <div class="ui icons"><i title="List view" class="list layout icon"></i><i title="Grid view" class="inverted grid layout icon"></i><i title="Tag cloud view" class="cloud icon"></i></div>
-  <br style="clear: both" />
-</div>
-<div id="pxContent" class="tabs">
-  <div class="ui active tab segment" data-tab="search">
+<div class="ui content" id="pxContent" class="tabs">
+  <div class="fixed header" id="header">
     <div class="ui buttons">
-     <button title="Search settings" class="ui mini facets attached right button">
+     <button title="Search settings" class="ui mini search attached right button">
         <i class="mini search icon"></i>
         <span id="searchCount"><img src="/__wm/loading.gif" alt="loading results" /><span>
       </button>
@@ -47,11 +43,17 @@ progress:after { content: '%'; }
        <i class="mini settings icon"></i>
      </button>
     </div>
-
-
+  </div>
+  <div class="ui content container">
+    <div class="search content hidden">
+    include "query.html"
+    </div>
+    <div class="scrape content hidden">
     include "scrape.html"
+    </div>
+    <div class="manage content hidden">
     include "manage.html"
-
+    </div>
     <div id="uploadInfo">
       <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
       <p id="filereader">File API & FileReader API not supported</p>
@@ -59,9 +61,10 @@ progress:after { content: '%'; }
       <p id="progress">XHR2's upload progress isn't supported</p>
     </div>
     <p><progress class="hidden" id="uploadprogress" min="0" max="100" value="0">0</progress></p>
-    <div id="holder">
+    <div id="holder" style="height: 90%; width: 100%; overflow: auto">
       <div id="results"></div>
     </div>
+  </div>
   </div>
 </div>
 </body>
