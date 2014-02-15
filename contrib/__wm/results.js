@@ -160,8 +160,8 @@ console.log('ID', el);
 //FIXME
       $('#pxControls').html(
         '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + v.uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + (v._id ||r._id) +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="ESEARCH_URI/contentItem/' + encodeURIComponent(v._id || r._id) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
-*/
       );
+*/
 
   if (curURI == uri) {
     $('#preview').toggle();
