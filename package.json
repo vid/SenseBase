@@ -21,7 +21,7 @@
     "request": "2.33.x",
     "require-analyzer": "0.5.x"
   },
-  "main": "Gruntfile.js",
+  "main": "index.js",
   "devDependencies": {
     "expect.js": "~0.2.0",
     "grunt-develop": "0.3.x",
