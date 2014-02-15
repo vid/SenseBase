@@ -8,7 +8,7 @@ describe('File upload', function(){
   it('should process the file', function(done) {
     var uniqPath = path.join('/tmp', uniq);
     fs.writeFileSync(uniqPath, uniq);
-    var uploadingFileRequest = { files : { uploadingFile: { name: uniq, path: uniqPath} } };
+    var uploadingFileRequest = { files : { file: { name: uniq, path: uniqPath} } };
 
     fileUpload.uploadFile(uploadingFileRequest, function(err, resp) {
       expect(err).to.be.null;

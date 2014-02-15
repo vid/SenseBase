@@ -1,6 +1,6 @@
 
 var found;
-var annotations = require('../lib/annotations.js');
+var annotations = require('../lib/annotations.js'), utils = require('../lib/utils.js');
 
 // yucky global to simply mapping fields
 var flatFields = {};
@@ -51,6 +51,7 @@ function getUnMapped() {
   return Object.keys(unMapped).sort();
 }
 
+// converts a mapped item to an ContentItem and Annotations
 function mapToItem(item, json) {
   // first pass, find fields and annos and add to a proto
   var proto = {categories: [], vals: []};
@@ -71,26 +72,32 @@ function mapToItem(item, json) {
     }
   } 
 
-  // now make the annotations and annotationItem
+  // now make the annotations and contentItem
   for (var field in funcVals) {
     proto[field] = funcVals[field](proto);
   }
 
-  annotations.check(annotations.mainFields, proto);
+  utils.check(annotations.mainFields, proto);
   var annos = [];
+
+// base annotation
+  var aItem = annotations.createContentItem({ title: proto.title, uri: proto.uri, content: proto.content});
+
   // categories first
   for (var a in proto.categories) {
     var def = proto.categories[a];
+// an array of categories
     if (Array.isArray(def.content)) {
       def.content.forEach(function(category) {
         var level = def.level.slice(0);
-        level.push(category);
-        annos.push(annotations.createAnnotation({ type: 'category', annotatedBy: proto.annotatedBy, category: level }));
+        level.push(category);var a = { hasTarget: aItem._id, type: 'category', annotatedBy: proto.annotatedBy, category: level }
+        annos.push(annotations.createAnnotation(a));
       });
+// a single category
     } else {
       var level = def.level.slice(0);
       level.push(def.category[0]);
-      annos.push(annotations.createAnnotation({ type: 'category', annotatedBy: proto.annotatedBy, category: level }));
+      annos.push(annotations.createAnnotation({ hasTarget: aItem._id, type: 'category', annotatedBy: proto.annotatedBy, category: level }));
     }
   }
   // then vals
@@ -98,12 +105,12 @@ function mapToItem(item, json) {
     var def = proto.vals[a];
     var level = def.level.slice(0);
     level.push(def.category);
-    annos.push(annotations.createAnnotation({ type: 'value', key: def.key, value: def.value, annotatedBy: proto.annotatedBy, category: level}));
+    annos.push(annotations.createAnnotation({ hasTarget: aItem._id, type: 'value', key: def.key, value: def.value, annotatedBy: proto.annotatedBy, category: level}));
   }
-  var aItem = annotations.createAnnotationItem({ title: proto.title, uri: proto.uri, content: proto.content, annotations: annos});
-  return aItem;
+  return { contentItem: aItem, annotations: annos };
 }
 
+// recursively flatten fields to flatFields for fast lookups
 function flatten(level, map) {
   for (var key in map) {
     var kmap = map[key];

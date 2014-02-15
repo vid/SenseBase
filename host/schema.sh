@@ -4,9 +4,9 @@ if [ "e$1" == "e" ]; then echo "usage: $0 <indexname>"; exit 1; fi
 
 curl -XDELETE http://localhost:9200/$1/
 curl -XPUT http://localhost:9200/$1/
-curl -XPUT "http://localhost:9200/$1/annotationItem/_mapping" -d '
+curl -XPUT "http://localhost:9200/$1/contentItem/_mapping" -d '
 {
-  "annotationItem" : {
+  "contentItem" : {
       "_id" : {
         "path" : "uri",
         "index": "not_analyzed", "store" : "yes"

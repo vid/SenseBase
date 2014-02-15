@@ -31,8 +31,7 @@ function start(config) {
         var title = m[1].replace(/<.*?>/g);
         var psMember = browser_request.psMember.username;
         GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
-        GLOBAL.config.indexer.indexPage({
-          uri: uri, title: title, member: psMember, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders});
+        GLOBAL.config.indexer.saveContentItem({ uri: uri, title: title, member: psMember, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders});
       }
     }
   }
@@ -157,12 +156,9 @@ app.get('/logout', function(req, res){
 
 app.post('/upload', function(req, res) {
   fileUpload.uploadFile(req, function(err, resp) {
-    GLOBAL.config.indexer.indexPage({
-    uri: GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName, isHTML: true, title: resp.title, member: req.user.username, content: resp.buffer, 
-      callback: function(err, res, esDoc) {
-        pubsub.updateItem(esDoc);
-        console.log('uploaded', resp.fileName);
-      }
+    GLOBAL.config.indexer.saveContentItem({ uri: GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName, isHTML: true, title: resp.title, member: req.user.username, content: resp.buffer || 'NOCONTENT'}, function(err, res, esDoc) {
+      pubsub.updateItem(esDoc);
+      console.log('uploaded', resp.fileName);
     });
   });
 });

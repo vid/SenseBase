@@ -1,6 +1,6 @@
 // Tests for configured indexer (ElasticSearch)
 
-var expect = require("expect.js"), indexer = require('../lib/indexer.js');
+var expect = require("expect.js"), indexer = require('../lib/indexer.js'), annotations = require('../lib/annotations.js');
 GLOBAL.config = require('../config.js').config;
 
 var uniq = (new Date().getTime()).toString(16) + 'x' + Math.round(Math.random(9e9) * 9e9).toString(16);
@@ -12,16 +12,14 @@ var testContent = 'This is test content.\nIt has the unique term wooglybat and t
 var testAnnotations = [ { "ranges": "item", "quote": { "label": "Disease Progression", "value": 0.00684931506849315 }, "created": "2014-01-04T01:56:42.127Z", "creator": "Classify" }, { "ranges": "item", "quote": { "label": "Disease Progression", "value": 0.00684931506849315 }, "created": "2014-01-04T01:56:42.127Z", "creator": "Classify" }, { "ranges": "item", "quote": "AFINN sentiment", "score": 0, "created": "2014-01-04T01:56:42.183Z", "creator": "Sentiment" }, { "ranges": "item", "quote": "Disease Progression", "created": "2014-01-04T23:52:41.728Z", "creator": "Classify" } ];
 
 describe('Indexer', function(){
-  it('should format an annotationItem', function() {
-    var d = indexer.getEsDoc({ uri: uniqURI, title: 'testdocument', member: uniqMember, isHTML: true, content: testContent, contentType: "text/text", annotations: testAnnotations});
+  it('should format an ContentItem', function() {
+    var d = annotations.createContentItem({ uri: uniqURI, title: 'testdocument', member: uniqMember, isHTML: true, content: testContent, contentType: "text/text", annotations: testAnnotations});
   });
 
   it('should index a page', function(done) {
-    indexer.indexPage({ 
-      uri: uniqURI, title: 'testdocument', member: uniqMember, isHTML: true, content: testContent, contentText: 'text/html', annotations: testAnnotations, callback: function(err, res) {
-        expect(err).to.be.null;
-        done();
-      }
+    indexer.saveAnnotation({ uri: uniqURI, title: 'testdocument', member: uniqMember, isHTML: true, content: testContent, contentText: 'text/html'}, function(err, res) {
+      expect(err).to.be.null;
+      done();
     });
   });
 
