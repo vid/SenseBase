@@ -159,8 +159,10 @@ app.post('/upload', function(req, res) {
     GLOBAL.config.indexer.saveContentItem({ uri: GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName, isHTML: true, title: resp.title, member: req.user.username, content: resp.buffer || 'NOCONTENT'}, function(err, res, esDoc) {
       pubsub.updateItem(esDoc);
       console.log('uploaded', resp.fileName);
+
     });
   });
+  res.end();
 });
 
 var server = app.listen(9999);
