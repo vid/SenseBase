@@ -1,14 +1,13 @@
 var pxMember;
 
 $(function() {
-  $('.main.menu .item').tab('change tab', 'second'); // FIXME to select second menu
   $('.ui.accordion').accordion();
   $('#dashboardLink').click(function() { $('.details.sidebar').sidebar('toggle'); return false;});
   $('.details.sidebar').sidebar('hide', { overlay: true});
-  $('.facets.sidebar').sidebar('hide');
-  $('.ui.facets.button').click(function() { $('.facets.sidebar').sidebar('toggle'); });
+  $('.sidebar').sidebar();
+  $('.ui.search.button').click(function() { $('.search.content').toggle('hidden'); });
   $('.ui.scrape.button').click(function() { $('.scrape.content').toggle('hidden'); });
-  $('.sortable.table').tablesort();
+  $('.ui.manage.button').click(function() { $('.manage.content').toggle('hidden'); });
   $('.ui.checkbox').checkbox({onChange : updateOptions});
 
   function updateOptions() {
@@ -110,7 +109,7 @@ $(function() {
       results.hits.hits.forEach(function(r) {
         var v = r.fields || r._source;
         var row = '<tr><td>' + (r._score ? r._score : ++count) + '</td><td>' +
-          '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + v.uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + (v._id ||r._id) +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Delete</div> <div class="item"><a target="_debug" href="http://es.wc.zooid.org:9200/ps/contentItem/' + encodeURIComponent(v._id || r._id) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>' +
+          '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + v.uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + (v._id ||r._id) +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="http://es.wc.zooid.org:9200/ps/contentItem/' + encodeURIComponent(v._id || r._id) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>' +
 
           '<div><a target="_link" href="' + v.uri + '"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' + 
           '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div>'+
@@ -165,6 +164,7 @@ $(function() {
           $(this).next().toggle();
       });
       $('#searchCount').html(results.hits.total);
+      $('.sortable.table').tablesort();
 
     } else {
       $('#results').html('<i>No items.</i>');
@@ -198,9 +198,10 @@ $(function() {
   fayeClient.subscribe('/teamList', function(teams) {
     $('#aneditor').hide();
     console.log('teams', teams);
-    $('#teamList').html('<form><table cellspacing="10" id="teamMembers"></table></form>');
+    $('#teamList').html('<form><table cellspacing="10" id="teamMembers"><tr id="teamMembers"></tr></table></form>');
     teams.forEach(function(m) {
-     $('#teamMembers').append('<tr class="teamSelect" id="member_' + m.username + '"><td>' + (m.icon ? '<img src="/__wm/icons/' + m.icon + '">' : '') + '</td><td>' + m.username + '</td><td>' + m.type + '</td><td>' + (m.description ? m.description : '') + '</td></tr>');
+     $('#teamMembers').append('<td class="teamselect" id="member_' + m.username + '">' + (m.icon ? '<img src="/__wm/icons/' + m.icon + '">' : '') + '</td>');
+  //'<br />' + m.username + '<br />' + m.type + (m.description ? m.description : '') + '</td>');
     });
    $('#newName').val(''); 
    $('#newEmail').val('');

@@ -15,6 +15,7 @@
 progress { width: 100%; }
 progress:after { content: '%'; }
 .fail { background: #c00; padding: 2px; color: #fff; }
+
 </style>
 </head>
 <body>
@@ -101,97 +102,94 @@ progress:after { content: '%'; }
   </div>
 
 </div>
-<div class="ui vertical facets left sidebar">
-  <div class="ui segment">
-    <div class="ui form">
-      <div class="field">
-        <div class="field">
-          <label>Terms</label>
-          <input id="termSearch" />
-        </div>
-      </div>
-      <div class="field">
-        <div class="field">
-          <label>Annotations</label>
-          <input id="annoSearch" />
-        </div>
-      </div>
-      <div class="ui basic accordion">
-        <div class="small title" style="border: none">
-          <i class="icon dropdown"></i>
-          More
-        </div>
-        <div class="ui mini form content">
-          <div class="field">
-            <label>From</label>
-            <input id="fromDate" />
-          </div>
-          <div class="field">
-            <label>To</label>
-            <input id="toDate" />
-          </div>
-          <div class="field">
-            <label>Member</label>
-            <input id="searchMember" />
-          </div>
-          <div class="field">
-            <div class="ui checkbox">
-              <input id="watchSearch" type="checkbox" name="watchSearch">
-              <label for="watchSearch">Watched</label>
-            </div>
-          </div>
-          <div class="field">
-            <div class="ui checkbox">
-              <input id="filterSearch" type="checkbox" name="filterSearch">
-              <label for="filterSearch">Filtered</label>
-            </div>
-          </div>
-          <div class="field">
-            <label>Save</label>
-            <input id="saveName" />
-          </div>
-          <div class="field">
-            <div class="ui checkbox">
-              <input id="subscribeSearch" type="checkbox" name="subscribeSearch">
-              <label for="subscribeSearch">Subscribe</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="two fields">
-        <button class="ui blue mini search submit button" id="searchForm">Search</button>
-        <input id="refreshQueries" type="checkbox" /> <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label></div>
-      </div>
-  </div>
-
-  <div class="ui icons"><i title="List view" class="list layout icon"></i><i title="Grid view" class="inverted grid layout icon"></i><i title="Tag cloud view" class="cloud icon"></i></div>
-  <br style="clear: both" />
-</div>
-<div id="pxContent" class="tabs">
-  <div class="ui pointing secondary main menu">
-    <a class="active red item" data-tab="search">Search</a>
-    <a class="blue item" data-tab="manage">Manage</a>
-  </div>
-
-  <div class="ui active tab segment" data-tab="search">
+<div class="ui content" id="pxContent" class="tabs">
+  <div class="fixed header" id="header">
     <div class="ui buttons">
-     <button title="Search settings" class="ui mini facets attached right button">
-        <i class="search icon"></i>
+     <button title="Search settings" class="ui mini search attached right button">
+        <i class="mini search icon"></i>
         <span id="searchCount"><img src="/__wm/loading.gif" alt="loading results" /><span>
       </button>
 
      <button title="Scraper settings" class="ui mini scrape attached button">
-        <i class="sitemap icon"></i>
-        Inactive
-      </button>
+       <i class="mini sitemap icon"></i>
+       Inactive
+     </button>
 
      <button title="Conversations" class="ui mini chat attached button">
-        <i class="chat icon"></i>
+        <i class="mini chat icon"></i>
       </button>
+
+     <button title="Manage" class="ui mini manage attached button">
+       <i class="mini settings icon"></i>
+     </button>
+    </div>
+  </div>
+  <div class="ui content container">
+    <div class="search content hidden">
+    <div class="ui segment">
+      <div class="ui form">
+        <div class="field">
+          <div class="field">
+            <label>Terms</label>
+            <input id="termSearch" />
+          </div>
+        </div>
+        <div class="field">
+          <div class="field">
+            <label>Annotations</label>
+            <input id="annoSearch" />
+          </div>
+        </div>
+        <div class="ui basic accordion">
+          <div class="small title" style="border: none">
+            <i class="icon dropdown"></i>
+            More
+          </div>
+          <div class="ui mini form content">
+            <div class="field">
+              <label>From</label>
+              <input id="fromDate" />
+            </div>
+            <div class="field">
+              <label>To</label>
+              <input id="toDate" />
+            </div>
+            <div class="field">
+              <label>Member</label>
+              <input id="searchMember" />
+            </div>
+            <div class="field">
+              <div class="ui checkbox">
+                <input id="watchSearch" type="checkbox" name="watchSearch">
+                <label for="watchSearch">Watched</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui checkbox">
+                <input id="filterSearch" type="checkbox" name="filterSearch">
+                <label for="filterSearch">Filtered</label>
+              </div>
+            </div>
+            <div class="field">
+              <label>Save</label>
+              <input id="saveName" />
+            </div>
+            <div class="field">
+              <div class="ui checkbox">
+                <input id="subscribeSearch" type="checkbox" name="subscribeSearch">
+                <label for="subscribeSearch">Subscribe</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <button class="ui blue mini search submit button" id="searchForm">Search</button>
+          <input id="refreshQueries" type="checkbox" /> <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label></div>
+        </div>
     </div>
 
-    <br />
-      <div class="scrape content hidden">
+    </div>
+    <div class="scrape content hidden">
           <div class="two column fluid stackable ui grid">
             <div class="column">
               <div class="ui fluid form segment">
@@ -239,21 +237,9 @@ progress:after { content: '%'; }
               </div>
             </div>
           </div>
-        </div>
 
-    <br />
-    <div id="uploadInfo">
-      <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
-      <p id="filereader">File API & FileReader API not supported</p>
-      <p id="formdata">XHR2's FormData is not supported</p>
-      <p id="progress">XHR2's upload progress isn't supported</p>
     </div>
-    <p><progress class="hidden" id="uploadprogress" min="0" max="100" value="0">0</progress></p>
-    <div id="holder">
-      <div id="results"></div>
-    </div>
-  </div>
-  <div class="ui tab segment" data-tab="manage">
+    <div class="manage content hidden">
         <div class="innerMoreNext">
           <h3 class="morenext">Profile »</h3>
           <div class="hidden innerMoreNext">
@@ -268,50 +254,62 @@ progress:after { content: '%'; }
               Type: <select id="newType"><option>User</option><option>Annotation set</option><option>Scraper</option></select>
               <button id="newCreate">Add</button>
             </div>
-            <div class="anedit" id="aneditor" style="float: right; width: 50%; border-left: 1px dotted grey; padding-left: 5px">
-              <a title="Change name by editing this field">Name</a>: <input id="username" /><input type="hidden" id="lastUsername" /><br />
-              Description:<br />
-              <textarea cols="40" rows="2" id="memberDescription"></textarea>
+          <div id="teamList">
+          </div>
+          <div class="anedit" id="aneditor">
+            <a title="Change name by editing this field">Name</a>: <input id="username" /><input type="hidden" id="lastUsername" /><br />
+            Description:<br />
+            <textarea cols="40" rows="2" id="memberDescription"></textarea>
 
-              <div class="anedit" id="editAnnoSet">
-                <h4>Annotation set</h4>
-                <a title="Positive value or affecting words, seperated by a comma. Use a semicolon then value for weighting">Positive terms</a><br />
-                <textarea id="positiveTerms" cols="40" rows="5"></textarea><br />
-                <a title="Negative value or affecting words, seperated by a comma. Use a semicolon then value for weighting">Negative terms</a> <input type="checkbox" /> <a title="If checked, removes annotation if positive are outweighed by negative">nullify</a><br />
-                <textarea id="negativeTerms" cols="40" rows="5"></textarea><br />
-                <input id="doLemma" type="checkbox" /> <a title="If checked, merge forms of words">Lemmatize</a>
-                <input id="isTag" type="checkbox" /> <a title="If checked, make document rather than content level annotation">Tag</a>
-              </div>
-              <div class="anedit" id="editUser">
-                <h4>User</h4>
-                Email: <input id="newEmail" /><br />
-                Password: <input type="password" id="memberPassword" /><br />
-                Repeat: <input type="password" id="passwordRepeat" /><br />
-                <input id="canValidate" type="checkbox"> <a title="If checked, member can validate other member's annotations">Can approve</a><br />
-              </div>
-              <div class="anedit" id="editScraper">
-                <h4>Scraper</h4>
-                Password: <input type="password" id="memberPassword" /><br />
-                Repeat: <input type="password" id="passwordRepeat" /><br />
-              </div>
-              <div class="anedit" id="editAgent">
-                <h4>Agent</h4>
-              </div>
-              <input id="isInactive" type="checkbox"> <a title="If checked, member is inactive">Active</a><br />
-              <input id="needsValidation" type="checkbox"> <a title="If checked, values stored by this member must be validated by another">Needs validation</a><br />
-              <button id="teamUpdate">Update</button> <button id="teamRemove">Remove</button>
-              <h3>Statistics</h3>
-                created, queue, annotations, logins
-              </div>
-              <div id="teamList">
-              </div>
+            <div class="anedit" id="editAnnoSet">
+              <h4>Annotation set</h4>
+              <a title="Positive value or affecting words, seperated by a comma. Use a semicolon then value for weighting">Positive terms</a><br />
+              <textarea id="positiveTerms" cols="40" rows="5"></textarea><br />
+              <a title="Negative value or affecting words, seperated by a comma. Use a semicolon then value for weighting">Negative terms</a> <input type="checkbox" /> <a title="If checked, removes annotation if positive are outweighed by negative">nullify</a><br />
+              <textarea id="negativeTerms" cols="40" rows="5"></textarea><br />
+              <input id="doLemma" type="checkbox" /> <a title="If checked, merge forms of words">Lemmatize</a>
+              <input id="isTag" type="checkbox" /> <a title="If checked, make document rather than content level annotation">Tag</a>
             </div>
-            <h3 class="morenext">Annotations »</h3>
-            <div class="hidden innerMoreNext">
-              display, find, delete, merge, rename by name, date and member
+            <div class="anedit" id="editUser">
+              <h4>User</h4>
+              Email: <input id="newEmail" /><br />
+              Password: <input type="password" id="memberPassword" /><br />
+              Repeat: <input type="password" id="passwordRepeat" /><br />
+              <input id="canValidate" type="checkbox"> <a title="If checked, member can validate other member's annotations">Can approve</a><br />
+            </div>
+            <div class="anedit" id="editScraper">
+              <h4>Scraper</h4>
+              Password: <input type="password" id="memberPassword" /><br />
+              Repeat: <input type="password" id="passwordRepeat" /><br />
+            </div>
+            <div class="anedit" id="editAgent">
+              <h4>Agent</h4>
+            </div>
+            <input id="isInactive" type="checkbox"> <a title="If checked, member is inactive">Active</a><br />
+            <input id="needsValidation" type="checkbox"> <a title="If checked, values stored by this member must be validated by another">Needs validation</a><br />
+            <button id="teamUpdate">Update</button> <button id="teamRemove">Remove</button>
+            <h3>Statistics</h3>
+              created, queue, annotations, logins
             </div>
           </div>
+          <h3 class="morenext">Annotations »</h3>
+          <div class="hidden innerMoreNext">
+            display, find, delete, merge, rename by name, date and member
+          </div>
+        </div>
 
+    </div>
+    <div id="uploadInfo">
+      <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
+      <p id="filereader">File API & FileReader API not supported</p>
+      <p id="formdata">XHR2's FormData is not supported</p>
+      <p id="progress">XHR2's upload progress isn't supported</p>
+    </div>
+    <p><progress class="hidden" id="uploadprogress" min="0" max="100" value="0">0</progress></p>
+    <div id="holder" style="height: 90%; width: 100%; overflow: auto">
+      <div id="results"></div>
+    </div>
+  </div>
   </div>
 </div>
 </body>
