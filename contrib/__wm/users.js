@@ -10,6 +10,7 @@ fayeClient.subscribe('/teamList', function(teams) {
   });
  $('#newName').val(''); 
  $('#newEmail').val('');
+ $('.teamCancel').click(function() { $('#aneditor').hide(); });
  $('.teamSelect').click(function(i) {
   showEdit($(i.target).parent().attr('id').split('_')[1]);
  });

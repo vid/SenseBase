@@ -34,6 +34,10 @@ if (window.parent.location) {
   annotateCurrentURI(window.parent.location.toString());
 }
 
+function resetAnnotateEditor() {
+  $('#treeContainer').attr('height', $('#annotateBar').attr('height') - ($('#pxControls').attr('height') + $('#annotateEditor').attr('height')));
+}
+
 function resetTreeData() {
   ids = 0;
   idMap = {};
@@ -139,70 +143,6 @@ function annotateCurrentURI(u) {
     fayeClient.publish('/annotate', { services : services, uri: currentURI});
   }
 }
-
-function addChat(msg) {
-  var n = new Date();
-  $('#collabStream').append('<span style="width: 10em; color: green">' + n.getHours() + ":"  + n.getMinutes() + ":" + n.getSeconds() + '</span> ' + pxMember  + ' <i>' + msg + '</i><br />');
-  $('.visiting').click(function(t) {
-    annotateCurrentURI($(this).text());
-  });
-}
-
-$('.morenext').click(function() {
-  $(this).next().toggle();
-});
-
-// search
-
-$('#searchForm').submit(function(event) {
-  event.preventDefault();
-  var search = { terms : $('#termSearch').val(), annotations : $('#annoSearch').val(), 
-    from: $('#fromDate').val(), to: $('#toDate').val(),
-    member: $('#searchMember').val() };
-  fayeClient.publish('/search', search); 
-});
-
-var searchRes = fayeClient.subscribe('/searchResults', function(searchResults) {
-  console.table('searchResults', searchResults);
-});
-
-// collab
-var collab = fayeClient.subscribe('/collab', function(message) {
-  addChat(message.text);
-});
-$('#collabInput').keypress(function(e) {
-  if(e.which == 13) {
-    fayeClient.publish('/collab', { text : $('#collabInput').val()});
-    $('#collabInput').val('');
-    return false;
-  }
-});
-
-// scrape
-if (isScraper) {
-  console.log('I am a scraper');
-
-  fayeClient.subscribe('/scrape', function(link) {
-    console.log('/scrape', link);
-    outputDocument.location = link;
-  });
-  var links = [];
-  var myDomain = currentURI.split('/')[2];
-  for (var i = 0; i < outputDocument.links.length; i++) {
-    var href = outputDocument.links[i].href;
-    var link = href.split('/')[2];
-    console.log(href, link, myDomain);
-    var inDomain = (link.indexOf(myDomain) > -1);
-    if (link && (href.toLowerCase().indexOf('pdf') < 0) ) {
-      links.push(href);
-    }
-    setTimeout(function() { 
-//      console.log('sending', links); fayeClient.publish('/links', { site: currentURI, links: links};)
-      setInterval(function() { console.log('sending', links); fayeClient.publish('/links', { site: currentURI, links: []})}, 5000);
-    }, 1000);
-  }
-}
-
 $('#updateAnnotations').click(function() {
     annotateCurrentURI(outputDocument.location.toString());
 });
@@ -233,88 +173,6 @@ $('#annoErase').click(function() {
   return false;
 });
 
-var teams = [ {people : [
-    { name : 'Andy', icon: 'demo.png', activities : [{annotate : 'default'}, { search : true}]}
-    , { name : 'Betty', icon: 'manager.png', activities : [{annotate : 'default'}, { search : true}]}
-  ]}, 
-  { services : [
-    { name:'Spotlight', icon:'dbpedia.jpg', active:true, activities : [{annotate : 'default'}]}
-    , { name : 'Sentiment', icon : 'sentiment.jpg', activities : [{annotate:'default'}]}
-    , { name : 'WikiMeta', icon : 'wikimeta.png', activities : [{annotate:'true'}]}
-    , { name : 'Carrot2', icon : 'carrot2.png', activities : [{annotate:'true'}]}
-    , { name : 'Board members', icon : 'board.jpg', activities : [{annotate : true}]}
-    , { name : 'MicroRDF', icon: 'rdf.png', activities : [{annotate: true}]} 
-    , { name : 'MycoMine', icon : 'mycomine_logo.png', activities : [{annotate:true}]} 
-    , { name : 'GATE', icon : 'gate.jpg', activities : [{annotate:true}]} 
-    , { name : 'DC', icon: 'dublin_core.png', activities : [{annotate:'true'}, { search : 'default'}]} 
-    , { name : 'ElasticSearch', icon : 'esearch.png', activities : [{search : 'default'}, {storage: 'default'}]} 
-  ]}
-]
-
-// display selected and available team members
-$('.teamToggle').each(function() {
-  var $p = $(this);
-  $p.append('<div class="toggle ui-widget-header " title="Drag and drop team members">Team <span class="ind">-</span></div><div class="team"><div class="dotbox selected"></div><div class="toggle ui-widget-header" title="Drag and drop team members">Available <span class="ind">+</span></div><div class="dotbox available"></div></div></div>');
-  var $c = $p.find('.available');
-  var $s = $p.find('.selected');
-  var f = $p.attr('for');
-  teams.forEach(function(team) {
-    $.each(team, function(i, indi) {
-      $.each(indi, function(m, member) {
-        member.activities.forEach(function(activity) {
-          for (var a in activity) {
-            if (a == f) {
-              $el = activity[a] == 'default' ? $s : $c;
-              $el.append('<a class="' + member.name + '" title="' + member.name + '" id="' + member.name + '">' + (member.icon ? '<img src="icons/' + member.icon + '" />' : '<span style="background-color: lightgrey; margin: 1px; padding: 5px">' + member.name+'</span>') + '</a>');
-            }
-          }
-        });
-      });
-    });
-  });
-  $s.sortable();
-  $c.find('a').draggable({
-      cancel: "a.ui-icon", 
-      revert: "invalid", 
-      containment: "document",
-      helper: "clone",
-      cursor: "move"
-    });
- 
-  $s.droppable({
-    activeClass: "ui-state-highlight",
-    drop: function( event, ui ) {
-      $(this).append(ui.draggable);
-    }
-  });
-  $s.find('a').draggable({
-      cancel: "a.ui-icon",
-      revert: "invalid",
-      containment: "document",
-      helper: "clone",
-      cursor: "move"
-    });
- 
-  $c.droppable({
-    activeClass: "ui-state-highlight",
-    drop: function( event, ui ) {
-      $(this).append(ui.draggable);
-    }
-  });
-});
-
-$('.toggle').click ( function () {
-  var $next = $(this).next();
-  $next.toggle ();
-
-  if ($next.is (':visible' ) === true ) {
-    $(this).find('.ind').html('-');
-  } else {
-    $(this).find('.ind').html('+');
-  }
-});
-
-$(document).tooltip();
 var resizeIframe = function(event, ui) {
   var w = Math.round(ui.size.width);
   window.parent.pxContent.style.left = (w + 5) + 'px';

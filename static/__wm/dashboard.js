@@ -2,13 +2,14 @@ var pxMember;
 
 $(function() {
   $('.ui.accordion').accordion();
-  $('#dashboardLink').click(function() { $('.details.sidebar').sidebar('toggle'); return false;});
   $('.details.sidebar').sidebar('hide', { overlay: true});
   $('.sidebar').sidebar();
   $('.ui.search.button').click(function() { $('.search.content').toggle('hidden'); });
   $('.ui.scrape.button').click(function() { $('.scrape.content').toggle('hidden'); });
-  $('.ui.manage.button').click(function() { $('.manage.content').toggle('hidden'); });
+  $('.ui.team.button').click(function() { $('.team.content').toggle('hidden'); });
+  $('.ui.settings.button').click(function() { $('.settings.content').toggle('hidden'); });
   $('.ui.checkbox').checkbox({onChange : updateOptions});
+  $(document).tooltip();
 
   function updateOptions() {
     console.log($(this).attr('id'), $(this).is(':checked'));
@@ -109,11 +110,14 @@ $(function() {
       results.hits.hits.forEach(function(r) {
         var v = r.fields || r._source;
         var row = '<tr><td>' + (r._score ? r._score : ++count) + '</td><td>' +
-          '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + v.uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + (v._id ||r._id) +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="http://es.wc.zooid.org:9200/ps/contentItem/' + encodeURIComponent(v._id || r._id) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>' +
 
           '<div><a target="_link" href="' + v.uri + '"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' + 
           '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div>'+
   	'</td>';
+  //FIXME see below
+        $('#pxControls').html(
+          '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + v.uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + (v._id ||r._id) +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="http://es.wc.zooid.org:9200/ps/contentItem/' + encodeURIComponent(v._id || r._id) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
+        );
 
         var vv = '', va = {};
         // roll up visitors
@@ -179,6 +183,14 @@ $(function() {
     $('.details.sidebar').sidebar('show');
     var el = $(ev.target);
     var uri = el.attr('href');
+  console.log('ID', el);
+  /*
+  //FIXME
+        $('#pxControls').html(
+          '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + v.uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + (v._id ||r._id) +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="http://es.wc.zooid.org:9200/ps/contentItem/' + encodeURIComponent(v._id || r._id) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
+  */
+        );
+
     if (curURI == uri) {
       $('#preview').toggle();
     } else {
@@ -205,6 +217,7 @@ $(function() {
     });
    $('#newName').val(''); 
    $('#newEmail').val('');
+   $('.teamCancel').click(function() { $('#aneditor').hide(); });
    $('.teamSelect').click(function(i) {
     showEdit($(i.target).parent().attr('id').split('_')[1]);
    });
@@ -373,3 +386,82 @@ $(function() {
 function moreLikeThis(uri) {
   fayeClient.publish('/moreLikeThis', { uri: uri});
 }
+
+function addChat(msg) {
+  var n = new Date();
+  $('#collabStream').append('<span style="width: 10em; color: green">' + n.getHours() + ":"  + n.getMinutes() + ":" + n.getSeconds() + '</span> ' + pxMember  + ' <i>' + msg + '</i><br />');
+  $('.visiting').click(function(t) {
+    annotateCurrentURI($(this).text());
+  });
+}
+
+// search
+
+$('#searchForm').submit(function(event) {
+  event.preventDefault();
+  var search = { terms : $('#termSearch').val(), annotations : $('#annoSearch').val(), 
+    from: $('#fromDate').val(), to: $('#toDate').val(),
+    member: $('#searchMember').val() };
+  fayeClient.publish('/search', search); 
+});
+
+var searchRes = fayeClient.subscribe('/searchResults', function(searchResults) {
+  console.table('searchResults', searchResults);
+});
+
+// collab
+var collab = fayeClient.subscribe('/collab', function(message) {
+  addChat(message.text);
+});
+$('#collabInput').keypress(function(e) {
+  if(e.which == 13) {
+    fayeClient.publish('/collab', { text : $('#collabInput').val()});
+    $('#collabInput').val('');
+    return false;
+  }
+});
+
+// scrape
+if (isScraper) {
+  console.log('I am a scraper');
+
+  fayeClient.subscribe('/scrape', function(link) {
+    console.log('/scrape', link);
+    outputDocument.location = link;
+  });
+  var links = [];
+  var myDomain = currentURI.split('/')[2];
+  for (var i = 0; i < outputDocument.links.length; i++) {
+    var href = outputDocument.links[i].href;
+    var link = href.split('/')[2];
+    console.log(href, link, myDomain);
+    var inDomain = (link.indexOf(myDomain) > -1);
+    if (link && (href.toLowerCase().indexOf('pdf') < 0) ) {
+      links.push(href);
+    }
+    setTimeout(function() { 
+//      console.log('sending', links); fayeClient.publish('/links', { site: currentURI, links: links};)
+      setInterval(function() { console.log('sending', links); fayeClient.publish('/links', { site: currentURI, links: []})}, 5000);
+    }, 1000);
+  }
+}
+var teams = [ {people : [
+    { name : 'Andy', icon: 'demo.png', activities : [{annotate : 'default'}, { search : true}]}
+    , { name : 'Betty', icon: 'manager.png', activities : [{annotate : 'default'}, { search : true}]}
+  ]}, 
+  { services : [
+    { name:'Spotlight', icon:'dbpedia.jpg', active:true, activities : [{annotate : 'default'}]}
+    , { name : 'Sentiment', icon : 'sentiment.jpg', activities : [{annotate:'default'}]}
+    , { name : 'WikiMeta', icon : 'wikimeta.png', activities : [{annotate:'true'}]}
+    , { name : 'Carrot2', icon : 'carrot2.png', activities : [{annotate:'true'}]}
+    , { name : 'Board members', icon : 'board.jpg', activities : [{annotate : true}]}
+    , { name : 'MicroRDF', icon: 'rdf.png', activities : [{annotate: true}]} 
+    , { name : 'MycoMine', icon : 'mycomine_logo.png', activities : [{annotate:true}]} 
+    , { name : 'GATE', icon : 'gate.jpg', activities : [{annotate:true}]} 
+    , { name : 'DC', icon: 'dublin_core.png', activities : [{annotate:'true'}, { search : 'default'}]} 
+    , { name : 'ElasticSearch', icon : 'esearch.png', activities : [{search : 'default'}, {storage: 'default'}]} 
+  ]}
+]
+
+
+

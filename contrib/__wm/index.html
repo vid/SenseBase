@@ -39,7 +39,11 @@ progress:after { content: '%'; }
         <i class="mini chat icon"></i>
       </button>
 
-     <button title="Manage" class="ui mini manage attached button">
+     <button title="Team" class="ui mini team attached button">
+       <i class="mini users icon"></i>
+     </button>
+
+     <button title="Settings" class="ui mini settings attached button">
        <i class="mini settings icon"></i>
      </button>
     </div>
@@ -51,11 +55,14 @@ progress:after { content: '%'; }
     <div class="scrape content hidden">
     include "scrape.html"
     </div>
-    <div class="manage content hidden">
-    include "manage.html"
+    <div class="team content hidden">
+    include "team.html"
+    </div>
+    <div class="settings content hidden">
+    include "settings.html"
     </div>
     <div id="uploadInfo">
-      <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
+      <p id="upload" class="hidden"><label>Your browser doesn't support drag & drop, but you can still upload via this input field:<br /><input type="file"></label></p>
       <p id="filereader">File API & FileReader API not supported</p>
       <p id="formdata">XHR2's FormData is not supported</p>
       <p id="progress">XHR2's upload progress isn't supported</p>
