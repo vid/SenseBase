@@ -27,31 +27,31 @@ progress:after { content: '%'; }
   <br style="clear: both" />
 </div>
 <div id="pxContent" class="tabs">
-  <div class="ui pointing secondary main menu">
-    <a class="active red item" data-tab="search">Search</a>
-    <a class="blue item" data-tab="manage">Manage</a>
-  </div>
-
   <div class="ui active tab segment" data-tab="search">
     <div class="ui buttons">
      <button title="Search settings" class="ui mini facets attached right button">
-        <i class="search icon"></i>
+        <i class="mini search icon"></i>
         <span id="searchCount"><img src="/__wm/loading.gif" alt="loading results" /><span>
       </button>
 
      <button title="Scraper settings" class="ui mini scrape attached button">
-        <i class="sitemap icon"></i>
-        Inactive
-      </button>
+       <i class="mini sitemap icon"></i>
+       Inactive
+     </button>
 
      <button title="Conversations" class="ui mini chat attached button">
-        <i class="chat icon"></i>
+        <i class="mini chat icon"></i>
       </button>
+
+     <button title="Manage" class="ui mini manage attached button">
+       <i class="mini settings icon"></i>
+     </button>
     </div>
 
-    <br />
+
     include "scrape.html"
-    <br />
+    include "manage.html"
+
     <div id="uploadInfo">
       <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
       <p id="filereader">File API & FileReader API not supported</p>
@@ -62,9 +62,6 @@ progress:after { content: '%'; }
     <div id="holder">
       <div id="results"></div>
     </div>
-  </div>
-  <div class="ui tab segment" data-tab="manage">
-    include "manage.html"
   </div>
 </div>
 </body>
