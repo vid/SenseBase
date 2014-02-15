@@ -32,7 +32,7 @@ module.exports = function(grunt) {
         },
         options: {
           replacements: [{
-            pattern: /(DOMAIN|FAYEHOST|HOMEPAGE)/g,
+            pattern: /(DOMAIN|FAYEHOST|HOMEPAGE|ESEARCH_URI)/g,
             replacement: function (match, p1, offset, string) {
               var rep = config.config[match];
               if (!rep) {

@@ -12,7 +12,7 @@ Scenario: Upload a PDF
   And I enter the unique PDF text
   There should be 1 result
 
-Scenario: Upload a link sheet
+Scenario: Upload link sheet
 
   When I log into sensebase
   Then I should see an Input tab
@@ -33,4 +33,10 @@ Scenario: Upload a zip file
   Then I go to the search tab
   And I enter the unique key
   Then I should 4 results
+
+Scenario: Download link sheet
+
+  When I log into sensebase
+  And I select Link sheet export
+  Then I should receivce a Link sheet
 
