@@ -90,14 +90,14 @@ function mapToItem(item, json) {
     if (Array.isArray(def.content)) {
       def.content.forEach(function(category) {
         var level = def.level.slice(0);
-        level.push(category);var a = { hasTarget: aItem._id, type: 'category', annotatedBy: proto.annotatedBy, category: level }
+        level.push(category);var a = { hasTarget: aItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level }
         annos.push(annotations.createAnnotation(a));
       });
 // a single category
     } else {
       var level = def.level.slice(0);
       level.push(def.category[0]);
-      annos.push(annotations.createAnnotation({ hasTarget: aItem._id, type: 'category', annotatedBy: proto.annotatedBy, category: level }));
+      annos.push(annotations.createAnnotation({ hasTarget: aItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level }));
     }
   }
   // then vals
@@ -105,7 +105,7 @@ function mapToItem(item, json) {
     var def = proto.vals[a];
     var level = def.level.slice(0);
     level.push(def.category);
-    annos.push(annotations.createAnnotation({ hasTarget: aItem._id, type: 'value', key: def.key, value: def.value, annotatedBy: proto.annotatedBy, category: level}));
+    annos.push(annotations.createAnnotation({ hasTarget: aItem.uri, type: 'value', key: def.key, value: def.value, annotatedBy: proto.annotatedBy, category: level}));
   }
   return { contentItem: aItem, annotations: annos };
 }
