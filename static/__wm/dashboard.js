@@ -4,10 +4,10 @@ $(function() {
   $('.ui.accordion').accordion();
   $('.details.sidebar').sidebar('hide', { overlay: true});
   $('.sidebar').sidebar();
-  $('.ui.search.button').click(function() { $('.search.content').toggle('hidden'); });
-  $('.ui.scrape.button').click(function() { $('.scrape.content').toggle('hidden'); });
-  $('.ui.team.button').click(function() { $('.team.content').toggle('hidden'); });
-  $('.ui.settings.button').click(function() { $('.settings.content').toggle('hidden'); });
+  $('.ui.search.button').click(function() { $('.search.content').toggle('hidden'); $('.ui.search.button').toggleClass('active');});
+  $('.ui.scrape.button').click(function() { $('.scrape.content').toggle('hidden'); $('ui.scrape.button').toggleClass('active'); });
+  $('.ui.team.button').click(function() { $('.team.content').toggle('hidden');$('ui.scrape.button').toggleClass('active');  });
+  $('.ui.settings.button').click(function() { $('.settings.content').toggle('hidden');$('ui.scrape.button').toggleClass('active');  });
   $('.ui.checkbox').checkbox({onChange : updateOptions});
   $(document).tooltip();
 
@@ -80,18 +80,16 @@ $(function() {
     updateResults(results);
   });
 
+  // add a new or updated item
   fayeClient.subscribe('/updateItem', function(result) {
-    console.log('UPDATE', result);
+    console.log('UPDATE', result, 'FROM',lastResults);
     var i = 0, l = lastResults.hits.hits.length;
     for (i; i < l; i++) {
-      if (lastResults.hits.hits[i].fields.uri == result.fields.uri) {
+      if (lastResults.hits.hits[i].fields.uri === result.fields.uri) {
         delete lastResults.hits.hits[i];
-        lastResults.hits.hits.unshift(result);
-        updateResults(lastResults);
-        return;
+        break;
       }
     }
-    console.log('did not find, adding', result);
     lastResults.hits.hits.unshift(result);
     lastResults.hits.total++;
     updateResults(lastResults);
@@ -104,63 +102,37 @@ $(function() {
   function updateResults(results) {
     lastResults = results;
     $('.search.button').animate({opacity: 1}, 500, 'linear');
-    $('#holder').html('<div id="results"><table id="resultsTable" class="ui sortable table segment"><thead><tr><th>Rank</th><th>Document</th><th>Accesses</th><th>Annotations</th></tr></thead><tbody></tbody></table></div>');
+    $('#holder').html('<div id="results"><table id="resultsTable" class="ui sortable table segment"><thead><tr><th>Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table></div>');
     if (results.hits) {
       var count = 0;
       results.hits.hits.forEach(function(r) {
         var v = r.fields || r._source;
-        var row = '<tr><td>' + (r._score ? r._score : ++count) + '</td><td>' +
-
+        var row = '<tr id="anno' + encID(v.uri) + '"><td>' + (r._score ? r._score : ++count) + '</td><td>' +
           '<div><a target="_link" href="' + v.uri + '"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' + 
           '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div>'+
   	'</td>';
-  //FIXME see below
-        $('#pxControls').html(
-          '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + v.uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + (v._id ||r._id) +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="http://es.wc.zooid.org:9200/ps/contentItem/' + encodeURIComponent(v._id || r._id) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
-        );
-
-        var vv = '', va = {};
         // roll up visitors
+        var vv = '', va = {};
         v.visitors.forEach(function(visitor) {
           var a = va[visitor.member] || { visits: []};
           a.visits.push(visitor['@timestamp']);
           va[visitor.member] = a;
         });
-        // roll up annotations
         for (var a in va) {
           vv += '<h4 class="showa">' + a + ' (' + va[a].visits.length + ') </h3><div class="hidden">' + JSON.stringify(va[a].visits) + '</div>';
         }
-        row += '<td>' + vv + '</td>';
-
-        var annos, validated = '', unvalidated = '', seen = {}, vc = 0, uc = 0;
-        try {
-          annos = JSON.parse(v.annotations);
-        } catch (e) {
-          annos = [];
-          if (v.annotations) {
-            console.log('failed parsing annos', e, v.annotations);
+        row += '<td class="rowVisitors">' + vv + '</td><td class="rowAnnotations">';
+        if (v.annotationSummary !== undefined) {
+          if (v.annotationSummary.validated > 0) { 
+            row += '<div class="ui tiny green button"><i class="empty checkbox icon"></i> ' + v.annotationSummary.validated + '</div><div class="hidden validatedSummary"></div>';
+          }
+          if (v.annotationSummary.unvalidated > 0) { 
+            row += '<div class="ui tiny blue button"><i class="empty checkbox icon"></i> ' + v.annotationSummary.unvalidated + '</div><div class="hidden unvalidatedSummary"></div>';
           }
         }
-        annos.forEach(function(anno) {
-          for (var i in anno) {
-            var d = (anno.value || anno.quote);
-            if (!seen[d]) {
-              if (anno.validated) {
-                validated += '<a title="' + anno.types + '">' + d + '</a> (' + anno.creator + ')<br />';
-                vc++;
-              } else {
-                unvalidated += '<a title="' + anno.types + '">' + d + '</a> (' + anno.creator + ')<br />';
-                uc++;
-              }
-
-              seen[d] = 1;
-            }
-          }
-        });
-        row += '<td><h4 class="showa">Validated (' + vc + ')</h4><div>' + validated + '</div><h4 class="showa">Unvalidated (' + uc + ')</h4><div class="hidden">' + unvalidated +'</div></td>';
+        row += '</td>';
         $('#resultsTable tbody').append(row);
       });
-      $('.item_options.dropdown').dropdown();
 
 
       $('.selectURI').click(selectedURI);
@@ -183,13 +155,33 @@ $(function() {
     $('.details.sidebar').sidebar('show');
     var el = $(ev.target);
     var uri = el.attr('href');
-  console.log('ID', el);
+    fayeClient.publish('/annotate', { uri: uri });
+  //var annos = annoUriMap[encID(uri)];
+
+    $('#pxControls').html(
+      '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + uri +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="http://es.wc.zooid.org:9200/ps/contentItem/' + encodeURIComponent(uri) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
+        );
+    $('.item_options.dropdown').dropdown();
   /*
   //FIXME
-        $('#pxControls').html(
-          '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + v.uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + (v._id ||r._id) +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="http://es.wc.zooid.org:9200/ps/contentItem/' + encodeURIComponent(v._id || r._id) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
+    var terms = [];
+    annotations.forEach(function(i) {
+      var instances = [];
+      var ann = i._source; 
+      if (ann.type === 'quote') {
+        ann.ranges.forEach(function(r) {
+          instances.push({ data: r.exact, attr: { id: ++ids} });
+          idMap[ids] = r;
+        });
+      } else {
+        console.log('iunknown type', ann.type);
+      }
+      terms.push({ data: ann.quote, attr: { id: ++ids }, children : instances});
+      idMap[ids] = ann;
+    });
+    treeData.json_data.data.push({ data: 'annotatedBy', metadata : { id : ids++}, children: terms});
+    updateTree();
   */
-        );
 
     if (curURI == uri) {
       $('#preview').toggle();

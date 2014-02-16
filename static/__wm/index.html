@@ -22,7 +22,7 @@ progress:after { content: '%'; }
 <div class="ui vertical details right sidebar" style="-moz-box-shadow: 3px 3px 5px 6px #ccc; -webkit-box-shadow: 3px 3px 5px 6px #ccc; box-shadow: 3px 3px 5px 6px #ccc;background-image: url(/__wm/mesh.png)">
   <div id="annotateBar" style="background-color: #ffe">
     <div>
-    <span style="float: left"><span id="pxControls" style="width: 8%"></span><strong>Annotations</strong></span>
+    <span style="float: left"><span id="pxControls"></span><strong>Annotations</strong></span>
     <span style="float: right"><button id="annoNew">New</button></span> 
     </div>
     <br style="clear: both" />
@@ -62,31 +62,33 @@ progress:after { content: '%'; }
   </div>  
 
 </div>
-<div class="ui content" id="pxContent" class="tabs">
-  <div class="fixed header" id="header">
-    <div class="ui buttons">
-     <button title="Search settings" class="ui mini search attached right button">
-        <i class="mini search icon"></i>
-        <span id="searchCount"><img src="/__wm/loading.gif" alt="loading results" /><span>
-      </button>
+<div class="ui content" id="pxContent" style="width: 100%">
+  <div class="six fluid ui buttons">
+   <button title="Search settings" class="ui mini search attached button">
+      <i class="mini search icon"></i>
+      <span id="searchCount"><img src="/__wm/loading.gif" alt="loading results" /><span>
+    </button>
 
-     <button title="Scraper settings" class="ui mini scrape attached button">
-       <i class="mini sitemap icon"></i>
-       Inactive
-     </button>
+   <button title="Scraper settings" class="ui mini scrape attached button">
+     <i class="mini sitemap icon"></i>
+     Inactive
+   </button>
 
-     <button title="Conversations" class="ui mini chat attached button">
-        <i class="mini chat icon"></i>
-      </button>
+    <button title="Conversations" class="ui mini chat attached button">
+      <i class="mini chat icon"></i>
+    </button>
 
-     <button title="Team" class="ui mini team attached button">
-       <i class="mini users icon"></i>
-     </button>
+   <button title="Team" class="ui mini team attached button">
+     <i class="mini users icon"></i>
+   </button>
 
-     <button title="Settings" class="ui mini settings attached button">
-       <i class="mini settings icon"></i>
-     </button>
-    </div>
+   <button title="Lab" class="ui mini lab attached button">
+     <i class="mini lab icon"></i>
+   </button>
+
+   <button title="Settings" class="ui mini settings attached button">
+     <i class="mini settings icon"></i>
+   </button>
   </div>
   <div class="ui content container">
     <div class="search content hidden">
@@ -284,7 +286,7 @@ progress:after { content: '%'; }
 <script src="http://dashboard.wc.zooid.org/member.js" defer="defer"></script>
 <script src="lib/jquery-1.9.1.js"></script>
 <script src="lib/jquery-ui.js"></script>
-<script src="lib/jstree/jquery.jstree.js"></script>
+<script src="lib/jstree/jstree.min.js"></script>
 <script src="lib/jquery.cookie.js"></script>
 <script src="lib/jquery.address.js"></script>
 <script src="lib/faye-browser-min.js"></script>

@@ -59,29 +59,55 @@ function resetTreeData() {
   };
 }
 
-// annotation
+var annoUriMap;
 
-var annos = fayeClient.subscribe('/annotations', function(message) {
-  console.log('annotations', message.annotations);
-  addChat('is visiting ' + '<a class="visiting">' + message.uri + '</a>');
-  if (message.uri === currentURI) { // FIXME add to subscription
-    var terms = [];
-    for (var k in message.annotations) {
-      var ann = message.annotations[k];
-      var instances = [];
-      ann.instances.forEach(function(c) {
-        instances.push({ data: (c.value || ann.quote), attr: { id: ++ids} });
-        idMap[ids] = c;
-      });
-      terms.push({ data: ann.value || ann.quote, attr: { id: ++ids }, children : instances});
-      idMap[ids] = ann;
-    }
-    treeData.json_data.data.push({ data: message.service, metadata : { id : ids++}, children: terms});
-    updateTree();
+// receive annotations
+var annos = fayeClient.subscribe('/annotations', function(annotations) {
+  annoUriMap = {};
+  console.log('annotations', annotations);
+// save to a map
+  annotations.forEach(function(a) {
+    var id = encID(a.hasTarget);
+    if (!annoUriMap[id]) { annoUriMap[id] = []; }
+    annoUriMap[id].push(a);
+  });
+// update result table
+// roll up annotations
+console.log(annoUriMap);
+  for (var tid in annoUriMap) {
+    var annos, validated = '', unvalidated = '', seen = {}, vc = 0, uc = 0;
+    annos = annoUriMap[tid];
+// summarize item annotations. removing inline summary, linking to tree
+    annos.forEach(function(anno) {
+      for (var i in anno) {
+        var d = (anno.value || anno.quote);
+        if (!seen[d]) {
+          if (anno.validated) {
+//            validated += '<a title="' + anno.type + '">' + d + '</a> (' + anno.annotatedBy + ')<br />';
+            vc++;
+          } else {
+//            unvalidated += '<a title="' + anno.type + '">' + d + '</a> (' + anno.annotatedBy + ')<br />';
+            uc++;
+          }
+
+          seen[d] = 1;
+        }
+      }
+    });
+    $('#anno' + tid).find('.validatedCount').html(vc).addClass("ui green circular label ");
+//    $('#anno' + tid).find('.validatedSummary').html(validated)
+    $('#anno' + tid).find('.unvalidatedCount').html(uc).addClass("ui blue circular label");
+//    $('#anno' + tid).find('.unvalidatedSummary').html(unvalidated)
   }
 });
 
-function updateTree() {
+var encIDs = [];
+// encode a string (URI) for an ID
+function encID(c) {
+  return (encIDs.indexOf(c) > -1 ? encIDs.indexOf(c) : encIDs.push(c) - 1);
+}
+
+function updateTree() { 
   $("#annoTree").jstree(treeData).bind("select_node.jstree", function (e, data) {
     var id = data.rslt.obj.attr('id');
     var selected= idMap[id];
@@ -136,12 +162,9 @@ console.log('markAnno', startingHTML.substr(start, 90));
 
 function annotateCurrentURI(u) {
   currentURI = u.replace('#'+currentAnnoName, '').replace(/#$/, '');
+//  addChat('is visiting ' + '<a class="visiting">' + currentURI + '</a>');
   resetTreeData();
   console.log('resetting to', currentURI);
-  if (currentURI) {
-    $('#annoTree').html('<img src="/__wm/spinner.gif" alt="spinner" />');
-    fayeClient.publish('/annotate', { services : services, uri: currentURI});
-  }
 }
 $('#updateAnnotations').click(function() {
     annotateCurrentURI(outputDocument.location.toString());
