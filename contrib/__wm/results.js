@@ -52,18 +52,16 @@ fayeClient.subscribe('/searchResults', function(results) {
   updateResults(results);
 });
 
+// add a new or updated item
 fayeClient.subscribe('/updateItem', function(result) {
-  console.log('UPDATE', result);
+  console.log('UPDATE', result, 'FROM',lastResults);
   var i = 0, l = lastResults.hits.hits.length;
   for (i; i < l; i++) {
-    if (lastResults.hits.hits[i].fields.uri == result.fields.uri) {
+    if (lastResults.hits.hits[i].fields.uri === result.fields.uri) {
       delete lastResults.hits.hits[i];
-      lastResults.hits.hits.unshift(result);
-      updateResults(lastResults);
-      return;
+      break;
     }
   }
-  console.log('did not find, adding', result);
   lastResults.hits.hits.unshift(result);
   lastResults.hits.total++;
   updateResults(lastResults);

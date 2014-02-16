@@ -62,20 +62,18 @@ function resetTreeData() {
 // annotation
 
 var annos = fayeClient.subscribe('/annotations', function(message) {
-  console.log('annotations', message.annotations);
+  console.log('annotations', message);
   addChat('is visiting ' + '<a class="visiting">' + message.uri + '</a>');
   if (message.uri === currentURI) { // FIXME add to subscription
     var terms = [];
-    for (var k in message.annotations) {
-      var ann = message.annotations[k];
+      var ann = message.annotations;
       var instances = [];
-      ann.instances.forEach(function(c) {
+      ann.forEach(function(c) {
         instances.push({ data: (c.value || ann.quote), attr: { id: ++ids} });
         idMap[ids] = c;
       });
       terms.push({ data: ann.value || ann.quote, attr: { id: ++ids }, children : instances});
       idMap[ids] = ann;
-    }
     treeData.json_data.data.push({ data: message.service, metadata : { id : ids++}, children: terms});
     updateTree();
   }

@@ -159,11 +159,17 @@ exports.start = function(config) {
   
   app.post('/upload', function(req, res) {
     fileUpload.uploadFile(req, function(err, resp) {
-      GLOBAL.config.indexer.saveContentItem({ uri: GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName, isHTML: true, title: resp.title, member: req.user.username, content: resp.buffer || 'NOCONTENT'}, function(err, res, cItem) {
-        console.log('uploaded', resp.fileName);
-        pubsub.updateItem(cItem);
-        requestAnnotate(cItem.uri);
-      });
+      if (err) {
+       GLOBAL.error('/upload', err);
+      } else {
+        var content = resp.buffer || 'NOCONTENT';
+        GLOBAL.config.indexer.saveContentItem({ uri: GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName, isHTML: true, title: resp.title, member: req.user.username, content: content}, function(err, res, cItem) {
+          console.log('uploaded', resp.fileName, cItem);
+          pubsub.updateItem(cItem);
+          cItem.content = content;
+          requestAnnotate(cItem);
+        });
+      }
     });
     res.end();
   });
@@ -180,7 +186,7 @@ exports.start = function(config) {
   
   repl = require("repl");
   r = repl.start({ prompt: GLOBAL.config.project + "> ", useGlobal: true});
-  }
+}
   
 // request subscribed annotators to annotate
 function requestAnnotate(cItem) {
