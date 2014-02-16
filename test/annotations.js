@@ -11,17 +11,17 @@ console.log('annoCategory', annoCategory);
 var annoValue = annotations.createAnnotation({hasTarget: item.uri, annotatedBy: 'test', type: 'value', key: 'test key', value: 'test value'});
 console.log('annoValue', annoValue);
 
-var quoteRange = annotations.createRange({exact: 'quote exact', offset: 20, range: 200});
-var annoRange = annotations.createAnnotation({hasTarget: item.uri, annotatedBy: 'test', type: 'quote', quote: 'test', range: quoteRange});
+var quoteRange = annotations.createRange({exact: 'quote exact', offset: 100});
+var annoRange = annotations.createAnnotation({hasTarget: item.uri, annotatedBy: 'test', type: 'quote', quote: 'test', ranges: quoteRange});
 console.log('annoRange', annoRange);
 
-var valueRange = annotations.createRange({exact: 'value exact', offset: 20, range: 200});
-var annoValueQuote = annotations.createAnnotation({hasTarget: item.uri, annotatedBy: 'test', type: 'valueQuote', key: 'test key', value: 'test value', range: valueRange});
+var valueRange = annotations.createRange({exact: 'value exact', offset: 200});
+var annoValueQuote = annotations.createAnnotation({hasTarget: item.uri, annotatedBy: 'test', type: 'valueQuote', key: 'test key', value: 'test value', ranges: valueRange});
 console.log('annoValueQuote', annoValueQuote);
 
 var annoLib = require('../lib/annotateServices/annotateLib');
 
 var text = '<html><body>This is a match1 and a match2. Here is match1 again.</body></html>';
-var range = annoLib.rangesFromMatches('match1', text);
+var ranges = annoLib.rangesFromMatches('match1', text);
 
-console.log('range', range);
+console.log('range', ranges);

@@ -76,3 +76,7 @@ a {
 .innerMoreNext {
   padding-left: 10px;
 }
+
+.showa {
+  white-space: nowrap;
+}

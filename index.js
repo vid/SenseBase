@@ -33,7 +33,7 @@ exports.start = function(config) {
         var psMember = browser_request.psMember.username;
         GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
         GLOBAL.config.indexer.saveContentItem({ uri: uri, title: title, member: psMember, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders});
-        requestAnnotate({uri: uri, content: pageBuffer});
+        pubsub.requestAnnotate(uri, pageBuffer);
       }
     }
   }
@@ -162,12 +162,11 @@ exports.start = function(config) {
       if (err) {
        GLOBAL.error('/upload', err);
       } else {
-        var content = resp.buffer || 'NOCONTENT';
-        GLOBAL.config.indexer.saveContentItem({ uri: GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName, isHTML: true, title: resp.title, member: req.user.username, content: content}, function(err, res, cItem) {
+        var content = resp.buffer || 'NOCONTENT', uri = GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName;
+        GLOBAL.config.indexer.saveContentItem({ uri: uri, isHTML: true, title: resp.title, member: req.user.username, content: content}, function(err, res, cItem) {
           console.log('uploaded', resp.fileName, cItem);
           pubsub.updateItem(cItem);
-          cItem.content = content;
-          requestAnnotate(cItem);
+          pubsub.requestAnnotate(uri, content);
         });
       }
     });
@@ -188,8 +187,3 @@ exports.start = function(config) {
   r = repl.start({ prompt: GLOBAL.config.project + "> ", useGlobal: true});
 }
   
-// request subscribed annotators to annotate
-function requestAnnotate(cItem) {
-   pubsub.requestAnnotate(cItem);
-}
-

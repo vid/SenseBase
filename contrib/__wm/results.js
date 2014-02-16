@@ -80,17 +80,11 @@ function updateResults(results) {
     results.hits.hits.forEach(function(r) {
       var v = r.fields || r._source;
       var row = '<tr id="anno' + encID(v.uri) + '"><td>' + (r._score ? r._score : ++count) + '</td><td>' +
-
         '<div><a target="_link" href="' + v.uri + '"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' + 
         '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div>'+
 	'</td>';
-//FIXME see below
-      $('#pxControls').html(
-        '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + v.uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + (v._id ||r._id) +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="ESEARCH_URI/contentItem/' + encodeURIComponent(v._id || r._id) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
-      );
-
-      var vv = '', va = {};
       // roll up visitors
+      var vv = '', va = {};
       v.visitors.forEach(function(visitor) {
         var a = va[visitor.member] || { visits: []};
         a.visits.push(visitor['@timestamp']);
@@ -99,11 +93,18 @@ function updateResults(results) {
       for (var a in va) {
         vv += '<h4 class="showa">' + a + ' (' + va[a].visits.length + ') </h3><div class="hidden">' + JSON.stringify(va[a].visits) + '</div>';
       }
-      row += '<td class="rowVisitors">' + vv + '</td>' +
-        '<td class="rowAnnotations"><h4 class="showa"><span style="width: 3em; text-align" center" class="validatedCount"></span> Validated <i class="triangle right icon"></i></h4><div class="validatedSummary"></div><h4 class="showa"><span style="width: 3em; text-align" center" class="unvalidatedCount"></span> Unvalidated <i class="triangle right icon"></i></h4><div class="hidden unvalidatedSummary"></div></td>';
+      row += '<td class="rowVisitors">' + vv + '</td><td class="rowAnnotations">';
+      if (v.annotationSummary !== undefined) {
+        if (v.annotationSummary.validated > 0) { 
+          row += '<div class="ui tiny green button"><i class="empty checkbox icon"></i> ' + v.annotationSummary.validated + '</div><div class="hidden validatedSummary"></div>';
+        }
+        if (v.annotationSummary.unvalidated > 0) { 
+          row += '<div class="ui tiny blue button"><i class="empty checkbox icon"></i> ' + v.annotationSummary.unvalidated + '</div><div class="hidden unvalidatedSummary"></div>';
+        }
+      }
+      row += '</td>';
       $('#resultsTable tbody').append(row);
     });
-    $('.item_options.dropdown').dropdown();
 
 
     $('.selectURI').click(selectedURI);
@@ -126,7 +127,13 @@ function selectedURI(ev) {
   $('.details.sidebar').sidebar('show');
   var el = $(ev.target);
   var uri = el.attr('href');
-console.log('ID', el);
+  fayeClient.publish('/annotate', { uri: uri });
+//var annos = annoUriMap[encID(uri)];
+
+  $('#pxControls').html(
+    '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + uri +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="ESEARCH_URI/contentItem/' + encodeURIComponent(uri) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
+      );
+  $('.item_options.dropdown').dropdown();
 /*
 //FIXME
   var terms = [];
@@ -146,9 +153,6 @@ console.log('ID', el);
   });
   treeData.json_data.data.push({ data: 'annotatedBy', metadata : { id : ids++}, children: terms});
   updateTree();
-      $('#pxControls').html(
-        '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + v.uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + (v._id ||r._id) +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="ESEARCH_URI/contentItem/' + encodeURIComponent(v._id || r._id) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
-      );
 */
 
   if (curURI == uri) {

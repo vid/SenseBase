@@ -67,9 +67,9 @@ var annos = fayeClient.subscribe('/annotations', function(annotations) {
   console.log('annotations', annotations);
 // save to a map
   annotations.forEach(function(a) {
-    var id = encID(a._source.hasTarget);
+    var id = encID(a.hasTarget);
     if (!annoUriMap[id]) { annoUriMap[id] = []; }
-    annoUriMap[id].push(a._source);
+    annoUriMap[id].push(a);
   });
 // update result table
 // roll up annotations
