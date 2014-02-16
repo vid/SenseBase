@@ -120,6 +120,7 @@ function updateResults(results) {
 }
 
 var curURI;
+// display or close uri frame and controls
 function selectedURI(ev) {
   updateOptions.call($('#watch'));
   updateOptions.call($('#filter'));
@@ -127,37 +128,16 @@ function selectedURI(ev) {
   $('.details.sidebar').sidebar('show');
   var el = $(ev.target);
   var uri = el.attr('href');
-  fayeClient.publish('/annotate', { uri: uri });
-//var annos = annoUriMap[encID(uri)];
 
   $('#pxControls').html(
     '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + uri +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="ESEARCH_URI/contentItem/' + encodeURIComponent(uri) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
       );
   $('.item_options.dropdown').dropdown();
-/*
-//FIXME
-  var terms = [];
-  annotations.forEach(function(i) {
-    var instances = [];
-    var ann = i._source; 
-    if (ann.type === 'quote') {
-      ann.ranges.forEach(function(r) {
-        instances.push({ data: r.exact, attr: { id: ++ids} });
-        idMap[ids] = r;
-      });
-    } else {
-      console.log('iunknown type', ann.type);
-    }
-    terms.push({ data: ann.quote, attr: { id: ++ids }, children : instances});
-    idMap[ids] = ann;
-  });
-  treeData.json_data.data.push({ data: 'annotatedBy', metadata : { id : ids++}, children: terms});
-  updateTree();
-*/
 
   if (curURI == uri) {
     $('#preview').toggle();
   } else {
+    fayeClient.publish('/annotate', { uri: uri });
     curURI = uri;
     $('#startingPage').val(uri);
     annotateCurrentURI(uri);

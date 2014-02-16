@@ -21,122 +21,85 @@ var pxMember = parent.window.pxMember;
 var isScraper = pxMember == 'scraper' || parent.window.pxScraper;
 $('#pxMember').html(pxMember);
 
-// tree setup 
-
-// shared across multiple subscribes
-var treeData; 
-// retreive data from selected tree nodes
-var idMap = {}; 
 // incrementor
-var ids = 0; 
-
 if (window.parent.location) {
   annotateCurrentURI(window.parent.location.toString());
 }
 
-function resetAnnotateEditor() {
-  $('#treeContainer').attr('height', $('#annotateBar').attr('height') - ($('#pxControls').attr('height') + $('#annotateEditor').attr('height')));
-}
-
-function resetTreeData() {
-  ids = 0;
-  idMap = {};
-  treeData = {
-    json_data : {
-      data : [
-      ]
-    },
-    "types" : { 
-      "types" : { 
-        "default" : { 
-           "select_node" : function(e) {
-             this.toggle_node(e);
-           } 
-        }
-      } 
-    },
-    plugins : [ 'json_data', 'ui', 'themes', 'crrm', 'types' ]
-  };
-}
-
-var annoUriMap;
-
 // receive annotations
 var annos = fayeClient.subscribe('/annotations', function(annotations) {
-  annoUriMap = {};
   console.log('annotations', annotations);
-// save to a map
+// group by annotator
+  var annoBy = {};
   annotations.forEach(function(a) {
-    var id = encID(a.hasTarget);
-    if (!annoUriMap[id]) { annoUriMap[id] = []; }
-    annoUriMap[id].push(a);
+    if (!annoBy[a.annotatedBy]) { annoBy[a.annotatedBy] = []; }
+      annoBy[a.annotatedBy].push(a);
   });
-// update result table
-// roll up annotations
-console.log(annoUriMap);
-  for (var tid in annoUriMap) {
-    var annos, validated = '', unvalidated = '', seen = {}, vc = 0, uc = 0;
-    annos = annoUriMap[tid];
-// summarize item annotations. removing inline summary, linking to tree
-    annos.forEach(function(anno) {
-      for (var i in anno) {
-        var d = (anno.value || anno.quote);
-        if (!seen[d]) {
-          if (anno.validated) {
-//            validated += '<a title="' + anno.type + '">' + d + '</a> (' + anno.annotatedBy + ')<br />';
-            vc++;
-          } else {
-//            unvalidated += '<a title="' + anno.type + '">' + d + '</a> (' + anno.annotatedBy + ')<br />';
-            uc++;
-          }
-
-          seen[d] = 1;
-        }
+  var byAnno = [];
+  for (var by in annoBy) {
+    var byInstances = [];
+    annoBy[by].forEach(function(ann) {
+      var id = encID(ann.hasTarget);
+      var instances = [];
+      if (ann.type === 'quote') {
+        var instances = [];
+        ann.ranges.forEach(function(r) {
+          instances.push({ type: 'range', text: r.exact, id: id });
+        });
+        byInstances.push({ type: 'quote', text: ann.quote, id: id, children : instances});
+      } else if (ann.type === 'value') {
+        byInstances.push({ type: 'value', text: ann.key + ':' + ann.value, id: id});
+      } else {
+        console.log('unknown type', ann.type);
       }
     });
-    $('#anno' + tid).find('.validatedCount').html(vc).addClass("ui green circular label ");
-//    $('#anno' + tid).find('.validatedSummary').html(validated)
-    $('#anno' + tid).find('.unvalidatedCount').html(uc).addClass("ui blue circular label");
-//    $('#anno' + tid).find('.unvalidatedSummary').html(unvalidated)
+    byAnno.push({ text: by, id: encID(annoBy[by].hasTarget), children: byInstances});
   }
+  var curTree = '#annoTree1';
+  $('#treeContainer').html('<div id="annoTree1"></div>');
+//  var i = $.jstree.create(curTree, {
+    $(curTree).jstree({
+    'core' : { data: byAnno },
+    "plugins" : [ "search", "types", "wholerow" ],
+    "types" : {
+      "default" : {
+        "icon" : "tags icon"
+      },
+      "range" : {
+        "icon" : "ellipsis horizontal icon"
+      },
+      "category" : {
+        "icon" : "tag icon"
+      },
+      "valueQuote" : {
+        "icon" : "text width icon"
+      },
+      "value" : {
+        "icon" : "info letter icon"
+      },
+      "quote" : {
+        "icon" : "quote left icon"
+      }
+   }
+  });
+console.log(i);
+// init tree filter
+var to = false;
+$('#treeFilter').keyup(function () {
+  if (to) { clearTimeout(to); }
+  to = setTimeout(function () {
+    var v = $('#treeFilter').val();
+    $(curTree).jstree(true).search(v);
+  }, 250);
 });
+
+});
+
 
 var encIDs = [];
 // encode a string (URI) for an ID
 function encID(c) {
   return (encIDs.indexOf(c) > -1 ? encIDs.indexOf(c) : encIDs.push(c) - 1);
-}
-
-function updateTree() { 
-  $("#annoTree").jstree(treeData).bind("select_node.jstree", function (e, data) {
-    var id = data.rslt.obj.attr('id');
-    var selected= idMap[id];
-    if (selected.value) {
-      setAnnotation(selected);
-    }
-    if (selected && selected.tagset) {
-      var hier = {};
-      // split tags, FIXME data structure on annotators
-      selected.tagset.forEach(function(t) { 
-        var s = t.split(':');
-        if (s.length === 2) {
-          hier[s[0]] = s[1];
-        } else {
-          hier[s] = t;
-        }
-      });
-    }
-  });
-  $('#annoTree').bind('hover_node.jstree', function (e, data) {
-    var id = data.rslt.obj.attr('id');
-    var hovered = idMap[id];
-    if (hovered && hovered.ranges) {
-      console.log('hovered range', hovered);
-      markAnno(hovered.ranges[0].startOffset + annoOffset, hovered.quote, true);
-    } else {
-      console.log('upper', hovered);
-    }
-  });
 }
 
 // offset for agent automation
@@ -163,7 +126,6 @@ console.log('markAnno', startingHTML.substr(start, 90));
 function annotateCurrentURI(u) {
   currentURI = u.replace('#'+currentAnnoName, '').replace(/#$/, '');
 //  addChat('is visiting ' + '<a class="visiting">' + currentURI + '</a>');
-  resetTreeData();
   console.log('resetting to', currentURI);
 }
 $('#updateAnnotations').click(function() {

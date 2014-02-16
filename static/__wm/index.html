@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="/__wm/semantic-ui/css/semantic.css">
 <link rel="stylesheet" href="lib/jquery-ui.css" />
 <link rel="stylesheet" href="dashboard.css" />
+<link rel="stylesheet" href="lib/jstree/themes/default/style.min.css" />
 <style type="text/css">
 @import "/__wm/lib/jquery-ui.css";
 @import "/__wm/lib/jquery-ui.css";
@@ -26,8 +27,8 @@ progress:after { content: '%'; }
     <span style="float: right"><button id="annoNew">New</button></span> 
     </div>
     <br style="clear: both" />
+    <div>Filter <input id="treeFilter"></div>
     <div id="treeContainer" style="overflow: auto; padding: 4px">
-      <div id="annoTree"></div>
     </div>
     <div id="annotateEditor" class="editor" style="display: none">
       <form>
@@ -286,7 +287,7 @@ progress:after { content: '%'; }
 <script src="http://dashboard.wc.zooid.org/member.js" defer="defer"></script>
 <script src="lib/jquery-1.9.1.js"></script>
 <script src="lib/jquery-ui.js"></script>
-<script src="lib/jstree/jstree.min.js"></script>
+<script src="lib/jstree/jstree.js"></script>
 <script src="lib/jquery.cookie.js"></script>
 <script src="lib/jquery.address.js"></script>
 <script src="lib/faye-browser-min.js"></script>
