@@ -74,12 +74,12 @@ var lastResults;
 function updateResults(results) {
   lastResults = results;
   $('.search.button').animate({opacity: 1}, 500, 'linear');
-  $('#holder').html('<div id="results"><table id="resultsTable" class="ui sortable table segment"><thead><tr><th>Rank</th><th>Document</th><th>Accesses</th><th>Annotations</th></tr></thead><tbody></tbody></table></div>');
+  $('#holder').html('<div id="results"><table id="resultsTable" class="ui sortable table segment"><thead><tr><th>Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table></div>');
   if (results.hits) {
     var count = 0;
     results.hits.hits.forEach(function(r) {
       var v = r.fields || r._source;
-      var row = '<tr><td>' + (r._score ? r._score : ++count) + '</td><td>' +
+      var row = '<tr id="anno' + encID(v.uri) + '"><td>' + (r._score ? r._score : ++count) + '</td><td>' +
 
         '<div><a target="_link" href="' + v.uri + '"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' + 
         '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div>'+
@@ -96,38 +96,11 @@ function updateResults(results) {
         a.visits.push(visitor['@timestamp']);
         va[visitor.member] = a;
       });
-      // roll up annotations
       for (var a in va) {
         vv += '<h4 class="showa">' + a + ' (' + va[a].visits.length + ') </h3><div class="hidden">' + JSON.stringify(va[a].visits) + '</div>';
       }
-      row += '<td>' + vv + '</td>';
-
-      var annos, validated = '', unvalidated = '', seen = {}, vc = 0, uc = 0;
-      try {
-        annos = JSON.parse(v.annotations);
-      } catch (e) {
-        annos = [];
-        if (v.annotations) {
-          console.log('failed parsing annos', e, v.annotations);
-        }
-      }
-      annos.forEach(function(anno) {
-        for (var i in anno) {
-          var d = (anno.value || anno.quote);
-          if (!seen[d]) {
-            if (anno.validated) {
-              validated += '<a title="' + anno.types + '">' + d + '</a> (' + anno.creator + ')<br />';
-              vc++;
-            } else {
-              unvalidated += '<a title="' + anno.types + '">' + d + '</a> (' + anno.creator + ')<br />';
-              uc++;
-            }
-
-            seen[d] = 1;
-          }
-        }
-      });
-      row += '<td><h4 class="showa">Validated (' + vc + ')</h4><div>' + validated + '</div><h4 class="showa">Unvalidated (' + uc + ')</h4><div class="hidden">' + unvalidated +'</div></td>';
+      row += '<td class="rowVisitors">' + vv + '</td>' +
+        '<td class="rowAnnotations"><h4 class="showa"><span style="width: 3em; text-align" center" class="validatedCount"></span> Validated <i class="triangle right icon"></i></h4><div class="validatedSummary"></div><h4 class="showa"><span style="width: 3em; text-align" center" class="unvalidatedCount"></span> Unvalidated <i class="triangle right icon"></i></h4><div class="hidden unvalidatedSummary"></div></td>';
       $('#resultsTable tbody').append(row);
     });
     $('.item_options.dropdown').dropdown();
@@ -156,6 +129,23 @@ function selectedURI(ev) {
 console.log('ID', el);
 /*
 //FIXME
+  var terms = [];
+  annotations.forEach(function(i) {
+    var instances = [];
+    var ann = i._source; 
+    if (ann.type === 'quote') {
+      ann.ranges.forEach(function(r) {
+        instances.push({ data: r.exact, attr: { id: ++ids} });
+        idMap[ids] = r;
+      });
+    } else {
+      console.log('iunknown type', ann.type);
+    }
+    terms.push({ data: ann.quote, attr: { id: ++ids }, children : instances});
+    idMap[ids] = ann;
+  });
+  treeData.json_data.data.push({ data: 'annotatedBy', metadata : { id : ids++}, children: terms});
+  updateTree();
       $('#pxControls').html(
         '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + v.uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + (v._id ||r._id) +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="ESEARCH_URI/contentItem/' + encodeURIComponent(v._id || r._id) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
       );
