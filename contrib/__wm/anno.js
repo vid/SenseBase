@@ -5,7 +5,7 @@ var services = [ 'Classify', 'AnnotationSet', 'WikiMeta', 'Spotlight', 'Sentimen
 var currentAnnoName = 'currentAnno';
 
 var outputDocument = parent.document;
-var $enclosure = $('#pxContent', outputDocument);
+var $enclosure = $('#ipxContent', outputDocument);
 var startingHTML = $enclosure.html().toString();
 
 if (!$enclosure.length) { // We are not running as iframe
