@@ -81,7 +81,7 @@ function mapToItem(item, json) {
   var annos = [];
 
 // base annotation
-  var aItem = annotations.createContentItem({ title: proto.title, uri: proto.uri, content: proto.content});
+  var cItem = annotations.createContentItem({ title: proto.title, uri: proto.uri, content: proto.content});
 
   // categories first
   for (var a in proto.categories) {
@@ -89,15 +89,16 @@ function mapToItem(item, json) {
 // an array of categories
     if (Array.isArray(def.content)) {
       def.content.forEach(function(category) {
-        var level = def.level.slice(0);
-        level.push(category);var a = { hasTarget: aItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level }
+        var level = def.level.slice(0); // copy base level
+        level = level.concat(category.split('/'));
+        var a = { hasTarget: cItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level }
         annos.push(annotations.createAnnotation(a));
       });
 // a single category
     } else {
-      var level = def.level.slice(0);
+      var level = def.level.slice(0); // copy base level
       level.push(def.category[0]);
-      annos.push(annotations.createAnnotation({ hasTarget: aItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level }));
+      annos.push(annotations.createAnnotation({ hasTarget: cItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level }));
     }
   }
   // then vals
@@ -105,9 +106,9 @@ function mapToItem(item, json) {
     var def = proto.vals[a];
     var level = def.level.slice(0);
     level.push(def.category);
-    annos.push(annotations.createAnnotation({ hasTarget: aItem.uri, type: 'value', key: def.key, value: def.value, annotatedBy: proto.annotatedBy, category: level}));
+    annos.push(annotations.createAnnotation({ hasTarget: cItem.uri, type: 'value', key: def.key, value: def.value, annotatedBy: proto.annotatedBy, category: level}));
   }
-  return { contentItem: aItem, annotations: annos };
+  return { contentItem: cItem, annotations: annos };
 }
 
 // recursively flatten fields to flatFields for fast lookups

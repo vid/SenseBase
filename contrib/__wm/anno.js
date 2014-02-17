@@ -49,11 +49,21 @@ var annos = fayeClient.subscribe('/annotations', function(annotations) {
         byInstances.push({ type: 'quote', text: ann.quote, id: id, children : instances});
       } else if (ann.type === 'value') {
         byInstances.push({ type: 'value', text: ann.key + ':' + ann.value, id: id});
+      } else if (ann.type === 'category') {
+        var last = null, first = null, cats = ann.category, c;
+// break out category levels
+        while (c = cats.shift()) {
+          var me = { type: 'category', text: c, id: id, children: []};
+          if (!first) { first = me } else { last.children.push(me);}
+          last = me;
+        }
+        byInstances.push(first);
       } else {
-        console.log('unknown type', ann.type);
+       console.log('unknown type', type);
       }
     });
     byAnno.push({ text: by, id: encID(annoBy[by].hasTarget), children: byInstances});
+console.log('byAnno', byAnno);
   }
   var curTree = '#annoTree1';
   $('#treeContainer').html('<div id="annoTree1"></div>');

@@ -22,7 +22,6 @@ $(function() {
 
   pxMember = window.pxMember || $.cookie('pxMember');
   $('#searchMember').val(pxMember);
-//  window.pxContent.style.width = window.parent.innerWidth - 340;
   fayeClient = new Faye.Client('FAYEHOST');
   fayeClient.publish('/search', { member: pxMember });
 
