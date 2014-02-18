@@ -16,9 +16,12 @@ function fv(vals, key) {
 
 // add any function value assigners
 importer.funcVal('uri', function(data) { 
-  return data.uri || fv(data.vals.LinkFullPaper) || fv(data.vals.linkPubMed) || fv(data.vals.linkJrn) ||
-    'http://testing/' + i++; 
-  });
+  var uri = data.uri || fv(data.vals.LinkFullPaper) || fv(data.vals.linkPubMed) || fv(data.vals.linkJrn);
+  if (!uri) {
+    throw Error('No uri');
+  }
+  return uri;
+});
 
 // get your field mappings
 var fieldMappings = require(process.argv[2] || '../test/mock/fieldMapping.json');
