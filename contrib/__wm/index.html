@@ -17,6 +17,9 @@ progress { width: 100%; }
 progress:after { content: '%'; }
 .fail { background: #c00; padding: 2px; color: #fff; }
 
+table td, table td * {
+    vertical-align: top;
+}
 </style>
 </head>
 <body>
@@ -63,6 +66,9 @@ progress:after { content: '%'; }
     </div>
     <div class="settings content hidden">
     include "settings.html"
+    </div>
+    <div class="lab content hidden">
+    <iframe style="width: 100%; height: 100%" src="/cluster"></iframe>
     </div>
     <div id="uploadInfo">
       <p id="upload" class="hidden"><label>Your browser doesn't support drag & drop, but you can still upload via this input field:<br /><input type="file"></label></p>

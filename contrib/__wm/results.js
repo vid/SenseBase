@@ -33,10 +33,7 @@ var spinner = $(".spinner").spinner({
 
 var ULEN = 70;
 function shortenURI(u) {
-  if (u.length < ULEN) {
-    return u;
-  }
-  return u.substring(0, ULEN - 3) + '…' + u.substring(u.length - 3);
+  return u.length < ULEN ? u : (u.substring(0, ULEN - 3) + '…' + u.substring(u.length - 3));
 }
 
 function doSearch() {
@@ -82,18 +79,21 @@ function updateResults(results) {
       var row = '<tr id="anno' + encID(v.uri) + '"><td>' + (r._score ? r._score : ++count) + '</td><td>' +
         '<div><a target="_link" href="' + v.uri + '"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' + 
         '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div>'+
-	'</td>';
+	'</td><td class="rowVisitors">';
       // roll up visitors
-      var vv = '', va = {};
-      v.visitors.forEach(function(visitor) {
-        var a = va[visitor.member] || { visits: []};
-        a.visits.push(visitor['@timestamp']);
-        va[visitor.member] = a;
-      });
-      for (var a in va) {
-        vv += '<h4 class="showa">' + a + ' (' + va[a].visits.length + ') </h3><div class="hidden">' + JSON.stringify(va[a].visits) + '</div>';
+      if (v.visitors) {
+        var vv = '', va = {};
+        v.visitors.forEach(function(visitor) {
+          var a = va[visitor.member] || { visits: []};
+          a.visits.push(visitor['@timestamp']);
+          va[visitor.member] = a;
+        });
+        for (var a in va) {
+          vv += '<h4 class="showa">' + a + ' (' + va[a].visits.length + ') </h3><div class="hidden">' + JSON.stringify(va[a].visits) + '</div>';
+        }
+        row += '' + vv;
       }
-      row += '<td class="rowVisitors">' + vv + '</td><td class="rowAnnotations">';
+      row += '</td><td class="rowAnnotations">';
       if (v.annotationSummary !== undefined) {
         if (v.annotationSummary.validated > 0) { 
           row += '<div class="ui tiny green button"><i class="checked checkbox icon"></i> ' + v.annotationSummary.validated + '</div><div class="hidden validatedSummary"></div>';
@@ -105,7 +105,6 @@ function updateResults(results) {
       row += '</td>';
       $('#resultsTable tbody').append(row);
     });
-
 
     $('.selectURI').click(selectedURI);
     $('.showa').click(function() {

@@ -7,6 +7,7 @@ $(function() {
   $('.ui.search.button').click(function() { $('.search.content').toggle('hidden'); $('.ui.search.button').toggleClass('active');});
   $('.ui.scrape.button').click(function() { $('.scrape.content').toggle('hidden'); $('ui.scrape.button').toggleClass('active'); });
   $('.ui.team.button').click(function() { $('.team.content').toggle('hidden');$('ui.scrape.button').toggleClass('active');  });
+  $('.ui.lab.button').click(function() { $('.lab.content').toggle('hidden');$('ui.lab.button').toggleClass('active');  });
   $('.ui.settings.button').click(function() { $('.settings.content').toggle('hidden');$('ui.scrape.button').toggleClass('active');  });
   $('.ui.checkbox').checkbox({onChange : updateOptions});
   $(document).tooltip();
