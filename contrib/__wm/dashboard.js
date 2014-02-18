@@ -21,7 +21,7 @@ $(function() {
   }
 
   pxMember = window.pxMember || $.cookie('pxMember');
-  $('#searchMember').val(pxMember);
+//  $('#searchMember').val(pxMember);
   fayeClient = new Faye.Client('FAYEHOST');
   fayeClient.publish('/search', { member: pxMember });
 
