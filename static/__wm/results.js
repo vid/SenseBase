@@ -22,6 +22,7 @@ $('#refreshQueries').click(function(e) {
   }
 });
 
+// input element
 var spinner = $(".spinner").spinner({
   spin: function( event, ui ) {
     if ( ui.value < 0 ) {
@@ -33,10 +34,7 @@ var spinner = $(".spinner").spinner({
 
 var ULEN = 70;
 function shortenURI(u) {
-  if (u.length < ULEN) {
-    return u;
-  }
-  return u.substring(0, ULEN - 3) + '…' + u.substring(u.length - 3);
+  return u.length < ULEN ? u : (u.substring(0, ULEN - 3) + '…' + u.substring(u.length - 3));
 }
 
 function doSearch() {
@@ -48,16 +46,16 @@ function doSearch() {
 }
 
 fayeClient.subscribe('/searchResults', function(results) {
-  console.log('searchResults', results);
+  console.log('/searchResults', results);
   updateResults(results);
 });
 
 // add a new or updated item
 fayeClient.subscribe('/updateItem', function(result) {
-  console.log('UPDATE', result, 'FROM',lastResults);
+  console.log('/update', result, lastResults);
   var i = 0, l = lastResults.hits.hits.length;
   for (i; i < l; i++) {
-    if (lastResults.hits.hits[i].fields.uri === result.fields.uri) {
+    if (lastResults.hits.hits[i]._source.uri === result.fields.uri) {
       delete lastResults.hits.hits[i];
       break;
     }
@@ -68,7 +66,6 @@ fayeClient.subscribe('/updateItem', function(result) {
 });
 
 // for updating
-
 var lastResults;
 
 function updateResults(results) {
@@ -79,35 +76,38 @@ function updateResults(results) {
     var count = 0;
     results.hits.hits.forEach(function(r) {
       var v = r.fields || r._source;
-      var row = '<tr id="anno' + encID(v.uri) + '"><td>' + (r._score ? r._score : ++count) + '</td><td>' +
+      var row = '<tr id="' + encID(v.uri) + '"><td>' + (r._score ? r._score : ++count) + '</td><td>' +
         '<div><a target="_link" href="' + v.uri + '"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' + 
         '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div>'+
-	'</td>';
+	'</td><td class="rowVisitors">';
       // roll up visitors
-      var vv = '', va = {};
-      v.visitors.forEach(function(visitor) {
-        var a = va[visitor.member] || { visits: []};
-        a.visits.push(visitor['@timestamp']);
-        va[visitor.member] = a;
-      });
-      for (var a in va) {
-        vv += '<h4 class="showa">' + a + ' (' + va[a].visits.length + ') </h3><div class="hidden">' + JSON.stringify(va[a].visits) + '</div>';
+      if (v.visitors) {
+        var vv = '', va = {};
+        v.visitors.forEach(function(visitor) {
+          var a = va[visitor.member] || { visits: []};
+          a.visits.push(visitor['@timestamp']);
+          va[visitor.member] = a;
+        });
+        for (var a in va) {
+          vv += '<h4 class="showa">' + a + ' (' + va[a].visits.length + ') </h3><div class="hidden">' + JSON.stringify(va[a].visits) + '</div>';
+        }
+        row += '' + vv;
       }
-      row += '<td class="rowVisitors">' + vv + '</td><td class="rowAnnotations">';
+      row += '</td><td class="rowAnnotations">';
       if (v.annotationSummary !== undefined) {
         if (v.annotationSummary.validated > 0) { 
-          row += '<div class="ui tiny green button"><i class="empty checkbox icon"></i> ' + v.annotationSummary.validated + '</div><div class="hidden validatedSummary"></div>';
+          row += '<div class="ui tiny green annotations button"><i class="checked checkbox icon"></i> ' + v.annotationSummary.validated + '</div><div class="hidden validatedSummary"></div>';
         }
         if (v.annotationSummary.unvalidated > 0) { 
-          row += '<div class="ui tiny blue button"><i class="empty checkbox icon"></i> ' + v.annotationSummary.unvalidated + '</div><div class="hidden unvalidatedSummary"></div>';
+          row += '<div class="ui tiny blue annotations button"><i class="empty checkbox icon"></i> ' + v.annotationSummary.unvalidated + '</div><div class="hidden unvalidatedSummary"></div>';
         }
       }
       row += '</td>';
       $('#resultsTable tbody').append(row);
     });
 
-
     $('.selectURI').click(selectedURI);
+    $('.annotations.button').click(selectedURI);
     $('.showa').click(function() {
         $(this).next().toggle();
     });
@@ -120,15 +120,16 @@ function updateResults(results) {
 }
 
 var curURI;
-// display or close uri frame and controls
+// display or close uri controls and frame (for link)
 function selectedURI(ev) {
   updateOptions.call($('#watch'));
   updateOptions.call($('#filter'));
 
   $('.details.sidebar').sidebar('show');
-  var el = $(ev.target);
-  var uri = el.attr('href');
+  var $el = $(this);
+  var uri = decodeURIComponent(encIDs[$el.parents('tr').attr('id')]);
 
+// item options
   $('#pxControls').html(
     '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + uri +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="http://es.wc.zooid.org:9200/ps/contentItem/' + encodeURIComponent(uri) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
       );
@@ -141,10 +142,15 @@ function selectedURI(ev) {
     curURI = uri;
     $('#startingPage').val(uri);
     annotateCurrentURI(uri);
-    $('#preview').remove();
-    el.parent().after('<iframe style="width: 100%" id="preview" src="'+uri+'"></iframe>');
+    if ($el.hasClass('selectURI')) {
+      $('#preview').remove();
+      $el.parent().after('<iframe style="width: 100%" id="preview" src="'+uri+'"></iframe>');
+    }
     $('.details.sidebar').sidebar('show');
   }
   return false;
 }
 
+$('table').on('tablesort:complete', function(event, tablesort) {
+    console.log("Sort finished!");
+});

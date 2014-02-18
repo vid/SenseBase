@@ -124,7 +124,8 @@
 					dots : false,
 					icons : false
 				},
-				selected : []
+				selected : [],
+				last_error : {}
 			}
 		};
 	};
@@ -333,6 +334,11 @@
 		 * @name $.jstree.defaults.core.check_callback
 		 */
 		check_callback	: false,
+		/**
+		 * a callback called with a single object parameter in the instance's scope when something goes wrong (operation prevented, ajax failed, etc)
+		 * @name $.jstree.defaults.core.error
+		 */
+		error			: $.noop,
 		/**
 		 * the open / close animation duration in milliseconds - set this to `false` to disable the animation (default is `200`)
 		 * @name $.jstree.defaults.core.animation
@@ -1030,9 +1036,11 @@
 							}, this))
 						.fail($.proxy(function () {
 								callback.call(this, false);
+								this._data.core.last_error = { 'error' : 'ajax', 'plugin' : 'core', 'id' : 'core_04', 'reason' : 'Could not load node', 'data' : JSON.stringify(s) };
+								this.settings.core.error.call(this, this._data.core.last_error);
 							}, this));
 				}
-				t = ($.isArray(s) || $.isPlainObject(s)) ? $.vakata.json.decode($.vakata.json.encode(s)) : s;
+				t = ($.isArray(s) || $.isPlainObject(s)) ? JSON.parse(JSON.stringify(s)) : s;
 				return callback.call(this, this._append_json_data(obj, t));
 			}
 			if(typeof s === 'string') {
@@ -1133,7 +1141,7 @@
 			if(dat.d) {
 				dat = dat.d;
 				if(typeof dat === "string") {
-					dat = $.vakata.json.decode(dat);
+					dat = JSON.parse(dat);
 				}
 			}
 			if(!$.isArray(dat)) { dat = [dat]; }
@@ -2094,11 +2102,10 @@
 			if(!obj || !obj.length || obj.children('.jstree-hovered').length) {
 				return false;
 			}
-			var o = this.element.find('.jstree-hovered');
+			var o = this.element.find('.jstree-hovered'), t = this.element;
 			if(o && o.length) { this.dehover_node(o); }
 
-			this.element.attr('aria-activedescendant', obj[0].id);
-			obj.attr('aria-selected', true).children('.jstree-anchor').addClass('jstree-hovered');
+			obj.children('.jstree-anchor').addClass('jstree-hovered');
 			/**
 			 * triggered when an node is hovered
 			 * @event
@@ -2106,6 +2113,7 @@
 			 * @param {Object} node
 			 */
 			this.trigger('hover_node', { 'node' : this.get_node(obj) });
+			setTimeout(function () { t.attr('aria-activedescendant', obj[0].id); obj.attr('aria-selected', true); }, 0);
 		},
 		/**
 		 * removes the hover state from a nodecalled when a node is no longer hovered by the user. Used internally.
@@ -2577,7 +2585,7 @@
 		get_json : function (obj, options, flat) {
 			obj = this.get_node(obj || '#');
 			if(!obj) { return false; }
-			if(options.flat && !flat) { flat = []; }
+			if(options && options.flat && !flat) { flat = []; }
 			var tmp = {
 				'id' : obj.id,
 				'text' : obj.text,
@@ -2588,7 +2596,7 @@
 				'data' : options && options.no_data ? false : obj.data
 				//( this.get_node(obj, true).length ? this.get_node(obj, true).data() : obj.data ),
 			}, i, j;
-			if(options.flat) {
+			if(options && options.flat) {
 				tmp.parent = obj.parent;
 			}
 			else {
@@ -2607,12 +2615,12 @@
 					delete tmp.li_attr.id;
 				}
 			}
-			if(options.flat && obj.id !== '#') {
+			if(options && options.flat && obj.id !== '#') {
 				flat.push(tmp);
 			}
 			if(!options || !options.no_children) {
 				for(i = 0, j = obj.children.length; i < j; i++) {
-					if(options.flat) {
+					if(options && options.flat) {
 						this.get_json(obj.children[i], options, flat);
 					}
 					else {
@@ -2620,7 +2628,7 @@
 					}
 				}
 			}
-			return options.flat ? flat : (obj.id === '#' ? tmp.children : tmp);
+			return options && options.flat ? flat : (obj.id === '#' ? tmp.children : tmp);
 		},
 		/**
 		 * create a new node (do not confuse with load_node)
@@ -2672,7 +2680,10 @@
 			}
 			if(pos > par.children.length) { pos = par.children.length; }
 			if(!node.id) { node.id = true; }
-			if(!this.check("create_node", node, par, pos)) { return false; }
+			if(!this.check("create_node", node, par, pos)) {
+				this.settings.core.error.call(this, this._data.core.last_error);
+				return false;
+			}
 			if(node.id === true) { delete node.id; }
 			node = this._parse_model_from_json(node, par.id, par.parents.concat());
 			if(!node) { return false; }
@@ -2727,7 +2738,10 @@
 			obj = this.get_node(obj);
 			if(!obj || obj.id === '#') { return false; }
 			old = obj.text;
-			if(!this.check("rename_node", obj, this.get_parent(obj), val)) { return false; }
+			if(!this.check("rename_node", obj, this.get_parent(obj), val)) {
+				this.settings.core.error.call(this, this._data.core.last_error);
+				return false;
+			}
 			this.set_text(obj, val); // .apply(this, Array.prototype.slice.call(arguments))
 			/**
 			 * triggered when a node is renamed
@@ -2761,7 +2775,10 @@
 			par = this.get_node(obj.parent);
 			pos = $.inArray(obj.id, par.children);
 			c = false;
-			if(!this.check("delete_node", obj, par, pos)) { return false; }
+			if(!this.check("delete_node", obj, par, pos)) {
+				this.settings.core.error.call(this, this._data.core.last_error);
+				return false;
+			}
 			if(pos !== -1) {
 				par.children = $.vakata.array_remove(par.children, pos);
 			}
@@ -2816,18 +2833,31 @@
 				chc = this.settings.core.check_callback;
 			if(chk === "move_node") {
 				if(obj.id === par.id || $.inArray(obj.id, par.children) === pos || $.inArray(par.id, obj.children_d) !== -1) {
+					this._data.core.last_error = { 'error' : 'check', 'plugin' : 'core', 'id' : 'core_01', 'reason' : 'Moving parent inside child', 'data' : JSON.stringify($.makeArray(arguments)) };
 					return false;
 				}
 			}
 			tmp = this.get_node(tmp, true);
 			if(tmp.length) { tmp = tmp.data('jstree'); }
 			if(tmp && tmp.functions && (tmp.functions[chk] === false || tmp.functions[chk] === true)) {
+				if(tmp.functions[chk] === false) {
+					this._data.core.last_error = { 'error' : 'check', 'plugin' : 'core', 'id' : 'core_02', 'reason' : 'Node data prevents function: ' + chk, 'data' : JSON.stringify($.makeArray(arguments)) };
+				}
 				return tmp.functions[chk];
 			}
 			if(chc === false || ($.isFunction(chc) && chc.call(this, chk, obj, par, pos) === false) || (chc && chc[chk] === false)) {
+				this._data.core.last_error = { 'error' : 'check', 'plugin' : 'core', 'id' : 'core_03', 'reason' : 'User config for core.check_callback prevents function: ' + chk, 'data' : JSON.stringify($.makeArray(arguments)) };
 				return false;
 			}
 			return true;
+		},
+		/**
+		 * get the last error
+		 * @name last_error()
+		 * @return {Object}
+		 */
+		last_error : function () {
+			return this._data.core.last_error;
 		},
 		/**
 		 * move a node to a new parent
@@ -2892,7 +2922,10 @@
 					break;
 			}
 			if(pos > new_par.children.length) { pos = new_par.children.length; }
-			if(!this.check("move_node", obj, new_par, pos)) { return false; }
+			if(!this.check("move_node", obj, new_par, pos)) {
+				this.settings.core.error.call(this, this._data.core.last_error);
+				return false;
+			}
 			if(obj.parent === new_par.id) {
 				dpc = new_par.children.concat();
 				tmp = $.inArray(obj.id, dpc);
@@ -3027,7 +3060,10 @@
 					break;
 			}
 			if(pos > new_par.children.length) { pos = new_par.children.length; }
-			if(!this.check("copy_node", obj, new_par, pos)) { return false; }
+			if(!this.check("copy_node", obj, new_par, pos)) {
+				this.settings.core.error.call(this, this._data.core.last_error);
+				return false;
+			}
 			node = old_ins ? old_ins.get_json(obj, { no_id : true, no_data : true, no_state : true }) : obj;
 			if(!node) { return false; }
 			if(node.id === true) { delete node.id; }
@@ -3520,12 +3556,6 @@
 	if($.vakata.browser.msie && $.vakata.browser.version < 8) {
 		$.jstree.defaults.core.animation = 0;
 	}
-	(function ($, undefined) {
-		$.vakata.json = {
-			encode : window.JSON.stringify,
-			decode : window.JSON.parse
-		};
-	}(jQuery));
 
 /**
  * ### Checkbox plugin
@@ -4507,6 +4537,7 @@
 	$(function() {
 		// bind only once for all instances
 		var lastmv = false,
+			laster = false,
 			opento = false,
 			marker = $('<div id="jstree-marker">&#160;</div>').hide().appendTo('body');
 
@@ -4603,7 +4634,10 @@
 										}
 									}
 									ok = ok && ( (ins && ins.settings && ins.settings.dnd && ins.settings.dnd.check_while_dragging === false) || ins.check(op, (data.data.origin && data.data.origin !== ins ? data.data.origin.get_node(data.data.nodes[t1]) : data.data.nodes[t1]), p, ps) );
-									if(!ok) { break; }
+									if(!ok) {
+										if(ins && ins.last_error) { laster = ins.last_error(); }
+										break;
+									}
 								}
 								if(ok) {
 									if(v === 'i' && ref.parent().is('.jstree-closed') && ins.settings.dnd.open_timeout) {
@@ -4612,6 +4646,7 @@
 									lastmv = { 'ins' : ins, 'par' : p, 'pos' : i };
 									marker.css({ 'left' : l + 'px', 'top' : t + 'px' }).show();
 									data.helper.find('.jstree-icon:eq(0)').removeClass('jstree-er').addClass('jstree-ok');
+									laster = {};
 									o = true;
 									return false;
 								}
@@ -4634,12 +4669,21 @@
 				if(opento) { clearTimeout(opento); }
 				if(!data.data.jstree) { return; }
 				marker.hide();
+				var i, j, nodes = [];
 				if(lastmv) {
-					var i, j, nodes = [];
 					for(i = 0, j = data.data.nodes.length; i < j; i++) {
 						nodes[i] = data.data.origin ? data.data.origin.get_node(data.data.nodes[i]) : data.data.nodes[i];
 					}
 					lastmv.ins[ data.data.origin && data.data.origin.settings.dnd.copy && (data.event.metaKey || data.event.ctrlKey) ? 'copy_node' : 'move_node' ](nodes, lastmv.par, lastmv.pos);
+				}
+				else {
+					i = $(data.event.target).closest('.jstree');
+					if(i.length && laster && laster.error && laster.error === 'check') {
+						i = i.jstree(true);
+						if(i) {
+							i.settings.core.error.call(this, laster);
+						}
+					}
 				}
 			})
 			.bind('keyup keydown', function (e, data) {
@@ -4993,11 +5037,16 @@
 			if(!skip_async && a !== false) {
 				if(!a.data) { a.data = {}; }
 				a.data.str = str;
-				return $.ajax(a).done($.proxy(function (d) {
-					if(d && d.d) { d = d.d; }
-					this._data.search.sln = !$.isArray(d) ? [] : d;
-					this._search_load(str);
-				}, this));
+				return $.ajax(a)
+					.fail($.proxy(function () {
+						this._data.core.last_error = { 'error' : 'ajax', 'plugin' : 'search', 'id' : 'search_01', 'reason' : 'Could not load search parents', 'data' : JSON.stringify(a) };
+						this.settings.core.error.call(this, this._data.core.last_error);
+					}, this))
+					.done($.proxy(function (d) {
+						if(d && d.d) { d = d.d; }
+						this._data.search.sln = !$.isArray(d) ? [] : d;
+						this._search_load(str);
+					}, this));
 			}
 			this._data.search.str = str;
 			this._data.search.dom = $();
@@ -5357,7 +5406,7 @@
 		 */
 		this.save_state = function () {
 			var st = { 'state' : this.get_state(), 'ttl' : this.settings.state.ttl, 'sec' : +(new Date()) };
-			$.vakata.storage.set(this.settings.state.key, $.vakata.json.encode(st));
+			$.vakata.storage.set(this.settings.state.key, JSON.stringify(st));
 		};
 		/**
 		 * restore the state from the user's computer
@@ -5366,7 +5415,7 @@
 		 */
 		this.restore_state = function () {
 			var k = $.vakata.storage.get(this.settings.state.key);
-			if(!!k) { try { k = $.vakata.json.decode(k); } catch(ex) { return false; } }
+			if(!!k) { try { k = JSON.parse(k); } catch(ex) { return false; } }
 			if(!!k && k.ttl && k.sec && +(new Date()) - k.sec > k.ttl) { return false; }
 			if(!!k && k.state) { k = k.state; }
 			if(!!k && $.isFunction(this.settings.state.filter)) { k = this.settings.state.filter.call(this, k); }
@@ -5520,9 +5569,11 @@
 					if(chk !== 'move_node' || $.inArray(obj.id, par.children) === -1) {
 						tmp = this.get_rules(par);
 						if(tmp.max_children !== undefined && tmp.max_children !== -1 && tmp.max_children === par.children.length) {
+							this._data.core.last_error = { 'error' : 'check', 'plugin' : 'types', 'id' : 'types_01', 'reason' : 'max_children prevents function: ' + chk, 'data' : JSON.stringify($.makeArray(arguments)) };
 							return false;
 						}
 						if(tmp.valid_children !== undefined && tmp.valid_children !== -1 && $.inArray(obj.type, tmp.valid_children) === -1) {
+							this._data.core.last_error = { 'error' : 'check', 'plugin' : 'types', 'id' : 'types_02', 'reason' : 'valid_children prevents function: ' + chk, 'data' : JSON.stringify($.makeArray(arguments)) };
 							return false;
 						}
 						if(m && obj.children_d && obj.parents) {
@@ -5532,9 +5583,10 @@
 							}
 							d = d - obj.parents.length + 1;
 						}
-						if(d <= 0) { d = 1; }
+						if(d <= 0 || d === undefined) { d = 1; }
 						do {
 							if(tmp.max_depth !== undefined && tmp.max_depth !== -1 && tmp.max_depth < d) {
+								this._data.core.last_error = { 'error' : 'check', 'plugin' : 'types', 'id' : 'types_03', 'reason' : 'max_depth prevents function: ' + chk, 'data' : JSON.stringify($.makeArray(arguments)) };
 								return false;
 							}
 							par = this.get_node(par.parent);
@@ -5628,9 +5680,17 @@
 					return true;
 				case "rename_node":
 				case "copy_node":
-					return ($.inArray(n, c) === -1);
+					i = ($.inArray(n, c) === -1);
+					if(!i) {
+						this._data.core.last_error = { 'error' : 'check', 'plugin' : 'unique', 'id' : 'unique_01', 'reason' : 'Child with name ' + n + ' already exists. Preventing: ' + chk, 'data' : JSON.stringify($.makeArray(arguments)) };
+					}
+					return i;
 				case "move_node":
-					return (obj.parent === par.id || $.inArray(n, c) === -1);
+					i = (obj.parent === par.id || $.inArray(n, c) === -1);
+					if(!i) {
+						this._data.core.last_error = { 'error' : 'check', 'plugin' : 'unique', 'id' : 'unique_01', 'reason' : 'Child with name ' + n + ' already exists. Preventing: ' + chk, 'data' : JSON.stringify($.makeArray(arguments)) };
+					}
+					return i;
 			}
 			return true;
 		};
