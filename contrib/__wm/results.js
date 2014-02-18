@@ -96,7 +96,7 @@ function updateResults(results) {
       row += '<td class="rowVisitors">' + vv + '</td><td class="rowAnnotations">';
       if (v.annotationSummary !== undefined) {
         if (v.annotationSummary.validated > 0) { 
-          row += '<div class="ui tiny green button"><i class="empty checkbox icon"></i> ' + v.annotationSummary.validated + '</div><div class="hidden validatedSummary"></div>';
+          row += '<div class="ui tiny green button"><i class="checked checkbox icon"></i> ' + v.annotationSummary.validated + '</div><div class="hidden validatedSummary"></div>';
         }
         if (v.annotationSummary.unvalidated > 0) { 
           row += '<div class="ui tiny blue button"><i class="empty checkbox icon"></i> ' + v.annotationSummary.unvalidated + '</div><div class="hidden unvalidatedSummary"></div>';
