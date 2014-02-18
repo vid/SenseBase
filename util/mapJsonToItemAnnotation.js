@@ -83,6 +83,8 @@ function mapToItem(item, json) {
 // base annotation
   var cItem = annotations.createContentItem({ title: proto.title, uri: proto.uri, content: proto.content});
 
+  var isVal = true; // TODO func this
+
   // categories first
   for (var a in proto.categories) {
     var def = proto.categories[a];
@@ -91,14 +93,14 @@ function mapToItem(item, json) {
       def.content.forEach(function(category) {
         var level = def.level.slice(0); // copy base level
         level = level.concat(category.split('/'));
-        var a = { hasTarget: cItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level }
+        var a = { hasTarget: cItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level, validated: isVal }
         annos.push(annotations.createAnnotation(a));
       });
 // a single category
     } else {
       var level = def.level.slice(0); // copy base level
       level.push(def.category[0]);
-      annos.push(annotations.createAnnotation({ hasTarget: cItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level }));
+      annos.push(annotations.createAnnotation({ hasTarget: cItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level, validated: isVal }));
     }
   }
   // then vals
@@ -106,7 +108,7 @@ function mapToItem(item, json) {
     var def = proto.vals[a];
     var level = def.level.slice(0);
     level.push(def.category);
-    annos.push(annotations.createAnnotation({ hasTarget: cItem.uri, type: 'value', key: def.key, value: def.value, annotatedBy: proto.annotatedBy, category: level}));
+    annos.push(annotations.createAnnotation({ hasTarget: cItem.uri, type: 'value', key: def.key, value: def.value, annotatedBy: proto.annotatedBy, category: level, validated: isVal}));
   }
   return { contentItem: cItem, annotations: annos };
 }
