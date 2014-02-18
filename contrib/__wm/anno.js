@@ -92,19 +92,16 @@ console.log('byAnno', byAnno);
       }
    }
   });
-console.log(i);
-// init tree filter
-var to = false;
-$('#treeFilter').keyup(function () {
-  if (to) { clearTimeout(to); }
-  to = setTimeout(function () {
-    var v = $('#treeFilter').val();
-    $(curTree).jstree(true).search(v);
-  }, 250);
+  // init tree filter
+  var to = false;
+  $('#treeFilter').keyup(function () {
+    if (to) { clearTimeout(to); }
+    to = setTimeout(function () {
+      var v = $('#treeFilter').val();
+      $(curTree).jstree(true).search(v);
+    }, 250);
+  });
 });
-
-});
-
 
 var encIDs = [];
 // encode a string (URI) for an ID
@@ -136,7 +133,6 @@ console.log('markAnno', startingHTML.substr(start, 90));
 function annotateCurrentURI(u) {
   currentURI = u.replace('#'+currentAnnoName, '').replace(/#$/, '');
 //  addChat('is visiting ' + '<a class="visiting">' + currentURI + '</a>');
-  console.log('resetting to', currentURI);
 }
 $('#updateAnnotations').click(function() {
     annotateCurrentURI(outputDocument.location.toString());

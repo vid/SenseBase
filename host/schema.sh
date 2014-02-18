@@ -12,11 +12,22 @@ curl -XPUT "http://localhost:9200/$1/contentItem/_mapping" -d '
         "index": "not_analyzed", "store" : "yes"
       },
     "properties" : {
-      "@timestamp" : {
+      "timestamp" : {
         "type" : "date",
         "format" : "dateOptionalTime"
       },
       "uri" : {
+        "type" : "string", "index":"not_analyzed", "store" : "yes"
+      }
+    }
+  }
+}'
+
+curl -XPUT "http://localhost:9200/$1/annotation/_mapping" -d '
+{
+  "annotation" : {
+    "properties" : {
+      "flatCategory" : {
         "type" : "string", "index":"not_analyzed", "store" : "yes"
       }
     }
