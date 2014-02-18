@@ -71,7 +71,7 @@ var lastResults;
 function updateResults(results) {
   lastResults = results;
   $('.search.button').animate({opacity: 1}, 500, 'linear');
-  $('#holder').html('<div id="results"><table id="resultsTable" class="ui sortable table segment"><thead><tr><th>Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table></div>');
+  $('#holder').html('<div id="results"><table id="resultsTable" class="ui sortable table segment"><thead><tr><th class="descending">Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table></div>');
   if (results.hits) {
     var count = 0;
     results.hits.hits.forEach(function(r) {
@@ -106,17 +106,24 @@ function updateResults(results) {
       $('#resultsTable tbody').append(row);
     });
 
-    $('.selectURI').click(selectedURI);
-    $('.annotations.button').click(selectedURI);
-    $('.showa').click(function() {
-        $(this).next().toggle();
-    });
     $('#searchCount').html(results.hits.total);
     $('.sortable.table').tablesort();
 
   } else {
     $('#results').html('<i>No items.</i>');
   }
+  setupTable();
+  $('table').on('tablesort:complete', function(event, tablesort) {
+    setupTable();
+  });
+}
+
+function setupTable() {
+  $('.selectURI').click(selectedURI);
+  $('.annotations.button').click(selectedURI);
+  $('.showa').click(function() {
+    $(this).next().toggle();
+  });
 }
 
 var curURI;
@@ -131,7 +138,7 @@ function selectedURI(ev) {
 
 // item options
   $('#pxControls').html(
-    '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + uri +'\')" class="item"><i class="users icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="ESEARCH_URI/contentItem/' + encodeURIComponent(uri) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
+    '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + uri +'\')" class="item"><i class="puzzle piece icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="ESEARCH_URI/contentItem/' + encodeURIComponent(uri) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
       );
   $('.item_options.dropdown').dropdown();
 
@@ -151,6 +158,3 @@ function selectedURI(ev) {
   return false;
 }
 
-$('table').on('tablesort:complete', function(event, tablesort) {
-    console.log("Sort finished!");
-});
