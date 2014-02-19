@@ -5,4 +5,4 @@ src/main/resources/mycoMINE/application-resources/machineLearning/savedFiles/log
 docs/
 reports/
 node_modules/
-
+config.js
