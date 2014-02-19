@@ -58,7 +58,7 @@ fayeClient.subscribe('/updateItem', function(result) {
   } else {
     var i = 0, l = lastResults.hits.hits.length;
     for (i; i < l; i++) {
-      if (lastResults.hits.hits[i]._source.uri === result.fields.uri) {
+      if (lastResults.hits.hits[i]._source.uri === result._source.uri) {
         delete lastResults.hits.hits[i];
         break;
       }
