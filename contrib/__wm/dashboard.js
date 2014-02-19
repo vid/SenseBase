@@ -23,7 +23,7 @@ $(function() {
 
   pxMember = window.pxMember || $.cookie('pxMember');
 //  $('#searchMember').val(pxMember);
-  fayeClient = new Faye.Client('FAYEHOST');
+  fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
   fayeClient.publish('/search', { member: pxMember });
 
   include "results.js"

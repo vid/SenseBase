@@ -8,6 +8,28 @@ module.exports = function(grunt) {
   ];
 
   grunt.initConfig({
+    'string-replace': {
+      domain: {
+        files: {
+          'static/__wm/' : ['static/__wm/*.js', 'static/__wm/*.html']
+        },
+        options: {
+          replacements: [{
+            pattern: /<!-- @var (.*?) -->/g,
+            replacement: function (match, p1, offset, string) {
+              console.log('string-replace', match, p1, rep);
+              var rep = config.config[p1];
+              if (!rep) {
+                console.log('Missing ', p1, ' in config.js');
+                throw 'Missing ' + p1 + ' in config.js';
+              }
+              return rep;
+            }
+          }]
+        }
+      }
+    },
+
     jshint: {
       files: srcFiles
     },
@@ -23,26 +45,6 @@ module.exports = function(grunt) {
       app: {
         files: ['config.js', 'index.js', 'lib/**'],
         tasks: ['develop'],
-      }
-    },
-    'string-replace': {
-      domain: {
-        files: {
-          'static/__wm/' : ['static/__wm/*.js', 'static/__wm/*.html']
-        },
-        options: {
-          replacements: [{
-            pattern: /(DOMAIN|FAYEHOST|HOMEPAGE|ESEARCH_URI)/g,
-            replacement: function (match, p1, offset, string) {
-              var rep = config.config[match];
-              if (!rep) {
-                throw 'Missing ' + match + ' in config.js';
-              }
-              console.log('string-replace', match, p1, rep);
-              return rep;
-            }
-          }]
-        }
       }
     },
     includes: {

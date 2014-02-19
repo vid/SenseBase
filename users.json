@@ -45,7 +45,7 @@
       "id": 3,
       "type": "Agent",
       "username": "Spotlight",
-      "description": "Annotates with DBPedia Spotlight named entities",
+      "description": "Annotates with DBPedia Spotlight",
       "icon": "dbpedia.jpg",
       "activities": [
         {

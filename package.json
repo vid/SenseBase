@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "description": "SenseBase basis for workgroup annotation.",
   "dependencies": {
-    "filter-proxy": "0.0.0",
+    "filter-proxy": "latest",
     "Sentimental": "0.0.4",
     "winston": "~0.7.2",
     "jshint": "~2.4.3",

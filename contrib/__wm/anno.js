@@ -1,6 +1,6 @@
 // General setup and functions
 
-var fayeClient = new Faye.Client('FAYEHOST');
+var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
 var services = [ 'Classify', 'AnnotationSet', 'WikiMeta', 'Spotlight', 'Sentiment'];
 var currentAnnoName = 'currentAnno';
 

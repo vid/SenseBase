@@ -19,22 +19,22 @@ exports.start = function(config) {
   config.users = users;
   config.indexer = require('./lib/indexer.js');
   config.pageCache = require('./lib/pageCache.js');
-  config.prefrontal = require('./lib/auth.js');
-  config.consolidate = { 
+  config.onRequest = require('./lib/auth.js');
+  config.onRetrieve = { 
     process: function(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request) {
       var status = browser_request.proxy_received.statusCode;
       if (status != 200) {
         return;
       }
       // only index HTML with title
-      var m = /<title>(.*)<\/title>/mi.exec(pageBuffer);
+      var m = /<title.*?>(.*)<\/title>/mi.exec(pageBuffer);
       if (m && m[1]) {
         var title = m[1].replace(/<.*?>/g);
         var psMember = browser_request.psMember.username;
         GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
         GLOBAL.config.indexer.saveContentItem({ uri: uri, title: title, member: psMember, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders});
         pubsub.requestAnnotate(uri, pageBuffer);
-      }
+      } 
     }
   }
   // globally shared context
