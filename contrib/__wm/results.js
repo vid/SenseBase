@@ -53,11 +53,15 @@ fayeClient.subscribe('/searchResults', function(results) {
 // add a new or updated item
 fayeClient.subscribe('/updateItem', function(result) {
   console.log('/update', result, lastResults);
-  var i = 0, l = lastResults.hits.hits.length;
-  for (i; i < l; i++) {
-    if (lastResults.hits.hits[i]._source.uri === result.fields.uri) {
-      delete lastResults.hits.hits[i];
-      break;
+  if (!lastResults.hits) {
+    lastResults = { hits: { total : 0, hits: [] } };
+  } else {
+    var i = 0, l = lastResults.hits.hits.length;
+    for (i; i < l; i++) {
+      if (lastResults.hits.hits[i]._source.uri === result.fields.uri) {
+        delete lastResults.hits.hits[i];
+        break;
+      }
     }
   }
   lastResults.hits.hits.unshift(result);
