@@ -34,8 +34,7 @@ var spinner = $(".spinner").spinner({
 
 var ULEN = 70;
 function shortenURI(u) {
-  if (!u) { console.log('NO U', u) };
-  return u.length < ULEN ? u : (u.substring(0, ULEN - 3) + '…' + u.substring(u.length - 3));
+  return (!u || u.length < ULEN) ? u : (u.substring(0, ULEN - 3) + '…' + u.substring(u.length - 3));
 }
 
 function doSearch() {
