@@ -93,7 +93,7 @@ function updateResults(results) {
           va[visitor.member] = a;
         });
         for (var a in va) {
-          vv += '<h4 class="showa">' + a + ' (' + va[a].visits.length + ') </h3><div class="hidden">' + JSON.stringify(va[a].visits) + '</div>';
+          vv += '<h4 class="showa">' + a + ' <a class="ui black circular label">' + va[a].visits.length + '</a> </h3><div class="hidden">' + JSON.stringify(va[a].visits) + '</div>';
         }
         row += '' + vv;
       }
@@ -137,7 +137,6 @@ function selectedURI(ev) {
   updateOptions.call($('#watch'));
   updateOptions.call($('#filter'));
 
-  $('.details.sidebar').sidebar('show');
   var $el = $(this);
   var uri = decodeURIComponent(encIDs[$el.parents('tr').attr('id')]);
 
@@ -151,7 +150,10 @@ function selectedURI(ev) {
   $('.context.dropdown').dropdown();
 
   if (curURI == uri) {
-    $('#preview').toggle();
+    var shown = $('.details.sidebar').sidebar('toggle').hasClass('active');
+    if ($el.hasClass('selectURI')) {
+      $('#preview').toggle(shown);
+    }
   } else {
     fayeClient.publish('/annotate', { uri: uri });
     curURI = uri;

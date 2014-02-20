@@ -133,13 +133,11 @@ console.log('markAnno', startingHTML.substr(start, 90));
   }
 }
 
+// sets the current annotation loc
 function annotateCurrentURI(u) {
   currentURI = u.replace('#'+currentAnnoName, '').replace(/#$/, '');
 //  addChat('is visiting ' + '<a class="visiting">' + currentURI + '</a>');
 }
-$('#updateAnnotations').click(function() {
-    annotateCurrentURI(outputDocument.location.toString());
-});
 
 $('#annoNew').click(function() {
   selectingAnno = true;
