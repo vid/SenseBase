@@ -30,8 +30,9 @@ if (window.parent.location) {
 var annos = fayeClient.subscribe('/annotations', function(annotations) {
   console.log('annotations', annotations);
 // group by annotator
-  var annoBy = {};
+  var annoBy = {}, annoTotal = 0;
   annotations.forEach(function(a) {
+    annoTotal++;
     if (!annoBy[a.annotatedBy]) { annoBy[a.annotatedBy] = []; }
       annoBy[a.annotatedBy].push(a);
   });
@@ -65,6 +66,8 @@ var annos = fayeClient.subscribe('/annotations', function(annotations) {
     byAnno.push({ text: by, id: encID(annoBy[by].hasTarget), children: byInstances});
 console.log('byAnno', byAnno);
   }
+  $('#annotationCount').html(annoTotal);
+
   var curTree = '#annoTree1';
   $('#treeContainer').html('<div id="annoTree1"></div>');
 //  var i = $.jstree.create(curTree, {

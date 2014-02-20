@@ -1,4 +1,4 @@
-body { font-family: sans-serif; font-size: 80% }
+body { font-family: sans-serif; border: 0px; padding: 0px; margin: 0px }
 
 fieldset {
   border: none;

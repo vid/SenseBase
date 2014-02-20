@@ -115,6 +115,7 @@ function updateResults(results) {
 
   } else {
     $('#results').html('<i>No items.</i>');
+    $('#searchCount').html('0');
   }
   setupTable();
   $('table').on('tablesort:complete', function(event, tablesort) {
@@ -141,10 +142,13 @@ function selectedURI(ev) {
   var uri = decodeURIComponent(encIDs[$el.parents('tr').attr('id')]);
 
 // item options
-  $('#pxControls').html(
-    '<div style="float: left; padding: 4px" class="ui left pointing item_options dropdown icon button"><i class="expand icon"></i> <div class="menu"><div class="item"><a target="_link" href="' + uri + '"><i class="external url icon"></i>New window</a></div><div onclick="moreLikeThis(\'' + uri +'\')" class="item"><i class="puzzle piece icon"></i>More like this</div> <div class="item"><i class="delete icon"></i>Remove</div> <div class="item"><a target="_debug" href="<!-- @var ESEARCH_URI -->/contentItem/' + encodeURIComponent(uri) + '?pretty=true"><i class="bug icon"></i>Debug</a></div></div></div>'
-      );
-  $('.item_options.dropdown').dropdown();
+  $('#itemContext').html(
+    '<div class="item"><a target="' + encodeURIComponent(uri) + '" href="' + uri + '"><i class="external url icon"></i>New window</a></div>' + 
+    '<div onclick="moreLikeThis(\'' + uri +'\')" class="item"><i class="puzzle piece icon"></i>More like this</div>' +
+    '<div class="item"><i class="delete icon"></i>Remove</div>' +
+    '<div class="item"><a target="_debug" href="<!-- @var ESEARCH_URI -->/contentItem/' + encodeURIComponent(uri) + '?pretty=true"><i class="bug icon"></i>Debug</a></div>'
+    );
+  $('.context.dropdown').dropdown();
 
   if (curURI == uri) {
     $('#preview').toggle();
