@@ -20,7 +20,7 @@ exports.start = function(config) {
   config.indexer = require('./lib/indexer.js');
   config.pageCache = require('./lib/pageCache.js');
   config.onRequest = require('./lib/auth.js');
-  config.onRetrieve = { 
+  config.onRetrieve = {
     process: function(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request) {
       var status = browser_request.proxy_received.statusCode;
       if (status != 200) {
@@ -36,6 +36,13 @@ exports.start = function(config) {
         pubsub.requestAnnotate(uri, pageBuffer);
       } 
     }
+  }
+  config.inject = function(content) {
+    if (content.toString().match(/<\/body/im)) {
+      GLOBAL.debug('injecting iframe');
+      content = content.toString().replace(/<\/body/im, '<iframe style="width: 1px; height: 1px" src="/__wm/iframe.html"></iframe></body');
+    }
+    return content;
   }
   // globally shared context
   GLOBAL.config = config;
