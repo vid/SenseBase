@@ -3,10 +3,11 @@ var justEdited, rTeams, editingMember;
 fayeClient.subscribe('/teamList', function(teams) {
   $('#aneditor').hide();
   console.log('teams', teams);
-  $('#teamList').html('<form><table cellspacing="10" id="teamMembers"><tr id="teamMembers"></tr></table></form>');
   teams.forEach(function(m) {
-   $('#teamMembers').append('<td class="teamselect" id="member_' + m.username + '">' + (m.icon ? '<img src="/__wm/icons/' + m.icon + '">' : '') + '</td>');
+    var row = '<button class="ui small ' + (m.status === 'available' ? 'enabled' : 'disabled') + ' attached button">' +
+      '<img class="image '  + '" src="/__wm/icons/' + (m.icon || 'mesh.png') + '" alt="' + m.username + '" /></button>';
 //'<br />' + m.username + '<br />' + m.type + (m.description ? m.description : '') + '</td>');
+    $('.teamlist.buttons').prepend(row);
   });
  $('#newName').val(''); 
  $('#newEmail').val('');

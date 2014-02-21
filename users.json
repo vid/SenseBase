@@ -19,7 +19,8 @@
       "description": "",
       "canApprove": false,
       "needsValidation": false,
-      "canValidate": true
+      "status" : "available",
+			"canValidate": true
     },
     {
       "id": 2,
@@ -38,8 +39,9 @@
         }
       ],
       "description": "",
-      "needsValidation": false,
-      "canValidate": true
+			"needsValidation": false,
+      "status" : "available",
+			"canValidate": true
     },
     {
       "id": 3,
@@ -52,7 +54,8 @@
           "annotate": "default"
         }
       ],
-      "needsValidation": true
+      "status" : "available",
+			"needsValidation": true
     },
     {
       "id": 4,
@@ -65,7 +68,8 @@
           "annotate": "default"
         }
       ],
-      "needsValidation": true
+      "status" : "available",
+			"needsValidation": true
     },
     {
       "id": 5,
@@ -78,20 +82,8 @@
           "annotate": "true"
         }
       ],
-      "needsValidation": false
-    },
-    {
-      "id": 6,
-      "type": "Agent",
-      "username": "Carrot2",
-      "description": "Tags documents by clustering",
-      "icon": "carrot2.png",
-      "activities": [
-        {
-          "annotate": "true"
-        }
-      ],
-      "needsValidation": true
+      "status" : "unavailable",
+			"needsValidation": false
     },
     {
       "id": 7,
@@ -105,7 +97,8 @@
         }
       ],
       "description": "",
-      "needsValidation": true
+      "status" : "unavailable",
+			"needsValidation": true
     },
     {
       "id": 8,
@@ -118,7 +111,8 @@
           "annotate": true
         }
       ],
-      "needsValidation": true
+      "status" : "unavailable",
+			"needsValidation": true
     },
     {
       "id": 9,
@@ -131,7 +125,8 @@
           "annotate": true
         }
       ],
-      "needsValidation": true
+      "status" : "available",
+			"needsValidation": true
     },
     {
       "id": 10,
@@ -144,7 +139,8 @@
           "annotate": true
         }
       ],
-      "needsValidation": true
+      "status" : "unavailable",
+			"needsValidation": true
     },
     {
       "id": 11,
@@ -161,7 +157,8 @@
           "search": "default"
         }
       ],
-      "needsValidation": true
+      "status" : "unavailable",
+			"needsValidation": true
     },
     {
       "id": 12,
@@ -178,7 +175,8 @@
           "storage": "default"
         }
       ],
-      "needsValidation": false
+      "status" : "available",
+			"needsValidation": false
     },
     {
       "id": 1385077650918,
@@ -188,7 +186,9 @@
       "description": "",
       "positiveTerms": "respiratory depression\nconfusion\nhallucinations\ndelirium\nurticaria\nhypothermia\nbradycardia/tachycardia\northostatic hypotension\ndizziness\nheadache\nurinary retention\nbiliary spasm\nureteric spasm\nmuscle rigidity\nmyoclonus\nflushing",
       "negativeTerms": "",
-      "needsValidation": false
+      "status" : "available",
+      "icon": "annoset.png",
+			"needsValidation": false
     },
     {
       "id": 1385085182841,
@@ -196,8 +196,10 @@
       "username": "Common Adverse Effects to Opioid Use",
       "type": "Annotation set",
       "description": "",
-      "needsValidation": false,
+      "status" : "available",
+			"needsValidation": false,
       "positiveTerms": "sedation, sedated\nconstipation, constipated\nsense of euphoria, euphoric\ncough suppression, coughing\nnausea, nauseous\nvomiting, vomit\ndrowsiness, drowsy\nitching, itch\ndry mouth\nmiosis\nOpioid dependence\nwithdrawal syndrome",
+      "icon": "annoset.png",
       "negativeTerms": ""
     },
     {
@@ -206,13 +208,17 @@
       "username": "scraper",
       "type": "Scraper",
       "description": "",
-      "needsValidation": false,
+      "status" : "available",
+			"needsValidation": false,
+      "icon": "annoset.png",
       "password": "scraper"
     },
     {
       "id": 1386283338864,
       "active": "2013-12-05T22:42:18.864Z",
       "username": "Triage",
+      "icon": "annoset.png",
+			"needsValidation": false,
       "type": "Annotation set"
     }
   ]
