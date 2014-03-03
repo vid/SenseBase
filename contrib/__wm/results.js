@@ -138,7 +138,7 @@ function selectedURI(ev) {
   updateOptions.call($('#filter'));
 
   var $el = $(this);
-  var uri = decodeURIComponent(encIDs[$el.parents('tr').attr('id')]);
+  var uri = decodeURIComponent(deEncID($el.parents('tr').attr('id')));
 
 // item options
   $('#itemContext').html(

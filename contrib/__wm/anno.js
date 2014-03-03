@@ -38,23 +38,22 @@ var annos = fayeClient.subscribe('/annotations', function(annotations) {
   var byAnno = [];
   for (var by in annoBy) {
     var byInstances = [];
+    var id = 0;
     annoBy[by].forEach(function(ann) {
-      var id = encID(ann.hasTarget);
-      var instances = [];
       if (ann.type === 'quote') {
         var instances = [];
         ann.ranges.forEach(function(r) {
-          instances.push({ type: 'range', text: r.exact, id: id });
+          instances.push({ type: 'range', text: r.exact, id: id++ });
         });
-        byInstances.push({ type: 'quote', text: ann.quote, id: id, children : instances});
+        byInstances.push({ type: 'quote', text: ann.quote, id: id++, children : instances});
       } else if (ann.type === 'value') {
-        byInstances.push({ type: 'value', text: ann.key + ':' + ann.value, id: id});
+        byInstances.push({ type: 'value', text: ann.key + ':' + ann.value, id: id++});
       } else if (ann.type === 'category') {
         var last = null, first = null, cats = ann.category, c;
 // break out category levels
         while (c = cats.shift()) {
-          var me = { type: 'category', text: c, id: id, children: []};
-          if (!first) { first = me } else { last.children.push(me);}
+          var me = { type: 'category', text: c, id: id++, children: []};
+          if (!first) { first = me; } else { last.children.push(me);}
           last = me;
         }
         byInstances.push(first);
@@ -62,15 +61,14 @@ var annos = fayeClient.subscribe('/annotations', function(annotations) {
        console.log('unknown type', type);
       }
     });
-    byAnno.push({ text: by, id: encID(annoBy[by].hasTarget), children: byInstances});
+    byAnno.push({ text: by, id: id++, children: byInstances});
 console.log('byAnno', byAnno);
   }
   $('#annotationCount').html(annoTotal);
 
-  var curTree = '#annoTree1';
-  $('#treeContainer').html('<div id="annoTree1"></div>');
+  $('#treeContainer').html('<div id="annoTree"></div>');
 //  var i = $.jstree.create(curTree, {
-    $(curTree).jstree({
+    $('#annoTree').jstree({
     'core' : { data: byAnno },
     "plugins" : [ "search", "types", "wholerow" ],
     "types" : {
@@ -100,7 +98,7 @@ console.log('byAnno', byAnno);
     if (to) { clearTimeout(to); }
     to = setTimeout(function () {
       var v = $('#treeFilter').val();
-      $(curTree).jstree(true).search(v);
+      $('#annoTree').jstree(true).search(v);
     }, 250);
   });
 });
@@ -108,7 +106,11 @@ console.log('byAnno', byAnno);
 var encIDs = [];
 // encode a string (URI) for an ID
 function encID(c) {
-  return (encIDs.indexOf(c) > -1 ? encIDs.indexOf(c) : encIDs.push(c) - 1);
+  return 'enc' + (encIDs.indexOf(c) > -1 ? encIDs.indexOf(c) : encIDs.push(c) - 1);
+}
+
+function deEncID(c) {
+  return encIDs[c.replace('enc', '')];
 }
 
 // offset for agent automation

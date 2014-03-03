@@ -1,4 +1,4 @@
-fayeClient.publish('/savedScrapes', { member: pxMember });
+fayeClient.publish('/savedScrapes', { member: sbUser });
 
 fayeClient.subscribe('/scrapesResults', function(results) {
   console.log('scrapesResults', results);
