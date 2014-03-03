@@ -36,7 +36,7 @@
     "grunt-mocha-test": "~0.8.2",
     "grunt-docco2": "~0.1.5",
     "grunt-plato": "~0.2.1",
-    "xunit-file": "0.0.4",
+    "xunit-file": "0.0.4"
   },
   "scripts": {
     "test": "mocha test"
