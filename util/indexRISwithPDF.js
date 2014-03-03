@@ -1,15 +1,24 @@
-var maxProcess = 999999;
+var maxProcess = 9e9;
 
+// import RIS items with attached PDFs
+
+// where PDFs are stored
 var pdfBase = process.argv[2];
+// where pdfs converted to html are stored
 var htmlBase = process.argv[3];
-var src = process.argv[3];
+var src = process.argv[4];
+// default root for keywords
+var catRoot = process.argv[5];
+
+var myUser = 'indexRISwithPDF';
 
 var fs = require('fs');
 var cheerio = require("cheerio");
-require('../config.js');
+GLOBAL.config = require('../config.js').config;
 var indexer = require('../lib/indexer.js');
+var annotations = require('../lib/annotations.js');
 
-var risMapping = require('./risMapping.json');
+var risMapping = require(__dirname + '/risMapping.json');
 
 var risLines = fs.readFileSync(src).toString().split(/\n/);
 
@@ -57,17 +66,21 @@ while (risLines.length && processed < maxProcess) { // or until we find an item
   }
 }
 
-indexer.index({ _index: GLOBAL.config.ESEARCH._index, _type: 'contentItem'}, bulk, function(err, foo) {
-    if (err) {
-        throw "Bulk error " + err;
-    } else {
-        console.log('bulk done', foo);
-    }
+bulk.forEach(function(b) {
+  var cItem = b.cItem;
+  var annos = b.annotations;
+  indexer._saveContentItem(cItem, checkError);
+  indexer.saveAnnotations(cItem.uri, annos, checkError);
 });
+
+function checkError(err, data) {
+  if (err) {
+    console.log('save error', err);
+  }
+}
 
 // try to add content from HTML
 function processItem(cur) {
-  var a = [ { "ranges": "item", "quote": { "label": cur.filename, "value": cur.title }, "created": "2014-01-04T01:56:42.127Z", "creator": "indexRISwithPDF" }, { "ranges": "item", "quote": { "label": "Keywords", "value": cur.keyword }, "created": "2014-01-04T01:56:42.127Z", "creator": "indexRISwithPDF" } ];
 
   if (cur.language) {
     cur.language = cur.language.map(function(i) { return i.substring(0, 2).toLowerCase(); });
@@ -84,7 +97,11 @@ function processItem(cur) {
 
   cur.content = content.toString().replace(/<.*?>/g,'');
   cur.uri = 'file://' + pdfBase + cur.fileName;
-//  var e = indexer.getEsDoc('http://dashboard.fg.zooid.org/pdf/' + cur.fileName, cur.title, 'demo', null, true, cur.content, "text/pdf", null, a);
-  e.fileName = cur.fileName;
-  return e;
+  var loc = GLOBAL.config.HOMEPAGE + '/files/' + cur.fileName;
+  var cItem = annotations.createContentItem({ uri: loc, title: cur.title, visitors: [{member: myUser, '@timestamp' : new Date().toISOString()} ], content: cur.content});
+  var annos = [];
+  cur.keyword.toString().split(',').forEach(function(k) {
+    annos.push(annotations.createAnnotation({hasTarget: loc, type: 'category', category: (catRoot ? [catRoot, k] : [k]), annotatedBy: myUser}));
+  });
+  return { cItem: cItem, annotations: annos};
 }
