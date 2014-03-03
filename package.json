@@ -19,7 +19,8 @@
     "passport": "0.2.x",
     "passport-local": "0.1.x",
     "request": "2.33.x",
-    "require-analyzer": "0.5.x"
+    "require-analyzer": "0.5.x",
+    "cheerio": "~0.13.1"
   },
   "main": "index.js",
   "devDependencies": {

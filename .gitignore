@@ -6,3 +6,5 @@ docs/
 reports/
 node_modules/
 config.js
+uploads/
+bower_components/
