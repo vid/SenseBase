@@ -43,7 +43,7 @@ module.exports = function(grunt) {
         },
       },
       app: {
-        files: ['config.js', 'index.js', 'lib/**'],
+        files: ['config.js', 'app.js', 'index.js', 'lib/**'],
         tasks: ['develop'],
       }
     },
@@ -60,12 +60,12 @@ module.exports = function(grunt) {
     },
     develop: {
       server: {
-        file: 'index.js',
+        file: 'app.js',
       }
     },
     forever: {
       options: {
-        index: 'index.js',
+        index: 'app.js',
       }
     },
     mochaTest: {

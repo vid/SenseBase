@@ -36,14 +36,14 @@ exports.start = function(config) {
         pubsub.requestAnnotate(uri, pageBuffer);
       } 
     }
-  }
+  };
   config.inject = function(content) {
     if (content.toString().match(/<\/body/im)) {
       GLOBAL.debug('injecting iframe');
       content = content.toString().replace(/<\/body/im, '<iframe style="width: 1px; height: 1px" src="/__wm/iframe.html"></iframe></body');
     }
     return content;
-  }
+  };
   // globally shared context
   GLOBAL.config = config;
   pubsub = require('./lib/pubsub.js');
@@ -114,7 +114,10 @@ exports.start = function(config) {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(app.router);
-    app.use(express.static('static'));
+    app.use('/lib', express.static(__dirname + '/bower_components'));
+    app.use('/files', express.static(GLOBAL.config.uploadDirectory));
+    app.use('/__wm', express.static(__dirname + '/static/__wm'));
+
     app.enable('trust proxy');
   });
   
@@ -192,5 +195,4 @@ exports.start = function(config) {
   
   repl = require("repl");
   r = repl.start({ prompt: GLOBAL.config.project + "> ", useGlobal: true});
-}
-  
+};

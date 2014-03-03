@@ -19,7 +19,7 @@
     "passport": "0.2.x",
     "passport-local": "0.1.x",
     "request": "2.33.x",
-    "require-analyzer": "0.5.x"
+    "require-analyzer": "0.5.x",
   },
   "main": "index.js",
   "devDependencies": {
@@ -36,7 +36,7 @@
     "grunt-mocha-test": "~0.8.2",
     "grunt-docco2": "~0.1.5",
     "grunt-plato": "~0.2.1",
-    "xunit-file": "0.0.4"
+    "xunit-file": "0.0.4",
   },
   "scripts": {
     "test": "mocha test"
