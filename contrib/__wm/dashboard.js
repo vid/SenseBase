@@ -1,6 +1,20 @@
-var pxMember;
+var sbUser;
 
+var mainSize = 0, fluidSizes = ['five', 'six', 'seven']; // fluid sizes for main ui
 $(function() {
+  if (window.senseBase.logo) {
+    $('<button style="height: 56px" title="Logo" class="ui mini logo attached button"> <img src="' + window.senseBase.logo + '" style="width: 100%" /></button>').prependTo('.main.fluid.buttons');
+    $('.ui.logo.button').click(function() { window.location = window.senseBase.homepage;  });
+    mainSize++;
+  }
+  if (window.senseBase.collab) {
+    $('<button title="Conversations" class="ui large collab attached button"><i class="large chat icon"></i></button>').appendTo('.main.fluid.buttons');
+    $('.ui.collab.button').click(function() { TogetherJS(this); return false; });
+    mainSize++;
+  }
+
+  $('.main.fluid.buttons').addClass(fluidSizes[mainSize]);
+
   $('.ui.accordion').accordion();
   $('.details.sidebar').sidebar('hide', { overlay: true});
   $('.sidebar').sidebar();
@@ -23,10 +37,10 @@ $(function() {
     }
   }
 
-  pxMember = window.pxMember || $.cookie('pxMember');
-//  $('#searchMember').val(pxMember);
+  sbUser = window.senseBase.user || $.cookie('sbUser');
+//  $('#searchUser').val(sbUser);
   fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
-  fayeClient.publish('/search', { member: pxMember });
+  fayeClient.publish('/search', { user: sbUser });
 
   include "results.js"
   include "users.js"
@@ -40,7 +54,7 @@ function moreLikeThis(uri) {
 
 function addChat(msg) {
   var n = new Date();
-  $('#collabStream').append('<span style="width: 10em; color: green">' + n.getHours() + ":"  + n.getMinutes() + ":" + n.getSeconds() + '</span> ' + pxMember  + ' <i>' + msg + '</i><br />');
+  $('#collabStream').append('<span style="width: 10em; color: green">' + n.getHours() + ":"  + n.getMinutes() + ":" + n.getSeconds() + '</span> ' + sbUser  + ' <i>' + msg + '</i><br />');
   $('.visiting').click(function(t) {
     annotateCurrentURI($(this).text());
   });
@@ -52,7 +66,7 @@ $('#searchForm').submit(function(event) {
   event.preventDefault();
   var search = { terms : $('#termSearch').val(), annotations : $('#annoSearch').val(), 
     from: $('#fromDate').val(), to: $('#toDate').val(),
-    member: $('#searchMember').val() };
+    user: $('#searchUser').val() };
   fayeClient.publish('/search', search); 
 });
 
@@ -96,23 +110,5 @@ if (isScraper) {
     }, 1000);
   }
 }
-var teams = [ {people : [
-    { name : 'Andy', icon: 'demo.png', activities : [{annotate : 'default'}, { search : true}]}
-    , { name : 'Betty', icon: 'manager.png', activities : [{annotate : 'default'}, { search : true}]}
-  ]}, 
-  { services : [
-    { name:'Spotlight', icon:'dbpedia.jpg', active:true, activities : [{annotate : 'default'}]}
-    , { name : 'Sentiment', icon : 'sentiment.jpg', activities : [{annotate:'default'}]}
-    , { name : 'WikiMeta', icon : 'wikimeta.png', activities : [{annotate:'true'}]}
-    , { name : 'Carrot2', icon : 'carrot2.png', activities : [{annotate:'true'}]}
-    , { name : 'Board members', icon : 'board.jpg', activities : [{annotate : true}]}
-    , { name : 'MicroRDF', icon: 'rdf.png', activities : [{annotate: true}]} 
-    , { name : 'MycoMine', icon : 'mycomine_logo.png', activities : [{annotate:true}]} 
-    , { name : 'GATE', icon : 'gate.jpg', activities : [{annotate:true}]} 
-    , { name : 'DC', icon: 'dublin_core.png', activities : [{annotate:'true'}, { search : 'default'}]} 
-    , { name : 'ElasticSearch', icon : 'esearch.png', activities : [{search : 'default'}, {storage: 'default'}]} 
-  ]}
-]
-
 
 

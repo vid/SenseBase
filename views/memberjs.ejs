@@ -1,8 +1,17 @@
 <% if (!user) { %>
   window.location = '/login';
 <% } else { %>
-  window.pxMember = '<%= user.username %>';
-  window.pxScraper = <%= user.type == 'Scraper' %>;
+  var senseBase = {
+    user : '<%= user.username %>',
+  <% if (logo) { %>
+    logo : '<%= logo %>',
+    homepage : '<%= homepage %>',
+  <% } %>
+  <% if (collab) { %>
+    collab : true,
+  <% } %>
+    isScraper : <%= user.type == 'Scraper' %>
+  }
 <% } %>
 
 

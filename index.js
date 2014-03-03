@@ -145,7 +145,7 @@ exports.start = function(config) {
   
   // used by client for identity
   app.get('/member.js', function(req, res) {
-    res.render('memberjs', { user: req.user });
+    res.render('memberjs', { user: req.user, collab: GLOBAL.config.collab, logo: GLOBAL.config.logo, homepage: GLOBAL.config.homepage });
   });
   
   app.get('/login', function(req, res){

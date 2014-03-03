@@ -17,9 +17,8 @@ if (!$enclosure.length) { // We are not running as iframe
   parent.window.annotateCurrentURI = annotateCurrentURI;
 }
 
-var pxMember = parent.window.pxMember;
-var isScraper = pxMember == 'scraper' || parent.window.pxScraper;
-$('#pxMember').html(pxMember);
+var sbUser = parent.window.senseBase.user;
+var isScraper = sbUser == 'scraper' || parent.window.senseBase.isScraper;
 
 // incrementor
 if (window.parent.location) {
@@ -152,7 +151,7 @@ $('#annoCancel').click(function() {
 });
 
 $('#annoSave').click(function() {
-  var annos = [ { quote: $('#annoQuote').val(), value : $('#annoValue').val(), types: $('#types').val(), description: $('#annoDesc').val(), validated: true, creator: pxMember } ];
+  var annos = [ { quote: $('#annoQuote').val(), value : $('#annoValue').val(), types: $('#types').val(), description: $('#annoDesc').val(), validated: true, creator: sbUser } ];
   fayeClient.publish('/saveAnnotations', { uri: currentURI, annotations: annos });
   return false;
 });
