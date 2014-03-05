@@ -6,19 +6,30 @@ var currentAnnoName = 'currentAnno';
 
 var outputDocument = parent.document;
 var $enclosure = $('#ipxContent', outputDocument);
-var startingHTML = $enclosure.html().toString();
 
-if (!$enclosure.length) { // We are not running as iframe
-  console.log('enclosure is pxContent');
-  $enclosure = $('#pxContent', outputDocument);
-  outputDocument = preview;
+var sbUser, isScraper;
+
+(function() {
+// We are not running as iframe
+if ($enclosure.length) { 
+  console.log('operating in dashboard');
+  $enclosure = $('#pxContent', outputDocument); 
+  sbUser = parent.window.senseBase.user;
 } else {
-  console.log('enclosure is parent');
+  if (window.parent.location.pathname.indexOf('/__wm/iframe.html') === 0) {
+    console.log('asset bailing');
+    return;
+  } 
+  sbUser = window.senseBase.user;
+  isScraper = sbUser == 'scraper' || window.senseBase.isScraper;
+  console.log('operating in iframe', window.parent.location);
   parent.window.annotateCurrentURI = annotateCurrentURI;
+  $('body', outputDocument).prepend('<div style="z-index: 999; position: fixed; right: 1em; top: 0; background: orange"><[<span id="annotationCount"></span>]' +
+     (isScraper ? '<img src="/__wm/icons/scraper.png" alt="Scraper" />' : '') +
+     '<div id="treeContainer"></div>' + '</div>');
+  fayeClient.publish('/annotate', { uri: window.parent.location.href} );
 }
-
-var sbUser = parent.window.senseBase.user;
-var isScraper = sbUser == 'scraper' || parent.window.senseBase.isScraper;
+//var startingHTML = $enclosure.html().toString();
 
 // incrementor
 if (window.parent.location) {
@@ -102,16 +113,6 @@ console.log('byAnno', byAnno);
     }, 250);
   });
 });
-
-var encIDs = [];
-// encode a string (URI) for an ID
-function encID(c) {
-  return 'enc' + (encIDs.indexOf(c) > -1 ? encIDs.indexOf(c) : encIDs.push(c) - 1);
-}
-
-function deEncID(c) {
-  return encIDs[c.replace('enc', '')];
-}
 
 // offset for agent automation
 var annoOffset = -816; 
@@ -212,5 +213,17 @@ function setAnnotation(selected) {
 function clearAnno() {
   setAnnotation({});
   $enclosure.html(startingHTML);
+}
+
+}());
+
+var encIDs = [];
+// encode a string (URI) for an ID
+function encID(c) {
+  return 'enc' + (encIDs.indexOf(c) > -1 ? encIDs.indexOf(c) : encIDs.push(c) - 1);
+}
+
+function deEncID(c) {
+  return encIDs[c.replace('enc', '')];
 }
 
