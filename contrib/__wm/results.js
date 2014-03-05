@@ -75,15 +75,17 @@ var lastResults;
 function updateResults(results) {
   lastResults = results;
   $('.search.button').animate({opacity: 1}, 500, 'linear');
-  $('#holder').html('<div id="results"><table id="resultsTable" class="ui sortable table segment"><thead><tr><th class="descending">Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table></div>');
+  $('#holder').html('<div id="results"><table id="resultsTable" class="ui sortable table segment"><thead><tr><th class="descending">' +
+    'Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table></div>');
   if (results.hits) {
     var count = 0;
     results.hits.hits.forEach(function(r) {
       var v = r.fields || r._source;
-      var row = '<tr id="' + encID(v.uri) + '"><td>' + (r._score ? r._score : ++count) + '</td><td>' +
+      var rankVal = r._score ? r._score : ++count;
+      var row = '<tr id="' + encID(v.uri) + '"><td data-sort-value="' + rankVal + '"><input class="selectItem" type="checkbox" name="cb_' + encID(v.uri) + '" />' + rankVal + '</td><td data-sort-value="' + v.title + '">' +
         '<div><a target="_link" href="' + v.uri + '"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' + 
         '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div>'+
-	'</td><td class="rowVisitors">';
+	'</td><td class="rowVisitors" data-sort-value="' + (v.visitors ? v.visitors.length : 0) + '">';
       // roll up visitors
       if (v.visitors) {
         var vv = '', va = {};
@@ -129,6 +131,18 @@ function setupTable() {
   $('.showa').click(function() {
     $(this).next().toggle();
   });
+  $('.selectItem').click(checkSelected);
+}
+
+function checkSelected() {
+  var hasSelected = 0;
+  $('.selectItem').each(function() {
+    if ($(this).is(':checked')) {
+      hasSelected++;
+    }
+  });
+  $('.selected.menu').toggle(hasSelected > 0);
+  $('.selected.label').html(hasSelected);
 }
 
 var curURI;
@@ -144,7 +158,7 @@ function selectedURI(ev) {
   $('#itemContext').html(
     '<div class="item"><a target="' + encodeURIComponent(uri) + '" href="' + uri + '"><i class="external url icon"></i>New window</a></div>' + 
     '<div onclick="moreLikeThis(\'' + uri +'\')" class="item"><i class="puzzle piece icon"></i>More like this</div>' +
-    '<div class="item"><i class="delete icon"></i>Remove</div>' +
+    '<div class="item"><i class="delete icon"></i>Delete</div>' +
     '<div class="item"><a target="_debug" href="<!-- @var ESEARCH_URI -->/contentItem/' + encodeURIComponent(uri) + '?pretty=true"><i class="bug icon"></i>Debug</a></div>'
     );
   $('.context.dropdown').dropdown();

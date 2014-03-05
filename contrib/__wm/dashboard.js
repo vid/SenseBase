@@ -27,6 +27,21 @@ $(function() {
 
   $('.ui.checkbox').checkbox({onChange : updateOptions});
   $(document).tooltip();
+  $('.delete.item').click(function() {
+    $('.ui.modal').modal('show');
+  });
+
+  $('.selectall.item').click(function() {
+    $('.selectItem').prop('checked', true);
+    checkSelected();
+  });
+
+  $('.invert.item').click(function() {
+    $('.selectItem').each(function() {
+      $(this).prop('checked', !$(this).prop('checked'));
+    });
+    checkSelected();
+  });
 
   function updateOptions() {
     console.log($(this).attr('id'), $(this).is(':checked'));
