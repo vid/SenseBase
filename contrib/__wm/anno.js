@@ -1,9 +1,9 @@
 
-var currentAnnoName = 'currentAnno';
+var isScraper, currentAnnoName = 'currentAnno';
+var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
 (function() {
 // General setup and functions
 
-var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
 
 // what are we interacting withkkk
 var outputDocument = parent.document;
@@ -13,7 +13,6 @@ var sbUser, isScraper;
 // We are not running as iframe
 if ($enclosure.length) { 
   console.log('operating in dashboard');
-  $enclosure = $('#pxContent', outputDocument); 
   sbUser = parent.window.senseBase.user;
 } else {
   if (window.parent.location.pathname.indexOf('/__wm/iframe.html') === 0) {
@@ -74,11 +73,10 @@ var annos = fayeClient.subscribe('/annotations', function(annotations) {
         }
         byInstances.push(first);
       } else {
-       console.log('unknown type', type);
+       console.log('unknown type', ann.type);
       }
     });
     byAnno.push({ text: by, id: id++, children: byInstances});
-console.log('byAnno', byAnno);
   }
   $('#annotationCount', outputDocument).html(annoTotal);
 
@@ -107,15 +105,7 @@ console.log('byAnno', byAnno);
       }
    }
   });
-  // init tree filter
-  var to = false;
-  $('#treeFilter').keyup(function () {
-    if (to) { clearTimeout(to); }
-    to = setTimeout(function () {
-      var v = $('#treeFilter').val();
-      $('#annoTree').jstree(true).search(v);
-    }, 250);
-  });
+  console.log('treeAnnos', byAnno);
 });
 
 // offset for agent automation
@@ -152,8 +142,11 @@ $('#annoCancel').click(function() {
 });
 
 $('#annoSave').click(function() {
-  var annos = [ { quote: $('#annoQuote').val(), value : $('#annoValue').val(), types: $('#types').val(), description: $('#annoDesc').val(), validated: true, creator: sbUser } ];
-  fayeClient.publish('/saveAnnotations', { uri: currentURI, annotations: annos });
+  // FIXME: use lib/annotations
+    var anno = { type: $('#annoType').val(), hasTarget: currentURI, annotatedBy : sbUser, category: $('#annoValue').val().split('|') };
+
+//  var annos = [ { annotatedBy: sbUser, quote: $('#annoQuote').val(), value : $('#annoValue').val(), type: $('#annoType').val(), description: $('#annoDesc').val(), validated: true, creator: sbUser } ];
+  fayeClient.publish('/saveAnnotations', { uri: currentURI, annotations: [anno] });
   return false;
 });
 

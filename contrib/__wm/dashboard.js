@@ -24,6 +24,7 @@ $(function() {
   $('.ui.lab.button').click(function() { $('.lab.content').toggle('hidden');$('ui.lab.button').toggleClass('active');  });
   $('.ui.settings.button').click(function() { $('.settings.content').toggle('hidden');$('ui.scrape.button').toggleClass('active');  });
   $('.ui.details.button').click(function() { $('.details.sidebar').sidebar('hide', { overlay: true}); return false;});
+  $('.ui.add.button').click(function() { $('#annotateEditor').toggle(); return false;});
 
   $('.ui.checkbox').checkbox({onChange : updateOptions});
   $(document).tooltip();
