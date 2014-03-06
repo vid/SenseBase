@@ -135,12 +135,6 @@ console.log('markAnno', startingHTML.substr(start, 90));
   }
 }
 
-// sets the current annotation loc
-function annotateCurrentURI(u) {
-  currentURI = u.replace('#'+currentAnnoName, '').replace(/#$/, '');
-//  addChat('is visiting ' + '<a class="visiting">' + currentURI + '</a>');
-}
-
 $('#annoNew').click(function() {
   selectingAnno = true;
   clearAnno();
@@ -225,5 +219,11 @@ function encID(c) {
 
 function deEncID(c) {
   return encIDs[c.replace('enc', '')];
+}
+
+// sets the current annotation loc
+function annotateCurrentURI(u) {
+  currentURI = u.replace('#'+currentAnnoName, '').replace(/#$/, '');
+//  addChat('is visiting ' + '<a class="visiting">' + currentURI + '</a>');
 }
 
