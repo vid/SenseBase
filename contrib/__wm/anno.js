@@ -1,15 +1,15 @@
+
+var currentAnnoName = 'currentAnno';
+(function() {
 // General setup and functions
 
 var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
-var services = [ 'Classify', 'AnnotationSet', 'WikiMeta', 'Spotlight', 'Sentiment'];
-var currentAnnoName = 'currentAnno';
 
+// what are we interacting withkkk
 var outputDocument = parent.document;
 var $enclosure = $('#ipxContent', outputDocument);
 
 var sbUser, isScraper;
-
-(function() {
 // We are not running as iframe
 if ($enclosure.length) { 
   console.log('operating in dashboard');
@@ -24,10 +24,15 @@ if ($enclosure.length) {
   isScraper = sbUser == 'scraper' || window.senseBase.isScraper;
   console.log('operating in iframe', window.parent.location);
   parent.window.annotateCurrentURI = annotateCurrentURI;
-  $('body', outputDocument).prepend('<div style="z-index: 999; position: fixed; right: 1em; top: 0; background: orange"><[<span id="annotationCount"></span>]' +
+  $('body', outputDocument).prepend('<div id="sbTree" style="z-index: 999; position: fixed; right: 1em; top: 0; background: orange"><a id="sbGoTopLeft">⇱</a><span id="annotationCount"></span>' +
      (isScraper ? '<img src="/__wm/icons/scraper.png" alt="Scraper" />' : '') +
      '<div id="treeContainer"></div>' + '</div>');
+  $('head', outputDocument).append('<link rel="stylesheet" href="<!-- @var HOMEPAGE -->/lib/jstree/dist/themes/default/style.min.css" />');
   fayeClient.publish('/annotate', { uri: window.parent.location.href} );
+  $('#sbGoTopLeft', outputDocument).click(function() { 
+    var w = $('#sbTree', outputDocument).css('width');
+    $('#sbTree', outputDocument).css('left', '1em').css('width', w); 
+  });
 }
 //var startingHTML = $enclosure.html().toString();
 
@@ -75,11 +80,10 @@ var annos = fayeClient.subscribe('/annotations', function(annotations) {
     byAnno.push({ text: by, id: id++, children: byInstances});
 console.log('byAnno', byAnno);
   }
-  $('#annotationCount').html(annoTotal);
+  $('#annotationCount', outputDocument).html(annoTotal);
 
-  $('#treeContainer').html('<div id="annoTree"></div>');
-//  var i = $.jstree.create(curTree, {
-    $('#annoTree').jstree({
+  $('#treeContainer', outputDocument).html('<div id="annoTree"></div>');
+    $('#annoTree', outputDocument).jstree({
     'core' : { data: byAnno },
     "plugins" : [ "search", "types", "wholerow" ],
     "types" : {
