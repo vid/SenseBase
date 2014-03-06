@@ -32,8 +32,10 @@ exports.start = function(config) {
         var title = m[1].replace(/<.*?>/g);
         var psMember = browser_request.psMember.username;
         GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
-        GLOBAL.config.indexer.saveContentItem({ uri: uri, title: title, member: psMember, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders});
-        pubsub.requestAnnotate(uri, pageBuffer);
+        GLOBAL.config.indexer.saveContentItem({ uri: uri, title: title, member: psMember, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders},
+          function(err, res) {
+          pubsub.requestAnnotate(uri, pageBuffer);
+        });
       } 
     }
   };
