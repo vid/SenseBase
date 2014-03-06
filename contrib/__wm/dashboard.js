@@ -26,6 +26,17 @@ $(function() {
   $('.ui.details.button').click(function() { $('.details.sidebar').sidebar('hide', { overlay: true}); return false;});
   $('.ui.add.button').click(function() { $('#annotateEditor').toggle(); return false;});
 
+  $('.ui.confirm.delete.button').click(function() { 
+    var selected = [];
+    $('.selectItem').each(function() {
+      if ($(this).is(':checked')) {
+        selected.push(deEncID($(this).attr('name').replace('cb_', '')));
+      }
+    });
+    fayeClient.publish('/delete', { selected: selected});
+    return false;
+  });
+
   $('.ui.checkbox').checkbox({onChange : updateOptions});
   $(document).tooltip();
   $('.delete.item').click(function() {
