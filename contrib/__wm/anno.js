@@ -41,9 +41,19 @@ if (window.parent.location) {
 }
 
 // receive annotations
-var annos = fayeClient.subscribe('/annotations', function(annotations) {
-  console.log('annotations', annotations);
+fayeClient.subscribe('/annotations', function(data) {
+  var annotations = data.annotations, uri = data.uri;
+  console.log('/annotations', data);
+  // it's not current but needs to be updated
+  if (uri !== currentURI) {
+    //FIXME should only update if its in current results
+    console.log('not current, updating', uri);
+    setTimeout(function() { fayeClient.publish('/getContentItem', uri);}, 2000); // FIXME delay for ES save
+    return;
+  }
+// it's our current item, disply
 // group by annotator
+console.log('updating current');
   var annoBy = {}, annoTotal = 0;
   annotations.forEach(function(a) {
     annoTotal++;

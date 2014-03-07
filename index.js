@@ -133,7 +133,6 @@ exports.start = function(config) {
   });
   
   app.get('/', function(req, res){
-  console.log('OO', req.session.user);
     if (req.user) {
       res.cookie('psMember', req.user.username, { maxAge: 900000 });
       res.cookie('psSession', req.user.id + '/' + new Date().getTime(), { maxAge: 900000 });
@@ -158,7 +157,6 @@ exports.start = function(config) {
     passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
     function(req, res) {
       GLOBAL.authed[req.ip] = req.user;
-      console.log('OOOOOOO', req.ip, GLOBAL.authed);
       var oreq = req.headers['original-request'] || '/';
       if (oreq == 'undefined') { oreq = '/'; }
       res.redirect(GLOBAL.config.HOMEPAGE);

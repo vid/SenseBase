@@ -97,12 +97,12 @@ $('#searchForm').submit(function(event) {
   fayeClient.publish('/search', search); 
 });
 
-var searchRes = fayeClient.subscribe('/searchResults', function(searchResults) {
+fayeClient.subscribe('/searchResults', function(searchResults) {
   console.table('searchResults', searchResults);
 });
 
 // collab
-var collab = fayeClient.subscribe('/collab', function(message) {
+fayeClient.subscribe('/collab', function(message) {
   addChat(message.text);
 });
 $('#collabInput').keypress(function(e) {

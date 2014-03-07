@@ -50,22 +50,38 @@ fayeClient.subscribe('/searchResults', function(results) {
   updateResults(results);
 });
 
+// delete an item
+fayeClient.subscribe('/deletedItem', function(item) {
+  console.log('/deletedItem', item, lastResults);
+  if (lastResults.hits) {
+    var i = 0, l = lastResults.hits.hits.length;
+    for (i; i < l; i++) {
+      console.log('>>',lastResults.hits.hits[i], item._id);
+      if (lastResults.hits.hits[i]._id === item._id) {
+        lastResults.hits.hits.splice(i, 1);
+        updateResults(lastResults);
+        return;
+      }
+    }
+    console.log('deletedItem not found', item);
+  }
+});
+
 // add a new or updated item
 fayeClient.subscribe('/updateItem', function(result) {
-  console.log('/update', result, lastResults);
+  console.log('/updateItem', result, lastResults);
   if (!lastResults.hits) {
     lastResults = { hits: { total : 0, hits: [] } };
   } else {
     var i = 0, l = lastResults.hits.hits.length;
     for (i; i < l; i++) {
       if (lastResults.hits.hits[i]._source.uri === result._source.uri) {
-        delete lastResults.hits.hits[i];
+        lastResults.hits.hits.splice(i, 1);
         break;
       }
     }
   }
   lastResults.hits.hits.unshift(result);
-  lastResults.hits.total++;
   updateResults(lastResults);
 });
 
@@ -112,7 +128,7 @@ function updateResults(results) {
       $('#resultsTable tbody').append(row);
     });
 
-    $('#searchCount').html(results.hits.total);
+    $('#searchCount').html(results.hits.hits.length);
     $('.sortable.table').tablesort();
 
   } else {
