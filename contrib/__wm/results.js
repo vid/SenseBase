@@ -95,7 +95,7 @@ function updateResults(results) {
           va[visitor.member] = a;
         });
         for (var a in va) {
-          vv += '<h4 class="showa">' + a + ' <a class="ui black circular label">' + va[a].visits.length + '</a> </h3><div class="hidden">' + JSON.stringify(va[a].visits) + '</div>';
+          vv += '<p class="showa">' + a + ' <a class="ui black circular label">' + va[a].visits.length + '</a> </p><div class="hidden">' + JSON.stringify(va[a].visits) + '</div>';
         }
         row += '' + vv;
       }
