@@ -3,13 +3,13 @@
 # UNDER CONSTRUCTION
 (= (= (= (= (= (= (=
 
+Install ElasticSearch.
+
 npm install SenseBase
 
-Then npm install if you are working directly in the source base.
+Then ```npm install```, ```bower install``` if you are working directly in the source base.
 
 Presuming a debian derived distro, you will need to have build-essentials installed
-
-For document conversion, copy tika-app (tested with tika-app-1.4.jar) to ext-lib to match bin/extractText.sh
 
 # Configure
 
