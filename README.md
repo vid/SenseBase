@@ -67,5 +67,5 @@ then ```node app.js```
 
 # Acknowledgement
 
-This project is supported by and forms the basis of http://www.github.com/TsangLab/Proxiris and work developed for the Observastory project.
+This project is supported by and forms the basis of http://www.github.com/TsangLab/Proxiris, as well as work developed for the Observastory project for eHealth in Motion | Dataparc.
 
