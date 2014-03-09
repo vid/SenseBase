@@ -98,7 +98,7 @@ function updateResults(results) {
     results.hits.hits.forEach(function(r) {
       var v = r.fields || r._source;
       var rankVal = r._score ? r._score : ++count;
-      var row = '<tr id="' + encID(v.uri) + '"><td data-sort-value="' + rankVal + '"><input class="selectItem" type="checkbox" name="cb_' + encID(v.uri) + '" />' + rankVal + '</td><td data-sort-value="' + v.title + '">' +
+      var row = '<tr class="selectRow" id="' + encID(v.uri) + '"><td data-sort-value="' + rankVal + '"><input class="selectItem" type="checkbox" name="cb_' + encID(v.uri) + '" />' + rankVal + '</td><td data-sort-value="' + v.title + '">' +
         '<div><a target="_link" href="' + v.uri + '"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' + 
         '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div>'+
 	'</td><td class="rowVisitors" data-sort-value="' + (v.visitors ? v.visitors.length : 0) + '">';
@@ -164,6 +164,7 @@ function checkSelected() {
 var curURI;
 // display or close uri controls and frame (for link)
 function selectedURI(ev) {
+  $('.selectRow').removeClass('active');
   updateOptions.call($('#watch'));
   updateOptions.call($('#filter'));
 
