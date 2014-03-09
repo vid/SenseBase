@@ -179,12 +179,14 @@ function selectedURI(ev) {
     );
   $('.context.dropdown').dropdown();
 
+  var shown = false;
   if (curURI == uri) {
-    var shown = $('.details.sidebar').sidebar('toggle').hasClass('active');
+    shown = $('.details.sidebar').sidebar('toggle').hasClass('active');
     if ($el.hasClass('selectURI')) {
       $('#preview').toggle(shown);
     }
   } else {
+    shown = true;
     fayeClient.publish('/annotate', { uri: uri });
     curURI = uri;
     $('#startingPage').val(uri);
@@ -195,6 +197,7 @@ function selectedURI(ev) {
     }
     $('.details.sidebar').sidebar('show');
   }
+  $el.parent().parent().toggleClass('active', shown);
   return false;
 }
 
