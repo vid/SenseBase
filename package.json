@@ -41,6 +41,7 @@
   },
   "scripts": {
     "test": "mocha test"
+    "start": "grunt"
   },
   "repository": {
     "type": "git",
