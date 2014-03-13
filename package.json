@@ -40,7 +40,8 @@
     "xunit-file": "0.0.4"
   },
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha test",
+    "postinstall": "uglifyjs  --screw-ie8  bower-components/jquery/dist/jquery.js bower-components/faye/include.js bower-components/jstree/dist/jstree.js bower-components/Semantic-UI/build/packaged/javascript/semantic.js  > static/__wm/includes.js",
     "start": "grunt"
   },
   "repository": {

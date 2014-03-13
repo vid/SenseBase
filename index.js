@@ -29,6 +29,7 @@ exports.start = function(config) {
       // only index HTML with title
       var m = /<title.*?>(.*)<\/title>/mi.exec(pageBuffer);
       if (m && m[1]) {
+        console.log(uri);
         var title = m[1].replace(/<.*?>/g);
         var psMember = browser_request.psMember.username;
         GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
@@ -42,7 +43,7 @@ exports.start = function(config) {
   config.inject = function(content) {
     if (content.toString().match(/<\/body/im)) {
       GLOBAL.debug('injecting iframe');
-      content = content.toString().replace(/<\/body/im, '<iframe style="width: 1px; height: 1px" src="/__wm/iframe.html"></iframe></body');
+      content = content.toString().replace(/<\/body/im, '<script src="/__wm/injected.js"></script></body');
     }
     return content;
   };
