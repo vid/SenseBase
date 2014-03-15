@@ -26,6 +26,9 @@ curl -XPUT "http://localhost:9200/$1/contentItem/_mapping" -d '
 curl -XPUT "http://localhost:9200/$1/annotation/_mapping" -d '
 {
   "annotation" : {
+    "_parent":{
+      "type" : "contentItem"
+    },
     "properties" : {
       "flatCategory" : {
         "type" : "string", "index":"not_analyzed", "store" : "yes"
