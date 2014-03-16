@@ -8,7 +8,7 @@ $(function() {
     mainSize++;
   }
   if (window.senseBase.collab) {
-    $('<button title="Conversations" class="ui large collab attached button"><i class="large chat icon"></i></button>').appendTo('.main.fluid.buttons');
+    $('<button title="Conversations" class="ui collab attached button"><i class="large chat icon"></i></button>').appendTo('.main.fluid.buttons');
     $('.ui.collab.button').click(function() { TogetherJS(this); return false; });
     mainSize++;
   }
@@ -18,12 +18,12 @@ $(function() {
   $('.ui.accordion').accordion();
   $('.details.sidebar').sidebar('hide', { overlay: true});
   $('.sidebar').sidebar();
-  $('.ui.search.button').click(function() { $('.search.content').toggle('hidden'); $('.ui.search.button').toggleClass('active');});
-  $('.ui.scrape.button').click(function() { $('.scrape.content').toggle('hidden'); $('ui.scrape.button').toggleClass('active'); });
-  $('.ui.team.button').click(function() { $('.team.content').toggle('hidden');$('ui.scrape.button').toggleClass('active');  });
-  $('.ui.lab.button').click(function() { $('.lab.content').toggle('hidden');$('ui.lab.button').toggleClass('active');  });
-  $('.ui.settings.button').click(function() { $('.settings.content').toggle('hidden');$('ui.scrape.button').toggleClass('active');  });
-  $('.ui.details.button').click(function() { $('.details.sidebar').sidebar('hide', { overlay: true}); return false;});
+  $('.ui.search.toggle.button').click(function() { $('.search.content').toggle('hidden'); $('.ui.search.toggle.button').toggleClass('active');});
+  $('.ui.scrape.toggle.button').click(function() { $('.scrape.content').toggle('hidden'); $('.ui.scrape.toggle.button').toggleClass('active'); });
+  $('.ui.team.toggle.button').click(function() { $('.team.content').toggle('hidden');$('.ui.team.toggle.button').toggleClass('active');  });
+  $('.ui.lab.toggle.button').click(function() { $('.lab.content').toggle('hidden'); $('.ui.lab.toggle.button').toggleClass('active');  });
+  $('.ui.settings.toggle.button').click(function() { $('.settings.content').toggle('hidden'); $('.ui.settings.toggle.button').toggleClass('active');  });
+  $('.ui.details.toggle.button').click(function() { $('.details.sidebar').sidebar('hide', { overlay: true}); return false;});
   $('.ui.add.button').click(function() { $('#annotateEditor').toggle(); return false;});
 
   $('.ui.confirm.delete.button').click(function() { 
@@ -38,7 +38,7 @@ $(function() {
   });
 
   $('.ui.checkbox').checkbox({onChange : updateOptions});
-  $(document).tooltip();
+//  $(document).tooltip();
   $('.delete.item').click(function() {
     $('.ui.modal').modal('show');
   });

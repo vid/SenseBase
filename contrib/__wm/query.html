@@ -1,50 +1,38 @@
-<div class="ui segment">
-  <div class="ui form">
-    <div class="field">
+<div class="ui form">
+  <div class="ui three column page grid">
+    <div class="column">
       <div class="field">
         <label>Terms</label>
         <input id="termSearch" />
       </div>
-    </div>
-    <div class="field">
       <div class="field">
         <label>Annotations</label>
         <input id="annoSearch" />
       </div>
-    </div>
-    <div class="ui basic accordion">
-      <div class="small title" style="border: none">
-        <i class="icon dropdown"></i>
-        More
+      <div class="two fields">
+        <button class="ui blue mini search submit button" id="searchForm">Search</button> &nbsp;
+        <span class="ui checkbox"><input id="refreshQueries" type="checkbox" /> <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label></span>
       </div>
-      <div class="ui mini form content">
+    </div>
+    <div class="column">
+      <div class="field">
+        <label>From</label>
+        <input id="fromDate" />
+      </div>
+      <div class="field">
+        <label>To</label>
+        <input id="toDate" />
+      </div>
+      <div class="field">
+        <label>Member</label>
+        <input id="searchMember" />
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui fluid form segment">
         <div class="field">
-          <label>From</label>
-          <input id="fromDate" />
-        </div>
-        <div class="field">
-          <label>To</label>
-          <input id="toDate" />
-        </div>
-        <div class="field">
-          <label>Member</label>
-          <input id="searchMember" />
-        </div>
-        <div class="field">
-          <div class="ui checkbox">
-            <input id="watchSearch" type="checkbox" name="watchSearch">
-            <label for="watchSearch">Watched</label>
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui checkbox">
-            <input id="filterSearch" type="checkbox" name="filterSearch">
-            <label for="filterSearch">Filtered</label>
-          </div>
-        </div>
-        <div class="field">
-          <label>Save</label>
-          <input id="saveName" />
+          <label for="searchSave">Save</label>
+          <input name="searchName" />  <button class="ui mini button"><i class="save icon"></i></button>
         </div>
         <div class="field">
           <div class="ui checkbox">
@@ -52,10 +40,14 @@
             <label for="subscribeSearch">Subscribe</label>
           </div>
         </div>
+        <div>
+          <h4>Existing searches</h4>
+          <div id="existingScrapes">
+          </div>
+          <div class="field">
+          </div>
+        </div>
       </div>
     </div>
-    <div class="two fields">
-      <button class="ui blue mini search submit button" id="searchForm">Search</button>
-      <input id="refreshQueries" type="checkbox" /> <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label></div>
-    </div>
+  </div>
 </div>

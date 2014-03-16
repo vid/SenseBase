@@ -46,36 +46,36 @@ a:active {text-decoration:underline;}
 </div>
 <div class="ui content" id="ipxContent">
   <div class="main fluid ui buttons">
-   <button style="height: 56px" title="Search settings" class="ui mini search attached button">
+   <button style="height: 50" title="Search settings" class="ui mini search toggle attached button">
       <i class="large search icon"></i>
       <span id="searchCount"><img src="/__wm/loading.gif" alt="loading results" /><span>
     </button>
 
-   <button title="Scraper settings" class="ui large scrape attached button">
+   <button title="Scraper settings" class="ui scrape toggle attached button">
      <i class="large sitemap icon"></i>
    </button>
 
-   <button title="Team" class="ui large team attached button">
+   <button title="Team" class="ui team toggle attached button">
      <i class="large users icon"></i>
    </button>
 
-   <button title="Lab" class="ui large lab attached button">
+   <button title="Lab" class="ui lab toggle attached button">
      <i class="large lab icon"></i>
    </button>
 
-   <button title="Settings" class="ui large settings attached button">
+   <button title="Settings" class="ui settings toggle attached button">
      <i class="large settings icon"></i>
    </button>
   </div>
   <div class="ui content container">
+    <div class="team content hidden">
+    include "team.html"
+    </div>
     <div class="search content hidden">
     include "query.html"
     </div>
     <div class="scrape content hidden">
     include "scrape.html"
-    </div>
-    <div class="team content hidden">
-    include "team.html"
     </div>
     <div class="settings content hidden">
     include "settings.html"
