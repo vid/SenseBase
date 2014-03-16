@@ -186,7 +186,7 @@
       "description": "",
       "status" : "available",
 			"needsValidation": false,
-      "icon": "annoset.png",
+      "class": "sitemap",
       "password": "scraper"
     }
   ]

@@ -4,33 +4,32 @@ fayeClient.subscribe('/teamList', function(teams) {
   $('#aneditor').hide();
   console.log('teams', teams);
   teams.forEach(function(m) {
-    var row = '<button id="' + m.username + '" class="ui small ' + (m.status === 'available' ? 'enabled' : 'disabled') + ' attached member button">' +
-      '<img class="image '  + '" src="/__wm/icons/' + (m.icon || 'mesh.png') + '" alt="' + m.username + '" /></button>';
-//'<br />' + m.username + '<br />' + m.type + (m.description ? m.description : '') + '</td>');
-    $('.teamlist.buttons').prepend(row);
+    var row = '<a style="margin: 4px" id="' + m.username + '" class="ui small ' + (m.status === 'available' ? 'enabled' : 'disabled') + ' member image label">' +
+      (m.class ? '<i class="' + m.class + ' icon"></i>' : 
+        '<img style="height: 24px" class="image '  + '" src="/__wm/icons/' + (m.icon || 'mesh.png') + '" alt="' + m.username + '" />') + 
+      ' ' + m.username + '</a>';
+    $('.teamlist.segment').prepend(row);
   });
- $('#newName').val(''); 
- $('#newEmail').val('');
- $('.teamCancel').click(function() { $('#aneditor').hide(); });
- $('.member.button').click(function(i) {
-   if ($('#lastUsername').val() === $(this).attr('id')) {
-     $('#lastUsername').val('');
-     $('.member.content').hide();
-     $('#holder').show();
-   } else {
-     $('#holder').hide();
-     $('.member.content').show();
-     $('.member.button').removeClass('active');
-     $(this).addClass('active');
-     console.log(this, $(this));
-     showEdit($(this).attr('id'));
-   }
- });
- rTeams = teams;
- if (justEdited) {
-   showEdit(justEdited);
-   justEdited = null;
- }
+  $('#newName').val(''); 
+  $('#newEmail').val('');
+  $('.teamCancel').click(function() { $('#aneditor').hide(); });
+  $('.member.image').click(function(i) {
+    var id = $(this).attr('id');
+    if ($('#lastUsername').val() === id) {
+      $('#lastUsername').val('');
+      $('.member.content').hide();
+    } else {
+      $('.member.content').show();
+      $('.member.button').removeClass('active');
+      $(this).addClass('active');
+      showEdit(id);
+    }
+  });
+  rTeams = teams;
+  if (justEdited) {
+    showEdit(justEdited);
+    justEdited = null;
+  }
 });
 fayeClient.publish('/team/list', {});
 
@@ -52,14 +51,30 @@ function showEdit(username) {
       editingMember = m;
     }
   });
+  if (editingMember.type === 'Searcher') {
+    $('.searcher.form').show();
+    $('.action.message').hide();
+    $('.searcher.button').click(function() {
+      var links = [];
+      editingMember.locations.split('\n').forEach(function(l) {
+        l = l.replace('$SBQUERY', $('#searcherQuery').val());
+        links.push(l);
+      });
+
+      fayeClient.publish('/links', { links: links, tags: $('#searcherTags').val().split(',')});
+    });
+  } else {
+    $('.searcher.form').hide();
+    $('.action.message').show();
+  }
   console.log('member', editingMember);
   $('#username').val(editingMember.username);
   $('#lastUsername').val(editingMember.username);
   $('#memberDescription').val(editingMember.description);
-  $('#needsValidation').prop('checked', editingMember.needsValidation == true);
-  if (editingMember.type == 'User') {
+  $('#needsValidation').prop('checked', editingMember.needsValidation === true);
+  if (editingMember.type === 'User') {
     setupValidation();
-    $('#canValidate').prop('checked', (editingMember.canValidate == true) && editingMember.needsValidation != true);
+    $('#canValidate').prop('checked', (editingMember.canValidate === true) && editingMember.needsValidation !== true);
     $('#teamRemove').show();
     $('#editUser').show();
     $('#newEmail').val(editingMember.email);
@@ -73,6 +88,10 @@ function showEdit(username) {
     $('#positiveTerms').val(editingMember.positiveTerms);
     $('#negativeTerms').val(editingMember.negativeTerms);
     $('#editAnnoSet').show();
+  } else if (editingMember.type === 'Searcher') {
+    $('#teamRemove').show();
+    $('#locations').val(editingMember.locations);
+    $('#editSearcher').show();
   } else {
     $('#teamRemove').hide();
     $('#editAgent').show();

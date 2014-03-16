@@ -12,9 +12,12 @@ var fs = require('fs'),
 var fileUpload = require('./lib/file-upload.js'), pubsub;
 
 GLOBAL.authed = GLOBAL.authed || {}; //FIXME  use auth scheme that works behind proxies
-var users = require('./users.json').logins;
+var users;
+
 if (fs.existsSync('./local-users.json')) {
-  users = users.concat(require('./local-users.json').logins);
+  users = require('./local-users.json').logins;
+} else {
+  users = require('./users.json').logins;
 }
 
 // start server with a configuration file
