@@ -54,6 +54,7 @@ function showEdit(username) {
   if (editingMember.type === 'Searcher') {
     $('.searcher.form').show();
     $('.action.message').hide();
+    $('#searcherTags').val(editingMember.username + '-' + new Date().getTime());
     $('.searcher.button').click(function() {
       var links = [];
       editingMember.locations.split('\n').forEach(function(l) {
@@ -61,7 +62,7 @@ function showEdit(username) {
         links.push(l);
       });
 
-      fayeClient.publish('/links', { links: links, tags: $('#searcherTags').val().split(',')});
+      fayeClient.publish('/links', { links: links, scraper: editingMember.username, tags: $('#searcherTags').val().split(',')});
     });
   } else {
     $('.searcher.form').hide();
