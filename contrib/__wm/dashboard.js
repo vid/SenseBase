@@ -57,7 +57,6 @@ $(function() {
     return false;
   });
 
-  $('.ui.checkbox').checkbox({onChange : updateOptions});
 //  $(document).tooltip();
   $('.delete.item').click(function() {
     $('.ui.modal').modal('show');
@@ -74,15 +73,6 @@ $(function() {
     });
     checkSelected();
   });
-
-  function updateOptions() {
-    console.log($(this).attr('id'), $(this).is(':checked'));
-    if($(this).is(':checked')) { 
-      $('#'+$(this).attr('id') + 'Options').show();
-    } else {
-      $('#'+$(this).attr('id') + 'Options').hide();
-    }
-  }
 
   sbUser = window.senseBase.user || $.cookie('sbUser');
 //  $('#searchUser').val(sbUser);

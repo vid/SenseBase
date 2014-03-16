@@ -11,7 +11,6 @@ var fs = require('fs'),
   
 var fileUpload = require('./lib/file-upload.js'), pubsub;
 
-GLOBAL.authed = GLOBAL.authed || {}; //FIXME  use auth scheme that works behind proxies
 var users;
 
 if (fs.existsSync('./local-users.json')) {
@@ -22,6 +21,7 @@ if (fs.existsSync('./local-users.json')) {
 
 // start server with a configuration file
 exports.start = function(config) {
+  GLOBAL.authed = GLOBAL.authed || {}; //FIXME  use auth scheme that works behind proxies
   config.users = users;
   config.indexer = require('./lib/indexer.js');
   config.pageCache = require('./lib/pageCache.js');
@@ -35,13 +35,17 @@ exports.start = function(config) {
       // only index HTML with title
       var m = /<title.*?>(.*)<\/title>/mi.exec(pageBuffer);
       if (m && m[1]) {
-        console.log(uri);
         var title = m[1].replace(/<.*?>/g);
         var psMember = browser_request.psMember.username;
         GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
+        console.log('INDEX', uri, title, pageBuffer.length);
         GLOBAL.config.indexer.saveContentItem({ uri: uri, title: title, member: psMember, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders},
           function(err, res) {
-          pubsub.requestAnnotate(uri, pageBuffer);
+            if (err) {
+              GLOBAL.error('index saveContentitem failed', err);
+            } else {
+              pubsub.requestAnnotate(uri, pageBuffer);
+            }
         });
       } 
     }
@@ -99,7 +103,7 @@ exports.start = function(config) {
         findByUsername(username, function(err, user) {
           if (err) { return done(err); }
           if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
-          if (user.password != password) { return done(null, false, { message: 'Invalid password' }); }
+          if (user.password !== password) { return done(null, false, { message: 'Invalid password' }); }
           if (!user.active) { return done(null, false, { message: 'Account not active' }); }
           return done(null, user);
         });
@@ -169,6 +173,7 @@ exports.start = function(config) {
       res.redirect(GLOBAL.config.HOMEPAGE);
     });
     
+
   app.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');

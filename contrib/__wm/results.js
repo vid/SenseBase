@@ -20,6 +20,7 @@ $('#refreshQueries').click(function(e) {
       clearInterval(queryRefresher);
     }
   }
+  console.log('refrresh', queryRefresher);
 });
 
 // input element
@@ -165,8 +166,6 @@ var curURI;
 // display or close uri controls and frame (for link)
 function selectedURI(ev) {
   $('.selectRow').removeClass('active');
-  updateOptions.call($('#watch'));
-  updateOptions.call($('#filter'));
 
   var $el = $(this);
   var uri = decodeURIComponent(deEncID($el.parents('tr').attr('id')));

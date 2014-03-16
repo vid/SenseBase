@@ -8,6 +8,37 @@
   head.appendChild(script);
 
   function ready() {
+    // identify
+    $.ajax({
+      type: "GET",
+      url: "<!-- @var HOMEPAGE -->/member.js",
+      dataType: "script"
+    }).done(function(res) {
+    // do scraper actions as appropriate
+      var senseBase = window.senseBase;
+      if (senseBase.isScraper) {
+        console.log('isScraper', senseBase);
+        // publish our current link
+        setTimeout(function() {
+          console.log('scraper publishing current link', senseBase.user);
+          fayeClient.publish('/links', { scraped: window.location.href, scraper: senseBase.user }); 
+          // if no current links, wait for more
+          setInterval(function() {
+            console.log('scraper waiting for link');
+            fayeClient.publish('/links', { scraper: senseBase.user});
+          }, 60000);
+        }, 2000);
+        fayeClient.subscribe('/scrape', function(msg) {
+          console.log('/scrape', msg);
+          if (!msg.site.link) {
+            console.log('not scraping undefined');
+          } else {
+            setTimeout(function() { window.location.href = msg.site.link;}, 8000);
+          }
+        });
+      }
+    });
+
     var treeItems = {
       map : {},
       _id : 0,
@@ -23,7 +54,7 @@
       get : function(i) {
         return this.map[i];
       }
-    }
+    };
 
     $('body').append('<div id="sbTree" style="z-index: 999; position: fixed; right: 1em; top: 0; color: black; background: #ffe; filter:alpha(opacity=90); opacity:0.9"><a id="sbGoTopLefT">⇱</a> <a id="sbReAnnotate">R</a> <span id="annotationCount"></span><div id="treeContainer"></div></div>');
     $('head').append('<link rel="stylesheet" href="<!-- @var HOMEPAGE -->/lib/jstree/dist/themes/default/style.min.css" />');
