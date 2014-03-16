@@ -4,7 +4,7 @@ fayeClient.subscribe('/teamList', function(teams) {
   $('#aneditor').hide();
   console.log('teams', teams);
   teams.forEach(function(m) {
-    var row = '<button class="ui small ' + (m.status === 'available' ? 'enabled' : 'disabled') + ' attached button">' +
+    var row = '<button id="' + m.username + '" class="ui small ' + (m.status === 'available' ? 'enabled' : 'disabled') + ' attached member button">' +
       '<img class="image '  + '" src="/__wm/icons/' + (m.icon || 'mesh.png') + '" alt="' + m.username + '" /></button>';
 //'<br />' + m.username + '<br />' + m.type + (m.description ? m.description : '') + '</td>');
     $('.teamlist.buttons').prepend(row);
@@ -12,8 +12,19 @@ fayeClient.subscribe('/teamList', function(teams) {
  $('#newName').val(''); 
  $('#newEmail').val('');
  $('.teamCancel').click(function() { $('#aneditor').hide(); });
- $('.teamSelect').click(function(i) {
-  showEdit($(i.target).parent().attr('id').split('_')[1]);
+ $('.member.button').click(function(i) {
+   if ($('#lastUsername').val() === $(this).attr('id')) {
+     $('#lastUsername').val('');
+     $('.member.content').hide();
+     $('#holder').show();
+   } else {
+     $('#holder').hide();
+     $('.member.content').show();
+     $('.member.button').removeClass('active');
+     $(this).addClass('active');
+     console.log(this, $(this));
+     showEdit($(this).attr('id'));
+   }
  });
  rTeams = teams;
  if (justEdited) {

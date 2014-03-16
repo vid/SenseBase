@@ -26,6 +26,26 @@ $(function() {
   $('.ui.details.toggle.button').click(function() { $('.details.sidebar').sidebar('hide', { overlay: true}); return false;});
   $('.ui.add.button').click(function() { $('#annotateEditor').toggle(); return false;});
 
+  $('.member.item').click(function() {
+    $('.member.item').removeClass('active');
+    $('.member.segment').hide();
+  });
+
+  $('.member.actions').click(function() {
+    $('.member.actions').addClass('active');
+    $('.member.actions.segment').show();
+  });
+
+  $('.member.options').click(function() {
+    $('.member.options').addClass('active');
+    $('.member.options.segment').show();
+  });
+
+  $('.member.statistics').click(function() {
+    $('.member.statistics').addClass('active');
+    $('.member.statistics.segment').show();
+  });
+
   $('.ui.confirm.delete.button').click(function() { 
     var selected = [];
     $('.selectItem').each(function() {
