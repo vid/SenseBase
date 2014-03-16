@@ -13,6 +13,9 @@ var fileUpload = require('./lib/file-upload.js'), pubsub;
 
 GLOBAL.authed = GLOBAL.authed || {}; //FIXME  use auth scheme that works behind proxies
 var users = require('./users.json').logins;
+if (fs.existsSync('./local-users.json')) {
+  users = users.concat(require('./local-users.json').logins);
+}
 
 // start server with a configuration file
 exports.start = function(config) {
