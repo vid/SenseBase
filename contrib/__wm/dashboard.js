@@ -90,7 +90,7 @@ $(function() {
   fayeClient.publish('/search', { user: sbUser });
 
   include "results.js"
-  include "users.js"
+  include "members.js"
   include "scrape.js"
 
 });
