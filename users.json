@@ -115,20 +115,6 @@
 			"needsValidation": true
     },
     {
-      "id": 9,
-      "type": "Agent",
-      "username": "MycoMine",
-      "description": "Annotates with genomic references",
-      "icon": "mycomine_logo.png",
-      "activities": [
-        {
-          "annotate": true
-        }
-      ],
-      "status" : "available",
-			"needsValidation": true
-    },
-    {
       "id": 10,
       "type": "Agent",
       "username": "ANNIE",
