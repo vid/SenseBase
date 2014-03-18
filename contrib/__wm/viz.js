@@ -2,7 +2,7 @@
 function getClusterData(viz) {
 var $progress = $('#viz');
 var query = '*', algorithm = 'lingo';
-var host = 'http://lilpad.zooid.org:9200';
+var host = 'http://dashboard.fg.zooid.org:9200';
   var request = {
               "search_request": {
                 "fields": [ "uri", "title", "content" ],
