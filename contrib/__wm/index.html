@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="/lib/jquery-ui/themes/ui-lightness/jquery-ui.css" />
 <link rel="stylesheet" href="/lib/jstree/dist/themes/default/style.min.css" />
 <link rel="stylesheet" href="dashboard.css" />
+<link rel="stylesheet" href="/__wm/lib/d3plus.css" />
 <style type="text/css">
 /* file upload */
 #holder.hover { border: 4px dashed #0c0; }
@@ -43,6 +44,9 @@ a:active {text-decoration:underline;}
     </button>
   </div>
   include "iframe-contents.html"
+</div>
+<div class="ui left viz sidebar">
+  <div id="viz"></div>
 </div>
 <div class="ui content" id="ipxContent">
   <div class="main fluid ui buttons">
@@ -143,4 +147,9 @@ a:active {text-decoration:underline;}
 <script src="dashboard.js" defer="defer"></script>
 <script src="dragFile.js"></script>
 <script src="https://togetherjs.com/togetherjs-min.js"></script>
+
+<script src="/__wm/lib/d3.js"></script>
+<script src="/__wm/lib/d3plus.min.js"></script>
+<script src="/__wm/viz.js"></script>
+
 </html>

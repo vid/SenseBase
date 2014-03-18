@@ -92,8 +92,8 @@ var lastResults;
 function updateResults(results) {
   lastResults = results;
   $('.search.button').animate({opacity: 1}, 500, 'linear');
-  $('#holder').html('<div id="results"><table id="resultsTable" class="ui sortable table segment"><thead><tr><th class="descending">' +
-    'Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table></div>');
+  $('#results').html('<table id="resultsTable" class="ui sortable table segment"><thead><tr><th class="descending">' +
+    'Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table>');
   if (results.hits) {
     var count = 0;
     results.hits.hits.forEach(function(r) {

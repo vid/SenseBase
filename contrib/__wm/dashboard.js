@@ -16,8 +16,6 @@ $(function() {
   $('.main.fluid.buttons').addClass(fluidSizes[mainSize]);
 
   $('.ui.accordion').accordion();
-  $('.details.sidebar').sidebar('hide', { overlay: true});
-  $('.sidebar').sidebar();
   $('.ui.search.toggle.button').click(function() { $('.search.content').toggle('hidden'); $('.ui.search.toggle.button').toggleClass('active');});
   $('.ui.scrape.toggle.button').click(function() { $('.scrape.content').toggle('hidden'); $('.ui.scrape.toggle.button').toggleClass('active'); });
   $('.ui.team.toggle.button').click(function() { $('.team.content').toggle('hidden'); $('.ui.team.toggle.button').toggleClass('active'); $('.member.content').hide(); $('#lastUsername').val(''); /* FIXME move to members.js */ });
@@ -26,9 +24,18 @@ $(function() {
   $('.ui.details.toggle.button').click(function() { $('.details.sidebar').sidebar('hide', { overlay: true}); return false;});
   $('.ui.add.button').click(function() { $('#annotateEditor').toggle(); return false;});
 
+  $('.details.sidebar').sidebar('hide', { overlay: true});
+  $('.viz.sidebar').sidebar('hide', { });
+  $('.sidebar').sidebar();
+
   $('.member.item').click(function() {
     $('.member.item').removeClass('active');
     $('.member.segment').hide();
+  });
+
+  $('.viz.button').click(function() {
+    $('.viz.sidebar').sidebar('toggle');
+    getClusterData(doTreemap);
   });
 
   $('.member.actions').click(function() {
