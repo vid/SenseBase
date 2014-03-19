@@ -1,4 +1,5 @@
 (function() {
+  var lastPlaced;
   ready();
   function ready() {
   // do scraper actions as appropriate
@@ -56,7 +57,7 @@
     fayeClient.publish('/annotate', { uri: parent.window.location.href} );
 
     $('.refresh.icon').click(function() {
-      fayeClient.publish('/annotate', { uri: parent.window.location.href, contents: $('body', parent.document)[0].outerHTML} );
+      fayeClient.publish('/annotate', { uri: parent.window.location.href, contents: $('body', parent.document.documentElement.outerHTML)} );
     });
 
     fayeClient.subscribe('/annotations', function(data) {
@@ -103,9 +104,67 @@
       $('#treeContainer').html('<div id="annoTree"></div>');
       $('#annoTree').on('hover_node.jstree', function(e, data) {
         var anno = treeItems.get(data.node.id);
-        if (anno.offset) {
-          var body = $('body')[0].outerHTML;
-          console.log(body.substring(0, 5), anno, body.indexOf(anno.exact), body.substring(anno.offset - 20,  anno.offset + anno.exact.length + 20)); 
+        console.log('ANNO', anno);
+        if (lastPlaced) {
+          $('#' + lastPlaced.id, parent.document).html(lastPlaced.replaced);
+          lastPlaced = undefined;
+        }
+  
+        if (anno.placed) {
+          $('#' + anno.placed.id, parent.document).html(anno.placed.replaced);
+          delete anno.placed;
+        }
+
+        if (anno.exact) {
+          var body = parent.document.documentElement.outerHTML.substring(parent.document.documentElement.outerHTML.indexOf('<body'));
+// add offset
+          if (anno.instance) {
+            var re = new RegExp('\\b'+anno.exact+'\\b', 'g'), cur = 1, match;
+            while ((match = re.exec(body)) != null) {
+              //console.log(body.length, body.substring(0, 10), 'MATCH', anno, match, match.index, '==', cur, anno.instance);
+              if (cur === anno.instance) {
+                anno.offset = match.index;
+                break;
+              }
+              cur++;
+            }
+            if (!anno.offset) {
+              console.log(anno.exact, 'was not found');
+            }
+          }
+          if (anno.offset) {
+            var annoID = 'sbAnno-' + data.node.id;
+            var startTag = '<span id="' + annoID + '" style="background: lightblue">', endTag = '</span>';
+            var tagsLen = startTag.length + endTag.length;
+            
+            var prevID = body.lastIndexOf(' id="', anno.offset);
+            var tagStart = body.lastIndexOf('<', prevID);
+            var tagEnd = body.indexOf('>', prevID);
+  // text to validate our id
+            var valText = body.substring(tagEnd + 1, anno.offset + anno.exact.length);
+            var idFrag = body.substring(tagStart, tagEnd + 1);
+  // the most immediate id before our element.
+            var id = $(idFrag).attr('id');
+  console.log('starting ID', id, {'valText': valText, idFrag: idFrag});
+  // but it may be closed before our anno. so we search outward from it.
+            curID = $('#' + id, parent.document)[0];
+            while (curID.outerHTML.indexOf(valText) < 0) {
+              id = $('#' + id, parent.document).parents("[id]:first").attr('id');
+              curID = $('#' + id, parent.document)[0];
+              console.log('trying outer of', id);
+            }
+  console.log('found enclosing', id, curID);
+            var toReplace = $('#' + id, parent.document).html();
+            $('#' + id, parent.document).html(toReplace.substring(0, anno.offset - tagEnd - 1) + 
+              startTag + 
+              anno.exact + 
+              endTag + 
+              toReplace.substring((anno.offset - tagEnd) + anno.exact.length - 1));
+            var placed = { id: id, replaced: toReplace}
+            anno.placed = placed;
+            lastPlaced = placed;
+            parent.location.hash = '#' + annoID;
+          }
         }
       }).jstree({
         core : { data: byAnno },
