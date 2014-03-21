@@ -148,22 +148,26 @@
   console.log('starting ID', id, {'valText': valText, idFrag: idFrag});
   // but it may be closed before our anno. so we search outward from it.
             curID = $('#' + id, parent.document)[0];
-            while (curID.outerHTML.indexOf(valText) < 0) {
+            while (curID && curID.outerHTML.indexOf(valText) < 0) {
               id = $('#' + id, parent.document).parents("[id]:first").attr('id');
               curID = $('#' + id, parent.document)[0];
               console.log('trying outer of', id);
             }
-  console.log('found enclosing', id, curID);
-            var toReplace = $('#' + id, parent.document).html();
-            $('#' + id, parent.document).html(toReplace.substring(0, anno.offset - tagEnd - 1) + 
-              startTag + 
-              anno.exact + 
-              endTag + 
-              toReplace.substring((anno.offset - tagEnd) + anno.exact.length - 1));
-            var placed = { id: id, replaced: toReplace}
-            anno.placed = placed;
-            lastPlaced = placed;
-            parent.location.hash = '#' + annoID;
+            if (curID) {
+              console.log('found enclosing', id, curID);
+              var toReplace = $('#' + id, parent.document).html();
+              $('#' + id, parent.document).html(toReplace.substring(0, anno.offset - tagEnd - 1) + 
+                startTag + 
+                anno.exact + 
+                endTag + 
+                toReplace.substring((anno.offset - tagEnd) + anno.exact.length - 1));
+              var placed = { id: id, replaced: toReplace}
+              anno.placed = placed;
+              lastPlaced = placed;
+              parent.location.hash = '#' + annoID;
+            } else {
+              console.log('not found', id, 'for', anno);
+            }
           }
         }
       }).jstree({
