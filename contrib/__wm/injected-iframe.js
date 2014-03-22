@@ -48,8 +48,8 @@
     $('head').append('<link rel="stylesheet" href="<!-- @var HOMEPAGE -->/lib/Semantic-UI/build/packaged/css/semantic.css" />');
     $('.left.hand.icon').click(function() {
       var w = window.innerWidth;
-      $('#sbIframe', parent.document).css('left', '1em')
-      $('#sbIframe', parent.document).css('width', w);
+      $('#SBIframe', parent.document).css('left', '1em')
+      $('#SBIframe', parent.document).css('width', w);
     });
 
     var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
@@ -106,18 +106,18 @@
         var anno = treeItems.get(data.node.id);
         console.log('ANNO', anno);
         if (lastPlaced) {
-          $(lastPlaced.anchor, parent.document).html(lastPlaced.replaced);
+          $(lastPlaced.selector, parent.document).html(lastPlaced.replaced);
           lastPlaced = undefined;
         }
   
         if (anno.placed) {
-          $(anno.placed.anchor, parent.document).html(anno.placed.replaced);
+          $(anno.placed.selector, parent.document).html(anno.placed.replaced);
           delete anno.placed;
         }
 
         if (anno.exact) {
           var body = parent.document.documentElement.outerHTML.substring(parent.document.documentElement.outerHTML.indexOf('<body'));
-// add offset
+          // add offset
           if (anno.instance) {
             var re = new RegExp('\\b'+anno.exact+'\\b', 'g'), cur = 1, match;
             while ((match = re.exec(body)) != null) {
@@ -133,55 +133,56 @@
             }
           }
           if (anno.offset) {
-            var annoAnchor = 'sbAnno-' + data.node.id;
-            var startTag = '<span id="' + annoAnchor + '" style="background: lightblue">', endTag = '</span>';
+            console.log('\nSB searching for anno', anno.exact);
+            // find the most specific enclosing element
+            var annoselector = 'SB-anno-' + data.node.id;
+            var startTag = '<span id="' + annoselector + '" style="background: lightblue">', endTag = '</span>';
             var tagsLen = startTag.length + endTag.length;
             
-  // first we need to work with text
+            // start with text FIXME handle comments
+            // find closest preceeding ID
             var prevID = body.lastIndexOf(' id="', anno.offset);
-            anchorSel = '#';
-            anchorType = 'id';
+            selectorSel = '#';
+            selectorType = 'id';
+            // no ID so try classes FIXME handle multiple classes
             if (prevID < 0) {
+              console.log('switching to class selector');
               prevID = body.lastIndexOf(' class="', anno.offset);
-              anchorSel = '.';
-              anchorType = 'class';
+              selectorSel = '.';
+              selectorType = 'class';
             }
             var tagStart = body.lastIndexOf('<', prevID);
             var tagEnd = body.indexOf('>', prevID);
-  // text to validate our id
+            // text to validate our id
             var valText = body.substring(tagEnd + 1, anno.offset + anno.exact.length);
             var idFrag = body.substring(tagStart, tagEnd + 1);
-  // now DOM
-  // the most immediate id before our element.
-            var anchor = $(idFrag).attr(anchorType);
-  console.log('starting anchor', prevID, 'anchor', anchorSel, anchor, {'valText': valText, idFrag: idFrag});
-  // but it may be closed before our anno. so we search outward from it.
-            curAnchor = $(anchorSel + anchor, parent.document);
+            // now DOM
+            // the most immediate id before our element.
+            var selector = $(idFrag).attr(selectorType);
+            // but it may be closed before our anno. so we search outward from it.
+            curselector = $(selectorSel + selector, parent.document);
+            console.log('starting selector', { exact: anno.exact, prevID: prevID, selectorSel : selectorSel, selector: selector, selectorType: selectorType, curselector: curselector, valText: valText, idFrag: idFrag});
             // searching while we can, the current selection contains our text, and its the finest selection
-            while (curAnchor && curAnchor[0] && (curAnchor[0].outerHTML.indexOf(valText) < 0 || curAnchor.length > 0)) {
-              anchor = $(anchorSel + anchor, parent.document).parents("[id]:first").attr(anchorType);
-              curAnchor = $(anchorSel + anchor, parent.document);
-              console.log('trying outer of', anchor);
+            while (curselector && curselector[0] && curselector[0].outerHTML.indexOf(valText) < 0) {
+              selector = $(selectorSel + selector, parent.document).parents('[' + selectorType + ']:first').attr(selectorType);
+              curselector = $(selectorSel + selector, parent.document);
+              console.log('trying outer of', selector);
             }
-            if (!anchor) {
-              anchor = 'body';
-              anchorSel = '';
-              curAnchor = $(anchorSel + anchor, parent.document);
-            }
-            if (curAnchor) {
-              console.log('found enclosing', anchor, curAnchor);
-              var toReplace = $(anchorSel + anchor, parent.document).html();
-              $(anchor, parent.document).html(toReplace.substring(0, anno.offset - tagEnd - 1) + 
+            if (selector) {
+              var selection = selectorSel + selector;
+              console.log('found enclosing', selection, curselector);
+              var toReplace = $(selection, parent.document).html();
+              $(selection, parent.document).html(toReplace.substring(0, anno.offset - tagEnd - 1) + 
                 startTag + 
                 anno.exact + 
                 endTag + 
                 toReplace.substring((anno.offset - tagEnd) + anno.exact.length - 1));
-              var placed = { anchor: anchorSel + anchor, replaced: toReplace}
+              var placed = { selector: selection, replaced: toReplace}
               anno.placed = placed;
               lastPlaced = placed;
-              parent.location.hash = anchorSel + annoAnchor;
+              parent.location.hash = annoselector;
             } else {
-              console.log('not found', anchor, 'for', anno);
+              console.log('not found', selector, 'for', anno);
             }
           }
         }
