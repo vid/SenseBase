@@ -106,12 +106,12 @@
         var anno = treeItems.get(data.node.id);
         console.log('ANNO', anno);
         if (lastPlaced) {
-          $('#' + lastPlaced.id, parent.document).html(lastPlaced.replaced);
+          $(lastPlaced.anchor, parent.document).html(lastPlaced.replaced);
           lastPlaced = undefined;
         }
   
         if (anno.placed) {
-          $('#' + anno.placed.id, parent.document).html(anno.placed.replaced);
+          $(anno.placed.anchor, parent.document).html(anno.placed.replaced);
           delete anno.placed;
         }
 
@@ -133,40 +133,55 @@
             }
           }
           if (anno.offset) {
-            var annoID = 'sbAnno-' + data.node.id;
-            var startTag = '<span id="' + annoID + '" style="background: lightblue">', endTag = '</span>';
+            var annoAnchor = 'sbAnno-' + data.node.id;
+            var startTag = '<span id="' + annoAnchor + '" style="background: lightblue">', endTag = '</span>';
             var tagsLen = startTag.length + endTag.length;
             
+  // first we need to work with text
             var prevID = body.lastIndexOf(' id="', anno.offset);
+            anchorSel = '#';
+            anchorType = 'id';
+            if (prevID < 0) {
+              prevID = body.lastIndexOf(' class="', anno.offset);
+              anchorSel = '.';
+              anchorType = 'class';
+            }
             var tagStart = body.lastIndexOf('<', prevID);
             var tagEnd = body.indexOf('>', prevID);
   // text to validate our id
             var valText = body.substring(tagEnd + 1, anno.offset + anno.exact.length);
             var idFrag = body.substring(tagStart, tagEnd + 1);
+  // now DOM
   // the most immediate id before our element.
-            var id = $(idFrag).attr('id');
-  console.log('starting ID', id, {'valText': valText, idFrag: idFrag});
+            var anchor = $(idFrag).attr(anchorType);
+  console.log('starting anchor', prevID, 'anchor', anchorSel, anchor, {'valText': valText, idFrag: idFrag});
   // but it may be closed before our anno. so we search outward from it.
-            curID = $('#' + id, parent.document)[0];
-            while (curID && curID.outerHTML.indexOf(valText) < 0) {
-              id = $('#' + id, parent.document).parents("[id]:first").attr('id');
-              curID = $('#' + id, parent.document)[0];
-              console.log('trying outer of', id);
+            curAnchor = $(anchorSel + anchor, parent.document);
+            // searching while we can, the current selection contains our text, and its the finest selection
+            while (curAnchor && curAnchor[0] && (curAnchor[0].outerHTML.indexOf(valText) < 0 || curAnchor.length > 0)) {
+              anchor = $(anchorSel + anchor, parent.document).parents("[id]:first").attr(anchorType);
+              curAnchor = $(anchorSel + anchor, parent.document);
+              console.log('trying outer of', anchor);
             }
-            if (curID) {
-              console.log('found enclosing', id, curID);
-              var toReplace = $('#' + id, parent.document).html();
-              $('#' + id, parent.document).html(toReplace.substring(0, anno.offset - tagEnd - 1) + 
+            if (!anchor) {
+              anchor = 'body';
+              anchorSel = '';
+              curAnchor = $(anchorSel + anchor, parent.document);
+            }
+            if (curAnchor) {
+              console.log('found enclosing', anchor, curAnchor);
+              var toReplace = $(anchorSel + anchor, parent.document).html();
+              $(anchor, parent.document).html(toReplace.substring(0, anno.offset - tagEnd - 1) + 
                 startTag + 
                 anno.exact + 
                 endTag + 
                 toReplace.substring((anno.offset - tagEnd) + anno.exact.length - 1));
-              var placed = { id: id, replaced: toReplace}
+              var placed = { anchor: anchorSel + anchor, replaced: toReplace}
               anno.placed = placed;
               lastPlaced = placed;
-              parent.location.hash = '#' + annoID;
+              parent.location.hash = anchorSel + annoAnchor;
             } else {
-              console.log('not found', id, 'for', anno);
+              console.log('not found', anchor, 'for', anno);
             }
           }
         }
