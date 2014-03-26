@@ -54,8 +54,8 @@ exports.start = function(config) {
     if (content.toString().match(/<\/body/im)) {
       GLOBAL.debug('injecting iframe');
       // add a div in case there is none, and a div to enable placing the iframe inline
-      content = content.toString().replace(/(<body.*?>)/im, '<div style="margin: 0; padding: 0" id="sbEnclosure">$1')
-        .replace(/<\/body/im, '</div><div id="sbInsie"></div><script src="/__wm/injected.js"></script></body');
+      content = content.toString().replace(/(<body.*?>)/im, '<div style="margin: 0; padding: 0" id="SBEnclosure">$1')
+        .replace(/<\/body/im, '</div><div id="SBInsie"></div><script src="/__wm/injected.js"></script></body');
     }
     return content;
   };
