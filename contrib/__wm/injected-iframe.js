@@ -1,5 +1,5 @@
 (function() {
-  var lastPlaced;
+  var lastPlaced, blinkAnno, selectMode = false;
   ready();
   function ready() {
   // do scraper actions as appropriate
@@ -46,19 +46,30 @@
     $('body').append('<span id="annotationCount"></span><div id="treeContainer"></div>');
     $('head').append('<link rel="stylesheet" href="<!-- @var HOMEPAGE -->/lib/jstree/dist/themes/default/style.min.css" />');
     $('head').append('<link rel="stylesheet" href="<!-- @var HOMEPAGE -->/lib/Semantic-UI/build/packaged/css/semantic.css" />');
-    $('.left.hand.icon').click(function() {
-      var w = window.innerWidth;
-      $('#SBIframe', parent.document).css('left', '1em')
-      $('#SBIframe', parent.document).css('width', w);
-    });
 
-    var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
-    console.log('SenseBase iframe', parent.window.location.href);
-    fayeClient.publish('/annotate', { uri: parent.window.location.href} );
+    // actions
+    $('.left.hand.icon').click(function() {
+      var w = window.innerwidth;
+      $('#sbiframe', parent.document).css('left', '1em')
+      $('#sbiframe', parent.document).css('width', w);
+    });
+    $('.long.arrow.right.icon').click(function() {
+      console.log('embed');
+      $('#sbIframe', parent.document).prependTo('#SBInsie', parent.document);
+    });
 
     $('.refresh.icon').click(function() {
       fayeClient.publish('/annotate', { uri: parent.window.location.href, contents: $('body', parent.document.documentElement.outerHTML)} );
     });
+
+    $('.minus.checkbox.icon').click(function() {
+      // FIXME
+      $('#sbIframe', parent.document).css('height', $('#sbIframe', parent.document).css('height') === '50px' ? '90%' : '50px');
+      console.log('toggle short');
+    });
+    var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
+    console.log('SenseBase iframe', parent.window.location.href);
+    fayeClient.publish('/annotate', { uri: parent.window.location.href} );
 
     fayeClient.subscribe('/annotations', function(data) {
       var annotations = data.annotations, uri = data.uri;
@@ -103,89 +114,12 @@
 
       $('#treeContainer').html('<div id="annoTree"></div>');
       $('#annoTree').on('hover_node.jstree', function(e, data) {
-        var anno = treeItems.get(data.node.id);
-        console.log('ANNO', anno);
-        if (lastPlaced) {
-          $(lastPlaced.selector, parent.document).html(lastPlaced.replaced);
-          lastPlaced = undefined;
+        if (!selectMode) {
+          selectAnnotation(e, data);
         }
-  
-        if (anno.placed) {
-          $(anno.placed.selector, parent.document).html(anno.placed.replaced);
-          delete anno.placed;
-        }
-
-        if (anno.exact) {
-          var body = parent.document.documentElement.outerHTML.substring(parent.document.documentElement.outerHTML.indexOf('<body'));
-          // add offset
-          if (anno.instance) {
-            var re = new RegExp('\\b'+anno.exact+'\\b', 'g'), cur = 1, match;
-            while ((match = re.exec(body)) != null) {
-              //console.log(body.length, body.substring(0, 10), 'MATCH', anno, match, match.index, '==', cur, anno.instance);
-              if (cur === anno.instance) {
-                anno.offset = match.index;
-                break;
-              }
-              cur++;
-            }
-            if (!anno.offset) {
-              console.log(anno.exact, 'was not found');
-            }
-          }
-          if (anno.offset) {
-            console.log('\nSB searching for anno', anno.exact);
-            // find the most specific enclosing element
-            var annoselector = 'SB-anno-' + data.node.id;
-            var startTag = '<span id="' + annoselector + '" style="background: lightblue">', endTag = '</span>';
-            var tagsLen = startTag.length + endTag.length;
-            
-            // start with text FIXME handle comments
-            // find closest preceeding ID
-            var prevID = body.lastIndexOf(' id="', anno.offset);
-            selectorSel = '#';
-            selectorType = 'id';
-            // no ID so try classes FIXME handle multiple classes
-            if (prevID < 0) {
-              console.log('switching to class selector');
-              prevID = body.lastIndexOf(' class="', anno.offset);
-              selectorSel = '.';
-              selectorType = 'class';
-            }
-            var tagStart = body.lastIndexOf('<', prevID);
-            var tagEnd = body.indexOf('>', prevID);
-            // text to validate our id
-            var valText = body.substring(tagEnd + 1, anno.offset + anno.exact.length);
-            var idFrag = body.substring(tagStart, tagEnd + 1);
-            // now DOM
-            // the most immediate id before our element.
-            var selector = $(idFrag).attr(selectorType);
-            // but it may be closed before our anno. so we search outward from it.
-            curselector = $(selectorSel + selector, parent.document);
-            console.log('starting selector', { exact: anno.exact, prevID: prevID, selectorSel : selectorSel, selector: selector, selectorType: selectorType, curselector: curselector, valText: valText, idFrag: idFrag});
-            // searching while we can, the current selection contains our text, and its the finest selection
-            while (curselector && curselector[0] && curselector[0].outerHTML.indexOf(valText) < 0) {
-              selector = $(selectorSel + selector, parent.document).parents('[' + selectorType + ']:first').attr(selectorType);
-              curselector = $(selectorSel + selector, parent.document);
-              console.log('trying outer of', selector);
-            }
-            if (selector) {
-              var selection = selectorSel + selector;
-              console.log('found enclosing', selection, curselector);
-              var toReplace = $(selection, parent.document).html();
-              $(selection, parent.document).html(toReplace.substring(0, anno.offset - tagEnd - 1) + 
-                startTag + 
-                anno.exact + 
-                endTag + 
-                toReplace.substring((anno.offset - tagEnd) + anno.exact.length - 1));
-              var placed = { selector: selection, replaced: toReplace}
-              anno.placed = placed;
-              lastPlaced = placed;
-              parent.location.hash = annoselector;
-            } else {
-              console.log('not found', selector, 'for', anno);
-            }
-          }
-        }
+      }).on('select_node.jstree', function(e, data) {
+        selectMode = true;
+        selectAnnotation(e, data);
       }).jstree({
         core : { data: byAnno },
         plugins : [ "search", "types", "wholerow" ],
@@ -213,6 +147,101 @@
 
       console.log('treeAnnos', byAnno, 'SPLIT', treeItems);
     });
+
+    function selectAnnotation(e, data) {
+      var anno = treeItems.get(data.node.id);
+      console.log('ANNO', anno);
+      // clear any last selected annotation
+      if (lastPlaced) {
+        clearTimeout(blinkAnno);
+        $(lastPlaced.selector, parent.document).html(lastPlaced.replaced);
+        lastPlaced = undefined;
+        selectMode = false;
+      }
+
+      $('#details').text(JSON.stringify(anno, null, 2));
+      if (anno.placed) {
+        $(anno.placed.selector, parent.document).html(anno.placed.replaced);
+        delete anno.placed;
+      }
+
+      if (anno.exact) {
+        var body = parent.document.documentElement.outerHTML.substring(parent.document.documentElement.outerHTML.indexOf('<body'));
+        // add offset
+        if (anno.instance) {
+          var re = new RegExp('\\b'+anno.exact+'\\b', 'g'), cur = 1, match;
+          while ((match = re.exec(body)) != null) {
+            //console.log(body.length, body.substring(0, 10), 'MATCH', anno, match, match.index, '==', cur, anno.instance);
+            if (cur === anno.instance) {
+              anno.offset = match.index;
+              break;
+            }
+            cur++;
+          }
+          if (!anno.offset) {
+            console.log(anno.exact, 'was not found');
+          }
+        }
+        if (anno.offset) {
+          console.log('\n\n:: SB searching for anno ::', anno.exact);
+          // find the most specific enclosing element
+          var annoselector = 'SB-anno-' + data.node.id;
+          var startTag = '<span id="' + annoselector + '" class="sbAnnotation">', endTag = '</span>';
+          var tagsLen = startTag.length + endTag.length;
+          
+          // start with text FIXME handle comments
+          // find closest preceeding ID
+          var prevID = body.lastIndexOf(' id="', anno.offset);
+          selectorSel = '#';
+          selectorType = 'id';
+          // no ID so try classes FIXME handle multiple classes
+          if (prevID < 0) {
+            console.log('switching to class selector');
+            prevID = body.lastIndexOf(' class="', anno.offset);
+            selectorSel = '.';
+            selectorType = 'class';
+          }
+          var tagStart = body.lastIndexOf('<', prevID);
+          var tagEnd = body.indexOf('>', prevID);
+          // text to validate our id
+          var valText = body.substring(tagEnd + 1, anno.offset + anno.exact.length);
+          var idFrag = body.substring(tagStart, tagEnd + 1);
+          // now DOM
+          // the most immediate id before our element.
+          var selector = $(idFrag).attr(selectorType);
+          // but it may be closed before our anno. so we search outward from it.
+          curselector = $(selectorSel + selector, parent.document);
+          console.log('starting selector', { exact: anno.exact, prevID: prevID, selectorSel : selectorSel, selector: selector, selectorType: selectorType, curselector: curselector, valText: valText, idFrag: idFrag});
+          // searching while we can, the current selection contains our text, and its the finest selection
+          while (curselector && curselector[0] && curselector[0].outerHTML.indexOf(valText) < 0) {
+            selector = $(selectorSel + selector, parent.document).parents('[' + selectorType + ']:first').attr(selectorType);
+            curselector = $(selectorSel + selector, parent.document);
+            console.log('trying outer of', selector);
+          }
+          if (selector) {
+            var selection = selectorSel + selector;
+            var toReplace = $(selection, parent.document).html();
+            // debugging
+            var t = toReplace.substr(anno.offset - tagEnd - 1, anno.exact.length);
+            console.log('T', tagEnd, anno.exact, t, 'B', body.substr(anno.offset, anno.exact.length));
+            // end debugging
+            $(selection, parent.document).html(toReplace.substring(0, anno.offset - tagEnd - 1) + 
+              startTag + 
+              anno.exact + 
+              endTag + 
+              toReplace.substring((anno.offset - tagEnd) + anno.exact.length - 1));
+            var placed = { selector: selection, replaced: toReplace}
+            anno.placed = placed;
+            lastPlaced = placed;
+            blinkAnno = setInterval(function() { $('#' + annoselector, parent.document).toggleClass('sbAnnotation')}, 500);
+            console.log('found enclosing', { curselector: curselector[0].outerHTML, placed: placed});
+            parent.location.hash = annoselector;
+          } else {
+            console.log('not found', selector, 'for', anno);
+          }
+        }
+      }
+    }
   }
 }());
 parent.window.senseBaseIframe = this;

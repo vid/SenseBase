@@ -4,11 +4,17 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="/__wm/lib/jstree.style.min.css" />
 </head>
-<body>
-  <i class="hand left icon"></i>
-  <i class="refresh icon"></i>
-  <span id="annotationCount"></span>
-  <div id="treeContainer"></div>
+<body style="padding: 0px; margin: 0px">
+  <div style="background: black; padding: 6px; margin: 0px; height: 1em">
+  <i class="minus checkbox inverted icon"></i>
+  <i class="hand left inverted icon"></i>
+  <i class="refresh inverted icon"></i>
+  <i class="long arrow right inverted icon"></i>
+  <span style="background: white; float: right" a class="ui black circular label" id="annotationCount"> &nbsp;  </span>
+</div>
+  <pre id="details" style="height: 9em; overflow: auto; font-size: 80%; background-color: white; border-left: 1px dotted grey">
+  </pre>
+  <div id="treeContainer" style="position: fixed; top: 8em; overflow: auto; width: 100%; height: 90%"></div>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="<!-- @var HOMEPAGE -->/lib/faye/include.js"></script>
