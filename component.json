@@ -4,8 +4,8 @@
   "dependencies": {
     "faye": "~1.0.0",
     "jquery": "~2.1.0",
-    "jstree": "~3.0.0-beta9",
     "Semantic-UI": "~0.13.1",
-    "jquery-ui": "~1.10.4"
+    "jquery-ui": "~1.10.4",
+    "jstree": "~3.0.0-beta10"
   }
 }
