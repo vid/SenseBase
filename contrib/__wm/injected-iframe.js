@@ -26,6 +26,7 @@
       });
     }
 
+    var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
     var treeItems = {
       map : {},
       _id : 0,
@@ -49,9 +50,9 @@
 
     // actions
     $('.left.hand.icon').click(function() {
-      var w = window.innerwidth;
-      $('#sbiframe', parent.document).css('left', '1em')
-      $('#sbiframe', parent.document).css('width', w);
+      var w = 300; //window.innerwidth;
+      $('#sbIframe', parent.document).css('left', '1em')
+      $('#sbIframe', parent.document).css('width', w + 'px');
     });
     $('.long.arrow.right.icon').click(function() {
       console.log('embed');
@@ -59,7 +60,8 @@
     });
 
     $('.refresh.icon').click(function() {
-      fayeClient.publish('/annotate', { uri: parent.window.location.href, contents: $('body', parent.document.documentElement.outerHTML)} );
+      console.log('updateContent');
+      fayeClient.publish('/updateContent', { uri: parent.window.location.href, content: parent.document.documentElement.outerHTML} );
     });
 
     $('.minus.checkbox.icon').click(function() {
@@ -67,7 +69,6 @@
       $('#sbIframe', parent.document).css('height', $('#sbIframe', parent.document).css('height') === '50px' ? '90%' : '50px');
       console.log('toggle short');
     });
-    var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
     console.log('SenseBase iframe', parent.window.location.href);
     fayeClient.publish('/annotate', { uri: parent.window.location.href} );
 
