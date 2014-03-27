@@ -190,6 +190,7 @@
           var startTag = '<span id="' + annoselector + '" class="sbAnnotation">', endTag = '</span>';
           var tagsLen = startTag.length + endTag.length;
           
+          /*
           // start with text FIXME handle comments
           // find closest preceeding ID
           var prevID = body.lastIndexOf(' id="', anno.offset);
@@ -219,6 +220,8 @@
             curselector = $(selectorSel + selector, parent.document);
             console.log('trying outer of', selector);
           }
+          */
+          selector = anno.selector, selectorSel = '', tagEnd = 0, curselector = $(selector, parent.document);
           if (selector) {
             var selection = selectorSel + selector;
             var toReplace = $(selection, parent.document).html();
