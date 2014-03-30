@@ -85,9 +85,10 @@ function shortenURI(u) {
 
 // formulate search parameters
 function getSearchOptions() {
-  var options = { terms : $('#termSearch').val(), annotations : $('#annoSearch').val(), validationState: $('#validationState').val(),
+  var options = { terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
+    validationState: $('#validationState').val(), annotationState: $('#annotationState').val(),
     from: $('#fromDate').val(), to: $('#toDate').val(),
-    user: $('#searchUser').val() };
+    member: $('#annoMember').val() };
   return options;
 }
 
