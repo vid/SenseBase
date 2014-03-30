@@ -34,6 +34,7 @@ $(function() {
   });
 
   $('.viz.button').click(function() {
+    $('#viz').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
     $('.viz.sidebar').sidebar('toggle');
     fayeClient.publish('/cluster', getSearchOptions());
   });
