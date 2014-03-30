@@ -1,13 +1,4 @@
 
-
-// formulate search parameters
-function getSearchOptions() {
-  var options = { terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
-    from: $('#fromDate').val(), to: $('#toDate').val(),
-    user: $('#searchUser').val() };
-  return options;
-}
-
 fayeClient.subscribe('/clusterResults', function(results) {
   console.log('clusterResults', results);
   doTreemap(results.clusters);
@@ -92,11 +83,16 @@ function shortenURI(u) {
   return (!u || u.length < ULEN) ? u : (u.substring(0, ULEN - 3) + '…' + u.substring(u.length - 3));
 }
 
-function doSearch() {
-  var search = { terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
+// formulate search parameters
+function getSearchOptions() {
+  var options = { terms : $('#termSearch').val(), annotations : $('#annoSearch').val(), validationState: $('#validationState').val(),
     from: $('#fromDate').val(), to: $('#toDate').val(),
-    member: $('#searchMember').val() }
-  fayeClient.publish('/search', search);
+    user: $('#searchUser').val() };
+  return options;
+}
+
+function doSearch() {
+  fayeClient.publish('/search', getSearchOptions());
   $('.search.button').animate({opacity: 0.2}, 200, 'linear');
 }
 
