@@ -1,4 +1,13 @@
 
+
+// formulate search parameters
+function getSearchOptions() {
+  var options = { terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
+    from: $('#fromDate').val(), to: $('#toDate').val(),
+    user: $('#searchUser').val() };
+  return options;
+}
+
 // set up form
 // initiate search
 $('.search input').keyup(function(e) {

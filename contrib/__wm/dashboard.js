@@ -35,7 +35,7 @@ $(function() {
 
   $('.viz.button').click(function() {
     $('.viz.sidebar').sidebar('toggle');
-    getClusterData(doTreemap);
+    fayeClient.publish('/cluster', getSearchOptions());
   });
 
   $('.member.actions').click(function() {
@@ -103,20 +103,6 @@ function addChat(msg) {
     annotateCurrentURI($(this).text());
   });
 }
-
-// search
-
-$('#searchForm').submit(function(event) {
-  event.preventDefault();
-  var search = { terms : $('#termSearch').val(), annotations : $('#annoSearch').val(), 
-    from: $('#fromDate').val(), to: $('#toDate').val(),
-    user: $('#searchUser').val() };
-  fayeClient.publish('/search', search); 
-});
-
-fayeClient.subscribe('/searchResults', function(searchResults) {
-  console.table('searchResults', searchResults);
-});
 
 // collab
 fayeClient.subscribe('/collab', function(message) {
