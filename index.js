@@ -186,7 +186,7 @@ exports.start = function(config) {
       if (err) {
        GLOBAL.error('/upload', err);
       } else {
-        var content = resp.buffer || 'NOCONTENT', uri = GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName;
+        var content = resp.buffer || utils.NOCONTENT, uri = GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName;
         GLOBAL.config.indexer.saveContentItem({ uri: uri, isHTML: true, title: resp.title, member: req.user.username, content: content}, function(err, res, cItem) {
           console.log('uploaded', resp.fileName, cItem);
           pubsub.updateItem(cItem);

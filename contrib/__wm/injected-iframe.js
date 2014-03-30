@@ -2,6 +2,7 @@
   var lastPlaced, blinkAnno, selectMode = false;
   ready();
   function ready() {
+    var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
   // do scraper actions as appropriate
     var senseBase = window.senseBase;
     if (senseBase.isScraper) {
@@ -18,15 +19,14 @@
       }, 2000);
       fayeClient.subscribe('/scrape', function(msg) {
         console.log('/scrape', msg);
-        if (!msg.site.link) {
+        if (!msg.site.uri) {
           console.log('not scraping undefined');
         } else {
-          setTimeout(function() { window.location.href = msg.site.link;}, 8000);
+          setTimeout(function() { window.location.href = msg.site.uri;}, 2000);
         }
       });
     }
 
-    var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
     var treeItems = {
       map : {},
       _id : 0,

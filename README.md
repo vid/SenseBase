@@ -71,6 +71,8 @@ Annotations are a child relationship to contentItems.
 
 ContentItems initially have an state of 'found' ('queued' if scraping, then 'found' when scraped). After their first annotation and an annotationSummary is added, this becomes 'annotated.'
 
+Everything else (aside from direct field data) is saved as an annotation.
+
 # Acknowledgement
 
 This project is supported by and forms the basis of http://www.github.com/TsangLab/Proxiris, as well as work developed for the Observastory project for eHealth in Motion | Dataparc.
