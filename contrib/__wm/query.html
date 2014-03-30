@@ -5,20 +5,24 @@
         <label for="termSearch">Terms</label>
         <input id="termSearch" />
       </div>
+    </div>
+    <div class="column">
       <div class="field">
         <label for="annoSearch">Annotations</label>
         <input id="annoSearch" />
-      </div>
-      <div class="two fields">
-        <button class="ui blue mini search submit button" id="searchForm">Search</button> &nbsp;
-        <span class="ui checkbox"><input id="refreshQueries" type="checkbox" /> <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label></span>
-      </div>
-      <div class="field">
-        <button class="ui mini viz button">
-          <i class="unhide icon"></i>
-        </button>
+        <select id="validationState"><option>Validated or unvalidated</option><option>Validated</option><option>Unvalidated</option><option>All including un-annotated</option></select>
       </div>
     </div>
+    <div class="column">
+      <div class="field">
+        <label>Results</label>
+        <button class="ui blue mini search submit button" id="searchForm">Search</button> &nbsp;
+        <button class="ui mini viz submit button">Cluster</button> &nbsp;
+        <p><span class="ui checkbox"><input id="refreshQueries" type="checkbox" /> <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label></span></p>
+      </div>
+    </div>
+  </div>
+  <div class="ui two column stackable page grid" style="display: none">
     <div class="column">
       <div class="field">
         <label for="fromDate">From</label>

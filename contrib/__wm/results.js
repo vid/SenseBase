@@ -58,7 +58,7 @@ fayeClient.subscribe('/updateItem', function(result) {
 $('.search input').keyup(function(e) {
   if(e.keyCode == 13) doSearch();
 });
-$('#searchForm').click(function(event) {
+$('.search.button').click(function(event) {
   doSearch();
 });
 

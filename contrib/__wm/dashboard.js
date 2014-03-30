@@ -1,6 +1,6 @@
 var sbUser;
 
-var mainSize = 0, fluidSizes = ['five', 'six', 'seven']; // fluid sizes for main ui
+var mainSize = 0, fluidSizes = ['four', 'five', 'six', 'seven']; // fluid sizes for main ui
 $(function() {
   if (window.senseBase.logo) {
     $('<button style="height: 56px" title="Logo" class="ui mini logo attached button"> <img src="' + window.senseBase.logo + '" style="width: 100%" /></button>').prependTo('.main.fluid.buttons');
