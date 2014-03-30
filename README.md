@@ -65,6 +65,12 @@ then ```node app.js```
 * grunt
 * Edit assets, grunt will generate final files
 
+# Programming notes
+
+Annotations are a child relationship to contentItems.
+
+ContentItems initially have an state of 'found' ('queued' if scraping, then 'found' when scraped). After their first annotation and an annotationSummary is added, this becomes 'annotated.'
+
 # Acknowledgement
 
 This project is supported by and forms the basis of http://www.github.com/TsangLab/Proxiris, as well as work developed for the Observastory project for eHealth in Motion | Dataparc.
