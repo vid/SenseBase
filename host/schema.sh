@@ -7,10 +7,10 @@ curl -XPUT http://localhost:9200/$1/
 curl -XPUT "http://localhost:9200/$1/contentItem/_mapping" -d '
 {
   "contentItem" : {
-      "_id" : {
-        "path" : "uri",
-        "index": "not_analyzed", "store" : "yes"
-      },
+    "_id" : {
+      "path" : "uri",
+      "index": "not_analyzed", "store" : "yes"
+    },
     "properties" : {
       "timestamp" : {
         "type" : "date",
@@ -18,6 +18,19 @@ curl -XPUT "http://localhost:9200/$1/contentItem/_mapping" -d '
       },
       "uri" : {
         "type" : "string", "index":"not_analyzed", "store" : "yes"
+      },
+      "visitors" : {
+        "type" : "object",
+          "properties" : {
+            "@timestamp" : {
+              "type" : "date",
+              "format" : "dateOptionalTime"
+            },
+            "member" : {
+              "type" : "string", "index":"not_analyzed", "store" : "yes"
+            }
+          }
+        }
       }
     }
   }
