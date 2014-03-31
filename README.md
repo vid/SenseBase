@@ -75,7 +75,7 @@ All 'team' interaction is via pubsub.js. ElasticSearch is not exposed.
 
 Annotations are a child relationship to contentItems.
 
-ContentItems initially have an state of 'found' ('queued' if scraping, then 'found' when scraped). After their first annotation and an annotationSummary is added, this becomes 'annotated.'
+ContentItems initially have an state of 'visited' ('queued' if scraping, then 'visited' when scraped). After their first annotation and an annotationSummary is added, this becomes 'annotated.'
 
 Everything else (aside from direct field data) is saved as an annotation.
 
