@@ -67,6 +67,12 @@ then ```node app.js```
 
 # Programming notes
 
+app.js creates a configured instance of sensebase.js (index.js).
+
+index.js manages access and bootstraps /lib.pubsub.js
+
+All 'team' interaction is via pubsub.js. ElasticSearch is not exposed.
+
 Annotations are a child relationship to contentItems.
 
 ContentItems initially have an state of 'found' ('queued' if scraping, then 'found' when scraped). After their first annotation and an annotationSummary is added, this becomes 'annotated.'
