@@ -9,6 +9,8 @@ var fs = require('fs'),
   util = require('util'),
   LocalStrategy = require('passport-local').Strategy;
   
+var utils = require('./lib/utils');
+
 var fileUpload = require('./lib/file-upload.js'), pubsub;
 
 var users;
