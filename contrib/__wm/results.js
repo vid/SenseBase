@@ -59,7 +59,7 @@ $('#fromDate').datepicker();
 $('#toDate').datepicker();
 $('#refreshQueries').click(function(e) {
   if ($(e.target).prop('checked')) {
-    queryRefresher = setInterval(doSearch, 5000);
+    setupQueryRefresher(5000);
   } else {
     if (queryRefresher) {
       clearInterval(queryRefresher);
@@ -67,6 +67,10 @@ $('#refreshQueries').click(function(e) {
   }
   console.log('refrresh', queryRefresher);
 });
+
+function setupQueryRefresher(interval) {
+  queryRefresher = setInterval(doSearch, interval);
+}
 
 // input element
 var spinner = $(".spinner").spinner({
