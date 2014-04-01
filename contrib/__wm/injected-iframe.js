@@ -167,7 +167,10 @@
       }
 
       if (anno.exact) {
-        var body = parent.document.documentElement.outerHTML.substring(parent.document.documentElement.outerHTML.indexOf('<body'));
+        if (!anno.selector) {
+          anno.selector = 'body';
+        }
+        var body = $(anno.selector, parent.document).html();
         // add offset
         if (anno.instance) {
           var re = new RegExp('\\b'+anno.exact+'\\b', 'g'), cur = 1, match;
@@ -190,37 +193,6 @@
           var startTag = '<span id="' + annoselector + '" class="sbAnnotation">', endTag = '</span>';
           var tagsLen = startTag.length + endTag.length;
           
-          /*
-          // start with text FIXME handle comments
-          // find closest preceeding ID
-          var prevID = body.lastIndexOf(' id="', anno.offset);
-          selectorSel = '#';
-          selectorType = 'id';
-          // no ID so try classes FIXME handle multiple classes
-          if (prevID < 0) {
-            console.log('switching to class selector');
-            prevID = body.lastIndexOf(' class="', anno.offset);
-            selectorSel = '.';
-            selectorType = 'class';
-          }
-          var tagStart = body.lastIndexOf('<', prevID);
-          var tagEnd = body.indexOf('>', prevID);
-          // text to validate our id
-          var valText = body.substring(tagEnd + 1, anno.offset + anno.exact.length);
-          var idFrag = body.substring(tagStart, tagEnd + 1);
-          // now DOM
-          // the most immediate id before our element.
-          var selector = $(idFrag).attr(selectorType);
-          // but it may be closed before our anno. so we search outward from it.
-          curselector = $(selectorSel + selector, parent.document);
-          console.log('starting selector', { exact: anno.exact, prevID: prevID, selectorSel : selectorSel, selector: selector, selectorType: selectorType, curselector: curselector, valText: valText, idFrag: idFrag});
-          // searching while we can, the current selection contains our text, and its the finest selection
-          while (curselector && curselector[0] && curselector[0].outerHTML.indexOf(valText) < 0) {
-            selector = $(selectorSel + selector, parent.document).parents('[' + selectorType + ']:first').attr(selectorType);
-            curselector = $(selectorSel + selector, parent.document);
-            console.log('trying outer of', selector);
-          }
-          */
           selector = anno.selector, selectorSel = '', tagEnd = 0, curselector = $(selector, parent.document);
           if (selector) {
             var selection = selectorSel + selector;
@@ -229,11 +201,11 @@
             var t = toReplace.substr(anno.offset - tagEnd - 1, anno.exact.length);
             console.log('T', tagEnd, anno.exact, t, 'B', body.substr(anno.offset, anno.exact.length));
             // end debugging
-            $(selection, parent.document).html(toReplace.substring(0, anno.offset - tagEnd - 1) + 
+            $(selection, parent.document).html(toReplace.substring(0, anno.offset - tagEnd ) + 
               startTag + 
               anno.exact + 
               endTag + 
-              toReplace.substring((anno.offset - tagEnd) + anno.exact.length - 1));
+              toReplace.substring((anno.offset - tagEnd) + anno.exact.length));
             var placed = { selector: selection, replaced: toReplace}
             anno.placed = placed;
             lastPlaced = placed;
