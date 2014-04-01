@@ -1,5 +1,5 @@
 (function() {
-  var lastPlaced, blinkAnno, selectMode = false;
+  var lastPlaced, blinkAnno, selectMode = false, displayAll = true, lastSelected;
   ready();
   function ready() {
     var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
@@ -27,18 +27,24 @@
       });
     }
 
+    // utility to manage IDs for items
     var treeItems = {
+      // ids and their items
       map : {},
+      // id issued in sequence
       _id : 0,
       reset : function() {
         this.map = {};
         this._id = 0;
       },
+      // get an id
       id : function(o) {
         this._id++;
+        o.__id = this._id;
         this.map[this._id] = o;
         return this._id;
       },
+      // return the item for this id
       get : function(i) {
         return this.map[i];
       }
@@ -115,12 +121,21 @@
 
       $('#treeContainer').html('<div id="annoTree"></div>');
       $('#annoTree').on('hover_node.jstree', function(e, data) {
+        var anno = treeItems.get(data.node.id);
+
         if (!selectMode) {
-          selectAnnotation(e, data);
+          displayAnno(anno, displayAll);
         }
       }).on('select_node.jstree', function(e, data) {
-        selectMode = true;
-        selectAnnotation(e, data);
+        var anno = treeItems.get(data.node.id);
+
+        // clear select mode if it's the same anno
+        if (selectMode && lastSelected === anno) {
+          selectMode = false;
+        } else {
+          selectMode = true;
+          displayAnno(anno, displayAll);
+        }
       }).jstree({
         core : { data: byAnno },
         plugins : [ "search", "types", "wholerow" ],
@@ -147,35 +162,46 @@
       });
 
       console.log('treeAnnos', byAnno, 'SPLIT', treeItems);
+
+      displayAllAnnos(treeItems);
     });
 
-    function selectAnnotation(e, data) {
-      var anno = treeItems.get(data.node.id);
-      console.log('ANNO', anno);
+    function displayAllAnnos(treeItems) {
+      console.log('DII', !displayAll);
+      // sort and display annotations
+      var items = treeItems.map;
+      for (var id in items) {
+        displayAnno(items[id], !displayAll);
+      }
+    }
+
+    // add annotation tags, creating single if singleDisplay is true
+    function displayAnno(anno, singleDisplay) {
+      console.log('ANNO', anno, { single: singleDisplay});
       // clear any last selected annotation
+      clearTimeout(blinkAnno);
+      $('.sbAnnotationBlink').removeClass('sbAnnotationBlink');
       if (lastPlaced) {
-        clearTimeout(blinkAnno);
         $(lastPlaced.selector, parent.document).html(lastPlaced.replaced);
         lastPlaced = undefined;
-        selectMode = false;
+        if (anno.placed) {
+          delete anno.placed;
+        }
       }
 
       $('#details').text(JSON.stringify(anno, null, 2));
-      if (anno.placed) {
-        $(anno.placed.selector, parent.document).html(anno.placed.replaced);
-        delete anno.placed;
-      }
 
+      // exact string
       if (anno.exact) {
         if (!anno.selector) {
-          anno.selector = 'body';
+          anno.selector = 'annoLocation';
         }
-        var body = $(anno.selector, parent.document).html();
-        // add offset
+        var annoLocation = $(anno.selector, parent.document).html();
+
+        // add offset by instance (occurance)
         if (anno.instance) {
           var re = new RegExp('\\b'+anno.exact+'\\b', 'g'), cur = 1, match;
-          while ((match = re.exec(body)) !== null) {
-            //console.log(body.length, body.substring(0, 10), 'MATCH', anno, match, match.index, '==', cur, anno.instance);
+          while ((match = re.exec(annoLocation)) !== null) {
             if (cur === anno.instance) {
               anno.offset = match.index;
               break;
@@ -183,31 +209,34 @@
             cur++;
           }
           if (!anno.offset) {
-            console.log(anno.exact, 'was not found');
+            console.log(anno, 'was not found');
           }
         }
         if (anno.offset) {
           console.log('\n\n:: SB searching for anno ::', anno.exact);
           // find the most specific enclosing element
-          var annoselector = 'SB-anno-' + data.node.id;
-          var startTag = '<span id="' + annoselector + '" class="sbAnnotation">', endTag = '</span>';
+          var annoID = 'SB-anno-' + anno.__id;
+          var startTag = '<span id="' + annoID + '" class="sbAnnotation">', endTag = '</span>';
           
           if (anno.selector) {
-            var toReplace = $(anno.selector, parent.document).html();
-            // debugging
-            var t = toReplace.substr(anno.offset - 1, anno.exact.length);
-            // end debugging
-            $(anno.selector, parent.document).html(toReplace.substring(0, anno.offset) + 
-              startTag + 
-              anno.exact + 
-              endTag + 
-              toReplace.substring(anno.offset + anno.exact.length));
-            var placed = { selector: anno.selector, replaced: toReplace}
-            anno.placed = placed;
-            lastPlaced = placed;
-            blinkAnno = setInterval(function() { $(annoselector, parent.document).toggleClass('sbAnnotation')}, 500);
+            if (!singleDisplay) {
+              var toReplace = $(anno.selector, parent.document).html();
+              // debugging
+              var t = toReplace.substr(anno.offset - 1, anno.exact.length);
+              // end debugging
+              $(anno.selector, parent.document).html(toReplace.substring(0, anno.offset) + 
+                startTag + 
+                anno.exact + 
+                endTag + 
+                toReplace.substring(anno.offset + anno.exact.length));
+              var placed = { selector: anno.selector, replaced: toReplace}
+              anno.placed = placed;
+            } else {
+              lastPlaced = placed;
+            }
+            lastSelected = anno;
+            blinkAnno = setInterval(function() { $('#'+annoID, parent.document).toggleClass('sbAnnotationBlink')}, 500);
             console.log('found enclosing', { selection: $(anno.selector, parent.document).html(), placed: placed});
-            parent.location.hash = annoselector;
           } else {
             console.log('not found', anno.selector, 'for', anno);
           }
