@@ -61,6 +61,7 @@ function showEdit(username) {
         l = l.replace('$SBQUERY', $('#searcherQuery').val());
         links.push(l);
       });
+      console.log('sending links', links);
 
       fayeClient.publish('/links', { links: links, scraper: editingMember.username, tags: $('#searcherTags').val().split(',')});
 //      $('#annoSearch').val($('#searcherTags').val());

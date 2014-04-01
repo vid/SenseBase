@@ -10,16 +10,16 @@
       // publish our current link
       setTimeout(function() {
         console.log('scraper publishing current link', senseBase.user);
-        fayeClient.publish('/links', { scraped: parent.window.location.href, scraper: senseBase.user }); 
+        fayeClient.publish('/visited', { scraped: parent.window.location.href, scraper: senseBase.user }); 
         // if no current links, wait for more
         setInterval(function() {
           console.log('scraper waiting for link');
-          fayeClient.publish('/links', { scraper: senseBase.user});
+          fayeClient.publish('/visited', { scraper: senseBase.user});
         }, 60000);
       }, 2000);
-      fayeClient.subscribe('/scrape', function(msg) {
-        console.log('/scrape', msg);
-        if (!msg.site.uri) {
+      fayeClient.subscribe('/visit', function(msg) {
+        console.log('/visit', msg);
+        if (!msg.site.uri || msg.site.uri.toLowerCase().indexOf('https') === 0) {
           console.log('not scraping undefined');
         } else {
           setTimeout(function() { window.location.href = msg.site.uri;}, 2000);
@@ -171,7 +171,7 @@
         // add offset
         if (anno.instance) {
           var re = new RegExp('\\b'+anno.exact+'\\b', 'g'), cur = 1, match;
-          while ((match = re.exec(body)) != null) {
+          while ((match = re.exec(body)) !== null) {
             //console.log(body.length, body.substring(0, 10), 'MATCH', anno, match, match.index, '==', cur, anno.instance);
             if (cur === anno.instance) {
               anno.offset = match.index;
