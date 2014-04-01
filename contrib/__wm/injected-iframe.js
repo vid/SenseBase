@@ -191,29 +191,25 @@
           // find the most specific enclosing element
           var annoselector = 'SB-anno-' + data.node.id;
           var startTag = '<span id="' + annoselector + '" class="sbAnnotation">', endTag = '</span>';
-          var tagsLen = startTag.length + endTag.length;
           
-          selector = anno.selector, selectorSel = '', tagEnd = 0, curselector = $(selector, parent.document);
-          if (selector) {
-            var selection = selectorSel + selector;
-            var toReplace = $(selection, parent.document).html();
+          if (anno.selector) {
+            var toReplace = $(anno.selector, parent.document).html();
             // debugging
-            var t = toReplace.substr(anno.offset - tagEnd - 1, anno.exact.length);
-            console.log('T', tagEnd, anno.exact, t, 'B', body.substr(anno.offset, anno.exact.length));
+            var t = toReplace.substr(anno.offset - 1, anno.exact.length);
             // end debugging
-            $(selection, parent.document).html(toReplace.substring(0, anno.offset - tagEnd ) + 
+            $(anno.selector, parent.document).html(toReplace.substring(0, anno.offset) + 
               startTag + 
               anno.exact + 
               endTag + 
-              toReplace.substring((anno.offset - tagEnd) + anno.exact.length));
-            var placed = { selector: selection, replaced: toReplace}
+              toReplace.substring(anno.offset + anno.exact.length));
+            var placed = { selector: anno.selector, replaced: toReplace}
             anno.placed = placed;
             lastPlaced = placed;
-            blinkAnno = setInterval(function() { $('#' + annoselector, parent.document).toggleClass('sbAnnotation')}, 500);
-            console.log('found enclosing', { curselector: curselector[0].outerHTML, placed: placed});
+            blinkAnno = setInterval(function() { $(annoselector, parent.document).toggleClass('sbAnnotation')}, 500);
+            console.log('found enclosing', { selection: $(anno.selector, parent.document).html(), placed: placed});
             parent.location.hash = annoselector;
           } else {
-            console.log('not found', selector, 'for', anno);
+            console.log('not found', anno.selector, 'for', anno);
           }
         }
       }
