@@ -1,4 +1,7 @@
 
+// queuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
+var queryRefresher, queuedUpdates, noUpdates;
+
 fayeClient.subscribe('/clusterResults', function(results) {
   console.log('clusterResults', results);
   doTreemap(results.clusters);
@@ -52,9 +55,6 @@ $('.search input').keyup(function(e) {
 $('.search.button').click(function(event) {
   doSearch();
 });
-
-// queuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
-var queryRefresher, queuedUpdates, noUpdates;
 
 $('#fromDate').datepicker();
 $('#toDate').datepicker();
@@ -202,7 +202,7 @@ function selectedURI(ev) {
     );
   $('.context.dropdown').dropdown();
 
-  var shown = false;
+  var shown = noUpdates = false;
   if (curURI == uri) {
     shown = $('.details.sidebar').sidebar('toggle').hasClass('active');
     if ($el.hasClass('selectURI')) {
@@ -217,6 +217,7 @@ function selectedURI(ev) {
     if ($el.hasClass('selectURI')) {
       $('#preview').remove();
       $el.parent().after('<iframe style="width: 100%" id="preview" src="'+uri+'"></iframe>');
+      noUpdates = true;
     }
     $('.details.sidebar').sidebar('show');
   }
@@ -224,7 +225,6 @@ function selectedURI(ev) {
     console.log('displaying queued updates');
     updateResults(queuedUpdates);
   }
-  noUpdates = shown;
   $el.parent().parent().toggleClass('active', shown);
   return false;
 }

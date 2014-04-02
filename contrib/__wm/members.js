@@ -63,7 +63,7 @@ function showEdit(username) {
       });
       console.log('sending links', links);
 
-      fayeClient.publish('/visited', { links: links, scraper: editingMember.username, tags: $('#searcherTags').val().split(',')});
+      fayeClient.publish('/visited', { links: links, relevance: 2, scraper: editingMember.username, tags: $('#searcherTags').val().split(',')});
       $('#annoSearch').val($('#searcherTags').val());
       $('#validationState').val('queued');
       $('#refreshQueries').prop('checked', true);
