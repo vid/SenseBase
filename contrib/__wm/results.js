@@ -53,7 +53,8 @@ $('.search.button').click(function(event) {
   doSearch();
 });
 
-var queryRefresher;
+// queuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
+var queryRefresher, queuedUpdates, noUpdates;
 
 $('#fromDate').datepicker();
 $('#toDate').datepicker();
@@ -105,6 +106,12 @@ function doSearch() {
 var lastResults;
 
 function updateResults(results) {
+  // content is being viewed or edited, delay updates
+  if (noUpdates) {
+    console.log('in noUpdates');
+    queuedUpdates = results;
+    return;
+  }
   lastResults = results;
   $('.search.button').animate({opacity: 1}, 500, 'linear');
   $('#results').html('<table id="resultsTable" class="ui sortable table segment"><thead><tr><th class="descending">' +
@@ -155,6 +162,7 @@ function updateResults(results) {
   $('table').on('tablesort:complete', function(event, tablesort) {
     setupTable();
   });
+  queuedUpdate = null;
 }
 
 function setupTable() {
@@ -212,6 +220,11 @@ function selectedURI(ev) {
     }
     $('.details.sidebar').sidebar('show');
   }
+  if (queuedUpdates && !shown) {
+    console.log('displaying queued updates');
+    updateResults(queuedUpdates);
+  }
+  noUpdates = shown;
   $el.parent().parent().toggleClass('active', shown);
   return false;
 }
