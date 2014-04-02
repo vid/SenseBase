@@ -2,6 +2,8 @@
   var lastPlaced, blinkAnno, selectMode = false, displayAll = true, lastSelected;
   ready();
   function ready() {
+    $('#sbIframe', parent.document).after('<div id="sbAnnotationDetails" style="background: #ffe; filter:alpha(opacity=90); opacity:0.9; position: absolute; top: 8%; left: 8%; width: 80%; height: 80%; display: none; z-index: 999; border: 1px dotted grey"><i class="close icon"></i><pre></pre></div>');
+    $('#sbIframe', parent.document).after('<style>\n.sbShort { height: 10%; }\n.sbAnnotationBlink { background: yellow !important; }\n.sbAnnotation-a { background: lightgreen; }\n.sbAnnotation-b { background: lightblue; }\n</style>');
     var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
   // do scraper actions as appropriate
     var senseBase = window.senseBase;
@@ -95,6 +97,7 @@
           if (ann.type === 'quote') {
             var instances = [];
             ann.ranges.forEach(function(r) {
+              r.annotatedBy = by;
               instances.push({ type: 'range', text: r.exact, id: treeItems.id(r) });
             });
             byInstances.push({ type: 'quote', text: ann.quote, id: treeItems.id(ann), children : instances});
@@ -164,6 +167,11 @@
       console.log('treeAnnos', byAnno, 'SPLIT', treeItems);
 
       displayAllAnnos(treeItems);
+      $('.sbAnnotation', parent.document).click(function() {
+        $('#sbAnnotationDetails', parent.document).show();
+        $('#sbAnnotationDetails pre', parent.document).text(JSON.stringify(treeItems.get($(this).attr('id').split('-')[2]), null, 2));
+        $('#sbAnnotationDetails', parent.document).click(function() { $(this).hide();} ); 
+      });
     });
 
     function displayAllAnnos(treeItems) {
@@ -188,8 +196,6 @@
           delete anno.placed;
         }
       }
-
-      $('#details').text(JSON.stringify(anno, null, 2));
 
       // exact string
       if (anno.exact) {
@@ -216,7 +222,9 @@
           console.log('\n\n:: SB searching for anno ::', anno.exact);
           // find the most specific enclosing element
           var annoID = 'SB-anno-' + anno.__id;
-          var startTag = '<span id="' + annoID + '" class="sbAnnotation">', endTag = '</span>';
+          // FIXME demo
+           console.log('by', anno.annotatedBy);
+          var startTag = '<span id="' + annoID + '" class="sbAnnotation sbAnnotation-' + (anno.annotatedBy === 'AFINN Sentiment' ? 'a' : 'b') + '">', endTag = '</span>';
           
           if (anno.selector) {
             if (!singleDisplay) {
