@@ -1,7 +1,7 @@
 {
   "name": "sensebase",
   "id": "sensebase",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "SenseBase basis for workgroup annotation.",
   "dependencies": {
     "filter-proxy": "latest",
