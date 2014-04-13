@@ -1,0 +1,12 @@
+[ 
+  {
+    "name" : "sentimentService",
+    "script" : "annotateServices/sentimentService.js",
+    "options": [""]
+  },
+  {
+    "name" : "sentimentAnnotator",
+    "script" : "lib/annotators/sentiment.js",
+    "options": [""]
+  }
+]
