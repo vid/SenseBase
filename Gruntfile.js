@@ -36,7 +36,7 @@ module.exports = function(grunt) {
       files: srcFiles
     },
     watch: {
-      html: {
+      assets: {
         files: 'contrib/**/*.*',
         tasks: ['includes', 'string-replace'],
         options: {
@@ -63,11 +63,6 @@ module.exports = function(grunt) {
     develop: {
       server: {
         file: 'app.js',
-      }
-    },
-    forever: {
-      options: {
-        index: 'app.js',
       }
     },
     mochaTest: {
@@ -102,7 +97,6 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-forever');
   grunt.loadNpmTasks('grunt-develop');
   grunt.loadNpmTasks('grunt-includes');
   grunt.loadNpmTasks('grunt-string-replace');
