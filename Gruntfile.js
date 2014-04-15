@@ -1,5 +1,7 @@
 var config = require('./config.js'); 
 
+//  "uglifyjs  --screw-ie8  bower-components/jquery/dist/jquery.js bower-components/faye/include.js bower-components/jstree/dist/jstree
+
 module.exports = function(grunt) {
   var srcFiles = [
     'lib/*.js',
