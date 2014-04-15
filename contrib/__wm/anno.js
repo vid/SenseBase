@@ -1,6 +1,7 @@
 
 var isScraper, currentAnnoName = 'currentAnno';
 var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
+var treeInterface = { hover: function(anno) {}, select: function(anno) {} };
 (function() {
 // General setup and functions
 
@@ -51,71 +52,10 @@ fayeClient.subscribe('/annotations', function(data) {
     setTimeout(function() { fayeClient.publish('/getContentItem', uri);}, 2000); // FIXME delay for ES save
     return;
   }
-// it's our current item, disply
+// it's our current item, display
 // group by annotator
-console.log('updating current');
-  var annoBy = {}, annoTotal = 0;
-  annotations.forEach(function(a) {
-    annoTotal++;
-    if (!annoBy[a.annotatedBy]) { annoBy[a.annotatedBy] = []; }
-      annoBy[a.annotatedBy].push(a);
-  });
-  var byAnno = [];
-  for (var by in annoBy) {
-    var byInstances = [];
-    var id = 0;
-    annoBy[by].forEach(function(ann) {
-      if (ann.type === 'quote') {
-        var instances = [];
-        ann.ranges.forEach(function(r) {
-          instances.push({ type: 'range', text: r.exact, id: id++ });
-        });
-        byInstances.push({ type: 'quote', text: ann.quote, id: id++, children : instances});
-      } else if (ann.type === 'value') {
-        byInstances.push({ type: 'value', text: ann.key + ':' + ann.value, id: id++});
-      } else if (ann.type === 'category') {
-        var last = null, first = null, cats = ann.category, c;
-// break out category levels
-        while (c = cats.shift()) {
-          var me = { type: 'category', text: c, id: id++, children: []};
-          if (!first) { first = me; } else { last.children.push(me);}
-          last = me;
-        }
-        byInstances.push(first);
-      } else {
-       console.log('unknown type', ann.type);
-      }
-    });
-    byAnno.push({ text: by, id: id++, children: byInstances});
-  }
-  $('#annotationCount', outputDocument).html(annoTotal);
-
-  $('#treeContainer', outputDocument).html('<div id="annoTree"></div>');
-    $('#annoTree', outputDocument).jstree({
-    'core' : { data: byAnno },
-    "plugins" : [ "search", "types", "wholerow" ],
-    "types" : {
-      "default" : {
-        "icon" : "tags icon"
-      },
-      "range" : {
-        "icon" : "ellipsis horizontal icon"
-      },
-      "category" : {
-        "icon" : "tag icon"
-      },
-      "valueQuote" : {
-        "icon" : "text width icon"
-      },
-      "value" : {
-        "icon" : "info letter icon"
-      },
-      "quote" : {
-        "icon" : "quote left icon"
-      }
-   }
-  });
-  console.log('treeAnnos', byAnno);
+  console.log('updating current');
+  displayAnnoTree(annotations, uri, treeInterface);
 });
 
 // offset for agent automation
@@ -233,4 +173,6 @@ function annotateCurrentURI(u) {
   currentURI = u.replace('#'+currentAnnoName, '').replace(/#$/, '');
 //  addChat('is visiting ' + '<a class="visiting">' + currentURI + '</a>');
 }
+
+include "displayAnnoTree.js"
 
