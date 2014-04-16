@@ -24,43 +24,57 @@ function displayAnnoTree(annotations, uri) {
     }
   };
 
-  var annoBy = {}, annoTotal = 0;
-  // cluster by annotator
-  annotations.forEach(function(a) {
+  // create positions of tree items
+  var treeMap = {}, treeData = { text: 'Annotations', children: []}, annoTotal = 0, curParent;
+  annotations.forEach(function(cur) {
     annoTotal++;
-    if (!annoBy[a.annotatedBy]) { annoBy[a.annotatedBy] = []; }
-      annoBy[a.annotatedBy].push(a);
-  });
-  // need to add a hierarchy from different anno types
-  var byAnno = [];
-  for (var by in annoBy) {
-    var byInstances = [];
-    var id = 0;
-    annoBy[by].forEach(function(ann) {
-      if (ann.type === 'quote') {
-        var instances = [];
-        ann.ranges.forEach(function(r) {
-          r.annotatedBy = by;
-          instances.push({ type: 'range', text: r.exact, id: treeItems.id(r) });
-        });
-        byInstances.push({ type: 'quote', text: ann.quote, id: treeItems.id(ann), children : instances});
-      } else if (ann.type === 'value') {
-        byInstances.push({ type: 'value', text: ann.key + ':' + ann.value, id: treeItems.id(ann)});
-      } else if (ann.type === 'category') {
-        var last = null, first = null, cats = ann.category, c;
-// break out category levels
-        while (c = cats.shift()) {
-          var me = { type: 'category', text: c, id: treeItems.id(ann), children: []};
-          if (!first) { first = me; } else { last.children.push(me);}
-          last = me;
-        }
-        byInstances.push(first);
-      } else {
-       console.log('unknown type', ann.type);
+    // get parent position (current position without current)
+console.log('processing', cur);
+    var ppos = cur.position.slice(0, cur.position.length - 1);
+    // find or create parents
+    var roots = [], curAdd = treeData;
+    
+    ppos.forEach(function(cpos) {
+      roots.push(cpos);
+      curParent = treeMap[roots];
+      if (!curParent) {
+        curParent = { text: cpos, children: [] };
+        console.log('creating', curParent, roots);
+        treeMap[roots] = curParent;
+        curAdd.children.push(curParent);
       }
+        curAdd = curParent;
     });
-    byAnno.push({ text: by, id: treeItems.id(by), children: byInstances});
-  }
+
+    if (treeMap[cur.position]) {
+      cur.children = treeMap[cur.position].children;
+      cur.id = treeMap[cur.position].id;
+    } else {
+      cur.children = [];
+      cur.id = treeItems.id(cur);
+    }
+    cur.text = cur.position[cur.position.length - 1];
+
+    // add ranges
+    if (cur.type === 'quote') {
+      var instances = [];
+      cur.ranges.forEach(function(r) {
+        instances.push({ type: 'range', text: r.exact, id: treeItems.id(r) });
+      });
+      cur.children = instances;
+    // display key : value
+    } else if (cur.type === 'value') {
+      cur.text = cur.key + ':' + cur.value;
+    // should be ok as-is
+    } else if (cur.type === 'category') {
+    }
+
+    curParent.children.push(cur);
+    treeMap[cur.position] = cur;
+  });
+
+  console.log('TREE', treeMap, treeData, annoTotal);
+
   $('#annotationCount').html(annoTotal);
 
   $.jstree.defaults.core.themes.responsive = false;
@@ -73,7 +87,7 @@ function displayAnnoTree(annotations, uri) {
     var anno = treeItems.get(data.node.id);
     treeInterface.select(anno);
   }).jstree({
-    core : { data: byAnno },
+    core : { data: treeData },
     plugins : [ "search", "types", "wholerow" ],
     types : {
       default : {
@@ -97,6 +111,6 @@ function displayAnnoTree(annotations, uri) {
    }
   });
 
-  console.log('treeAnnos', byAnno, 'SPLIT', treeItems);
+  console.log('treeAnnos', treeMap);
   return treeItems;
 }
