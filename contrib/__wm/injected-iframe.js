@@ -93,18 +93,31 @@
     });
 
     function displayAllAnnos(treeItems) {
-      console.log('DII', !displayAll);
-      // sort and display annotations
-      var items = treeItems.map;
-      for (var id in items) {
-        displayAnno(items[id], !displayAll);
+      // sort and display annotations, longest first
+      var items = $.extend({}, treeItems.map), longest = 1;
+      while (longest > 0) {
+        longest = 0;
+        for (var id in items) {
+          if (items[id].exact) {
+            if (items[id].exact.length > longest) {
+              longest = parseInt(id, 10);
+            }
+          } else {
+            delete items[id];
+          }
+        }
+        if (items[id]) {
+      console.log('ITEMS', longest, items[id].exact.length);
+          displayAnno(items[id], !displayAll);
+          delete items[id];
+        }
       }
     }
 
   }
   // add annotation tags, creating single if singleDisplay is true
   function displayAnno(anno, singleDisplay) {
-    console.log('ANNO', anno, { single: singleDisplay});
+//    console.log('ANNO', anno, { single: singleDisplay});
     // clear any last selected annotation
     clearTimeout(blinkAnno);
     $('.sbAnnotationBlink').removeClass('sbAnnotationBlink');
@@ -138,11 +151,9 @@
         }
       }
       if (anno.offset) {
-        console.log('\n\n:: SB searching for anno ::', anno.exact);
         // find the most specific enclosing element
         var annoID = 'SB-anno-' + anno.__id;
         // FIXME demo
-         console.log('by', anno.annotatedBy);
         var startTag = '<span id="' + annoID + '" class="sbAnnotation sbAnnotation-' + (anno.annotatedBy === 'AFINN Sentiment' ? 'a' : 'b') + '">', endTag = '</span>';
         
         if (anno.selector) {
@@ -151,7 +162,6 @@
             // debugging
             var t = toReplace.substr(anno.offset - 1, anno.exact.length);
             // end debugging
-console.log('hihihi');
             $(anno.selector, parent.document).html(toReplace.substring(0, anno.offset) + 
               startTag + 
               anno.exact + 
@@ -164,7 +174,7 @@ console.log('hihihi');
           }
           lastSelected = anno;
           blinkAnno = setInterval(function() { $('#'+annoID, parent.document).toggleClass('sbAnnotationBlink')}, 500);
-          console.log('found enclosing', { selection: $(anno.selector, parent.document).html(), placed: placed});
+//          console.log('found enclosing', { selection: $(anno.selector, parent.document).html(), placed: placed});
         } else {
           console.log('not found', anno.selector, 'for', anno);
         }
