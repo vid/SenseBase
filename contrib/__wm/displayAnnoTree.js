@@ -25,11 +25,13 @@ function displayAnnoTree(annotations, uri) {
   };
 
   var annoBy = {}, annoTotal = 0;
+  // cluster by annotator
   annotations.forEach(function(a) {
     annoTotal++;
     if (!annoBy[a.annotatedBy]) { annoBy[a.annotatedBy] = []; }
       annoBy[a.annotatedBy].push(a);
   });
+  // need to add a hierarchy from different anno types
   var byAnno = [];
   for (var by in annoBy) {
     var byInstances = [];
