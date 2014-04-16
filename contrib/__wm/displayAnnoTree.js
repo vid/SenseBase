@@ -25,14 +25,13 @@ function displayAnnoTree(annotations, uri) {
   };
 
   // create positions of tree items
-  var treeMap = {}, treeData = { text: 'Annotations', children: []}, annoTotal = 0, curParent;
+  var treeMap = {}, treeRoot = { text: 'Annotations', children: []}, annoTotal = 0, curParent;
   annotations.forEach(function(cur) {
     annoTotal++;
     // get parent position (current position without current)
-console.log('processing', cur);
     var ppos = cur.position.slice(0, cur.position.length - 1);
     // find or create parents
-    var roots = [], curAdd = treeData;
+    var roots = [], curAdd = treeRoot;
     
     ppos.forEach(function(cpos) {
       roots.push(cpos);
@@ -48,7 +47,7 @@ console.log('processing', cur);
 
     if (treeMap[cur.position]) {
       cur.children = treeMap[cur.position].children;
-      cur.id = treeMap[cur.position].id;
+      cur.id = treeMap[cur.position].id || id(cur);
     } else {
       cur.children = [];
       cur.id = treeItems.id(cur);
@@ -73,7 +72,7 @@ console.log('processing', cur);
     treeMap[cur.position] = cur;
   });
 
-  console.log('TREE', treeMap, treeData, annoTotal);
+  console.log('TREE', treeRoot, annoTotal);
 
   $('#annotationCount').html(annoTotal);
 
@@ -87,7 +86,7 @@ console.log('processing', cur);
     var anno = treeItems.get(data.node.id);
     treeInterface.select(anno);
   }).jstree({
-    core : { data: treeData },
+    core : { data: treeRoot },
     plugins : [ "search", "types", "wholerow" ],
     types : {
       default : {
