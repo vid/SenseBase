@@ -107,7 +107,6 @@
           }
         }
         if (items[id]) {
-      console.log('ITEMS', longest, items[id].exact.length);
           displayAnno(items[id], !displayAll);
           delete items[id];
         }
@@ -117,6 +116,10 @@
   }
   // add annotation tags, creating single if singleDisplay is true
   function displayAnno(anno, singleDisplay) {
+    // it's not an instance
+    if (!anno) {
+      return;
+    }
 //    console.log('ANNO', anno, { single: singleDisplay});
     // clear any last selected annotation
     clearTimeout(blinkAnno);
