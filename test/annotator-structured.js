@@ -1,7 +1,7 @@
 
-var expect = require("expect.js"), indexer = require('../lib/indexer.js'), fs = require('fs'), path = require('path');
+var fs = require('fs'), expect = require("expect.js"), indexer = require('../lib/indexer.js'), fs = require('fs'), path = require('path');
 GLOBAL.config = require('../config.js').config;
-var annotatorStructural = require('../lib/annotateServices/structural.js');
+var annotatorStructural = require('../lib/annotators/structural.js');
 
 var sampleDoc = '', i = 0;
 var fields = ['Date of Admission', 'Date of Discharge to Home', 'Admitting Diagnosis', 'Discharge Diagnosis', 'Discharge Condition', 'Consults', 'Procedures', 'Brief History of Present Illness', 'Hospital Course', 'Physical Examination at Discharge', 'Medications', 'Activity', 'Diet', 'Follow Up', 'Instructions'];
