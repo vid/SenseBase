@@ -1,7 +1,7 @@
 // Tests for configured indexer (ElasticSearch)
 
 var expect = require("expect.js"), indexer = require('../lib/indexer.js'), annotations = require('../lib/annotations.js');
-GLOBAL.config = require('../config.js').config;
+GLOBAL.config = require('./test-config.js').config;
 
 var uniq = (new Date().getTime()).toString(16) + 'x' + Math.round(Math.random(9e9) * 9e9).toString(16);
 var uniqMember = 'test'+uniq;
