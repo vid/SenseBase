@@ -14,7 +14,6 @@ Presuming a debian derived distro, you will need to have build-essentials instal
 # Configure
 
 create a config.js:
-
      
     // logging
     var winston = require('winston');
@@ -24,17 +23,18 @@ create a config.js:
     GLOBAL.warn = winston.warn;
     GLOBAL.error = winston.error;
 
-    var domain = 'my.great.domain';
+    var domain = 'my.great.domain', http_port = 9999;
     var esOptions ={ _index : 'ps', server : { host : 'es.' + domain, port : 9200 }};
     
     exports.config = {
       project: 'sensebase',
       DOMAIN: domain,
-      FAYEHOST: 'http://faye.' + domain + ':9999/montr',
+      FAYEHOST: 'http://faye.' + domain + ':' + http_port + '/montr',
       ESEARCH:  esOptions,
       ESEARCH_URI: 'http://es.' + domain + ':' + esOptions.server.port + '/' + esOptions._index,
       HOMEPAGE: 'http://dashboard.' + domain,
-      AUTH_PORT: 9999,
+      AUTH_PORT: http_port,
+      HTTP_PORT: http_port,
       PROXY_PORT: 8089,
       SPOTLIGHT: { host: 'spotlight' + domain, port: 7272},
       SENTIMENT: { host: 'sentiment' + domain, port: 9002},
@@ -81,5 +81,5 @@ Everything else (aside from direct field data) is saved as an annotation.
 
 # Acknowledgement
 
-This project is supported by and forms the basis of http://www.github.com/TsangLab/Proxiris, as well as work developed for the Observastory project for eHealth in Motion | Dataparc.
+This project is supported by and forms the basis of http://www.github.com/TsangLab/Proxiris, as well as work developed for the PatientSense project for eHealth in Motion | Dataparc.
 
