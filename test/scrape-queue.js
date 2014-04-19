@@ -5,7 +5,7 @@
 // links are added as contentItems with a default relevance (2), state queued, and queued details
 // if any contentItems are queued, they are received back
 //
-// requires a running system.
+// TODO: add relevance
 
 var uniq = (new Date().getTime()).toString(16) + 'x' + Math.round(Math.random(9e9) * 9e9).toString(16);
 var testApp = require('./test-app.js');
@@ -14,22 +14,73 @@ GLOBAL.config = require('./test-config.js').config;
 var faye = require('faye'), expect = require("expect.js");
 var fayeClient = new faye.Client(GLOBAL.config.FAYEHOST);
 
+var testLink1 = 'http://test.com/scraper/' + uniq, testLinks1 = [ testLink1 ], testLink2 = 'http://test.com/scraper/' + uniq + '-2', testLinks2 = [ testLink2 ]; 
+
 describe('Scraper queue', function(done) {
-  it('should have reset test app', function(done) {
+  it('should reset test app', function(done) {
     testApp.start(function(err, ok) {
-      console.log('**', err, ok);
       expect(err).to.be.null;
       done();
     });
   });
 
-  it('should receive visited links', function(done) {
-    var links = [ 'http://test.com/scraper/' + uniq ];
-    fayeClient.subscribe('/visit', function(v) {
-      console.log(v);
+  it('should publish the first link', function(done) {
+    var sub = fayeClient.subscribe('/visit', function(res) {
+      expect(res.site).to.be.null;
+      sub.cancel()
       done();
     });
-    fayeClient.publish('/visited', { links: links, relevance: 2, scraper: 'scrape-queue', tags: ['scraper-queue-' + uniq]});
+    fayeClient.publish('/visited', { links: testLinks1, relevance: 2, scraper: 'scrape-queue', tags: ['scraper-queue-' + uniq]});
+  });
 
+  it('should receive the first published link', function(done) {
+    var sub = fayeClient.subscribe('/visit', function(res) {
+      expect(res.site.uri).to.equal(testLink1);
+      sub.cancel()
+      done();
+    });
+    setTimeout(function() {
+      fayeClient.publish('/visited', { scraper: 'scrape-queue'});
+    }, 1000);
+  });
+
+  it('should visit the first published link and publish a second level link', function(done) {
+    var sub = fayeClient.subscribe('/visit', function(res) {
+      expect(res.site).to.be.null;
+      sub.cancel()
+      done();
+    });
+    fayeClient.publish('/visited', { uri: testLink1, links: testLinks2, relevance: 2, scraper: 'scrape-queue', tags: ['scraper-queue-' + uniq]});
+  });
+
+  it('should receive the second published link', function(done) {
+    var sub = fayeClient.subscribe('/visit', function(res) {
+      expect(res.site.uri).to.equal(testLink2);
+      sub.cancel()
+      done();
+    });
+    setTimeout(function() {
+      fayeClient.publish('/visited', { scraper: 'scrape-queue'});
+    }, 1000);
+  });
+
+  it('should visit the second published link with no links', function(done) {
+    var sub = fayeClient.subscribe('/visit', function(res) {
+      expect(res.site).to.be.null;
+      sub.cancel()
+      done();
+    });
+    fayeClient.publish('/visited', { uri: testLink2, links: [], relevance: 2, scraper: 'scrape-queue', tags: ['scraper-queue-' + uniq]});
+  });
+
+  it('should have no links to visit', function(done) {
+    var sub = fayeClient.subscribe('/visit', function(res) {
+      expect(res.site).to.be.null;
+      sub.cancel()
+      done();
+    });
+    setTimeout(function() {
+      fayeClient.publish('/visited', { scraper: 'scrape-queue'});
+    }, 1000);
   });
 });

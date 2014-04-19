@@ -1,7 +1,17 @@
 var winston = require('winston');
 var domain = 'localhost', http_port = 9988;
 
-GLOBAL.debug = GLOBAL.info = GLOBAL.warn = GLOBAL.error = function() {};
+var logger = new (winston.Logger)({
+    transports: [
+      new (winston.transports.Console)({ level: 'error' }),
+      new (winston.transports.File)({ filename: 'tests.log' })
+    ]
+  });
+
+GLOBAL.debug = logger.debug;
+GLOBAL.info = logger.info;
+GLOBAL.warn = logger.warn;
+GLOBAL.error = logger.error;
 
 var esOptions ={ _index : 'test', server : { host : domain, port : 9200 }};
 
