@@ -199,7 +199,7 @@ exports.start = function(config) {
     res.end();
   });
   
-  var server = app.listen(9999);
+  var server = app.listen(GLOBAL.config.HTTP_PORT || 9999);
   
   pubsub.start(server);
   
