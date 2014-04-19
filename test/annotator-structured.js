@@ -3,18 +3,13 @@ var fs = require('fs'), expect = require("expect.js"), indexer = require('../lib
 GLOBAL.config = require('../config.js').config;
 var annotatorStructural = require('../lib/annotators/structural.js');
 
-var sampleDoc = fs.readFileSync('./data/structured-medical-record.html'), i = 0;
-var fields = ['Date of Admission', 'Date of Discharge to Home', 'Admitting Diagnosis', 'Discharge Diagnosis', 'Discharge Condition', 'Consults', 'Procedures', 'Brief History of Present Illness', 'Hospital Course', 'Physical Examination at Discharge', 'Medications', 'Activity', 'Diet', 'Follow Up', 'Instructions'];
-fields.forEach(function(f) {
-  sampleDoc += f + ': ' + i++ + '\n';
-});
-
+var sampleDoc = fs.readFileSync('./data/structured-medical-record.html').toString();
 describe('Medical report', function(done){
   it('should extract the fields', function(done) {
-    annotatorStructural.process({ uri: GLOBAL.homepage + '/test', text: sampleDoc}, function(err, result) {
+    annotatorStructural.doProcess({ uri: GLOBAL.config.HOMEPAGE + '/test', text: sampleDoc}, function(err, result) {
       expect(err).to.be.undefined;
       var l = result.length;
-      expect(l).to.be(14);
+      expect(l).to.be(21);
       done();
     });
   });
