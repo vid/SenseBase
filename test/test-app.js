@@ -1,8 +1,9 @@
 // local app for testing
 
-var senseBase = require('../index.js'), reset = require('../lib/reset.js');
+exports.start = function(callback) {
+  var senseBase = require('../index.js'), reset = require('../lib/reset.js');
 
-senseBase.start(require('./test-config.js').config);
+  senseBase.start(require('./test-config.js').config);
 
-reset.resetAll();
-
+  reset.resetAll(callback);
+}
