@@ -62,7 +62,7 @@ function showEdit(username) {
         links.push(l);
       });
       console.log('sending links', links);
-
+// FIXME: convert to module for reuse in test
       fayeClient.publish('/visited', { links: links, relevance: 2, scraper: editingMember.username, tags: $('#searcherTags').val().split(',')});
       $('#annoSearch').val($('#searcherTags').val());
       $('#validationState').val('queued');
