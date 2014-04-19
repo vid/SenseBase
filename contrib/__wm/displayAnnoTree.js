@@ -62,7 +62,7 @@ function displayAnnoTree(annotations, uri) {
       });
       cur.children = instances;
     // display key : value
-    } else if (cur.type === 'value') {
+    } else if (cur.type === 'value' || cur.type === 'valueQuote') {
       cur.text = cur.key + ':' + cur.value;
     // should be ok as-is
     } else if (cur.type === 'category') {
