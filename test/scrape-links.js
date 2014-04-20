@@ -21,6 +21,9 @@ describe('Scraper links', function(done) {
       ['navLinks', 'resultLinks'].forEach(function(type) {
         if (links[type]) {
           expect(links[type].length > 0).to.be(true);
+          links[type].forEach(function(l) {
+            expect((l.indexOf('http://') === 0) || (l.indexOf('https://') === 0)).to.be(true);
+          });
         }
       });
     });
