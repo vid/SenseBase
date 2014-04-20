@@ -5,7 +5,7 @@
 // links are added as contentItems with a default relevance (2), state queued, and queued details
 // if any contentItems are queued, they are received back
 //
-// TODO: add relevance
+// TODO: add explicit relevance tests
 
 var uniq = (new Date().getTime()).toString(16) + 'x' + Math.round(Math.random(9e9) * 9e9).toString(16);
 var testApp = require('./test-app.js');
@@ -14,7 +14,9 @@ GLOBAL.config = require('./test-config.js').config;
 var faye = require('faye'), expect = require("expect.js");
 var fayeClient = new faye.Client(GLOBAL.config.FAYEHOST);
 
-var testLink1 = 'http://test.com/scraper/' + uniq, testLinks1 = [ testLink1 ], testLink2 = 'http://test.com/scraper/' + uniq + '-2', testLinks2 = [ testLink2 ]; 
+var testLink1 = 'http://test.com/scraper/' + uniq, testLinks1 = [ testLink1 ], 
+  testLink2 = 'http://test.com/scraper/' + uniq + '-2', testLinks2 = [ testLink2 ], 
+  testLink3 = 'http://test.com/scraper/' + uniq + '-3', testLinks3 = [ testLink3 ]; 
 
 describe('Scraper queue', function(done) {
   it('should reset test app', function(done) {
@@ -64,13 +66,13 @@ describe('Scraper queue', function(done) {
     }, 1000);
   });
 
-  it('should visit the second published link with no links', function(done) {
+  it('should visit the second published link with irrelevant links', function(done) {
     var sub = fayeClient.subscribe('/visit', function(res) {
       expect(res.site).to.be.null;
       sub.cancel()
       done();
     });
-    fayeClient.publish('/visited', { uri: testLink2, links: [], relevance: 2, scraper: 'scrape-queue', tags: ['scraper-queue-' + uniq]});
+    fayeClient.publish('/visited', { uri: testLink2, links: testLinks3, relevance: 2, scraper: 'scrape-queue', tags: ['scraper-queue-' + uniq]});
   });
 
   it('should have no links to visit', function(done) {
