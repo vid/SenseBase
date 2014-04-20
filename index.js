@@ -30,20 +30,22 @@ exports.start = function(config) {
   config.onRequest = require('./lib/auth.js');
   config.onRetrieve = {
     process: function(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request) {
-      console.log('HH', uri);
       var status = browser_request.proxy_received.statusCode;
       if (status != 200) {
         GLOBAL.debug('non-200 status', status, uri);
         return;
       }
-      GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
+      //GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
       var psMember = browser_request.psMember.username;
       GLOBAL.config.indexer.saveHTMLContentItem({ uri: uri, member: psMember, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders},
-        function(err, res) {
+        function(err, res, cItem) {
           if (err) {
             GLOBAL.error('index saveContentitem failed', err);
           } else {
-            pubsub.requestAnnotate(uri, pageBuffer);
+            // it was an html content item
+            if (cItem) {
+              pubsub.requestAnnotate(uri, pageBuffer);
+            }
           }
       });
     }
