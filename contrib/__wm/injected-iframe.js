@@ -28,24 +28,21 @@
       $('#treeContainer').html('<h1>scraper</h1>');
       console.log('isScraper', senseBase);
       // publish our current link
-      setTimeout(function() {
-        var links = [];
-        $('a', parent.document).each(function(i, l) { links.push(l.href); });
-        console.log('scraper publishing current link', senseBase.user, links.length);
-        fayeClient.publish('/visited', { uri: parent.window.location.href, content: parent.document.documentElement.outerHTML, scraper: senseBase.user, links: links}); 
-        // if no current links, wait for more
-        setInterval(function() {
-          console.log('scraper waiting for link');
-          fayeClient.publish('/visited', { scraper: senseBase.user});
-        }, 20000);
-      }, 2000);
+      setInterval(function() {
+        console.log('scraper waiting for link');
+        fayeClient.publish('/visitWait');
+      }, 20000);
       fayeClient.subscribe('/visit', function(msg) {
         $('#treeContainer').html(JSON.stringify(msg, null, 2));
         console.log('/visit', msg);
-        if (!msg.site.uri || msg.site.uri.toLowerCase().indexOf('https') === 0) {
+        if (!msg.site || !msg.site.uri || msg.site.uri.toLowerCase().indexOf('https') === 0) {
           console.log('not scraping undefined');
         } else {
-          setTimeout(function() { parent.window.location.href = msg.site.uri;}, 2000);
+          if (msg.site.uri === parent.window.location.href) {
+            console.log('not re-indexing self');
+          } else {
+            setTimeout(function() { parent.window.location.href = msg.site.uri;}, 2000);
+          }
         }
       });
       return;
