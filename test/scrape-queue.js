@@ -52,7 +52,7 @@ describe('Scraper queue', function(done) {
       sub.cancel()
       done();
     });
-    fayeClient.publish('/visited', { uri: testLink1, links: testLinks2, relevance: 2, scraper: 'scrape-queue', tags: ['scraper-queue-' + uniq]});
+    fayeClient.publish('/visited', { uri: testLink1, content: uniq, links: testLinks2, relevance: 2, scraper: 'scrape-queue', tags: ['scraper-queue-' + uniq]});
   });
 
   it('should receive the second published link', function(done) {
@@ -72,7 +72,7 @@ describe('Scraper queue', function(done) {
       sub.cancel()
       done();
     });
-    fayeClient.publish('/visited', { uri: testLink2, links: testLinks3, relevance: 2, scraper: 'scrape-queue', tags: ['scraper-queue-' + uniq]});
+    fayeClient.publish('/visited', { uri: testLink2, content: uniq, links: testLinks3, relevance: 2, scraper: 'scrape-queue', tags: ['scraper-queue-' + uniq]});
   });
 
   it('should have no links to visit', function(done) {
