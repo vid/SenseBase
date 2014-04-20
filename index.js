@@ -30,30 +30,26 @@ exports.start = function(config) {
   config.onRequest = require('./lib/auth.js');
   config.onRetrieve = {
     process: function(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request) {
+      console.log('HH', uri);
       var status = browser_request.proxy_received.statusCode;
       if (status != 200) {
+        GLOBAL.debug('non-200 status', status, uri);
         return;
       }
-      // only index HTML with title
-      var m = /<title.*?>(.*)<\/title>/mi.exec(pageBuffer);
-      if (m && m[1]) {
-        var title = m[1].replace(/<.*?>/g);
-        var psMember = browser_request.psMember.username;
-        GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
-        console.log('INDEX', uri, title, pageBuffer.length);
-        GLOBAL.config.indexer.saveContentItem({ uri: uri, title: title, member: psMember, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders},
-          function(err, res) {
-            if (err) {
-              GLOBAL.error('index saveContentitem failed', err);
-            } else {
-              pubsub.requestAnnotate(uri, pageBuffer);
-            }
-        });
-      } 
+      GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
+      var psMember = browser_request.psMember.username;
+      GLOBAL.config.indexer.saveHTMLContentItem({ uri: uri, member: psMember, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders},
+        function(err, res) {
+          if (err) {
+            GLOBAL.error('index saveContentitem failed', err);
+          } else {
+            pubsub.requestAnnotate(uri, pageBuffer);
+          }
+      });
     }
   };
   config.inject = function(content) {
-    if (content.toString().match(/<\/body/im)) {
+    if (content.toString().match(/<\/body/i)) {
       GLOBAL.debug('injecting iframe');
       // add a div in case there is none, and a div to enable placing the iframe inline
       content = content.toString().replace(/(<body.*?>)/im, '<div style="margin: 0; padding: 0" id="SBEnclosure">$1')
