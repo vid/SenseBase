@@ -9,7 +9,7 @@ var fs = require('fs'),
   util = require('util'),
   LocalStrategy = require('passport-local').Strategy;
   
-var utils = require('./lib/utils');
+var utils = require('./lib/utils'), scraper = require('./lib/scraper.js');
 
 var fileUpload = require('./lib/file-upload.js'), pubsub;
 
@@ -28,6 +28,7 @@ exports.start = function(config) {
   config.indexer = require('./lib/indexer.js');
   config.pageCache = require('./lib/pageCache.js');
   config.onRequest = require('./lib/auth.js');
+  // proxy has requested a content item.  need to update its anntotatoin and if it was queued add any links
   config.onRetrieve = {
     process: function(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request) {
       var status = browser_request.proxy_received.statusCode;
@@ -44,6 +45,10 @@ exports.start = function(config) {
           } else {
             // it was an html content item
             if (cItem) {
+              // designated for scraping
+              if (cItem.previousState === 'queued') {
+                scraper.queueLinks(cItem);
+              }
               pubsub.requestAnnotate(uri, pageBuffer);
             }
           }
