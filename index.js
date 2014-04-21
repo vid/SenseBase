@@ -9,9 +9,9 @@ var fs = require('fs'),
   util = require('util'),
   LocalStrategy = require('passport-local').Strategy;
   
-var utils = require('./lib/utils'), scraper = require('./lib/scraper.js');
+var utils = require('./lib/utils');
 
-var fileUpload = require('./lib/file-upload.js'), pubsub;
+var fileUpload = require('./lib/file-upload.js'), pubsub, scraper = require('./lib/scraper.js');
 
 var users;
 
@@ -20,15 +20,6 @@ if (fs.existsSync('./local-users.json')) {
 } else {
   users = require('./users.json').logins;
 }
-
-setInterval(function() {
-  var queuedLink = scraper.getQueuedLink(function(err, queuedLink) {
-    console.log('scraping', queuedLink);
-    scraper.scrapeLink(queuedLink.uri, function(err, res) {
-      console.log('scraped', err, res ? res.length : 'no content');
-    });
-  });
-}, 1000);
 
 // start server with a configuration file
 exports.start = function(config) {
