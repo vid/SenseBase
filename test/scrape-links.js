@@ -5,6 +5,7 @@ var scraper = require('../lib/scraper.js');
 
 describe('Scraper links', function(done) {
   var sites = [
+  // bing doesn't force https (for proxy op)
     {bing : 'http://www.bing.com/search?q=bing'}, 
     {clinicaltrials: 'http://www.clinicaltrials.gov/ct2/results?term=trials&Search=Search'}, 
     {'evidence-bmj': 'http://search.clinicalevidence.bmj.com/s/search.html?query=bmj&x=0&y=0&collection=bmj-clinical-evidence&profile=_default&form=simple'}, 
@@ -17,15 +18,17 @@ describe('Scraper links', function(done) {
     var name = Object.keys(site)[0], uri = site[name];
     it('should find ' + name + ' nav and results', function() {
       var content = fs.readFileSync('./data/search-results/' + name + '.html');
-      var links = scraper.getRecognizedLinks({ uri: uri, content: content.toString()});
+      var allLinks = [], links = scraper.getRecognizedLinks({ uri: uri, content: content.toString()});
       ['navLinks', 'resultLinks'].forEach(function(type) {
         if (links[type]) {
           expect(links[type].length > 0).to.be(true);
           links[type].forEach(function(l) {
+            allLinks.push(l);
             expect((l.indexOf('http://') === 0) || (l.indexOf('https://') === 0)).to.be(true);
           });
         }
       });
+      expect(allLinks.size > 0).to.be.true;
     });
   });
 });
