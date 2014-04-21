@@ -21,6 +21,15 @@ if (fs.existsSync('./local-users.json')) {
   users = require('./users.json').logins;
 }
 
+setInterval(function() {
+  var queuedLink = scraper.getQueuedLink(function(err, queuedLink) {
+    console.log('scraping', queuedLink);
+    scraper.scrapeLink(queuedLink.uri, function(err, res) {
+      console.log('scraped', err, res ? res.length : 'no content');
+    });
+  });
+}, 1000);
+
 // start server with a configuration file
 exports.start = function(config) {
   GLOBAL.authed = GLOBAL.authed || {}; //FIXME  use auth scheme that works behind proxies

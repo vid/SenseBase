@@ -7,7 +7,7 @@
 var fs = require('fs'), expect = require('expect.js');
 var scraper = require('../lib/scraper.js'), testApp = require('./test-app.js'), utils = require('../lib/utils.js');
 
-var testTag = 'tag-'+utils.getUnique();
+var testTag = 'tag-'+utils.getUnique(), scrapeLink, queuedTotal;
 describe('Scraper links', function(done) {
   it('should reset test app', function(done) {
     testApp.start(function(err, ok) {
@@ -27,13 +27,37 @@ describe('Scraper links', function(done) {
   it('should have a queued link', function(done) {
     // FIXME: queueLinks callback
     setTimeout(function() {
-      scraper.getQueuedLink(function(err, result) {
-        expect(result.uri).to.not.be.null;
-        expect(result.queued.tags.length > 0).to.be.true;
-        expect(result.queued.tags[0]).to.equal(testTag);
+      scraper.getQueuedLink(function(err, queuedLink) {
+        scrapeLink = queuedLink;
+        expect(queuedLink.uri).to.not.be.null;
+        expect(queuedLink.queued.tags.length > 0).to.be.true;
+        expect(queuedLink.queued.tags[0]).to.equal(testTag);
+        queuedTotal = queuedLink.total;
+        expect(queuedTotal > 0).to.true;
         done();
       }, 1);
     }, 1100);
+    
+  });
+
+  it('should scrape the queued link', function(done) {
+    expect(scrapeLink).to.not.be.null;
+    scraper.scrapeLink(scrapeLink.uri, function(err, res) {
+      expect(err).to.be.null;
+      expect(res.length > 0).to.be.true;
+      done();
+    });
+  });
+
+  it('should have less queued links', function(done) {
+    // FIXME: queueLinks callback
+    setTimeout(function() {
+      scraper.getQueuedLink(function(err, queuedLink) {
+// FIXME
+        expect(queuedTotal === queuedLink.total + 1);
+        done();
+      }, 1);
+    }, 1000);
     
   });
 });
