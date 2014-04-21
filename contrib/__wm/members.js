@@ -43,14 +43,15 @@ function showEdit(username) {
   if (!rTeams) {
     return;
   }
-
-  $('.anedit').hide(); // hide all types
+  // hide all types
+  $('.anedit').hide(); 
   rTeams.forEach(function(m) {
     console.log(m.username, username);
     if (m.username === username) {
       editingMember = m;
     }
   });
+  // meta searches
   if (editingMember.type === 'Searcher') {
     $('.searcher.form').show();
     $('.action.message').hide();
@@ -63,7 +64,7 @@ function showEdit(username) {
       });
       console.log('sending links', links);
 // FIXME: convert to module for reuse in test
-      fayeClient.publish('/visited', { links: links, relevance: 2, scraper: editingMember.username, tags: $('#searcherTags').val().split(',')});
+      fayeClient.publish('/queueLinks', { links: links, relevance: 2, scraper: editingMember.username, tags: $('#searcherTags').val().split(',')});
       $('#annoSearch').val($('#searcherTags').val());
       $('#validationState').val('queued');
       $('#refreshQueries').prop('checked', true);
