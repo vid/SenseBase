@@ -7,7 +7,7 @@
 var fs = require('fs'), expect = require('expect.js');
 var scraper = require('../lib/scraper.js'), testApp = require('./test-app.js'), utils = require('../lib/utils.js');
 
-
+var testTag = 'tag-'+utils.getUnique();
 describe('Scraper links', function(done) {
   it('should reset test app', function(done) {
     testApp.start(function(err, ok) {
@@ -19,16 +19,21 @@ describe('Scraper links', function(done) {
   it('should queue document links', function() {
     var text = fs.readFileSync('./data/search-results/pubmed.html').toString()
     var cItem = { uri: 'http://www.ncbi.nlm.nih.gov/pubmed/?term=pubmed', content: text, previousState: 'queue', state: 'visited', 
-      queued: { relevance: 2, tags: ['tag-'+utils.getUnique()] } };
+      queued: { relevance: 2, tags: [testTag] } };
     var links = scraper.queueLinks(cItem);
     expect(links.size > 0).to.be.true;
   });
 
   it('should have a queued link', function(done) {
-    // FIXME: queeLinks callback
+    // FIXME: queueLinks callback
     setTimeout(function() {
-      done();
-    }, 500);
+      scraper.getQueuedLink(function(err, result) {
+        expect(result.uri).to.not.be.null;
+        expect(result.queued.tags.length > 0).to.be.true;
+        expect(result.queued.tags[0]).to.equal(testTag);
+        done();
+      }, 1);
+    }, 1100);
     
   });
 });
