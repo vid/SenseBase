@@ -29,6 +29,10 @@ function displayAnnoTree(annotations, uri) {
   annotations.forEach(function(cur) {
     annoTotal++;
     // get parent position (current position without current)
+    if (!cur.position) {
+      console.log('missing position', cur);
+      return;
+    }
     var ppos = cur.position.slice(0, cur.position.length - 1);
     // find or create parents
     var roots = [], curAdd = treeRoot;
