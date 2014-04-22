@@ -70,6 +70,24 @@ $(function() {
     $('.ui.modal').modal('show');
   });
 
+  $('.signout.item').click(function() {
+    fayeClient.publish('/signout');
+    document.location.href = '/login';
+  });
+// FIXME
+var shownGraph = false;
+  $('.graph.item').click(function() {
+    if (shownGraph) {
+      $('.table.content').html('');
+      resultsTable('.table.content', lastResults);
+      shownGraph = false;
+    } else {
+      $('.table.content').html('');
+      resultsScatter('.table.content', lastResults);
+      shownGraph = true;
+    }
+  });
+
   $('.selectall.item').click(function() {
     $('.selectItem').prop('checked', true);
     checkSelected();

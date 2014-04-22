@@ -6,6 +6,7 @@
     "jquery": "~2.1.0",
     "Semantic-UI": "~0.13.1",
     "jquery-ui": "~1.10.4",
-    "jstree": "~3.0.0-beta10"
+    "jstree": "~3.0.0-beta10",
+    "semantic-ui": "~0.16.1"
   }
 }

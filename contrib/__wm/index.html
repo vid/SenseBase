@@ -2,11 +2,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-<link rel="stylesheet" type="text/css" href="/lib/Semantic-UI/build/packaged/css/semantic.css">
+<link rel="stylesheet" type="text/css" href="/lib/semantic-ui/build/packaged/css/semantic.css">
 <link rel="stylesheet" href="/lib/jquery-ui/themes/ui-lightness/jquery-ui.css" />
 <link rel="stylesheet" href="/lib/jstree/dist/themes/default/style.min.css" />
 <link rel="stylesheet" href="dashboard.css" />
 <link rel="stylesheet" href="/__wm/lib/d3plus/d3plus.css" />
+<link rel="stylesheet" href="/__wm/lib/nvd3/nv.d3.css" />
 <style type="text/css">
 /* file upload */
 #holder.hover { border: 4px dashed #0c0; }
@@ -48,7 +49,7 @@ a:active {text-decoration:underline;}
 <div class="ui left viz sidebar">
   <div id="viz"></div>
 </div>
-<div class="ui content" id="ipxContent">
+<div class="ui content">
   <div class="main fluid ui buttons">
    <button style="height: 49" title="Search settings" class="ui mini search toggle attached button">
       <i class="large search icon"></i>
@@ -101,29 +102,32 @@ a:active {text-decoration:underline;}
       <p id="progress">XHR2's upload progress isn't supported</p>
     </div>
     <progress class="hidden" id="uploadprogress" min="0" max="100" value="0">0</progress>
-    <div class="ui hidden inverted selected menu" style="margin: 2px">
-      <div class="ui red selected label" style="margin-left: 4px">1</div>
+    <div class="ui inverted tiny selected menu" style="margin: 2px">
+      <div class="ui red selected label" style="margin-left: 4px; width: 3em; text-align: center">0</div>
       <a class="selectall item">
-        <i class="checked checkbox icon"></i> Select all
+        <i class="checkmark icon"></i>
       </a>
       <a class="invert item">
-        <i class="reverse checked checkbox icon"></i> Invert
+        <i class="checkmark sign icon"></i> 
       </a>
       <a class="download item">
-        <i class="download icon"></i> Download
+        <i class="download icon"></i>
       </a>
       <a class="delete item">
-        <i class="delete icon"></i> Delete
+        <i class="trash icon"></i> 
       </a>
-        <div class="item">
-          <div class="ui icon input">
-            <input type="text" placeholder="Tag...">
-            <i class="tag icon"></i>
-          </div>
-        </div>
+      <a class="graph item">
+        <i class="unhide icon"></i> 
+      </a>
+      <div class="right menu">
+        <a class="signout item">
+          <i class="sign out icon"></i> 
+        </a>
+      </div>
     </div>
-    <div class="ui search results segment" id="holder" style="height: 90%; width: 100%; padding: 0px; overflow: auto">
-      <div id="results"></div>
+    <div class="ui search results" id="holder" style="height: 90%; width: 100%; padding: 0px; overflow: auto">
+      <div id="results" style="width: 100%">
+        <div class="table content"></div>
     </div>
   </div>
 </div>
@@ -145,7 +149,7 @@ a:active {text-decoration:underline;}
 <script src="/lib/jquery-ui/ui/jquery-ui.js"></script>
 <script src="/lib/faye/include.js"></script>
 <script src="/lib/jstree/dist/jstree.min.js"></script>
-<script src="/lib/Semantic-UI/build/packaged/javascript/semantic.js"></script>
+<script src="/lib/semantic-ui/build/packaged/javascript/semantic.js"></script>
 <script src="<!-- @var HOMEPAGE -->/member.js" defer="defer"></script>
 <script src="anno.js" defer="defer"></script>
 <script src="dashboard.js" defer="defer"></script>
@@ -154,6 +158,7 @@ a:active {text-decoration:underline;}
 
 <script src="/__wm/lib/d3plus/d3.js"></script>
 <script src="/__wm/lib/d3plus/d3plus.min.js"></script>
+<script src="/__wm/lib/nvd3/nv.d3.js"></script>
 <script src="/__wm/viz.js"></script>
 
 </html>

@@ -21,18 +21,6 @@ if ($enclosure.length) {
     return;
   } 
   sbUser = window.senseBase.user;
-  isScraper = sbUser == 'scraper' || window.senseBase.isScraper;
-  console.log('operating in iframe', window.parent.location);
-  parent.window.annotateCurrentURI = annotateCurrentURI;
-  $('body', outputDocument).prepend('<div id="sbTree" style="z-index: 999; position: fixed; right: 1em; top: 0; background: orange"><a id="sbGoTopLeft">⇱</a><span id="annotationCount"></span>' +
-     (isScraper ? '<img src="/__wm/icons/scraper.png" alt="Scraper" />' : '') +
-     '<div id="treeContainer"></div>' + '</div>');
-  $('head', outputDocument).append('<link rel="stylesheet" href="<!-- @var HOMEPAGE -->/lib/jstree/dist/themes/default/style.min.css" />');
-  fayeClient.publish('/annotate', { uri: window.parent.location.href} );
-  $('#sbGoTopLeft', outputDocument).click(function() { 
-    var w = $('#sbTree', outputDocument).css('width');
-    $('#sbTree', outputDocument).css('left', '1em').css('width', w); 
-  });
 }
 //var startingHTML = $enclosure.html().toString();
 

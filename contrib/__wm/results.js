@@ -116,9 +116,10 @@ function updateResults(results) {
   $('.search.button').animate({opacity: 1}, 500, 'linear');
     // use arbitrary rendering to fill #results
   if (results.hits) {
-    resultsTable('#results', results);
+    $('#searchCount').html(results.hits.hits.length);
+    resultsTable('.table.content', results);
   } else {
-    $('#results').html('<i>No items.</i>');
+    $(container).html('<i>No items.</i>');
     $('#searchCount').html('0');
   }
   queuedUpdate = null;
@@ -144,4 +145,5 @@ function hideItemSidebar() {
 }
 
 include "results.table.js"
+include "results.scatter.js"
 
