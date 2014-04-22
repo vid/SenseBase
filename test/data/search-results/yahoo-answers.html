@@ -1,0 +1,943 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="IE=11">
+<meta name="keywords" content="yahoo, answers,  questions">
+<meta name="experience" content="A3">
+<title>Yahoo Answers</title>
+<script>
+ YUI_config = {
+     combine:true,
+     comboBase: "https://s.yimg.com" + "/zz/combo?",
+     root:"yui:3.9.1/build/"
+ };
+</script>
+<link rel="stylesheet" href="https://s.yimg.com/zz/combo?h/50064/css/ya-common-min.css&h/50064/css/ya-app-common-min.css&h/50064/css/ya-home-min.css&h/50064/css/ya-category-min.css&h/50064/css/ya-user-activity-min.css&h/50064/css/ya-knowledge-partner-min.css&h/50064/css/ya-search-min.css&h/50064/css/ya-ask-answer-form-common-min.css&h/50064/css/ya-ask-form-min.css&h/50064/css/ya-answer-form-min.css&h/50064/css/ya-leader-board-min.css&h/50064/css/ya-about-min.css&h/50064/css/ya-how-answers-works-min.css&h/50064/css/ya-community-guidelines-min.css&h/50064/css/ya-scoring-system-min.css&h/50064/css/ya-appeal-min.css&h/50064/css/ya-join-min.css&h/50064/css/ya-kudos-min.css&h/50064/css/ya-join-thanks-min.css&h/50064/css/ya-invite-min.css&h/50064/css/ya-suspended-user-min.css&h/50064/css/ya-quiz-min.css&h/50064/css/gallery-carousel-min.css"><link type='text/css' rel='stylesheet' href='https://s.yimg.com/zz/combo?kx/yucs/uh3/uh/css/986/uh_non_mail-min.css&kx/yucs/uh_common/meta/3/css/meta-min.css&kx/yucs/uh3/uh3_top_bar/css/280/no_icons-min.css&kx/yucs/uh3/uh3_top_bar/css/279/topbar_persistent-min.css&kx/yucs/uh3/search/css/513/blue_border-min.css&kx/yucs/uh3/uh/css/943/uh_ssl-min.css'/>
+
+<!-- Combo CSS -->
+<link type='text/css' rel='stylesheet' href='https://s.yimg.com/zz/combo?yui-s:3.9.1/build/widget-base/assets/skins/sam/widget-base.css&yui-s:3.9.1/build/autocomplete-list/assets/skins/sam/autocomplete-list.css&yui-s:3.9.1/build/cssbutton/cssbutton-min.css&yui-s:3.9.1/build/resize-base/assets/skins/sam/resize-base.css&yui-s:3.9.1/build/widget-stack/assets/skins/sam/widget-stack.css&yui-s:3.9.1/build/overlay/assets/skins/sam/overlay.css&yui-s:3.9.1/build/app-transitions-css/app-transitions-css-min.css&yui-s:3.9.1/build/widget-modality/assets/skins/sam/widget-modality.css&yui-s:3.9.1/build/panel/assets/skins/sam/panel.css&yui-s:3.9.1/build/scrollview-base/assets/skins/sam/scrollview-base.css&yui-s:3.9.1/build/scrollview-scrollbars/assets/skins/sam/scrollview-scrollbars.css'/>
+
+<script src="https://s.yimg.com/zz/combo?yui:3.9.1/yui/yui-min.js"></script>
+
+<script src="https://s.yimg.com/zz/combo?yui:3.9.1/build/oop/oop-min.js&yui:3.9.1/build/event-custom-base/event-custom-base-min.js&yui:3.9.1/build/dom-core/dom-core-min.js&yui:3.9.1/build/dom-base/dom-base-min.js&yui:3.9.1/build/selector-native/selector-native-min.js&yui:3.9.1/build/selector/selector-min.js&yui:3.9.1/build/node-core/node-core-min.js&yui:3.9.1/build/node-base/node-base-min.js&yui:3.9.1/build/event-base/event-base-min.js&yui:3.9.1/build/event-delegate/event-delegate-min.js&yui:3.9.1/build/node-event-delegate/node-event-delegate-min.js&yui:3.9.1/build/pluginhost-base/pluginhost-base-min.js&yui:3.9.1/build/pluginhost-config/pluginhost-config-min.js&yui:3.9.1/build/node-pluginhost/node-pluginhost-min.js&yui:3.9.1/build/dom-style/dom-style-min.js&yui:3.9.1/build/dom-screen/dom-screen-min.js&yui:3.9.1/build/node-screen/node-screen-min.js&yui:3.9.1/build/node-style/node-style-min.js&yui:3.9.1/build/event-custom-complex/event-custom-complex-min.js&yui:3.9.1/build/intl/intl-min.js&yui:3.9.1/build/attribute-core/attribute-core-min.js&yui:3.9.1/build/attribute-observable/attribute-observable-min.js&yui:3.9.1/build/attribute-extras/attribute-extras-min.js&yui:3.9.1/build/attribute-base/attribute-base-min.js&yui:3.9.1/build/base-core/base-core-min.js&yui:3.9.1/build/base-observable/base-observable-min.js&yui:3.9.1/build/base-base/base-base-min.js&yui:3.9.1/build/base-pluginhost/base-pluginhost-min.js&yui:3.9.1/build/base-build/base-build-min.js&yui:3.9.1/build/array-extras/array-extras-min.js&yui:3.9.1/build/escape/escape-min.js&yui:3.9.1/build/event-synthetic/event-synthetic-min.js&yui:3.9.1/build/event-focus/event-focus-min.js&yui:3.9.1/build/event-valuechange/event-valuechange-min.js&yui:3.9.1/build/autocomplete-base/autocomplete-base-min.js&yui:3.9.1/build/autocomplete-sources/autocomplete-sources-min.js&yui:3.9.1/build/autocomplete-list/lang/autocomplete-list_en.js&yui:3.9.1/build/event-resize/event-resize-min.js"></script>
+
+<script src="https://s.yimg.com/zz/combo?yui:3.9.1/build/selector-css2/selector-css2-min.js&yui:3.9.1/build/selector-css3/selector-css3-min.js&yui:3.9.1/build/shim-plugin/shim-plugin-min.js&yui:3.9.1/build/attribute-complex/attribute-complex-min.js&yui:3.9.1/build/classnamemanager/classnamemanager-min.js&yui:3.9.1/build/widget-base/widget-base-min.js&yui:3.9.1/build/widget-htmlparser/widget-htmlparser-min.js&yui:3.9.1/build/widget-skin/widget-skin-min.js&yui:3.9.1/build/widget-uievents/widget-uievents-min.js&yui:3.9.1/build/widget-position/widget-position-min.js&yui:3.9.1/build/widget-position-align/widget-position-align-min.js&yui:3.9.1/build/autocomplete-list/autocomplete-list-min.js&yui:3.9.1/build/autocomplete-list-keys/autocomplete-list-keys-min.js&yui:3.9.1/build/autocomplete-plugin/autocomplete-plugin-min.js&yui:3.9.1/build/text-data-wordbreak/text-data-wordbreak-min.js&yui:3.9.1/build/text-wordbreak/text-wordbreak-min.js&yui:3.9.1/build/highlight-base/highlight-base-min.js&yui:3.9.1/build/autocomplete-highlighters/autocomplete-highlighters-min.js&yui:3.9.1/build/datasource-local/datasource-local-min.js&yui:3.9.1/build/datasource-get/datasource-get-min.js&yui:3.9.1/build/anim-easing/anim-easing-min.js&yui:3.9.1/build/anim-node-plugin/anim-node-plugin-min.js&yui:3.9.1/build/anim-scroll/anim-scroll-min.js&yui:3.9.1/build/substitute/substitute-min.js&yui:3.9.1/build/node-focusmanager/node-focusmanager-min.js&yui:3.9.1/build/event-simulate/event-simulate-min.js&yui:3.9.1/build/async-queue/async-queue-min.js&yui:3.9.1/build/gesture-simulate/gesture-simulate-min.js&yui:3.9.1/build/node-event-simulate/node-event-simulate-min.js&yui:3.9.1/build/jsonp/jsonp-min.js&yui:3.9.1/build/file-html5/file-html5-min.js&yui:3.9.1/build/uploader-queue/uploader-queue-min.js&yui:3.9.1/build/uploader-html5/uploader-html5-min.js&yui:3.9.1/build/file-flash/file-flash-min.js&yui:3.9.1/build/uploader-flash/uploader-flash-min.js&yui:3.9.1/build/uploader/uploader-min.js"></script>
+
+<script src="https://s.yimg.com/zz/combo?yui:3.9.1/build/querystring-stringify-simple/querystring-stringify-simple-min.js&yui:3.9.1/build/io-base/io-base-min.js&yui:3.9.1/build/json-parse/json-parse-min.js&yui:3.9.1/build/json-stringify/json-stringify-min.js&yui:3.9.1/build/widget-stdmod/widget-stdmod-min.js&yui:3.9.1/build/widget-stack/widget-stack-min.js&yui:3.9.1/build/widget-position-constrain/widget-position-constrain-min.js&yui:3.9.1/build/overlay/overlay-min.js&yui:3.9.1/build/imageloader/imageloader-min.js&yui:3.9.1/build/plugin/plugin-min.js&yui:3.9.1/build/node-scroll-info/node-scroll-info-min.js&yui:3.9.1/build/anim-base/anim-base-min.js&yui:3.9.1/build/widget-anim/widget-anim-min.js&yui:3.9.1/build/datatype-xml-parse/datatype-xml-parse-min.js&yui:3.9.1/build/io-xdr/io-xdr-min.js&yui:3.9.1/build/io-form/io-form-min.js&yui:3.9.1/build/io-upload-iframe/io-upload-iframe-min.js&yui:3.9.1/build/queue-promote/queue-promote-min.js&yui:3.9.1/build/io-queue/io-queue-min.js&yui:3.9.1/build/anim-color/anim-color-min.js&yui:3.9.1/build/anim-xy/anim-xy-min.js&yui:3.9.1/build/anim-curve/anim-curve-min.js&yui:3.9.1/build/event-mousewheel/event-mousewheel-min.js&yui:3.9.1/build/event-mouseenter/event-mouseenter-min.js&yui:3.9.1/build/event-key/event-key-min.js&yui:3.9.1/build/event-hover/event-hover-min.js&yui:3.9.1/build/event-outside/event-outside-min.js&yui:3.9.1/build/event-touch/event-touch-min.js&yui:3.9.1/build/event-move/event-move-min.js&yui:3.9.1/build/event-flick/event-flick-min.js&yui:3.9.1/build/event-tap/event-tap-min.js&yui:3.9.1/build/querystring-stringify/querystring-stringify-min.js&yui:3.9.1/build/cookie/cookie-min.js&yui:3.9.1/build/arraylist/arraylist-min.js&yui:3.9.1/build/arraylist-add/arraylist-add-min.js&yui:3.9.1/build/arraylist-filter/arraylist-filter-min.js&yui:3.9.1/build/swfdetect/swfdetect-min.js&yui:3.9.1/build/swf/swf-min.js&yui:3.9.1/build/transition/transition-min.js"></script>
+
+
+<script src="https://s.yimg.com/zz/combo?yui:3.9.1/build/yui-throttle/yui-throttle-min.js&yui:3.9.1/build/dd-ddm-base/dd-ddm-base-min.js&yui:3.9.1/build/dd-drag/dd-drag-min.js&yui:3.9.1/build/dd-ddm/dd-ddm-min.js&yui:3.9.1/build/dd-ddm-drop/dd-ddm-drop-min.js&yui:3.9.1/build/dd-drop/dd-drop-min.js&yui:3.9.1/build/dd-drop-plugin/dd-drop-plugin-min.js&yui:3.9.1/build/dd-delegate/dd-delegate-min.js&yui:3.9.1/build/resize-base/resize-base-min.js&yui:3.9.1/build/resize-proxy/resize-proxy-min.js&yui:3.9.1/build/resize-constrain/resize-constrain-min.js&yui:3.9.1/build/datatype-xml-format/datatype-xml-format-min.js&yui:3.9.1/build/datatype-date-parse/datatype-date-parse-min.js&yui:3.9.1/build/datatype-date-format/lang/datatype-date-format_en-US.js&yui:3.9.1/build/datatype-date-format/datatype-date-format-min.js&yui:3.9.1/build/datatype-date-math/datatype-date-math-min.js&yui:3.9.1/build/event-valuechange/event-valuechange-min.js&yui:3.9.1/build/event-tap/event-tap-min.js"></script>
+
+
+<script src="https://s.yimg.com/zz/combo?yui:3.9.1/history-base/history-base-min.js&yui:3.9.1/history-html5/history-html5-min.js&yui:3.9.1/history-hash/history-hash-min.js&yui:3.9.1/history-hash-ie/history-hash-ie-min.js&yui:3.9.1/router/router-min.js&yui:3.9.1/pjax-base/pjax-base-min.js&yui:3.9.1/view/view-min.js&yui:3.9.1/app-base/app-base-min.js&yui:3.9.1/pjax-content/pjax-content-min.js&yui:3.9.1/app-content/app-content-min.js&yui:3.9.1/parallel/parallel-min.js&yui:3.9.1/app-transitions/app-transitions-min.js&yui:3.9.1/app-transitions-native/app-transitions-native-min.js&yui:3.9.1/array-invoke/array-invoke-min.js&yui:3.9.1/model/model-min.js&yui:3.9.1/model-list/model-list-min.js&yui:3.9.1/lazy-model-list/lazy-model-list-min.js&yui:3.9.1/model-sync-rest/model-sync-rest-min.js&yui:3.9.1/view-node-map/view-node-map-min.js&yui:3.9.1/widget-autohide/widget-autohide-min.js&yui:3.9.1/button-core/button-core-min.js&yui:3.9.1/button-plugin/button-plugin-min.js&yui:3.9.1/widget-buttons/widget-buttons-min.js&yui:3.9.1/widget-modality/widget-modality-min.js&yui:3.9.1/panel/panel-min.js&yui:3.9.1/scrollview-base/scrollview-base-min.js&yui:3.9.1/scrollview-scrollbars/scrollview-scrollbars-min.js&yui:3.9.1/scrollview/scrollview-min.js"></script>
+
+<!-- <script src="/combo?static/js/ext/gallery-timer-min.js&static/js/ext/gallery-base64-min.js"></script>-->
+
+<!-- To load the JS & CSS for gallery-carousel YUI module from local resource instead of yui api sources as yui doesn't support SSL for gallery module  Refer : http://wiki.corp.yahoo.com/view/YUI/YUISSL -->  
+
+<!-- <script src="answers.yahoo.com/combo?static/js/ext/gallery-carousel-min.js&static/js/ext/gallery-carousel-anim-min.js"></script>
+<link type='text/css' rel='stylesheet' href="answers.yahoo.com/combo?static/css/ext/gallery-carousel.css"/> -->
+
+<!-- end of yui gallery-carousel loading part -->
+
+
+<script type="text/javascript">
+    window.dmRosAdConfig = {
+        dmRosAdConfig   : "ba14b566",
+        dmRosAdTypeTag  : "NOT_IN_BUCKET",
+        dmRosAdSlotInfo : [
+            {
+                dmRosAdSlotId : "north",
+                dmRosAdDivId  : "dmRosAdWrapper-MainNorth",
+                dmRosAdWidth  : "678",
+                dmRosAdHeight : "315"
+            },
+            {
+                dmRosAdSlotId : "south",
+                dmRosAdDivId  : "dmRosAdWrapper-MainSouth",
+                dmRosAdWidth  : "678",
+                dmRosAdHeight : "315"
+            },
+            {
+                dmRosAdSlotId : "east",
+                dmRosAdDivId  : "dmRosAdWrapper-MainEast",
+                dmRosAdWidth  : "310",
+                dmRosAdHeight : "360"
+            }
+        ],
+        dmRosPropParams :  {
+           src_spaceid : "396545059",
+           srcpvid : "dcWTzSBy4h",
+           sample_id : "NOT_IN_BUCKET"
+        }
+    };
+</script>
+
+<script>
+var ANSWERS = {'bucketId':'NOT_IN_BUCKET','eIntl':'ca', 'hasSharedLang': '1', 'lang2chars': 'en','intl':'us', 'lang':'en-US', 'ct':'1398177246', 'guid':'', 'yi':'0', 'si':'', 'loginURL': 'https://login.yahoo.com/config/login?.src=knowsrch&.intl=us&.done=https://answers.yahoo.com/search/search_result?fr=uh3_answers_vert_gs&type=2button&p=yahoo', 'htab':'def', 'rdata':'full', 'crumb':'z../df7czQC' , 'uploadUrl':'https://answers.yahoo.com/uploads/media/api/v1/uploads?format=json', 'isQuestionPage':0, 'isSuspended': '0', 'maintenanceMessage': 'NONE', 'locale':'en-US', 'gossipUrl':'https://search.yahoo.com/sugg/ss/gossip-us_ss-vertical_ss/?output=sd1&pubid=1307&appid=yanswer', 'ssl':1, 'route':'search', 'comboPrefix': 'h/50064', 'intl':'us', 'isProdStatic': '1', 'isDev': '0'};
+</script>
+</head>
+<body class="ya-page ua-wk ua-unknown ua-wk537">
+<!-- UH start -->
+<header>
+<div id="uhead">
+<!-- Markups --><style>#header{width:100% !important}#yucs{margin:0 !important;width:auto !important;max-width:1260px !important;min-width:1024px !important}#yan-header-searchbox{display:none !important}#ya-uh{*width:100% !important}#yucs-profile #yucs-menu_link_profile span.yucs-avatar{margin-top:1px\9}#yucs-profile #yucs-menu_link_profile span.yucs-profile_text{margin-top:0\9}#yucs-signedout{margin-top:12px\9}#yucs .yucs-fl-left{width:100%;position:relative}#yucs #yucs-search{width:auto !important;display:block !important;max-width:none;min-width:492px;position:absolute;margin-left:189px;margin-right:324px;left:0;right:0}#yucs #yucs-logo{width:190px !important;margin-left:0 !important}#yucs #yucs-logo div{width:94px !important;margin:0 auto !important}#yucs-help{position:relative}#yucs-logo a{margin-left:-13px !important}#yuhead-help-panel{width:auto}#yucs-help .yucs-menu ul li a{white-space:nowrap}</style><style>#yog-hd .yom-bar, #yog-hd .yom-nav, #y-nav, #hd .ysp-full-bar,  #yfi_nav_header, #hd .mast {
+float: none;
+width: 970px;
+margin: 0 auto;
+}
+
+#yog-bd .yom-stage {
+background: transparent;
+}
+
+#y-nav .yom-nav {
+padding-top: 0px;
+}
+
+#ysp-search-assist .bd {
+display:none;
+}
+
+#ysp-search-assist h4 {
+padding-left: 8px;
+}
+
+
+    #yfi-portfolios-multi-quotes #y-nav, #yfi-portfolios-multi-quotes #navigation, #yfi-portfolios-multi-quotes .y-nav-legobg, 
+    #yfi-portfolios-my-portfolios #y-nav, #yfi-portfolios-my-portfolios #navigation, #yfi-portfolios-my-portfolios .y-nav-legobg {
+        width : 100%;
+    }</style> <div id="yucsHead" class="yucs-answers yucs-en-us  yucs-standard"><!-- meta --><div id="yucs-meta" data-authstate="signedout" data-cobrand="standard" data-crumb="ITE5suAPbW8" data-device="desktop" data-firstname="" data-flight="1398177246" data-forcecobrand="standard" data-guid="" data-host="answers.yahoo.com" data-https="1" data-languagetag="en-us" data-property="answers" data-protocol="https" data-shortfirstname="" data-shortuserid="" data-status="active" data-spaceid="396545059" data-userid="" ></div><!-- /meta --><div id="yucs-top-bar" class='yucs-ps'>    <div id='yucs-top-inner'>        <ul id='yucs-top-list'>            <li id='yucs-top-home'><a href="https://us.lrd.yahoo.com/_ylt=AkQWITgI9Rcmk7i3XdzW8XkjzKIX/SIG=11a017te1/EXP=1399386846/**https%3A//www.yahoo.com/"><span class="sp yucs-top-ico"></span>Home</a></li>            <li id='yucs-top-mail'><a href="https://mail.yahoo.com/;_ylt=AhwmiZIukMrNMgljM4I5O_8jzKIX?.intl=us&.lang=en-US&.src=ym">Mail</a></li>            <li id='yucs-top-news'><a href="http://news.yahoo.com/;_ylt=AiGcZ2KCWZ5.bSc03XQeNc4jzKIX">News</a></li>            <li id='yucs-top-sports'><a href="http://sports.yahoo.com/;_ylt=AqsZRettanlc6olrzeGZJ0wjzKIX">Sports</a></li>            <li id='yucs-top-finance'><a href="http://finance.yahoo.com/;_ylt=Ask0ttc12c0E6eOdRZF7DVsjzKIX">Finance</a></li>            <li id='yucs-top-weather'><a href="https://weather.yahoo.com/;_ylt=AqDADKHg5lle2i2_BxAE0vkjzKIX">Weather</a></li>            <li id='yucs-top-games'><a href="https://games.yahoo.com/;_ylt=AnXSNuZEKmHCDiU0S7PtPL4jzKIX">Games</a></li>            <li id='yucs-top-groups'><a href="https://us.lrd.yahoo.com/_ylt=AuPfZtzJ5CnNWCmT13Mt02ojzKIX/SIG=11dd6flo4/EXP=1399386846/**https%3A//groups.yahoo.com/">Groups</a></li>            <li id='yucs-top-answers'><a href="https://answers.yahoo.com/;_ylt=AhMo0r_U_Ja8cdSgpPbOvugjzKIX">Answers</a></li>            <li id='yucs-top-screen'><a href="https://us.lrd.yahoo.com/_ylt=AiRjriLMw6BtymReoq35k10jzKIX/SIG=11de02je6/EXP=1399386846/**https%3A//screen.yahoo.com/">Screen</a></li>            <li id='yucs-top-flickr'><a href="https://us.lrd.yahoo.com/_ylt=AqZNvUeeyKn121eWi.v70usjzKIX/SIG=11bgaoj1l/EXP=1399386846/**https%3A//www.flickr.com/">Flickr</a></li>            <li id='yucs-top-mobile'><a href="https://mobile.yahoo.com/;_ylt=Au91L.ybKBSx0f683rRoew0jzKIX">Mobile</a></li>            <li id='yucs-more' class='yucs-menu yucs-more-activate' data-ylt="/;_ylt=AtLsr.TaE9bpXMrZ8VflkLEjzKIX"><a href="#" id='yucs-more-link' class='yucs-leavable'>More<span class="sp yucs-top-ico"></span></a>                <div id='yucs-top-menu'>                    <div class='yui3-menu-content'>                        <ul class='yucs-hide yucs-leavable'>                            <li id='yucs-top-omg'><a href="https://us.lrd.yahoo.com/_ylt=AhkQVh9Moi1Qf__EEMDQO.4jzKIX/SIG=11ghhrg4d/EXP=1399386846/**https%3A//celebrity.yahoo.com/">Celebrity</a></li>                            <li id='yucs-top-shine'><a href="https://shine.yahoo.com/;_ylt=AlxGS8GW.UfvHRa9wgXIwNgjzKIX">Shine</a></li>                            <li id='yucs-top-movies'><a href="https://movies.yahoo.com/;_ylt=AiJHtwshqhfF5FcEHhY_PPsjzKIX">Movies</a></li>                            <li id='yucs-top-music'><a href="https://music.yahoo.com/;_ylt=AskbKc6.CCO_gHMJnn4tqdkjzKIX">Music</a></li>                            <li id='yucs-top-tv'><a href="https://tv.yahoo.com/;_ylt=AvpRNR0FPyfIWI8P7ZBq.VgjzKIX">TV</a></li>                            <li id='yucs-top-health'><a href="http://us.lrd.yahoo.com/_ylt=AlcCukeN45B.xVpwkp4nbMQjzKIX/SIG=11c622bqf/EXP=1399386846/**http%3A//health.yahoo.com/">Health</a></li>                            <li id='yucs-top-shopping'><a href="http://shopping.yahoo.com/;_ylt=AuESbsuR_xpreoqN1e5JedAjzKIX">Shopping</a></li>                            <li id='yucs-top-travel'><a href="https://travel.yahoo.com/;_ylt=AoigcZlGsl3DJlstGbUbhHsjzKIX">Travel</a></li>                            <li id='yucs-top-autos'><a href="https://autos.yahoo.com/;_ylt=AlTFNV1imhaM967XN6pbMIgjzKIX">Autos</a></li>                            <li id='yucs-top-homes'><a href="https://us.lrd.yahoo.com/_ylt=Ai3rl3S6b63Txh626MJ1NmsjzKIX/SIG=11cit1q30/EXP=1399386846/**https%3A//homes.yahoo.com/">Homes</a></li>                                               </ul>                    </div>                </div>            </li>        </ul>    </div></div><div id="yucs" class="yucs-mc  yog-grid" data-lang="en-us" data-property="answers" data-flight="1398177246" data-linktarget="_top" data-uhvc="/;_ylt=AslJOHnxDLL.XA0EAmrwfV8jzKIX">        <div class="yucs-fl-left yog-cp">         <div id="yucs-logo">    <style>        #yucs #yucs-logo-ani {            width:120px ;            height:34px;            background-image:url(https://s1.yimg.com/rz/l/yahoo_answers_en-US_f_pw_119x34.png) ;            _background-image:url(https://s1.yimg.com/rz/l/yahoo_answers_en-US_f_pw_119x34.gif) ;            *left: 0px;            display:block ;            visibility:hidden;            clip: rect(22px,154px,42px,0px);            *clip: rect(22px 154px 42px 0px);            position: absolute;        }                .lt #yucs-logo-ani {            background-position: 100% 0px !important;        }                .lt #yucs[data-property='mail'] #yucs-logo-ani {            background-position: -350px 0px !important;        }                #yucs-logo {        margin-top:0px!important;        padding-top: 11px;        width: 120px;        }                #yucs[data-property='homes'] #yucs-logo {            width: 102px;        }                .advisor #yucs-link-ani {            left: 21px !important;        }        #yucs #yucs-logo a {margin-left: 0!important;}#yucs #yucs-link-ani {width: 100% !important;}        @media        only screen and (-webkit-min-device-pixel-ratio: 2),        only screen and ( min--moz-device-pixel-ratio: 2),        only screen and ( -o-min-device-pixel-ratio: 2/1),        only screen and ( min-device-pixel-ratio: 2),        only screen and ( min-resolution: 192dpi),        only screen and ( min-resolution: 2dppx) {         #yucs #yucs-logo-ani  {                background-image: url(https://s1.yimg.com/rz/l/yahoo_answers_en-US_f_pw_119x34_2x.png) !important;                background-size: 235px 34px;            }        }    </style>        <div>        <a id="yucs-logo-ani" class="" href="https://answers.yahoo.com/;_ylt=Avh0FN5J12rgRq3eeTCThasjzKIX"           target="_top" data-alg="">          Yahoo! Answers        </a>    </div>     <img id="imageCheck" src="https://s1.yimg.com/os/mit/media/m/base/images/transparent-1093278.png" alt=""/>    </div><noscript><style>#yucs #yucs-logo-ani {visibility: visible;position: relative;clip: auto;}</style></noscript><script charset='utf-8' type='text/javascript' src='https://s.yimg.com/zz/combo?kx/yucs/uh3/uh/js/49/ai-ssl-min.js'></script><script>function isIE() {var myNav = navigator.userAgent.toLowerCase();return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;}function loadAnimAfterOnLoad() { if (typeof Aniden != 'undefined'&& Aniden.play&& (document.getElementById('yucs').getAttribute('data-property') !== 'mail' || document.getElementById('yucs-logo-ani').getAttribute('data-alg'))) {Aniden.play();}}if (isIE()) {var _animPltTimer = setTimeout(function() {this.loadAnimAfterOnLoad();}, 6000);} else if((navigator.userAgent.toLowerCase().indexOf('firefox') > -1)) {      var _animFireFoxTimer = setTimeout(function() {            this.loadAnimAfterOnLoad();        }, 2000);}else {document.addEventListener("Aniden.animReadyEvent", function() {loadAnimAfterOnLoad();},true);}</script>    <div id="yucs-search"  style="width: 570px; display: block;" class=' yucs-search-activate'>    <form role="search" class="yucs-search yucs-activate" target="_top"        data-webaction="https://search.yahoo.com/search;_ylt=AvkBgPHjok7_30Uw08QaN8IjzKIX"        action="https://answers.yahoo.com/search/search_result;_ylt=AgPQow4AVFpgtSl4WcYagAgjzKIX"        method="get">        <table role="presentation">            <tbody role="presentation">                <tr role="presentation">                    <td class="yucs-form-input" role="presentation">                    <div id="yucs-input_wrap">                        <input autocomplete="off" class="yucs-search-input" name="p" type="search"                            aria-describedby="mnp-search_box"                            data-yltvsearch="https://answers.yahoo.com/search/search_result;_ylt=AqSIjsEbrIK8Ta_m_qfomkIjzKIX"                            data-yltvsearchsugg="/;_ylt=At1LjWGiT09slPLPwWD.33cjzKIX"                            data-satype=""                            data-gosurl=""                            data-pubid=""                            data-maxresults="10"                            data-resize="disable"                            id="mnp-search_box" />                                                </div>                    </td><td NOWRAP class="yucs-form-btn" role="presentation"><div id="yucs-prop_search_button_wrapper" class="yucs-search-buttons"><div class="yucs-shadow"><div class="yucs-gradient"></div></div><button id="yucs-sprop_button" class="yucs-action_btn yucs-button_theme yucs-vsearch-button" type="submit"                            data-vfr="uh3_answers_vert_gs"                            data-vsearch="https://answers.yahoo.com/search/search_result">Search Answers</button></div><div id="yucs-web_search_button_wrapper" class="yucs-search-buttons"><div class="yucs-shadow"><div class="yucs-gradient"></div></div><button id="yucs-search_button"                            class="yucs-action_btn yucs-wsearch-button"                            onclick="var form=document.getElementById('yucs-search').children[0];var wa=form.getAttribute('data-webaction');form.setAttribute('action',wa);"                            type="submit">Search Web</button></div></td></tr>            </tbody>    </table>    <input type="hidden" name="type" value="2button" />    <input type="hidden" id="fr" name="fr" value="uh3_answers_web_gs" />            </form>    <div id="yucs-satray" class="sa-tray sa-hidden"        data-wstext="Search Web for: "        data-wsearch="https://search.yahoo.com/search;_ylt=AoZKqgK68FSeWHPUljqMuxMjzKIX"        data-vfr="uh3_answers_vert_gs"        data-vsearch="https://answers.yahoo.com/search/search_result;_ylt=AgJUWUqyQphSU8AW.5y9r7MjzKIX"        data-vstext= "Search News for: "        >    </div></div></div><div class="yucs-fl-right">  <div id="yucs-profile" class="yucs-profile yucs-signedout">    <a id="yucs-menu_link_profile_signed_out" href="https://login.yahoo.com/config/login;_ylt=ArPK7LXIza.JDOs5Mu5KAsAjzKIX?.src=knowsrch&.intl=us&.lang=en-US&.done=https://answers.yahoo.com/search/search_result%3ffr=uh3_answers_vert_gs%26type=2button%26p=yahoo"  target="_top" rel="nofollow" class="sp yucs-fc" aria-label="Profile">    </a>    <div id="yucs-profile_text" class="yucs-fc">        <a id="yucs-login_signIn" href="https://login.yahoo.com/config/login;_ylt=AhwgHRZxxgC_2M7vqz6NxDkjzKIX?.src=knowsrch&.intl=us&.lang=en-US&.done=https://answers.yahoo.com/search/search_result%3ffr=uh3_answers_vert_gs%26type=2button%26p=yahoo"  target="_top" rel="nofollow" class="yucs-fc">            Sign In        </a>    </div></div>  <div class="yucs-mail_link yucs-mailpreview-ancestor"><a id="yucs-mail_link_id" class="sp yltasis yucs-fc" href="https://mail.yahoo.com/;_ylt=ArMeae_t.Z1ZXiro6TfPE7sjzKIX?.intl=us&.lang=en-US&.src=ym" rel="nofollow" target="_top">    Mail    </a><div class="yucs-mail-preview-panel yucs-menu yucs-hide" data-mail-txt="Mail"    data-uri-scheme="http"     data-uri-path="ucs.query.yahoo.com/v1/console/yql"     data-mail-view="Go to Mail"    data-mail-help-txt="Help"    data-mail-help-url="http://help.yahoo.com/l/us/yahoo/mail/ymail/"    data-mail-loading-txt="Loading..."    data-languagetag="en-us"    data-mrd-crumb="Vfu90GNS1Sr"    data-authstate="signedout"    data-middleauth-signin-text="Click here to view your mail"    data-popup-login-url="https://login.yahoo.com/config/login_verify2?.pd=c%3DOIVaOGq62e5hAP8Tv..nr5E3&.src=sc"    data-middleauthtext="You have {count} new messages."    data-yltmessage-link="http://us.lrd.yahoo.com/_ylt=AqBx_ERGjXA9jYTCiC6.Vz0jzKIX/SIG=13dsigmk1/EXP=1399386846/**http%3A//mrd.mail.yahoo.com/msg%3Fmid=%7BmsgID%7D%26fid=Inbox%26src=uh%26.crumb=Vfu90GNS1Sr"    data-yltviewall-link="https://mail.yahoo.com/;_ylt=ApnltYmS06tRWkjq7FZPxRojzKIX"    data-yltpanelshown="/;_ylt=All22esJ7_aBERIco1cGE4IjzKIX"    data-ylterror="/;_ylt=AkEtdHkC7nS8B6Wwnd055PUjzKIX"    data-ylttimeout="/;_ylt=AqLzjfAyvc3bEK2dDoSAF1kjzKIX"    data-generic-error="We're unable to preview your mail.<br>Go to Mail."    data-nosubject="[No Subject]"    data-timestamp='short'></div></div>    <div id="yucs-help" class="yucs-activate yucs-help yucs-menu_nav">    <a id="yucs-help_button" class="sp yltasis"         href="javascript:void(0);"        aria-label="Help" rel="nofollow">        <em class="yucs-hide yucs-menu_anchor">Help</em>    </a>    <div id="yucs-help_inner" class="yucs-hide yucs-menu yucs-hm-activate"          data-yltmenushown="/;_ylt=AiUfZ5yQ9oVpIh2Y.AuXWwEjzKIX">        <span class="sp yucs-dock"></span>        <ul id="yuhead-help-panel">            <li><a class="yucs-acct-link" href="https://us.lrd.yahoo.com/_ylt=Ap6C1ME.k401USBStJyK8CojzKIX/SIG=17su2m8im/EXP=1399386846/**https%3A//edit.yahoo.com/mc2.0/eval_profile%3F.intl=us%26.lang=en-US%26.done=https%3A//answers.yahoo.com/search/search_result%253ffr=uh3_answers_vert_gs%2526type=2button%2526p=yahoo%26amp;.src=knowsrch%26amp;.intl=us%26amp;.lang=en-US" target="_top">Account Info</a></li>            <li><a href="https://help.yahoo.com/l/us/yahoo/answers/;_ylt=An2OoSlvqlp6SeUxwDe.Ph4jzKIX"                 rel="nofollow" >Help</a></li>            <span class="yucs-separator" role="presentation" style="display: block;"></span>            <li><a href="http://us.lrd.yahoo.com/_ylt=ArjVry7RkwYnwv6_ev2SZNwjzKIX/SIG=120c8jmrr/EXP=1399386846/**http%3A//suggestions.yahoo.com/%3Fprop=answers"                  rel="nofollow" >Suggestions</a></li><li><a href="http://us.lrd.yahoo.com/_ylt=Avgzua5GyYKrzUY5974ZOhcjzKIX/SIG=11s4ulh4d/EXP=1399386846/**http%3A//yahoo.uservoice.com/forums/211240" rel="nofollow" >Send Feedback</a></li>                    </ul>    </div></div>    <div id="yucs-network_link"><a id="yucs-home_link" href="https://us.lrd.yahoo.com/_ylt=Akd3t5_byjqxtiSHl5z1GF0jzKIX/SIG=11a017te1/EXP=1399386846/**https%3A//www.yahoo.com/" rel="nofollow" target="_top">Yahoo</a></div>                         </div>              </div> <!-- contextual_shortcuts --><!-- /contextual_shortcuts --><!-- property: answers | languagetag: en-us | status: active | spaceid: 396545059 | cobrand: standard | markup: empty --><div id="yUnivHead" class="yucs-hide"><!-- empty --></div></div></div>
+</header>
+<!-- UH end -->
+
+<div class="ya">
+<div id="ya-body-container" class="ya-grid">
+  <!-- left start -->
+  <div id='left-rail' class="y-col1 clearfix">
+    <div class='left-nav-container'>
+      <!-- Nav options -->
+<div>
+    <ul>
+          <li class="mb14" id="node-home" data-spaceid="396547299"><a href="/" class="unselected fs14 fwl " title="Answers Home">Answers Home</a></li>
+          <li id="node-activity" data-spaceid="396545004" style="display:none"><a href="/activity" class="unselected fs14 fwl " title="My Activities">My Activities</a></li>
+    </ul>
+</div>
+
+<!-- Divider Line -->
+<hr class="mt10 mb10 line-div"/>
+
+<!-- Div for All Categories -->
+<div id="cat-all">
+    <ul class="ul-all">
+          <li class="mb14" id="cat-0"><a href="/dir/index" class="unselected fs14 fwl " data-spaceid=1182000286 title="All Categories">All Categories</a></li>
+    </ul>   
+</div>
+
+<!-- Div for Major Categories -->
+<div id="cat-major">
+    <ul class="ul-major">
+       <li class="mb14 cat-major-extra show-none"><a class="unselected fs14 fwl"></a></li>
+               <li class="mb14" id="cat-396545012"><a href="/dir/index?sid=396545012" class="unselected fs14 fwl " title="Arts &amp; Humanities" data-spaceid=1182000291 >Arts &amp; Humanities</span></a></li>
+               <li class="mb14" id="cat-396545144"><a href="/dir/index?sid=396545144" class="unselected fs14 fwl " title="Beauty &amp; Style" data-spaceid=1182000305 >Beauty &amp; Style</span></a></li>
+               <li class="mb14" id="cat-396545013"><a href="/dir/index?sid=396545013" class="unselected fs14 fwl " title="Business &amp; Finance" data-spaceid=1182000326 >Business &amp; Finance</span></a></li>
+               <li class="mb14" id="cat-396545311"><a href="/dir/index?sid=396545311" class="unselected fs14 fwl " title="Cars &amp; Transportation" data-spaceid=1182000404 >Cars &amp; Transportation</span></a></li>
+               <li class="mb14" id="cat-396545660"><a href="/dir/index?sid=396545660" class="unselected fs14 fwl " title="Computers &amp; Internet" data-spaceid=1182000420 >Computers &amp; Internet</span></a></li>
+               <li class="mb14" id="cat-396545014"><a href="/dir/index?sid=396545014" class="unselected fs14 fwl " title="Consumer Electronics" data-spaceid=1182000444 >Consumer Electronics</span></a></li>
+               <li class="mb14" id="cat-396545327"><a href="/dir/index?sid=396545327" class="unselected fs14 fwl " title="Dining Out" data-spaceid=1182000553 >Dining Out</span></a></li>
+               <li class="mb14" id="cat-396545015"><a href="/dir/index?sid=396545015" class="unselected fs14 fwl " title="Education &amp; Reference" data-spaceid=1182000854 >Education &amp; Reference</span></a></li>
+               <li class="mb14 major-last" id="cat-396545016"><a href="/dir/index?sid=396545016" class="unselected fs14 fwl " title="Entertainment &amp; Music" data-spaceid=1182000868>Entertainment &amp; Music</a></li>
+    </ul>   
+</div>
+
+<!-- More Button & Category Flyout -->
+<div id="more-cat">
+  <span class="unselected fs14 fwl" id="btn-more">More<i id="img-catrb" class="shared-sprite rightbeak inblock ml3"></i><i id="img-catlb" class="shared-sprite leftbeak show-none"></i></span>
+  <div id="cat-flyout" class="show-none">
+    <ul class="ul-flyout1 ml20 mt20 mb6">
+        <li class="mb14 cat-flyout-extra1 show-none"><a class="unselected fs14 fwl"></a></li>
+               <li class="mb14" id="cat-396545451"><a href="/dir/index?sid=396545451" class="unselected fs14 fwl" data-spaceid=1182000897>Environment</a></li>
+               <li class="mb14" id="cat-396545433"><a href="/dir/index?sid=396545433" class="unselected fs14 fwl" data-spaceid=1182000902>Family &amp; Relationships</a></li>
+               <li class="mb14" id="cat-396545367"><a href="/dir/index?sid=396545367" class="unselected fs14 fwl" data-spaceid=1182000910>Food &amp; Drink</a></li>
+               <li class="mb14" id="cat-396545019"><a href="/dir/index?sid=396545019" class="unselected fs14 fwl" data-spaceid=1182000919>Games &amp; Recreation</a></li>
+               <li class="mb14" id="cat-396545018"><a href="/dir/index?sid=396545018" class="unselected fs14 fwl" data-spaceid=1182000941>Health</a></li>
+               <li class="mb14" id="cat-396545394"><a href="/dir/index?sid=396545394" class="unselected fs14 fwl" data-spaceid=1182000951>Home &amp; Garden</a></li>
+               <li class="mb14" id="cat-396545401"><a href="/dir/index?sid=396545401" class="unselected fs14 fwl" data-spaceid=1182600062>Local Businesses</a></li>
+               <li class="mb14" id="cat-396545439"><a href="/dir/index?sid=396545439" class="unselected fs14 fwl" data-spaceid=1182600341>News &amp; Events</a></li>
+               <li class="mb14 minor-last" id="cat-396545443"><a href="/dir/index?sid=396545443" class="unselected fs14 fwl" data-spaceid=1182600349>Pets</a></li>
+    </ul>
+    <ul class="ul-flyout2 mr20 mt20 mb6"> 
+        <li class="mb14 cat-flyout-extra2 show-none"><a class="unselected fs14 fwl" data-spaceid=></a></li>
+          <li class="mb14" id="cat-396545444"><a href="/dir/index?sid=396545444" class="unselected fs14 fwl" data-spaceid=1182600357>Politics &amp; Government</a></li>
+          <li class="mb14" id="cat-396546046"><a href="/dir/index?sid=396546046" class="unselected fs14 fwl" data-spaceid=1182600369>Pregnancy &amp; Parenting</a></li>
+          <li class="mb14" id="cat-396545122"><a href="/dir/index?sid=396545122" class="unselected fs14 fwl" data-spaceid=1182600388>Science &amp; Mathematics</a></li>
+          <li class="mb14" id="cat-396545301"><a href="/dir/index?sid=396545301" class="unselected fs14 fwl" data-spaceid=1182600398>Social Science</a></li>
+          <li class="mb14" id="cat-396545454"><a href="/dir/index?sid=396545454" class="unselected fs14 fwl" data-spaceid=1182600428>Society &amp; Culture</a></li>
+          <li class="mb14" id="cat-396545213"><a href="/dir/index?sid=396545213" class="unselected fs14 fwl" data-spaceid=1182600471>Sports</a></li>
+          <li class="mb14" id="cat-396545469"><a href="/dir/index?sid=396545469" class="unselected fs14 fwl" data-spaceid=1182600683>Travel</a></li>
+          <li class="mb14" id="cat-396546089"><a href="/dir/index?sid=396546089" class="unselected fs14 fwl" data-spaceid=1182600898>Yahoo Products</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- Divider Line -->
+<hr class="mb10 mt10 line-div"/>
+
+<!-- Answers Intl Link & Flyout -->
+<div id="ans-intl">
+  <span class="unselected fs14 fwl" id="btn-intl"><!-- Don't display flag for now <span class="intl-flag intl-padding shared-sprite us">&nbsp;</span>-->International<i id="img-intlrb" class="shared-sprite rightbeak inblock ml3"></i><i id="img-intllb" class="shared-sprite leftbeak show-none"></i></span>
+  <div id="intl-flyout" class="show-none">
+    <ul class="ul-intl1 ml20 mt20 mb6">
+        <li class="mb14">
+		<a hreflang="es-ar" href="https://ar.answers.yahoo.com/"  class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding ar">&nbsp;</span></a>
+		<a hreflang="es-ar" href="https://ar.answers.yahoo.com/"  class="unselected fs14 fwl">Argentina</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="en-au" href="https://au.answers.yahoo.com/"  class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding au">&nbsp;</span></a>
+		<a hreflang="en-au" href="https://au.answers.yahoo.com/"  class="unselected fs14 fwl">Australia</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="pt-br" href="https://br.answers.yahoo.com/"  class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding br">&nbsp;</span></a>
+		<a hreflang="pt-br" href="https://br.answers.yahoo.com/"  class="unselected fs14 fwl">Brazil</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="en-ca" href="https://ca.answers.yahoo.com/"  class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding ca">&nbsp;</span></a>
+		<a hreflang="en-ca" href="https://ca.answers.yahoo.com/"  class="unselected fs14 fwl">Canada</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="fr" href="https://fr.answers.yahoo.com/"  class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding fr">&nbsp;</span></a>
+		<a hreflang="fr" href="https://fr.answers.yahoo.com/"  class="unselected fs14 fwl">France</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="de" href="https://de.answers.yahoo.com/"  class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding de">&nbsp;</span></a>
+		<a hreflang="de" href="https://de.answers.yahoo.com/"  class="unselected fs14 fwl">Germany</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="en-in" href="https://in.answers.yahoo.com/"  class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding in">&nbsp;</span></a>
+		<a hreflang="en-in" href="https://in.answers.yahoo.com/"  class="unselected fs14 fwl">India</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="id" href="https://id.answers.yahoo.com/"  class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding id">&nbsp;</span></a>
+		<a hreflang="id" href="https://id.answers.yahoo.com/"  class="unselected fs14 fwl">Indonesia</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="it" href="https://it.answers.yahoo.com/"  class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding it">&nbsp;</span></a>
+		<a hreflang="it" href="https://it.answers.yahoo.com/"  class="unselected fs14 fwl">Italy</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="en-my" href="https://malaysia.answers.yahoo.com/"  class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding my">&nbsp;</span></a>
+		<a hreflang="en-my" href="https://malaysia.answers.yahoo.com/"  class="unselected fs14 fwl">Malaysia</a>
+	</li>
+    </ul>
+    <ul class="ul-intl2 mr20 mt20 mb6"> 
+        <li class="mb14">
+		<a hreflang="es-mx" href="https://mx.answers.yahoo.com/" class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding mx">&nbsp;</span></a>
+		<a hreflang="es-mx" href="https://mx.answers.yahoo.com/" class="unselected fs14 fwl">Mexico</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="en-nz" href="https://nz.answers.yahoo.com/" class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding nz">&nbsp;</span></a>
+		<a hreflang="en-nz" href="https://nz.answers.yahoo.com/" class="unselected fs14 fwl">New Zealand</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="en-ph" href="https://ph.answers.yahoo.com/" class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding ph">&nbsp;</span></a>
+		<a hreflang="en-ph" href="https://ph.answers.yahoo.com/" class="unselected fs14 fwl">Philippines</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="fr-ca" href="https://qc.answers.yahoo.com/" class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding cf">&nbsp;</span></a>
+		<a hreflang="fr-ca" href="https://qc.answers.yahoo.com/" class="unselected fs14 fwl">Quebec</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="en-sg" href="https://sg.answers.yahoo.com/" class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding sg">&nbsp;</span></a>
+		<a hreflang="en-sg" href="https://sg.answers.yahoo.com/" class="unselected fs14 fwl">Singapore</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="es" href="https://es.answers.yahoo.com/" class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding es">&nbsp;</span></a>
+		<a hreflang="es" href="https://es.answers.yahoo.com/" class="unselected fs14 fwl">Spain</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="th" href="https://th.answers.yahoo.com/" class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding th">&nbsp;</span></a>
+		<a hreflang="th" href="https://th.answers.yahoo.com/" class="unselected fs14 fwl">Thailand</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="en-gb" href="https://uk.answers.yahoo.com/" class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding uk">&nbsp;</span></a>
+		<a hreflang="en-gb" href="https://uk.answers.yahoo.com/" class="unselected fs14 fwl">UK &amp; Ireland</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="vi" href="https://vn.answers.yahoo.com/" class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding vn">&nbsp;</span></a>
+		<a hreflang="vi" href="https://vn.answers.yahoo.com/" class="unselected fs14 fwl">Vietnam</a>
+	</li>
+        <li class="mb14">
+		<a hreflang="es" href="https://espanol.answers.yahoo.com/" class="flyout-flag unselected fs14 fwl"><span class="intl-flag shared-sprite intl-padding e1">&nbsp;</span></a>
+		<a hreflang="es" href="https://espanol.answers.yahoo.com/" class="unselected fs14 fwl">Espanol</a>
+	</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Divider Line -->
+<hr class="mb10 mt10 line-div"/>
+
+<!-- About Answers Link & Flyout -->
+<div id="abt-ans">
+  <span class="unselected fs14 fwl" id="btn-abt">About<i id="img-abtrb" class="shared-sprite rightbeak inblock ml3"></i><i id="img-abtlb" class="shared-sprite leftbeak show-none"></i></span>
+  <div id="abt-flyout" class="show-none">
+    <ul class="ul-abt ml20 mt20 mr20 mb6">
+        <li class="mb14"><a href="/info/about" class="unselected fs14 fwl">About Answers</a></li>
+        <li class="mb14"><a href="/info/community_guidelines" class="unselected fs14 fwl">Community Guidelines</a></li>
+        <li class="mb14"><a href="/rank_total" class="unselected fs14 fwl">Leaderboard</a></li>
+        <li class="mb14"><a href="/info/knowledge_partners" class="unselected fs14 fwl">Knowledge Partners</a></li>
+        <li class="mb14"><a href="/info/scoring_system" class="unselected fs14 fwl">Points &amp; Levels</a></li>
+        <li class="mb14"><a href="http://yahooanswers.tumblr.com/" class="unselected fs14 fwl">Blog</a></li>
+        <li class="mb14"><a href="https://safely.yahoo.com/yahoo-answers-safety-guide-000049380.html" class="unselected fs14 fwl">Safety Tips</a></li>
+    </ul>
+  </div>
+</div>
+    </div>
+  </div>
+  <!-- left end -->
+  <script type="text/javascript" src="https://s.yimg.com/zz/combo?h/50064/js/ya-config-min.js&h/50064/js/ya-common-min.js&h/50064/js/ya-rapid-min.js&h/50064/js/l10n_en-US-min.js&h/50064/js/ya-app-common_stateless-min.js&h/50064/js/ya-home-min.js&h/50064/js/ya-category_stateless-min.js&h/50064/js/ya-user-activity-min.js&h/50064/js/ya-knowledge-partner-min.js&h/50064/js/ya-search-min.js&h/50064/js/ya-ask-answer-form-common-min.js&h/50064/js/ya-multimedia-min.js&h/50064/js/ya-ask-form-min.js&h/50064/js/ya-answer-form-min.js&h/50064/js/ya-leader-board-min.js&h/50064/js/ya-ask-min.js&h/50064/js/ya-invite-min.js&h/50064/js/ya-quiz-min.js&h/50064/js/gallery-timer-min.js&h/50064/js/gallery-base64-min.js&h/50064/js/gallery-carousel-min.js&h/50064/js/gallery-carousel-anim-min.js"></script>  <!-- right start -->
+  <div class="y-col2" id="ya-main-content">
+    <div id='ya-content-apps' class="ya-grid">
+      
+<script>var keyword = "yahoo"</script> 
+<div id='ya-srp'>
+    <!-- Center start -->
+    <div class="y-col y-col2-1">
+          <div id="nav-items" >
+            <div id="nav" class="ya-tabs">
+            <ul>
+	        <li class="current"><a href="#"><span>Search Result</span></a></li>
+            </ul>
+            <!--ul class="sorts">
+                <li class="sort current"><a href="?p=yahoo&sort=rel"><span>Relevance</span></a></li>
+                <li class="sort"><a href="?p=yahoo&sort=new"><span>Newest</a></span></li>
+                <li class="sort"><a href="?p=yahoo&sort=most"><span>Most Answers</span></a></li>
+                <li class="sort"><a href="?p=yahoo&sort=least"><span>Fewest Answers</span></a></li>
+            </ul-->
+            </div> <!-- nav-items end -->
+            <div id="yai-search-buttons" class="widget-buttons">
+                <span id="save-search-widget-handle" class="ya-button brd-rad3 bg-white">
+                   Save Search                </span>
+           </div> <!-- yai-search-buttons end -->
+        <div id="save-search-widget" class="srp-widget mb14 hide">
+            <span class="arrow"><span></span></span>
+          Check these results often? <a href="https://login.yahoo.com/config/login_verify2?.done=https%3A%2F%2Fanswers.yahoo.com%2Fsearch%2Fsearch_result%3Ffr%3Duh3_answers_vert_gs%26amp%3Btype%3D2button%26amp%3Bp%3Dyahoo&.src=knowsrch&.intl=us">Sign in</a> to save your search        </div>
+        </div> <!-- div nav end -->
+        <div class="dynamic">
+                            <style> #dmRosAdWrapper-MainNorth iframe{width:100%; margin-bottom: -14px;}</style>
+                <div id="dmRosAdWrapper-MainNorth" style="font-size:0; border-left: 1px solid #E2E2E6; border-right: 1px solid #E2E2E6; background-color:#fff;">
+                  <noscript>
+                    <iframe id="dmRosAd-1-north" width="678" height="315" frameborder="0"
+                         marginheight="0" marginwidth="0" scrolling="no"
+                         src="http://dmros.ysm.yahoo.com/ros/?c=ba14b566&w=678&h=315&ty=noscript&tt=Search+Result+for+%22yahoo%22+-+Yahoo+Answers&r=">
+                    </iframe>
+                  </noscript>
+                </div>            <ul id="yan-questions" class="question-feed">
+                	<li id='q-20090420203449AAFwsXx' >
+        	<div>
+                      <h3 class="question-title"><a data-ylk="slk:q;ql:20090420203449AAFwsXx" href="/question/index?qid=20090420203449AAFwsXx"> Delete a yahoo screen name? </a></h3> 
+                      <div class="question-details">
+		      	<span class="question-description">delete second yahoo screen name</span>
+		      </div>
+
+		      <div class='question-meta'>
+			  4 Answers •  <a href="/dir/index?sid=396546163">Password and Sign In</a>
+		     </div>
+        	</div>
+                <div class="action-buttons">
+           <a href='https://login.yahoo.com/config/login_verify2?.done=https%3A%2F%2Fanswers.yahoo.com%2Fquestion%2Findex%3Fqid%3D20090420203449AAFwsXx&.src=knowsrch&.intl=us' class='answer answer-unknown'><span class='action-icon'></span><span class='action-tip'><span class='action-tip-text'>Answer</span><span class='action-tip-arrow'></span></span></a>
+           
+           
+           <span class="box-arrow"></span>
+                </div>
+    	</li>
+	<li id='q-20080919091844AAvH5bo' >
+        	<div>
+                      <h3 class="question-title"><a data-ylk="slk:q;ql:20080919091844AAvH5bo" href="/question/index?qid=20080919091844AAvH5bo"> How do i delete yahoo account? </a></h3> 
+                      <div class="question-details">
+		      	<span class="question-description">delete yahoo account</span>
+		      </div>
+
+		      <div class='question-meta'>
+			  6 Answers •  <a href="/dir/index?sid=396546166">Calendar and Contacts</a>
+		     </div>
+        	</div>
+                <div class="action-buttons">
+           <a href='https://login.yahoo.com/config/login_verify2?.done=https%3A%2F%2Fanswers.yahoo.com%2Fquestion%2Findex%3Fqid%3D20080919091844AAvH5bo&.src=knowsrch&.intl=us' class='answer answer-unknown'><span class='action-icon'></span><span class='action-tip'><span class='action-tip-text'>Answer</span><span class='action-tip-arrow'></span></span></a>
+           
+           
+           <span class="box-arrow"></span>
+                </div>
+    	</li>
+	<li id='q-20081229081933AAThcI2' >
+        	<div>
+                      <h3 class="question-title"><a data-ylk="slk:q;ql:20081229081933AAThcI2" href="/question/index?qid=20081229081933AAThcI2"> Yahoo 7 Answers/Reg. Yahoo Answers? </a></h3> 
+                      <div class="question-details">
+		      	<span class="question-description">What is the difference between Yahoo 7 Answers and reg. Yahoo Answers? And what IS Yahoo 7 Answers?</span>
+		      </div>
+
+		      <div class='question-meta'>
+			  7 Answers •  <a href="/dir/index?sid=396546090">Yahoo Answers</a>
+		     </div>
+        	</div>
+                <div class="action-buttons">
+           <a href='https://login.yahoo.com/config/login_verify2?.done=https%3A%2F%2Fanswers.yahoo.com%2Fquestion%2Findex%3Fqid%3D20081229081933AAThcI2&.src=knowsrch&.intl=us' class='answer answer-unknown'><span class='action-icon'></span><span class='action-tip'><span class='action-tip-text'>Answer</span><span class='action-tip-arrow'></span></span></a>
+           
+           
+           <span class="box-arrow"></span>
+                </div>
+    	</li>
+	<li id='q-20081026142341AAH207t' >
+        	<div>
+                      <h3 class="question-title"><a data-ylk="slk:q;ql:20081026142341AAH207t" href="/question/index?qid=20081026142341AAH207t"> Delete a yahoo account? </a></h3> 
+                      <div class="question-details">
+		      	<span class="question-description">howw do u delete a yahoo account?</span>
+		      </div>
+
+		      <div class='question-meta'>
+			  5 Answers •  <a href="/dir/index?sid=396546163">Password and Sign In</a>
+		     </div>
+        	</div>
+                <div class="action-buttons">
+           <a href='https://login.yahoo.com/config/login_verify2?.done=https%3A%2F%2Fanswers.yahoo.com%2Fquestion%2Findex%3Fqid%3D20081026142341AAH207t&.src=knowsrch&.intl=us' class='answer answer-unknown'><span class='action-icon'></span><span class='action-tip'><span class='action-tip-text'>Answer</span><span class='action-tip-arrow'></span></span></a>
+           
+           
+           <span class="box-arrow"></span>
+                </div>
+    	</li>
+	<li id='q-20090318183311AAR62E7' >
+        	<div>
+                      <h3 class="question-title"><a data-ylk="slk:q;ql:20090318183311AAR62E7" href="/question/index?qid=20090318183311AAR62E7"> How do you delete your yahoo? </a></h3> 
+                      <div class="question-details">
+		      	<span class="question-description">how can I delete my yahoo?</span>
+		      </div>
+
+		      <div class='question-meta'>
+			  4 Answers •  <a href="/dir/index?sid=396546163">Password and Sign In</a>
+		     </div>
+        	</div>
+                <div class="action-buttons">
+           <a href='https://login.yahoo.com/config/login_verify2?.done=https%3A%2F%2Fanswers.yahoo.com%2Fquestion%2Findex%3Fqid%3D20090318183311AAR62E7&.src=knowsrch&.intl=us' class='answer answer-unknown'><span class='action-icon'></span><span class='action-tip'><span class='action-tip-text'>Answer</span><span class='action-tip-arrow'></span></span></a>
+           
+           
+           <span class="box-arrow"></span>
+                </div>
+    	</li>
+	<li id='q-20081202190147AABjkR2' >
+        	<div>
+                      <h3 class="question-title"><a data-ylk="slk:q;ql:20081202190147AABjkR2" href="/question/index?qid=20081202190147AABjkR2"> Delete yahoo account? </a></h3> 
+                      <div class="question-details">
+		      	<span class="question-description">how to delete my yahoo account</span>
+		      </div>
+
+		      <div class='question-meta'>
+			  6 Answers •  <a href="/dir/index?sid=396546163">Password and Sign In</a>
+		     </div>
+        	</div>
+                <div class="action-buttons">
+           <a href='https://login.yahoo.com/config/login_verify2?.done=https%3A%2F%2Fanswers.yahoo.com%2Fquestion%2Findex%3Fqid%3D20081202190147AABjkR2&.src=knowsrch&.intl=us' class='answer answer-unknown'><span class='action-icon'></span><span class='action-tip'><span class='action-tip-text'>Answer</span><span class='action-tip-arrow'></span></span></a>
+           
+           
+           <span class="box-arrow"></span>
+                </div>
+    	</li>
+	<li id='q-20081125084729AAP5WCy' >
+        	<div>
+                      <h3 class="question-title"><a data-ylk="slk:q;ql:20081125084729AAP5WCy" href="/question/index?qid=20081125084729AAP5WCy"> Closeing yahoo account? </a></h3> 
+                      <div class="question-details">
+		      	<span class="question-description">how to close yahoo accounts</span>
+		      </div>
+
+		      <div class='question-meta'>
+			  3 Answers •  <a href="/dir/index?sid=396546163">Password and Sign In</a>
+		     </div>
+        	</div>
+                <div class="action-buttons">
+           <a href='https://login.yahoo.com/config/login_verify2?.done=https%3A%2F%2Fanswers.yahoo.com%2Fquestion%2Findex%3Fqid%3D20081125084729AAP5WCy&.src=knowsrch&.intl=us' class='answer answer-unknown'><span class='action-icon'></span><span class='action-tip'><span class='action-tip-text'>Answer</span><span class='action-tip-arrow'></span></span></a>
+           
+           
+           <span class="box-arrow"></span>
+                </div>
+    	</li>
+	<li id='q-20100116154847AACqWGf' >
+        	<div>
+                      <h3 class="question-title"><a data-ylk="slk:q;ql:20100116154847AACqWGf" href="/question/index?qid=20100116154847AACqWGf"> Delete yahoo please !!!!!!!!!!!!!!!!!!!? </a></h3> 
+                      <div class="question-details">
+		      	<span class="question-description">delete toddnash22@yahoo.com yahoo</span>
+		      </div>
+
+		      <div class='question-meta'>
+			  5 Answers •  <a href="/dir/index?sid=396546163">Password and Sign In</a>
+		     </div>
+        	</div>
+                <div class="action-buttons">
+           <a href='https://login.yahoo.com/config/login_verify2?.done=https%3A%2F%2Fanswers.yahoo.com%2Fquestion%2Findex%3Fqid%3D20100116154847AACqWGf&.src=knowsrch&.intl=us' class='answer answer-unknown'><span class='action-icon'></span><span class='action-tip'><span class='action-tip-text'>Answer</span><span class='action-tip-arrow'></span></span></a>
+           
+           
+           <span class="box-arrow"></span>
+                </div>
+    	</li>
+	<li id='q-20070225071741AAb7E76' >
+        	<div>
+                      <h3 class="question-title"><a data-ylk="slk:q;ql:20070225071741AAb7E76" href="/question/index?qid=20070225071741AAb7E76"> Does anybody like Yahoo!? </a></h3> 
+                      <div class="question-details">
+		      	<span class="question-description">Does anybody like Yahoo! for e-mail? If you like yahoo, answer this question.</span>
+		      </div>
+
+		      <div class='question-meta'>
+			  18 Answers •  <a href="/dir/index?sid=396546090">Yahoo Answers</a>
+		     </div>
+        	</div>
+                <div class="action-buttons">
+           <a href='https://login.yahoo.com/config/login_verify2?.done=https%3A%2F%2Fanswers.yahoo.com%2Fquestion%2Findex%3Fqid%3D20070225071741AAb7E76&.src=knowsrch&.intl=us' class='answer answer-unknown'><span class='action-icon'></span><span class='action-tip'><span class='action-tip-text'>Answer</span><span class='action-tip-arrow'></span></span></a>
+           
+           
+           <span class="box-arrow"></span>
+                </div>
+    	</li>
+	<li id='q-20100812191323AAskZm0' >
+        	<div>
+                      <h3 class="question-title"><a data-ylk="slk:q;ql:20100812191323AAskZm0" href="/question/index?qid=20100812191323AAskZm0"> Contact address for yahoo mail? </a></h3> 
+                      <div class="question-details">
+		      	<span class="question-description">can not log in to yahoo mail</span>
+		      </div>
+
+		      <div class='question-meta'>
+			  6 Answers •  <a href="/dir/index?sid=396546161">Notices and Errors</a>
+		     </div>
+        	</div>
+                <div class="action-buttons">
+           <a href='https://login.yahoo.com/config/login_verify2?.done=https%3A%2F%2Fanswers.yahoo.com%2Fquestion%2Findex%3Fqid%3D20100812191323AAskZm0&.src=knowsrch&.intl=us' class='answer answer-unknown'><span class='action-icon'></span><span class='action-tip'><span class='action-tip-text'>Answer</span><span class='action-tip-arrow'></span></span></a>
+           
+           
+           <span class="box-arrow"></span>
+                </div>
+    	</li>
+
+
+<div id="ya-sr-pg"> <strong>1</strong>  <a href="search_result?fr=uh3_answers_vert_gs&amp;type=2button&amp;p=yahoo&amp;s=2">2</a>  <a href="search_result?fr=uh3_answers_vert_gs&amp;type=2button&amp;p=yahoo&amp;s=3">3</a>  <a href="search_result?fr=uh3_answers_vert_gs&amp;type=2button&amp;p=yahoo&amp;s=4">4</a>  <a href="search_result?fr=uh3_answers_vert_gs&amp;type=2button&amp;p=yahoo&amp;s=5">5</a> <a class="ya-sr-next" href="search_result?fr=uh3_answers_vert_gs&amp;type=2button&amp;p=yahoo&amp;s=2">Next</a><p id="ya-sr-count" >4,490,431 results</p></div>        <div id="askbar-holder">
+          <div class="yom-ask">
+            <div class="yom-hd mb14 fs16">
+            Didn't find what you are looking for? Ask as a question:            </div>
+            <div class="yom-bd">
+              <div id="ask" class="clearfix">
+                <form id='qask-form' action="/question/ask" method="GET">
+                  <div id="ask-text-holder">
+                    <input id="ask-text" name="title" autocomplete="off">
+                  </div>
+                  <div id="ask-button-holder">
+                    <input type="submit" id="ask-button" value="Ask">
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+            </ul>   
+            
+                           <style> #dmRosAdWrapper-MainSouth iframe{width:100%}</style>
+                <div id="dmRosAdWrapper-MainSouth" style="border-left:1px solid #E2E2E6; border-right: 1px solid #E2E2E6; background-color:#fafaff;"></div><script type="text/javascript">
+                                YUI().use('event', 'get', function(Y){
+                                        Y.on('load', function (e) {
+                                                var dm = Y.Get.js('https://s.yimg.com/uv/dm/ad-ros-answers-web-v3.js', {timeout: 500});
+                                                Y.log("Going to execute DM");
+                                                dm.execute();
+                                        });
+                                });
+                </script>        </div>
+    </div>
+    <!-- Center end -->
+
+    <!-- right start -->
+    <div class="y-col y-col2-2">
+        <div id="advanced-search-widget" class="srp-widget mb14 clearfix hide">
+            <span class="arrow"><span></span></span>
+            <div id="advanced-search">
+    <form action="#">
+        <div id="keywords">
+            <label for="keywords" class="keywords-lbl">Keywords</label><br/>
+            <div class="input-outer">
+                <input class="input" id="terms" name="keywords" value="yahoo">
+            </div>
+
+            <div id="keywords-more">
+                <div id="exact-keywords">
+                    <label for="exact">Exact Phrase</label><br/>
+		    <div class="input-outer">
+                        <input class="input" id="exact" name="exact" value="">
+		    </div>
+                </div>
+
+                <div id="exclude-keywords">
+                    <label for="exclude">Don't include words</label><br/>
+		    <div class="input-outer">
+                        <input class="input" id="exclude" name="exclude" value="">
+                    </div>
+                </div>    
+            </div>    
+        </div>    
+
+        <div id="filter-advanced-search" class="clearfix">
+            <div id="keyword-match">
+                <label for="keyword_match">Keyword match in</label><br/>
+                <select id="keyword_match">
+                        <option value="" selected > All QnA</option>        
+                        <option value="QUESTION"> Question</option>        
+                        <option value="BEST_ANSWER"> Best Answer</option>        
+                </select>
+            </div>
+
+            <div id="question-status" class="right">
+                <label for="question_status">Question Status</label><br/>
+                <select id="question_status">
+                        <option value="" selected > All QnA</option>        
+                        <option value="OPEN"> Open</option>        
+                        <option value="REFERENCE"> Reference</option>        
+                        <option value="TIE"> Tied</option>        
+                        <option value="VOTE"> Voting</option>        
+                </select>
+            </div>
+
+            <div id="number-answers">
+                <label for="answer_count">Number of Answers</label><br/>
+                <select id="answer_count">
+                        <option value="" selected > Any Number of Answers</option>        
+                        <option value="0-0"> 0 Answers</option>        
+                        <option value="1-3"> 1-3 Answers</option>        
+                        <option value="4-10"> 4-10 Answers</option>        
+                        <option value="11-25"> 11-25 Answers</option>        
+                        <option value="25-999"> 25 or More Answers</option>        
+                </select>
+            </div>
+
+             <div id="advanced-search-category" class="right">
+                 <div id="primary">
+                    <label for="category-1">Category</label>
+                     <select id="category-1">
+                             <option value="0"  selected > All Categories</option>
+                             <option value="396545012" > Arts &amp; Humanities</option>
+                             <option value="396545144" > Beauty &amp; Style</option>
+                             <option value="396545013" > Business &amp; Finance</option>
+                             <option value="396545311" > Cars &amp; Transportation</option>
+                             <option value="396545660" > Computers &amp; Internet</option>
+                             <option value="396545014" > Consumer Electronics</option>
+                             <option value="396545327" > Dining Out</option>
+                             <option value="396545015" > Education &amp; Reference</option>
+                             <option value="396545016" > Entertainment &amp; Music</option>
+                             <option value="396545451" > Environment</option>
+                             <option value="396545433" > Family &amp; Relationships</option>
+                             <option value="396545367" > Food &amp; Drink</option>
+                             <option value="396545019" > Games &amp; Recreation</option>
+                             <option value="396545018" > Health</option>
+                             <option value="396545394" > Home &amp; Garden</option>
+                             <option value="396545401" > Local Businesses</option>
+                             <option value="396545439" > News &amp; Events</option>
+                             <option value="396545443" > Pets</option>
+                             <option value="396545444" > Politics &amp; Government</option>
+                             <option value="396546046" > Pregnancy &amp; Parenting</option>
+                             <option value="396545122" > Science &amp; Mathematics</option>
+                             <option value="396545301" > Social Science</option>
+                             <option value="396545454" > Society &amp; Culture</option>
+                             <option value="396545213" > Sports</option>
+                             <option value="396545469" > Travel</option>
+                             <option value="396546089" > Yahoo Products</option>
+                     </select>
+                 </div>
+                 <div id="secondary">
+                   <select id="category-2">
+                     </select>
+                 </div>
+                 <div id="tertiary">
+                     <select id="category-3">
+                     </select>
+                 </div>
+             </div>
+            
+            <div id="advanced-search-location">
+                <label for="location">Location</label><br/>
+                <select id="location">
+                       <option value="false"  selected > All</option>        
+                       <option value="true" > USA</option>        
+                </select>
+            </div>
+
+            <div id="advanced-search-date" class="right">
+                <label for="time">Date Submitted</label><br/>
+                <select id="time">
+                       <option value=""  selected > Anytime</option>                                
+                       <option value="1d" > Last 24 hours</option>                                
+                       <option value="3d" > Last 3 days</option>                                
+                       <option value="7d" > Last 7 days</option>                                
+                       <option value="30d" > Last 30 days</option>                                
+                       <option value="60d" > Last 60 days</option>                                
+                       <option value="90d" > Last 90 days</option>                                
+                       <option value="1y" > Last 1 year</option>                                
+                       <option value="2y" > Last 2 years</option>                                
+                       <option value="2yp" > More than 2 years</option>                                
+                </select>
+            </div>
+        <input id='isAdvanced' type='hidden' name='isAdvanced' value='1'>
+        </div>    
+        <div id="save-cancel-buttons">
+            <button class="ya-button bg-purple brd-rad2" id="submit-search" type="button">Submit</button>&nbsp;
+            <button class="ya-button bg-grey brd-rad2" id="cancel-save-search" type="button">Cancel</button>
+        </div>    
+    </form>
+</div>
+        </div>
+                        <style> #dmRosAdWrapper-MainEast iframe{width:100%}</style>
+                <div id="dmRosAdWrapper-MainEast" style="margin-left:2px"></div>        <div id="div-footer" class="mt20 ml14">
+  <ul>
+         <li id="ftr-trm"><a href="https://info.yahoo.com/legal/us/yahoo/utos/terms/" class="unselected fs11 fwl">Terms</a></li>
+         <li id="ftr-prv"><a href="https://info.yahoo.com/privacy/us/yahoo/answers/details.html" class="unselected fs11 fwl">Privacy</a></li>
+         <li id="ftr-ads"><a href="https://info.yahoo.com/privacy/us/yahoo/relevantads.html" class="unselected fs11 fwl">AdChoices</a></li>
+         <li id="ftr-rss"><a href="/rss/search?p=yahoo" class="unselected fs11 fwl">RSS</a></li>
+  </ul>
+</div>
+    </div>
+    <!-- right end -->
+</div>
+
+<script>
+    YUI.namespace('Env').Search = {};
+    YUI.namespace('Env').Search.Keyword = "yahoo";
+    YUI.namespace('Env').Search.AdvancedSearch = false;
+    YUI.namespace('Env').InfiniteScroll = {};
+    YUI.namespace('Env').InfiniteScroll.Ignore = true;
+     YUI().use('node', function(Y)
+     {
+         var isSetCat2 = false,
+             isSetCat3 = false;
+ 
+         if(isSetCat2) {
+          container = Y.one('#secondary');
+          container.setStyle('display', 'block');
+         }
+         
+         if(isSetCat3) {
+              container = Y.one('#tertiary');
+              container.setStyle('display', 'block');
+         }
+     });
+    
+    YUI().use('ya-tab', 'ya-infinite-scroll','ya-translator', function(Y)
+    {
+        var searchTabDetails = getSearchTabs();
+        searchTab = new Y.Answers.Tab('#nav', searchTabDetails);
+        searchTab.structure('rel', 'rel', '');
+        //Y.Answers.XHR.setCurrentDetails('search', searchTabDetails['details']['search']['xhr'], {ct: ANSWERS.ct}, 2);
+    });
+
+    YUI().use('fe-simulate', function (Y) {
+        var feSimulate = Y.Answer.Util.FESimulate;
+        feSimulate.select('select', '#advanced-search');
+        Y.Global.on('feselect:openOptions', function (select, list){
+            if (/^category-[123]$/.test(select.get('id'))) {
+                list.setStyles({
+                    'height': '',
+                    'width': '',
+                    'overflow': 'auto'
+                });
+
+                var col2_2_bottom = select.ancestor('.y-col2-2').get('region').bottom,
+                    list_bottom = list.get('region').bottom,
+                    d = col2_2_bottom - list_bottom,
+                    client_width,
+                    client_width2;
+
+                if (d < 0) {
+                    client_width = list.get('clientWidth');
+                    list.set('offsetHeight', list.get('offsetHeight') + d);
+                    client_width2 = list.get('clientWidth');
+                    if (client_width2 < list.get('scrollWidth')) {
+                        list.setStyle('width', client_width * 2 - client_width2);
+                    }
+                }
+
+            }
+        });
+        feSimulate.checkbox('input', Y.one('#notification'));
+        feSimulate.attribute.placeholder('#new-saved-search-name')
+    });
+
+    YUI().use('node-event-delegate', 'event-custom', 'fe-simulate', 'ya-io', function (Y) {
+        Y.all('#advanced-search-category select').setStyle('display', '').each(function (node) {
+            node.publish('optionsChange').on(function () {Y.Answer.Util.FESimulate.select(node);});
+        });
+        // Y.one('#category-1').set('selectedIndex', 0);
+        var categorySelects = Y.all('#advanced-search-category select');
+        var io = new Y.Answers.IO();
+        var handleCategoryChange =  function () {
+            var selectedValue = this.get('value');
+            var parentId = this.get('id');
+            if(parentId === 'category-1' || parentId === 'category-2'){
+
+                Y.one('#tertiary').setStyle('display', '').all('option').remove();
+
+                if(parentId === 'category-1'){
+                    Y.one('#secondary').setStyle('display', '').all('option').remove();;
+                }
+
+                if (selectedValue && selectedValue != '0') {
+                    io.makeRequest('/xhr-catChildrenDD.php', 'GET', (selectedValue) ? 'sid=' + selectedValue : '', function(resp){
+                        if(Y.Lang.trim(resp.responseText))
+                        {
+                            var catDD,
+                                container;
+                            if(parentId === 'category-1') {
+                                catDD = Y.one('#category-2');
+                                container = Y.one('#secondary');
+                            } else {
+                                catDD = Y.one('#category-3');
+                                container = Y.one('#tertiary');
+                            }
+                            catDD.append(resp.responseText).set('selectedIndex', 0).fire('optionsChange');
+                            container.setStyle('display', 'block');
+                        }
+                    });
+                }
+            }
+            
+        };
+
+        categorySelects.each(function (node) {
+            node.on('change', handleCategoryChange);
+        });
+
+    });
+
+    YUI().use('event', 'node', function (Y) {
+        Y.one("#submit-search").on("click", YUI.Answers.handleAdvancedSearchSubmit);
+
+        Y.one("#cancel-save-search").on("click", YUI.Answers.cancelAdvancedSearch);
+
+        var saveSearchButton = Y.one("#save-search-button");
+        if (saveSearchButton) {
+            saveSearchButton.on("click", YUI.Answers.handleSaveSearchSubmit);
+        }
+
+        var cancelSaveSearchButton = Y.one("#cancel-save-search-button");
+        if (cancelSaveSearchButton) {
+            cancelSaveSearchButton.on("click", YUI.Answers.cancelSaveSearchSubmit);
+        }
+
+        Y.all('#advanced-search-widget-handle,#save-search-widget-handle').on('click', YUI.Answers.handleSearchWidget);
+        Y.one('#save-search-widget').on('clickoutside', YUI.Answers.cancelSaveSearchSubmit);
+    });
+
+</script>
+
+<script>
+    YUI().use('node', function (Y) {
+        Y.one("#mnp-search_box").insert('<div class="yucs-search-input" style="display: none"></div>', 'before');
+        Y.one("#mnp-search_box").set('value',keyword);
+    });
+</script>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+YUI().use('ya-responsive', 'ya-app-router', 'ya-io', 'ya-knowledge-partners', 'ya-recommended', 'ya-leftnav','ya-tile-star', 'ya-action-follow', 'ya-action-remove','ya-toggle-text', 'ya-instrumentation', function (Y) {
+  var config = {};
+  var page = new Y.Answers.Page(config);
+  var io = new Y.Answers.IO();
+  var instr = new Y.Answers.Instrumentation();
+  YUI.namespace('Env').instr = instr;
+
+  Y.Answers.tileStar();
+  Y.Answers.actionFollow();
+  Y.Answers.actionRemove();
+});
+</script>
+
+
+<!-- Start:Header JS -->
+<script type='text/javascript'>
+YUI().use('get', function(Y){
+  Y.later(500, Y, function(){
+    Y.Get.js([
+      { url: 'https://s.yimg.com/zz/combo?kx/yucs/uh3/uh/js/998/uh-min.js&kx/yucs/uh3/uh/js/102/gallery-jsonp-min.js&kx/yucs/uh3/uh/js/966/menu_utils_v3-min.js&kx/yucs/uh3/uh/js/834/localeDateFormat-min.js&kx/yucs/uh3/uh/js/872/timestamp_library_v2-min.js&kx/yucs/uh3/uh/js/829/logo_debug-min.js&kx/yucs/uh_common/meta/11/js/meta-min.js&kx/yucs/uh_common/beacon/18/js/beacon-min.js&kx/ucs/comet/js/69/cometd-yui3-min.js&kx/ucs/comet/js/69/conn-min.js&kx/ucs/comet/js/69/dark-test-min.js&kx/yucs/uh3/uh3_top_bar/js/274/top_bar_v3-min.js&kx/yucs/uh3/uh3_top_bar/js/283/persistent-min.js&kx/yucs/uh3/search/js/560/search-min.js&kx/yucs/uh3/help/js/55/help_menu_v3-min.js', async: true}
+    ], function(){});
+  });
+});
+</script>
+<!-- End:Header --> 
+<!-- Rapid Page Params -->
+<div id="yai-rapid"
+style="display: none"
+data-yar-enable="1"
+data-yar-mods="fc-wrap:fc,left-rail:cat,nav:tabs,yan-questions:qf,askbar-holder:askquestion,q-rate:qrate,so-share:qa_share,emdiv:emailq,qfollows:qstar,ya-ba:bestanswer,ya-oa:otheranswers,yai-search-buttons:se,yai-q-discover:discoverquestions,yai-q-answer:answerquestions,my-activity-details:ac,section-blocked:bu,section-contacts:cu,section-fans:fau,yai-follow:fou,yai-q-related:relatedquestions,yai-similar:sq,yai-like:like,yai-today:yt,ya-answer-form:ans,yai-search-buttons:se,ya-membercard:profilebanner,yai-qdetails:ask,ya-c:qa,ldrBrd:ldr,ya-abt:about,yan-categories:subcat,sma:showmeanother,ya-answer:inanswer,DSSbanner:dssipad,qans:ansso"
+data-yar-spaceid="396545059"
+data-yar-pparams="A_pt:search,ptype:search,test:NOT_IN_BUCKET,mrkt:en-US,fever:A3"
+data-yar-pid="1000198838279"
+data-yar-host="y.analytics.yahoo.com"
+data-yar-webworker="/static/js/rapidworker-1.0.js"
+data-yar-debug="true"
+data-yar-ywacfmap="mrkt:12,spaceid:7,ptype:11,click:12,test:14,sec:18,slk:19,pos:20,itc:21,nav:30,qid:39,ql:40,qcintl:41"
+>
+
+<script>
+YUI().use("event","get", function (Y) {
+  Y.on("load", function (e) {
+    Y.Get.js( 'https://s.yimg.com/ss/rapid-3.11.js', function (err) {
+      if (err) { 
+        Y.log('Error loading rapid-3.4.5.js: ' + err[0].error, 'error'); 
+      }
+      else {
+        yar_init('common_end');
+      }
+    });  
+  });
+});
+</script>
+</div>
+<!-- Begin comScore Tag -->
+        <script type='text/javascript' src='https://s.yimg.com/lq/lib/3pm/cs_0.2.js'></script>
+        <script>
+          COMSCORE._answersconf = {
+            c1: 2,
+            c2: 7241469,
+            c5: "396545059",
+            c7: "https://answers.yahoo.com/search/search_result?fr=uh3_answers_vert_gs&type=2button&p=yahoo"
+          };
+          COMSCORE.beacon(COMSCORE._answersconf);
+        </script>
+        <noscript>
+          <img src="https://sb.scorecardresearch.com/p?c1=2&c2=7241469&c7=https%3A%2F%2Fanswers.yahoo.com%2Fsearch%2Fsearch_result%3Ffr%3Duh3_answers_vert_gs%26type%3D2button%26p%3Dyahoo&c5=396545059&cv=2.0&cj=1"/>
+        </noscript>
+        <!-- End comScore Tag -->
+<div class="ya-darla-FOOT">
+<!-- APT Vendor: Yahoo, Format: Standard Graphical -->
+<small>Yahoo Answers <br /><a class="more-subtle" href="https://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE3bDlxNjNqZyhnaWQkUzB5bVJEWTRMakc2SzlxWlVuUC5yaFZhTVRrNUxnQUFBQUNDRmNzcCxzdCQxMzk4MTc3MjQ2MjA2OTk1LHNpJDQ0MDY1NTEsc3AkMzk2NTQ1MDU5LGNyJDMyNjM1MDM1NTEsdiQyLjAsYWlkJGl5cjVmR0tMNEpzLSxjdCQyNSx5Yngkd1FkOEdXelU5b1czaE1JeGRRMFlydyxiaSQxNjg5NjI0NTUxLG1tZSQ3MDk1MzU3MDU5NDAwMDEwMDA5LHIkMCxyZCQxMWNzN2FzcGUseW9vJDEsYWdwJDI0NTI1ODc1NTEsYXAkRk9PVEMpKQ/2/*http://privacy.yahoo.com/privacy/us/answers/">Privacy</a> - <a class="more-subtle" href="https://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE3bGJuZnRkaShnaWQkUzB5bVJEWTRMakc2SzlxWlVuUC5yaFZhTVRrNUxnQUFBQUNDRmNzcCxzdCQxMzk4MTc3MjQ2MjA2OTk1LHNpJDQ0MDY1NTEsc3AkMzk2NTQ1MDU5LGNyJDMyNjM1MDM1NTEsdiQyLjAsYWlkJGl5cjVmR0tMNEpzLSxjdCQyNSx5Yngkd1FkOEdXelU5b1czaE1JeGRRMFlydyxiaSQxNjg5NjI0NTUxLG1tZSQ3MDk1MzU3MDU5NDAwMDEwMDA5LHIkMSxyZCQxMTJzajdhc2cseW9vJDEsYWdwJDI0NTI1ODc1NTEsYXAkRk9PVEMpKQ/2/*http://info.yahoo.com/relevantads/">About Our Ads</a> - <a class="more-subtle" href="https://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE3bHRtNDNyMyhnaWQkUzB5bVJEWTRMakc2SzlxWlVuUC5yaFZhTVRrNUxnQUFBQUNDRmNzcCxzdCQxMzk4MTc3MjQ2MjA2OTk1LHNpJDQ0MDY1NTEsc3AkMzk2NTQ1MDU5LGNyJDMyNjM1MDM1NTEsdiQyLjAsYWlkJGl5cjVmR0tMNEpzLSxjdCQyNSx5Yngkd1FkOEdXelU5b1czaE1JeGRRMFlydyxiaSQxNjg5NjI0NTUxLG1tZSQ3MDk1MzU3MDU5NDAwMDEwMDA5LHIkMixyZCQxMTE4cHI0dDgseW9vJDEsYWdwJDI0NTI1ODc1NTEsYXAkRk9PVEMpKQ/2/*http://docs.yahoo.com/info/terms/">Terms</a> - <a class="more-subtle" href="https://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE3bGQxcmg2ayhnaWQkUzB5bVJEWTRMakc2SzlxWlVuUC5yaFZhTVRrNUxnQUFBQUNDRmNzcCxzdCQxMzk4MTc3MjQ2MjA2OTk1LHNpJDQ0MDY1NTEsc3AkMzk2NTQ1MDU5LGNyJDMyNjM1MDM1NTEsdiQyLjAsYWlkJGl5cjVmR0tMNEpzLSxjdCQyNSx5Yngkd1FkOEdXelU5b1czaE1JeGRRMFlydyxiaSQxNjg5NjI0NTUxLG1tZSQ3MDk1MzU3MDU5NDAwMDEwMDA5LHIkMyxyZCQxMW1pdXU0cjAseW9vJDEsYWdwJDI0NTI1ODc1NTEsYXAkRk9PVEMpKQ/2/*http://answers.yahoo.com/info/community_guidelines.php">Community Guidelines</a></small><!--QYZ 1689624551,3263503551,98.139.227.231;;FOOTC;396545059;1;--><script language=javascript>
+if(window.xzq_d==null)window.xzq_d=new Object();
+window.xzq_d['iyr5fGKL4Js-']='(as$12r8vnlko,aid$iyr5fGKL4Js-,bi$1689624551,cr$3263503551,ct$25,at$H,eob$gd1_match_id=-1:ypos=PP.FOOT-FOOTC)';
+</script><noscript><img width=1 height=1 alt="" src="https://csc.beap.bc.yahoo.com/yi?bv=1.0.0&bs=(135did0f6(gid$S0ymRDY4LjG6K9qZUnP.rhVaMTk5LgAAAACCFcsp,st$1398177246206995,si$4406551,sp$396545059,pv$1,v$2.0))&t=J_3-D_3&al=(as$12r8vnlko,aid$iyr5fGKL4Js-,bi$1689624551,cr$3263503551,ct$25,at$H,eob$gd1_match_id=-1:ypos=PP.FOOT-FOOTC)"></noscript><!-- SpaceID=396545059 loc=FSRVY noad --><!-- fac-gd2-noad --><!-- gd2-status-2 --><!--QYZ CMS_NONE_SELECTED,,98.139.227.231;;FSRVY;396545059;2;--><script language=javascript>
+if(window.xzq_d==null)window.xzq_d=new Object();
+window.xzq_d['4KP5fGKL4Js-']='(as$125ka8nqh,aid$4KP5fGKL4Js-,cr$-1,ct$25,at$H,eob$gd1_match_id=-1:ypos=FSRVY)';
+</script><noscript><img width=1 height=1 alt="" src="https://csc.beap.bc.yahoo.com/yi?bv=1.0.0&bs=(135did0f6(gid$S0ymRDY4LjG6K9qZUnP.rhVaMTk5LgAAAACCFcsp,st$1398177246206995,si$4406551,sp$396545059,pv$1,v$2.0))&t=J_3-D_3&al=(as$125ka8nqh,aid$4KP5fGKL4Js-,cr$-1,ct$25,at$H,eob$gd1_match_id=-1:ypos=FSRVY)"></noscript><!-- APT Vendor: Right Media, Format: Standard Graphical -->
+<!-- BEGIN STANDARD TAG - 1 x 1 - SIP #272 Y! C1 SIP - Mail Apt: SIP #272 Y! C1 SIP - Mail Apt - DO NOT MODIFY --> <IFRAME FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=1 HEIGHT=1 SRC="https://ads.yahoo.com/st?ad_type=iframe&ad_size=1x1&section=2916325"></IFRAME>
+<!-- END TAG -->
+<!-- https://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE3NmNyN2hwOChnaWQkUzB5bVJEWTRMakc2SzlxWlVuUC5yaFZhTVRrNUxnQUFBQUNDRmNzcCxzdCQxMzk4MTc3MjQ2MjA2OTk1LHNpJDQ0MDY1NTEsc3AkMzk2NTQ1MDU5LGNyJDM5ODA2ODkwNTEsdiQyLjAsYWlkJE5SMzZmR0tMNEpzLSxjdCQyNSx5Yngkd1FkOEdXelU5b1czaE1JeGRRMFlydyxiaSQyMDc5MTM0MDUxLG1tZSQ4NzU5MjcyNDg3MDI4NDEzMDM2LHIkMCx5b28kMSxhZ3AkMzE2Njk2NTU1MSxhcCRTSVApKQ/2/* --><!--QYZ 2079134051,3980689051,98.139.227.231;;SIP;396545059;1;--><script language=javascript>
+if(window.xzq_d==null)window.xzq_d=new Object();
+window.xzq_d['NR36fGKL4Js-']='(as$12re5jbhj,aid$NR36fGKL4Js-,bi$2079134051,cr$3980689051,ct$25,at$H,eob$gd1_match_id=-1:ypos=SIP)';
+</script><noscript><img width=1 height=1 alt="" src="https://csc.beap.bc.yahoo.com/yi?bv=1.0.0&bs=(135did0f6(gid$S0ymRDY4LjG6K9qZUnP.rhVaMTk5LgAAAACCFcsp,st$1398177246206995,si$4406551,sp$396545059,pv$1,v$2.0))&t=J_3-D_3&al=(as$12re5jbhj,aid$NR36fGKL4Js-,bi$2079134051,cr$3980689051,ct$25,at$H,eob$gd1_match_id=-1:ypos=SIP)"></noscript><!-- SpaceID=396545059 loc=FOOT2 noad --><!-- fac-gd2-noad --><!-- gd2-status-2 --><!--QYZ CMS_NONE_AVAIL,,98.139.227.231;;FOOT2;396545059;2;--><script language=javascript>
+if(window.xzq_d==null)window.xzq_d=new Object();
+window.xzq_d['ipb6fGKL4Js-']='(as$125uple4g,aid$ipb6fGKL4Js-,cr$-1,ct$25,at$H,eob$gd1_match_id=-1:ypos=FOOT2)';
+</script><noscript><img width=1 height=1 alt="" src="https://csc.beap.bc.yahoo.com/yi?bv=1.0.0&bs=(135did0f6(gid$S0ymRDY4LjG6K9qZUnP.rhVaMTk5LgAAAACCFcsp,st$1398177246206995,si$4406551,sp$396545059,pv$1,v$2.0))&t=J_3-D_3&al=(as$125uple4g,aid$ipb6fGKL4Js-,cr$-1,ct$25,at$H,eob$gd1_match_id=-1:ypos=FOOT2)"></noscript></div>
+
+
+</body>
+</html>
+
+<script language=javascript>
+(function(){window.xzq_p=function(R){M=R};window.xzq_svr=function(R){J=R};function F(S){var T=document;if(T.xzq_i==null){T.xzq_i=new Array();T.xzq_i.c=0}var R=T.xzq_i;R[++R.c]=new Image();R[R.c].src=S}window.xzq_sr=function(){var S=window;var Y=S.xzq_d;if(Y==null){return }if(J==null){return }var T=J+M;if(T.length>P){C();return }var X="";var U=0;var W=Math.random();var V=(Y.hasOwnProperty!=null);var R;for(R in Y){if(typeof Y[R]=="string"){if(V&&!Y.hasOwnProperty(R)){continue}if(T.length+X.length+Y[R].length<=P){X+=Y[R]}else{if(T.length+Y[R].length>P){}else{U++;N(T,X,U,W);X=Y[R]}}}}if(U){U++}N(T,X,U,W);C()};function N(R,U,S,T){if(U.length>0){R+="&al="}F(R+U+"&s="+S+"&r="+T)}function C(){window.xzq_d=null;M=null;J=null}function K(R){xzq_sr()}function B(R){xzq_sr()}function L(U,V,W){if(W){var R=W.toString();var T=U;var Y=R.match(new RegExp("\\\\(([^\\\\)]*)\\\\)"));Y=(Y[1].length>0?Y[1]:"e");T=T.replace(new RegExp("\\\\([^\\\\)]*\\\\)","g"),"("+Y+")");if(R.indexOf(T)<0){var X=R.indexOf("{");if(X>0){R=R.substring(X,R.length)}else{return W}R=R.replace(new RegExp("([^a-zA-Z0-9$_])this([^a-zA-Z0-9$_])","g"),"$1xzq_this$2");var Z=T+";var rv = f( "+Y+",this);";var S="{var a0 = '"+Y+"';var ofb = '"+escape(R)+"' ;var f = new Function( a0, 'xzq_this', unescape(ofb));"+Z+"return rv;}";return new Function(Y,S)}else{return W}}return V}window.xzq_eh=function(){if(E||I){this.onload=L("xzq_onload(e)",K,this.onload,0);if(E&&typeof (this.onbeforeunload)!=O){this.onbeforeunload=L("xzq_dobeforeunload(e)",B,this.onbeforeunload,0)}}};window.xzq_s=function(){setTimeout("xzq_sr()",1)};var J=null;var M=null;var Q=navigator.appName;var H=navigator.appVersion;var G=navigator.userAgent;var A=parseInt(H);var D=Q.indexOf("Microsoft");var E=D!=-1&&A>=4;var I=(Q.indexOf("Netscape")!=-1||Q.indexOf("Opera")!=-1)&&A>=4;var O="undefined";var P=2000})();
+</script><script language=javascript>
+if(window.xzq_svr)xzq_svr('https://csc.beap.bc.yahoo.com/');
+if(window.xzq_p)xzq_p('yi?bv=1.0.0&bs=(135did0f6(gid$S0ymRDY4LjG6K9qZUnP.rhVaMTk5LgAAAACCFcsp,st$1398177246206995,si$4406551,sp$396545059,pv$1,v$2.0))&t=J_3-D_3');
+if(window.xzq_s)xzq_s();
+</script><noscript><img width=1 height=1 alt="" src="https://csc.beap.bc.yahoo.com/yi?bv=1.0.0&bs=(135did0f6(gid$S0ymRDY4LjG6K9qZUnP.rhVaMTk5LgAAAACCFcsp,st$1398177246206995,si$4406551,sp$396545059,pv$1,v$2.0))&t=J_3-D_3"></noscript>
+<!-- f110.answers.bf1.yahoo.com Tue Apr 22 07:34:06 PDT 2014 -->
