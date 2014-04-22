@@ -1,6 +1,7 @@
 
 // queuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
 var queryRefresher, queuedUpdates, noUpdates;
+var resultViews = {};
 
 fayeClient.subscribe('/clusterResults', function(results) {
   console.log('clusterResults', results);
@@ -117,7 +118,7 @@ function updateResults(results) {
     // use arbitrary rendering to fill #results
   if (results.hits) {
     $('#searchCount').html(results.hits.hits.length);
-    resultsTable('.table.content', results);
+    resultView('.table.content', results);
   } else {
     $(container).html('<i>No items.</i>');
     $('#searchCount').html('0');
@@ -147,3 +148,4 @@ function hideItemSidebar() {
 include "results.table.js"
 include "results.scatter.js"
 
+resultView = resultViews.table;

@@ -1,4 +1,5 @@
 var sbUser;
+var resultViews = {}, resultView; 
 
 var mainSize = 0, fluidSizes = ['four', 'five', 'six', 'seven']; // fluid sizes for main ui
 $(function() {
@@ -76,17 +77,14 @@ $(function() {
   });
 
 // FIXME
-var shownGraph = false;
   $('.graph.item').click(function() {
-    if (shownGraph) {
-      $('.table.content').html('');
-      resultsTable('.table.content', lastResults);
-      shownGraph = false;
+    $('.table.content').html('');
+    if (resultView === resultViews.scatter) {
+      resultView = resultViews.table;
     } else {
-      $('.table.content').html('');
-      resultsScatter('.table.content', lastResults);
-      shownGraph = true;
+      resultView = resultViews.scatter;
     }
+    resultView('.table.content', lastResults);
   });
 
   $('.selectall.item').click(function() {

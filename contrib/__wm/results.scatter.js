@@ -1,4 +1,4 @@
-function resultsScatter(dest, results) {
+resultViews.scatter = function(dest, results) {
   resultsData = function(fields, results) { //# groups,# points per group
     var data = [],
         shapes = ['circle', 'cross', 'triangle-up', 'triangle-down', 'diamond', 'square'],
