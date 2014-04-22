@@ -11,7 +11,7 @@ var fs = require('fs'),
   
 var utils = require('./lib/utils');
 
-var fileUpload = require('./lib/file-upload.js'), pubsub, scraper = require('./lib/scraper.js');
+var fileUpload = require('./lib/file-upload.js'), pubsub, scraper = require('./lib/scraper.js'), content = require('./lib/content.js');
 
 var users;
 
@@ -36,23 +36,10 @@ exports.start = function(config) {
         GLOBAL.debug('non-200 status', status, uri);
         return;
       }
-      //GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
+      GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
       var psMember = browser_request.psMember.username;
-      GLOBAL.config.indexer.saveHTMLContentItem({ uri: uri, member: psMember, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders},
-        function(err, res, cItem) {
-          if (err) {
-            GLOBAL.error('index saveContentitem failed', err);
-          } else {
-            // it was an html content item
-            if (cItem) {
-              // designated for scraping
-              if (cItem.previousState === 'queued') {
-                scraper.queueLinks(cItem);
-              }
-              pubsub.requestAnnotate(uri, pageBuffer);
-            }
-          }
-      });
+      var desc = { uri: uri, member: psMember, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders}
+      content.indexContentItem(desc);
     }
   };
   config.inject = function(content) {
