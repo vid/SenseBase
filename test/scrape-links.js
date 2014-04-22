@@ -12,7 +12,9 @@ describe('Scraper links', function(done) {
     {'evidence-nhs': 'http://www.evidence.nhs.uk/search?q=evidence'}, 
     {'google-scholar': 'http://scholar.google.ca/scholar?q=scholar&btnG=&hl=en&as_sdt=0%2C5'}, 
     {pubmed:'http://www.ncbi.nlm.nih.gov/pubmed/?term=pubmed'}, 
-    {trip:'http://www.tripdatabase.com/search?categoryid=27&sa=true&criteria=trip'} 
+    {trip:'http://www.tripdatabase.com/search?categoryid=27&sa=true&criteria=trip'},
+    {'yahoo-answers': 'https://answers.yahoo.com/search/search_result?fr=uh3_answers_vert_gs&type=2button&p=yahoo'},
+    { 'patient.co.uk' : 'http://www.patient.co.uk/search.asp?searchterm=ferritin&searchcoll=Discuss_Forums&x=10&y=14'}
   ];
   sites.forEach(function(site) {
     var name = Object.keys(site)[0], uri = site[name];
