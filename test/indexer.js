@@ -1,23 +1,31 @@
 // Tests for configured indexer (ElasticSearch)
 
-var expect = require("expect.js"), indexer = require('../lib/indexer.js'), annotations = require('../lib/annotations.js');
+var expect = require("expect.js");
+var indexer = require('../lib/indexer.js'), annotations = require('../lib/annotations.js'), testApp = require('./test-app.js'), utils = require('../lib/utils.js');
 GLOBAL.config = require('./test-config.js').config;
 
-var uniq = (new Date().getTime()).toString(16) + 'x' + Math.round(Math.random(9e9) * 9e9).toString(16);
-var uniqMember = 'test'+uniq;
-var uniqURI = 'http://test.com/' + uniq;
-
-var testContent = 'This is test content.\nIt has the unique term wooglybat and the test term ' + uniq + '.';
-// sample annotation
-var testAnnotations = [ { "ranges": "item", "quote": { "label": "Disease Progression", "value": 0.00684931506849315 }, "created": "2014-01-04T01:56:42.127Z", "creator": "Classify" }, { "ranges": "item", "quote": { "label": "Disease Progression", "value": 0.00684931506849315 }, "created": "2014-01-04T01:56:42.127Z", "creator": "Classify" }, { "ranges": "item", "quote": "AFINN sentiment", "score": 0, "created": "2014-01-04T01:56:42.183Z", "creator": "Sentiment" }, { "ranges": "item", "quote": "Disease Progression", "created": "2014-01-04T23:52:41.728Z", "creator": "Classify" } ];
+var uniq = utils.getUnique(), uniqMember = 'member'+uniq, uniqURI = 'http://test.com/' + uniq, uniqCategory = 'category' + uniq;
 
 describe('Indexer', function(){
-  it('should format an ContentItem', function() {
-    var d = annotations.createContentItem({ uri: uniqURI, title: 'testdocument', member: uniqMember, isHTML: true, content: testContent, contentType: "text/text", annotations: testAnnotations});
+  it('should reset test app', function(done) {
+    testApp.start(function(err, ok) {
+      expect(err).to.be.null;
+      done();
+    });
   });
 
   it('should index a page', function(done) {
-    indexer.saveAnnotation({ uri: uniqURI, title: 'testdocument', member: uniqMember, isHTML: true, content: testContent, contentText: 'text/html'}, function(err, res) {
+    var cItem = annotations.createContentItem({title: 'test title', uri: uniqURI, content: 'test content ' + uniq});
+    cItem.member = uniqMember;
+    indexer.saveContentItem(cItem, function(err, res) {
+      expect(err).to.be.null;
+      done();
+    });
+  });
+
+  it('should index an annotation', function(done) {
+    var annoCategory = annotations.createAnnotation({hasTarget: uniqURI, annotatedBy: uniqMember, type: 'category', category: uniqCategory});
+    indexer.saveAnnotations(uniqURI, annoCategory, function(err, res) {
       expect(err).to.be.null;
       done();
     });
@@ -25,22 +33,25 @@ describe('Indexer', function(){
 
   it('should retrieve by URI', function(done) {
     indexer.retrieveByURI(uniqURI, function(err, r) {
+      expect(err).to.be.null;
       expect(r.exists).to.be.true;
       done();
     });
   });
 
   it('should form search by member', function(done) { 
-    var e = { member: uniqMember }
+    var e = { member: uniqMember, annotationState: 'visited' }
 
-    indexer.formSearch(e, function(err, res) {
-      require('fs').writeFileSync('res', JSON.stringify(res));
-      expect(err).to.be.null;
-      expect(res.hits.total).to.be(1);
-      done();
-    });
+    setTimeout(function() {
+      indexer.formSearch(e, function(err, res) {
+        expect(err).to.be.null;
+        expect(res.hits.total).to.be(1);
+        done();
+      });
+    }, 1500);
   });
 
+/*
   it('should form search by terms', function(done) { 
     var e = { terms: uniq }
 
@@ -85,5 +96,6 @@ describe('Indexer', function(){
       done();
     });
   });
+  */
 });
 
