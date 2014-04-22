@@ -26,8 +26,9 @@ console.log(api, support[api]);
   }
 });
 
+// FIXME
 function previewfile(file) {
-  if (tests.filereader === true) {
+  if (false && tests.filereader === true) {
     var reader = new FileReader();
     reader.onload = function (event) {
       var image = new Image();
