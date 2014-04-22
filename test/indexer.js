@@ -40,28 +40,37 @@ describe('Indexer', function(){
   });
 
   it('should form search by member', function(done) { 
-    var e = { member: uniqMember, annotationState: 'visited' }
+    var found = { member: uniqMember, annotationState: 'visited' }
 
-    setTimeout(function() {
-      indexer.formSearch(e, function(err, res) {
-        expect(err).to.be.null;
-        expect(res.hits.total).to.be(1);
-        done();
-      });
-    }, 1500);
-  });
-
-/*
-  it('should form search by terms', function(done) { 
-    var e = { terms: uniq }
-
-    indexer.formSearch(e, function(err, res) {
+    indexer.formSearch(found, function(err, res) {
       expect(err).to.be.null;
       expect(res.hits.total).to.be(1);
-      done();
+
+      var notFound = { member: uniqMember + 'nonense', annotationState: 'visited' }
+      indexer.formSearch(notFound, function(err, res) {
+        expect(err).to.be.null;
+        expect(res.hits.total).to.be(0);
+        done();
+      });
     });
   });
 
+  it('should form search by terms', function(done) { 
+    var found = { terms: uniq }
+
+    indexer.formSearch(found, function(err, res) {
+      expect(err).to.be.null;
+      expect(res.hits.total).to.be(1);
+      var notFound = { terms: uniq + 'nonsense' }
+      indexer.formSearch(notFound, function(err, res) {
+        expect(err).to.be.null;
+        expect(res.hits.total).to.be(0);
+        done();
+      });
+    });
+  });
+
+/*
   it('should form search by date range', function(done) { 
     var e = { from: '2013-10-04T19:51:15.963Z', to: '2013-10-07T19:51:15.963Z' }
 
