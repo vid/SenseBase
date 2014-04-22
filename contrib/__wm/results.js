@@ -121,10 +121,6 @@ function updateResults(results) {
     $('#results').html('<i>No items.</i>');
     $('#searchCount').html('0');
   }
-  setupTable();
-  $('table').on('tablesort:complete', function(event, tablesort) {
-    setupTable();
-  });
   queuedUpdate = null;
 }
 

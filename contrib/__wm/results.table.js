@@ -1,14 +1,10 @@
 // render results in an html table
 resultsTable = function(dest, results) {
-  var curURI, shown = false, lastClick;
+  var curURI, shown = false;
 
   // display or close uri controls and frame (for link)
   selectedURI = function(ev) {
 // FIXME firing twice
-    if (lastClick == Math.round(new Date().getTime()/500)) {
-      return;
-    }
-    lastClick = Math.round(new Date().getTime()/500);
     $('.selectRow').removeClass('active');
     var $el = $(this), id = $el.parents('tr').attr('id'), uri = decodeURIComponent(deEncID(id));
     if (curURI !== uri) {
@@ -27,6 +23,7 @@ resultsTable = function(dest, results) {
         updateResults(queuedUpdates);
       }
       hideItemSidebar();
+      curURI = null;
       shown = false;
     } else {
       displayItemSidebar(uri);
@@ -41,7 +38,7 @@ resultsTable = function(dest, results) {
       shown = true;
       $el.parents('tr').addClass('active');
     }
-    noUpdates = shown;
+    noUpdates = !shown;
     return false;
   }
 
