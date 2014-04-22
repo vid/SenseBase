@@ -71,9 +71,10 @@ $(function() {
   });
 
   $('.signout.item').click(function() {
-    fayeClient.publish('/signout');
-    document.location.href = '/login';
+    fayeClient.publish('/logout');
+    document.location.href = '/logout';
   });
+
 // FIXME
 var shownGraph = false;
   $('.graph.item').click(function() {

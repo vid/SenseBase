@@ -167,7 +167,7 @@ exports.start = function(config) {
       res.redirect(GLOBAL.config.HOMEPAGE);
     });
     
-
+// FIXME don't allow displaying stale last page
   app.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
