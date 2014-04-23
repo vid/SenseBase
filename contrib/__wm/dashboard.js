@@ -96,6 +96,10 @@ $(function() {
     $('.ui.modal').modal('show');
   });
 
+  $('.details.item').click(function() {
+    $('.details.sidebar').sidebar('toggle');
+  });
+
   $('.signout.item').click(function() {
     fayeClient.publish('/logout');
     document.location.href = '/logout';
