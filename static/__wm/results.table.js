@@ -1,5 +1,5 @@
 // render results in an html table
-resultsTable = function(dest, results) {
+resultViews.table = function(dest, results) {
   var curURI, shown = false;
 
   // display or close uri controls and frame (for link)
