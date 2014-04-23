@@ -1,0 +1,191 @@
+{
+  "logins": [
+    {
+      "id": 1,
+      "type": "User",
+      "username": "demo",
+      "password": "demo",
+      "email": "demo@demo.com",
+      "icon": "plato.jpg",
+      "active": "September 10, 2013",
+      "activities": [
+        {
+          "annotate": "default"
+        },
+        {
+          "search": true
+        }
+      ],
+      "description": "",
+      "canApprove": false,
+      "needsValidation": false,
+      "status" : "available",
+			"canValidate": true
+    },
+    {
+      "id": 2,
+      "type": "User",
+      "username": "manager",
+      "password": "manager",
+      "email": "manager@demo.com",
+      "icon": "manager.png",
+      "active": "September 10, 2013",
+      "activities": [
+        {
+          "annotate": "default"
+        },
+        {
+          "search": true
+        }
+      ],
+      "description": "",
+			"needsValidation": false,
+      "status" : "available",
+			"canValidate": true
+    },
+    {
+      "id": 3,
+      "type": "Agent",
+      "username": "Spotlight",
+      "description": "Annotates with DBPedia Spotlight",
+      "icon": "dbpedia.jpg",
+      "activities": [
+        {
+          "annotate": "default"
+        }
+      ],
+      "status" : "available",
+			"needsValidation": true
+    },
+    {
+      "id": 4,
+      "type": "Agent",
+      "username": "Sentiment",
+      "description": "Tags with AFINN general sentiment",
+      "icon": "sentiment.jpg",
+      "activities": [
+        {
+          "annotate": "default"
+        }
+      ],
+      "status" : "available",
+			"needsValidation": true
+    },
+    {
+      "id": 5,
+      "type": "Agent",
+      "username": "WikiMeta",
+      "description": "Annotates with named entities",
+      "icon": "wikimeta.png",
+      "activities": [
+        {
+          "annotate": "true"
+        }
+      ],
+      "status" : "unavailable",
+			"needsValidation": false
+    },
+    {
+      "id": 7,
+      "type": "Agent",
+      "username": "Board members",
+      "descriptions": "Annotates board members",
+      "icon": "board.jpg",
+      "activities": [
+        {
+          "annotate": true
+        }
+      ],
+      "description": "",
+      "status" : "unavailable",
+			"needsValidation": true
+    },
+    {
+      "id": 8,
+      "type": "Agent",
+      "username": "MicroRDF",
+      "description": "Annotates using inline microRDF",
+      "icon": "rdf.png",
+      "activities": [
+        {
+          "annotate": true
+        }
+      ],
+      "status" : "unavailable",
+			"needsValidation": true
+    },
+    {
+      "id": 10,
+      "type": "Agent",
+      "username": "ANNIE",
+      "description": "Annotates with general entities (people, places, things, organizations, money, etc)",
+      "icon": "gate.jpg",
+      "activities": [
+        {
+          "annotate": true
+        }
+      ],
+      "status" : "unavailable",
+			"needsValidation": true
+    },
+    {
+      "id": 11,
+      "Type": "agent",
+      "username": "DC",
+      "description": "Tags with Dublin Core metadata",
+      "type": "Agent",
+      "icon": "dublin_core.png",
+      "activities": [
+        {
+          "annotate": "true"
+        },
+        {
+          "search": "default"
+        }
+      ],
+      "status" : "unavailable",
+			"needsValidation": true
+    },
+    {
+      "id": 12,
+      "Type": "agent",
+      "username": "ElasticSearch",
+      "type": "Agent",
+      "description": "Saves results in a text engine",
+      "icon": "esearch.png",
+      "activities": [
+        {
+          "search": "default"
+        },
+        {
+          "storage": "default"
+        }
+      ],
+      "status" : "available",
+			"needsValidation": false
+    },
+    {
+      "id": 1385142808785,
+      "active": "2013-11-22T17:53:28.785Z",
+      "username": "scraper",
+      "type": "Scraper",
+      "description": "",
+      "status" : "available",
+			"needsValidation": false,
+      "class": "sitemap",
+      "password": "scraper"
+    },
+    {
+      "id": 1385085182849,
+      "active": "2013-11-22T01:53:02.841Z",
+      "username": "Bing search",
+      "type": "Searcher",
+      "description": "",
+      "status" : "available",
+      "needsValidation": false,
+      "locations": "http://www.bing.com/search?q=$SBQUERY",
+      "class": "search",
+      "negativeTerms": ""
+    }
+  ]                                        
+}

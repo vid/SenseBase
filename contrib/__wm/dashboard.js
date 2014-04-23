@@ -76,7 +76,7 @@ $(function() {
     document.location.href = '/logout';
   });
 
-// FIXME
+// FIXME toggle graph or table view
   $('.graph.item').click(function() {
     $('.table.content').html('');
     if (resultView === resultViews.scatter) {

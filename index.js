@@ -15,10 +15,10 @@ var fileUpload = require('./lib/file-upload.js'), pubsub, scraper = require('./l
 
 var users;
 
-if (fs.existsSync('./local-users.json')) {
-  users = require('./local-users.json').logins;
+if (fs.existsSync('./local-site.json')) {
+  users = require('./local-site.json').logins;
 } else {
-  users = require('./users.json').logins;
+  users = require('./site.json').logins;
 }
 
 // start server with a configuration file
