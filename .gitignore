@@ -8,7 +8,7 @@ node_modules/
 config.js
 uploads/
 bower_components/
-local-users.json
+local-site.json
 local-pm2.json
 static/__wm/anno.js
 static/__wm/dashboard.css
