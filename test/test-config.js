@@ -52,13 +52,18 @@ exports.config = {
   },
   structuralMatches: [
     {
+      source: method + domain + '/tableDateValues.*',
+      name: 'tableDateValues',
+      method: 'tableDateValues'
+    },
+    {
       source: method + domain + '.*',
-      name: 'medical report',
+      method: 'regexes',
+      name: 'regexes',
       matches: ['Date of Admission: (.*?)\n', 'Date of Discharge to Home:(.*?)\n', 'Admitting Diagnosis:([\s\S]*?)\n', 'Discharge Diagnosis:(.*?)\n', 'Discharge Condition:(.*?)\n',
         'Consults:(.*?)\n', 'Procedures:(.*?)\n', 'Brief History of Present Illness:(.*?)\n', 'Hospital Course:(.*?)\n', 'Physical Examination at Discharge:(.*?)\n',
         'Weight:(.*?)\n', 'General:(.*?)\n', 'HEENT:(.*?)\n', 'CVS:(.*?)\n', 'Respitory:(.*?)\n', 'Addomen:(.*?)\n', 'Extremities:(.*?)\n', 'Skin:(.*?)\n', 'Neuro:(.*?)\n',
         'Medications:(.*?)\n', 'Activity:(.*?)\n', 'Diet:(.*?)\n', 'Follow Up:(.*?)\n', 'Instructions:(.*?)\n'],
-      type: 'orderedFields',
       fields: ['Date of Admission', 'Date of Discharge to Home', 'Admitting Diagnosis', 'Discharge Diagnosis', 'Discharge Condition',
         'Consults', 'Procedures', 'Brief History of Present Illness', 'Hospital Course', 'Physical Examination at Discharge',
         'Weight', 'General', 'HEENT', 'CVS', 'Respitory', 'Addomen', 'Extremities', 'Skin', 'Neuro',
