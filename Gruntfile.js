@@ -40,8 +40,7 @@ module.exports = function(grunt) {
         files: 'contrib/**/*.*',
         tasks: ['includes', 'string-replace'],
         options: {
-          spawn: true,
-          livereload: true
+          spawn: true
         },
       },
       app: {
