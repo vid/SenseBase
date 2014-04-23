@@ -20,7 +20,6 @@ fayeClient.subscribe('/deletedItem', function(item) {
   if (lastResults.hits) {
     var i = 0, l = lastResults.hits.hits.length;
     for (i; i < l; i++) {
-      console.log('>>',lastResults.hits.hits[i], item._id);
       if (lastResults.hits.hits[i]._id === item._id) {
         lastResults.hits.hits.splice(i, 1);
         updateResults(lastResults);
@@ -31,14 +30,30 @@ fayeClient.subscribe('/deletedItem', function(item) {
   }
 });
 
+// FIXME normalize fields between base and _source
+function normalizeResult(result) {
+  if (result.uri) {
+    console.log('normalizing', result);
+    if (!result._source) {
+      result._source = {};
+    }
+    ['title', 'timestamp', 'uri'].forEach(function(f) {
+      result._source[f] = result[f];
+    });
+  }
+  return result;
+}
+
 // add a new or updated item
 fayeClient.subscribe('/updateItem', function(result) {
   console.log('/updateItem', result, lastResults);
+  result = normalizeResult(result);
   if (!lastResults.hits) {
     lastResults = { hits: { total : 0, hits: [] } };
   } else {
     var i = 0, l = lastResults.hits.hits.length;
     for (i; i < l; i++) {
+      console.log(i, lastResults.hits.hits[i]._source);
       if (lastResults.hits.hits[i]._source.uri === result._source.uri) {
         lastResults.hits.hits.splice(i, 1);
         break;
@@ -74,33 +89,9 @@ function setupQueryRefresher(interval) {
   queryRefresher = setInterval(doSearch, interval);
 }
 
-// input element
-var spinner = $(".spinner").spinner({
-  spin: function( event, ui ) {
-    if ( ui.value < 0 ) {
-      $( this ).spinner( "value", 'once only' );
-      return false;
-    }
-  }
-});
-
 var ULEN = 70;
 function shortenURI(u) {
   return (!u || u.length < ULEN) ? u : (u.substring(0, ULEN - 3) + '…' + u.substring(u.length - 3));
-}
-
-// formulate search parameters
-function getSearchOptions() {
-  var options = { terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
-    validationState: $('#validationState').val(), annotationState: $('#annotationState').val(),
-    from: $('#fromDate').val(), to: $('#toDate').val(),
-    member: $('#annoMember').val() };
-  return options;
-}
-
-function doSearch() {
-  fayeClient.publish('/search', getSearchOptions());
-  $('.search.button').animate({opacity: 0.2}, 200, 'linear');
 }
 
 // for updating
@@ -115,15 +106,16 @@ function updateResults(results) {
   }
   lastResults = results;
   $('.search.button').animate({opacity: 1}, 500, 'linear');
-    // use arbitrary rendering to fill #results
+  // use arbitrary rendering to fill results
+  var container = '#results';
   if (results.hits) {
+    $(container).html('');
     $('#searchCount').html(results.hits.hits.length);
-    resultView('.table.content', results);
+    resultView(container, results);
   } else {
     $(container).html('<i>No items.</i>');
     $('#searchCount').html('0');
   }
-  queuedUpdate = null;
 }
 
 // populate and display the URI's sidebar

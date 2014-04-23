@@ -1,8 +1,8 @@
 resultViews.scatter = function(dest, results) {
   resultsData = function(fields, results) { //# groups,# points per group
     var data = [],
-        shapes = ['circle', 'cross', 'triangle-up', 'triangle-down', 'diamond', 'square'],
-        random = d3.random.normal();
+      shapes = ['circle', 'cross', 'triangle-up', 'triangle-down', 'diamond', 'square'],
+      random = d3.random.normal();
 
     fields.forEach(function(field) {
       var cur = { key : field, values : [] };
@@ -13,7 +13,7 @@ resultViews.scatter = function(dest, results) {
           x: new Date(hit[field]),
           y: random(),
           data: hit,
-          size: hit.annotationSummary.validated,   //Configure the size of each scatter point
+          size: hit.annotationSummary ? hit.annotationSummary.validated : 1,   //Configure the size of each scatter point
           shape: (Math.random() > 0.95) ? shapes[j % 6] : "circle"  //Configure the shape of each scatter point.
         });
       }
@@ -33,9 +33,6 @@ resultViews.scatter = function(dest, results) {
     //Configure how the tooltip looks.
     chart.tooltipContent(function(key, x, y, e, graph) {
       var sel= encID(e.point.data.uri);
-console.log(sel);
-      $('#restable').scrollTop($(sel).offset().top);
-
       return '<h3>' + e.point.data.title + '</h3>';
     });
 

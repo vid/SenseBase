@@ -21,10 +21,12 @@ resultViews.table = function(dest, results) {
       if (queuedUpdates) {
         console.log('displaying queued updates');
         updateResults(queuedUpdates);
+        queuedUpdates = null;
       }
       hideItemSidebar();
       curURI = null;
       shown = false;
+      noUpdates = false;
     } else {
       displayItemSidebar(uri);
       curURI = uri;
@@ -32,13 +34,14 @@ resultViews.table = function(dest, results) {
         $('#preview').remove();
         $el.parent().after('<iframe style="width: 100%" id="preview" src="'+uri+'"></iframe>');
         window.location.hash = id;
+        noUpdates = true;
       } else {
+        noUpdates = false;
         window.location.hash = '';
       }
       shown = true;
       $el.parents('tr').addClass('active');
     }
-    noUpdates = !shown;
     return false;
   }
 

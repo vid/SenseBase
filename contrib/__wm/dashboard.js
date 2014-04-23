@@ -67,6 +67,31 @@ $(function() {
   });
 
 //  $(document).tooltip();
+// input element
+  var spinner = $(".spinner").spinner({
+    spin: function( event, ui ) {
+      if ( ui.value < 0 ) {
+        $( this ).spinner( "value", 'once only' );
+        return false;
+      }
+    }
+  });
+
+  // formulate search parameters
+  function getSearchOptions() {
+    var options = { terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
+      validationState: $('#validationState').val(), annotationState: $('#annotationState').val(),
+      from: $('#fromDate').val(), to: $('#toDate').val(),
+      member: $('#annoMember').val() };
+    return options;
+  }
+
+  function doSearch() {
+    fayeClient.publish('/search', getSearchOptions());
+    $('.search.button').animate({opacity: 0.2}, 200, 'linear');
+  }
+
+
   $('.delete.item').click(function() {
     $('.ui.modal').modal('show');
   });
@@ -78,13 +103,12 @@ $(function() {
 
 // FIXME toggle graph or table view
   $('.graph.item').click(function() {
-    $('.table.content').html('');
     if (resultView === resultViews.scatter) {
       resultView = resultViews.table;
     } else {
       resultView = resultViews.scatter;
     }
-    resultView('.table.content', lastResults);
+    updateResults(lastResults);
   });
 
   $('.selectall.item').click(function() {
