@@ -114,8 +114,8 @@ exports.start = function(config) {
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
     app.use(express.cookieParser());
-    app.use(express.logger({stream: GLOBAL.config.logStream}));
     app.use(express.bodyParser());
+    app.use(express.logger({stream: GLOBAL.config.logStream}));
     app.use(express.methodOverride());
     app.use(express.session({ secret: 'popsicle-fish' }));
     // Initialize Passport!  Also use passport.session() middleware, to support persistent login sessions (recommended).
@@ -145,7 +145,6 @@ exports.start = function(config) {
       res.cookie('psSession', req.user.id + '/' + new Date().getTime(), { maxAge: 900000 });
        
       res.redirect(sitebase + '/__wm/index.html');
-  //    res.render('index', { user: req.user.username });
     } else {
       res.render('login', { sitebase: sitebase, user: req.user, message: req.flash('error') });
     }
