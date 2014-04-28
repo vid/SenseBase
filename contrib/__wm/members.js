@@ -6,7 +6,7 @@ fayeClient.subscribe('/teamList', function(teams) {
   teams.forEach(function(m) {
     var row = '<a style="margin: 4px" id="' + m.username + '" class="ui small ' + (m.status === 'available' ? 'enabled' : 'disabled') + ' member image label">' +
       (m.class ? '<i class="' + m.class + ' icon"></i>' : 
-        '<img style="height: 24px" class="image '  + '" src="/__wm/icons/' + (m.icon || 'mesh.png') + '" alt="' + m.username + '" />') + 
+        '<img style="height: 24px" class="image '  + '" src="<!-- @var HOMEPAGE -->__wm/icons/' + (m.icon || 'mesh.png') + '" alt="' + m.username + '" />') + 
       ' ' + m.username + '</a>';
     $('.teamlist.segment').prepend(row);
   });
