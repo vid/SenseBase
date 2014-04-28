@@ -87,7 +87,7 @@ $(function() {
   }
 
   function doSearch() {
-    fayeClient.publish('/search', getSearchOptions());
+    fayeClient.publish('/search/1', getSearchOptions());
     $('.search.button').animate({opacity: 0.2}, 200, 'linear');
   }
 
@@ -128,9 +128,8 @@ $(function() {
   });
 
   sbUser = window.senseBase.user || $.cookie('sbUser');
-//  $('#searchUser').val(sbUser);
   fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
-  fayeClient.publish('/search', { user: sbUser });
+  doSearch();
 
   include "results.js"
   include "members.js"
