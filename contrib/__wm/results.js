@@ -9,7 +9,7 @@ fayeClient.subscribe('/clusterResults', function(results) {
   updateResults(results);
 });
 
-fayeClient.subscribe('/searchResults', function(results) {
+fayeClient.subscribe('/searchResults/' + window.myID, function(results) {
   console.log('/searchResults', results);
   updateResults(results);
 });
@@ -129,7 +129,7 @@ function displayItemSidebar(uri) {
   $('.context.dropdown').dropdown();
   fayeClient.publish('/annotate', { uri: uri });
   $('#startingPage').val(uri);
-  annotateCurrentURI(uri);
+  setCurrentURI(uri);
   $('.details.sidebar').sidebar('show');
 }
 

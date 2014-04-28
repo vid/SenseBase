@@ -78,6 +78,10 @@
 
     fayeClient.subscribe('/annotations', function(data) {
       var annotations = data.annotations, uri = data.uri;
+      if (uri.replace(/#.*/, '') !== parent.window.location.href) {
+        console.log('ignoring annotations', uri);
+        return;
+      }
       console.log('/annotations', data);
 
       var treeItems = displayAnnoTree(annotations, uri, treeInterface);

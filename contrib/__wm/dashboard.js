@@ -1,8 +1,30 @@
-var sbUser;
 var resultViews = {}, resultView; 
+var sbUser = window.senseBase.user;
 
 var mainSize = 0, fluidSizes = ['four', 'five', 'six', 'seven']; // fluid sizes for main ui
 $(function() {
+  var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
+  var treeInterface = { hover: function(anno) {}, select: function(anno) {} };
+  // General setup and functions
+  var currentURI;
+  window.myID = sbUser + new Date().getTime();
+  console.log('myID', window.myID);
+
+  // receive annotations
+  fayeClient.subscribe('/annotations', function(data) {
+    var annotations = data.annotations, uri = data.uri;
+    // it's not current but needs to be updated
+    if (uri !== currentURI) {
+      //FIXME should only update if its in current results
+      console.log('/annotations not current uri');
+      return;
+    }
+    console.log('/annotations updating current', data);
+  // it's our current item, display
+    displayAnnoTree(annotations, uri, treeInterface);
+  });
+
+
   if (window.senseBase.logo) {
     $('<button style="height: 56px" title="Logo" class="ui mini logo attached button"> <img src="' + window.senseBase.logo + '" style="width: 100%" /></button>').prependTo('.main.fluid.buttons');
     $('.ui.logo.button').click(function() { window.location = window.senseBase.homepage;  });
@@ -37,6 +59,7 @@ $(function() {
   $('.viz.button').click(function() {
     $('#viz').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
     $('.viz.sidebar').sidebar('toggle');
+    var options = getSearchOptions();
     fayeClient.publish('/cluster', getSearchOptions());
   });
 
@@ -79,7 +102,7 @@ $(function() {
 
   // formulate search parameters
   function getSearchOptions() {
-    var options = { terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
+    var options = { client: myID, terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
       validationState: $('#validationState').val(), annotationState: $('#annotationState').val(),
       from: $('#fromDate').val(), to: $('#toDate').val(),
       member: $('#annoMember').val() };
@@ -87,7 +110,7 @@ $(function() {
   }
 
   function doSearch() {
-    fayeClient.publish('/search/1', getSearchOptions());
+    fayeClient.publish('/search', getSearchOptions());
     $('.search.button').animate({opacity: 0.2}, 200, 'linear');
   }
 
@@ -127,8 +150,6 @@ $(function() {
     checkSelected();
   });
 
-  sbUser = window.senseBase.user || $.cookie('sbUser');
-  fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
   doSearch();
 
   include "results.js"
@@ -141,49 +162,21 @@ function moreLikeThis(uri) {
   fayeClient.publish('/moreLikeThis', { uri: uri});
 }
 
-function addChat(msg) {
-  var n = new Date();
-  $('#collabStream').append('<span style="width: 10em; color: green">' + n.getHours() + ":"  + n.getMinutes() + ":" + n.getSeconds() + '</span> ' + sbUser  + ' <i>' + msg + '</i><br />');
-  $('.visiting').click(function(t) {
-    annotateCurrentURI($(this).text());
-  });
+var encIDs = [];
+// encode a string (URI) for an ID
+function encID(c) {
+  return 'enc' + (encIDs.indexOf(c) > -1 ? encIDs.indexOf(c) : encIDs.push(c) - 1);
 }
 
-// collab
-fayeClient.subscribe('/collab', function(message) {
-  addChat(message.text);
-});
-$('#collabInput').keypress(function(e) {
-  if(e.which == 13) {
-    fayeClient.publish('/collab', { text : $('#collabInput').val()});
-    $('#collabInput').val('');
-    return false;
-  }
-});
+function deEncID(c) {
+  return encIDs[c.replace('enc', '')];
+}
 
-// scrape
-if (isScraper) {
-  console.log('I am a scraper');
-
-  fayeClient.subscribe('/scrape', function(link) {
-    console.log('/scrape', link);
-    outputDocument.location = link;
-  });
-  var links = [];
-  var myDomain = currentURI.split('/')[2];
-  for (var i = 0; i < outputDocument.links.length; i++) {
-    var href = outputDocument.links[i].href;
-    var link = href.split('/')[2];
-    console.log(href, link, myDomain);
-    var inDomain = (link.indexOf(myDomain) > -1);
-    if (link && (href.toLowerCase().indexOf('pdf') < 0) ) {
-      links.push(href);
-    }
-    setTimeout(function() { 
-//      console.log('sending', links); fayeClient.publish('/links', { site: currentURI, links: links};)
-      setInterval(function() { console.log('sending', links); fayeClient.publish('/links', { site: currentURI, links: []})}, 5000);
-    }, 1000);
-  }
+// sets the current annotation loc
+function setCurrentURI(u) {
+  currentURI = u.replace(/#.*/, '').replace(/#$/, '');
+//  addChat('is visiting ' + '<a class="visiting">' + currentURI + '</a>');
 }
 
 
+include "displayAnnoTree.js"
