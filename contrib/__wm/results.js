@@ -127,9 +127,9 @@ function displayItemSidebar(uri) {
     '<div class="item"><a target="_debug" href="<!-- @var ESEARCH_URI -->/contentItem/' + encodeURIComponent(uri) + '?pretty=true"><i class="bug icon"></i>Debug</a></div>'
     );
   $('.context.dropdown').dropdown();
+  setCurrentURI(uri);
   fayeClient.publish('/annotate', { uri: uri });
   $('#startingPage').val(uri);
-  setCurrentURI(uri);
   $('.details.sidebar').sidebar('show');
 }
 

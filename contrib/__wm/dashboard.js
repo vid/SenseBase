@@ -1,29 +1,14 @@
-var resultViews = {}, resultView; 
+var resultViews = {}, resultView, annoSub; 
 var sbUser = window.senseBase.user;
+var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
+var treeInterface = { hover: function(anno) {}, select: function(anno) {} };
 
 var mainSize = 0, fluidSizes = ['four', 'five', 'six', 'seven']; // fluid sizes for main ui
 $(function() {
-  var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
-  var treeInterface = { hover: function(anno) {}, select: function(anno) {} };
   // General setup and functions
   var currentURI;
   window.myID = sbUser + new Date().getTime();
   console.log('myID', window.myID);
-
-  // receive annotations
-  fayeClient.subscribe('/annotations', function(data) {
-    var annotations = data.annotations, uri = data.uri;
-    // it's not current but needs to be updated
-    if (uri !== currentURI) {
-      //FIXME should only update if its in current results
-      console.log('/annotations not current uri');
-      return;
-    }
-    console.log('/annotations updating current', data);
-  // it's our current item, display
-    displayAnnoTree(annotations, uri, treeInterface);
-  });
-
 
   if (window.senseBase.logo) {
     $('<button style="height: 56px" title="Logo" class="ui mini logo attached button"> <img src="' + window.senseBase.logo + '" style="width: 100%" /></button>').prependTo('.main.fluid.buttons');
@@ -38,7 +23,6 @@ $(function() {
 
   $('.main.fluid.buttons').addClass(fluidSizes[mainSize]);
 
-  $('.ui.accordion').accordion();
   $('.ui.search.toggle.button').click(function() { $('.search.content').toggle('hidden'); $('.ui.search.toggle.button').toggleClass('active');});
   $('.ui.scrape.toggle.button').click(function() { $('.scrape.content').toggle('hidden'); $('.ui.scrape.toggle.button').toggleClass('active'); });
   $('.ui.team.toggle.button').click(function() { $('.team.content').toggle('hidden'); $('.ui.team.toggle.button').toggleClass('active'); $('.member.content').hide(); $('#lastUsername').val(''); /* FIXME move to members.js */ });
@@ -174,8 +158,25 @@ function deEncID(c) {
 
 // sets the current annotation loc
 function setCurrentURI(u) {
-  currentURI = u.replace(/#.*/, '').replace(/#$/, '');
-//  addChat('is visiting ' + '<a class="visiting">' + currentURI + '</a>');
+  currentURI = u.replace(/#.*/, '');
+  console.log('currentURI', currentURI);
+  if (annoSub) {
+    annoSub.cancel();
+  }
+  // receive annotations
+  annoSub = fayeClient.subscribe('/annotations', function(data) {
+    var annotations = data.annotations, uri = data.uri;
+    // it's not current but needs to be updated
+    if (uri !== currentURI) {
+      //FIXME should only update if its in current results
+      console.log('/annotations not current uri', uri, currentURI);
+      return;
+    }
+    console.log('/annotations updating current', data);
+  // it's our current item, display
+    displayAnnoTree(annotations, uri, treeInterface);
+  });
+
 }
 
 
