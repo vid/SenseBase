@@ -5,13 +5,11 @@ var fs = require('fs'),
   http = require('http'),
   flash = require('connect-flash'),
   express = require('express'),
-  passport = require('passport'),
-  util = require('util'),
-  LocalStrategy = require('passport-local').Strategy;
+  util = require('util');
   
 var utils = require('./lib/utils');
 
-var fileUpload = require('./lib/file-upload.js'), pubsub, scraper = require('./lib/scraper.js'), content = require('./lib/content.js');
+var pubsub, scraper = require('./lib/scraper.js'), content = require('./lib/content.js');
 
 var users;
 
@@ -55,61 +53,12 @@ exports.start = function(config) {
   // globally shared context
   GLOBAL.config = config;
   pubsub = require('./lib/pubsub.js');
+  GLOBAL.config.pubsub = pubsub;
 
-  // Passport stuff
-  function findById(id, fn) {
-    var found = null;
-    users.forEach(function(u) {
-      if (u.id == id) {
-        found = u;
-      }
-    });
-    if (found) {
-      fn(null, found);
-    } else {
-      fn(new Error('User ' + id + ' does not exist'));
-    }
-  }
-  
-  function findByUsername(username, fn) {
-    for (var i = 0, len = users.length; i < len; i++) {
-      var user = users[i];
-      if (user.username === username) {
-        return fn(null, user);
-      }
-    }
-    return fn(null, null);
-  }
-  
-  passport.serializeUser(function(user, done) {
-    done(null, user.id);
-  });
-  
-  passport.deserializeUser(function(id, done) {
-    findById(id, function (err, user) {
-      done(err, user);
-    });
-  });
-  
-  passport.use(new LocalStrategy(
-    function(username, password, done) {
-      // asynchronous verification
-      process.nextTick(function () {
-        findByUsername(username, function(err, user) {
-          if (err) { return done(err); }
-          if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
-          if (user.password !== password) { return done(null, false, { message: 'Invalid password' }); }
-          if (!user.active) { return done(null, false, { message: 'Account not active' }); }
-          return done(null, user);
-        });
-      });
-    }
-  ));
-  
   // Express stuff
   var app = express();
+  var actions = require('./lib/app-actions.js');
   
-  var sitebase = GLOBAL.config.sitebase;
   app.configure(function() {
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
@@ -118,75 +67,15 @@ exports.start = function(config) {
     app.use(express.logger({stream: GLOBAL.config.logStream}));
     app.use(express.methodOverride());
     app.use(express.session({ secret: 'popsicle-fish' }));
-    // Initialize Passport!  Also use passport.session() middleware, to support persistent login sessions (recommended).
     app.use(flash());
-    app.use(passport.initialize());
-    app.use(passport.session());
+    app.use(GLOBAL.config.sitebase, actions);
     app.use(app.router);
-    app.use(sitebase + '/lib', express.static(__dirname + '/bower_components'));
-    app.use(sitebase + '/files', express.static(GLOBAL.config.uploadDirectory));
-    app.use(sitebase + '/__wm', express.static(__dirname + '/static/__wm'));
 
     app.enable('trust proxy');
   });
-  
-  app.all(sitebase + '/__wm/*', function(req, res, next) {
-    if (req.user) {
-  //console.log('USER', req.user);
-      next();
-    } else {
-      res.redirect(sitebase + '/login'); 
-    }
-  });
-  
-  app.get(sitebase + '/', function(req, res){
-    if (req.user) {
-      res.cookie('psMember', req.user.username, { maxAge: 900000 });
-      res.cookie('psSession', req.user.id + '/' + new Date().getTime(), { maxAge: 900000 });
-       
-      res.redirect(sitebase + '/__wm/index.html');
-    } else {
-      res.render('login', { sitebase: sitebase, user: req.user, message: req.flash('error') });
-    }
-  });
-  
-  // used by client for identity
-  app.get(sitebase + '/member.js', function(req, res) {
-    res.render('memberjs', { user: req.user, collab: GLOBAL.config.collab, logo: GLOBAL.config.logo, homepage: GLOBAL.config.homepage });
-  });
-  
-  app.get(sitebase + '/login', function(req, res){
-    res.render('login', { user: req.user, message: req.flash('error') });
-  });
-  
-  app.post(sitebase + '/login', 
-    passport.authenticate('local', { failureRedirect: sitebase + '/login', failureFlash: true }),
-    function(req, res) {
-      GLOBAL.authed[req.ip] = req.user;
-      res.redirect(GLOBAL.config.HOMEPAGE);
-    });
-    
-// FIXME don't allow displaying stale last page
-  app.get(sitebase + '/logout', function(req, res){
-    req.logout();
-    res.redirect('/');
-  });
-  
-  app.post(sitebase + '/upload', function(req, res) {
-    fileUpload.uploadFile(req, function(err, resp) {
-      if (err) {
-       GLOBAL.error('/upload', err);
-      } else {
-        var content = resp.buffer || utils.NOCONTENT, uri = GLOBAL.config.HOMEPAGE + '/files/' + resp.fileName;
-        GLOBAL.config.indexer.saveContentItem({ uri: uri, isHTML: true, title: resp.title, member: req.user.username, content: content}, function(err, res, cItem) {
-          console.log('uploaded', resp.fileName, cItem);
-          pubsub.updateItem(cItem);
-          pubsub.requestAnnotate(uri, content);
-        });
-      }
-    });
-    res.end();
-  });
+
+
+
   
   var server = app.listen(GLOBAL.config.HTTP_PORT || 9999);
   
