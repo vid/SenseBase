@@ -8,9 +8,9 @@
 // TODO: add explicit relevance tests
 
 var uniq = (new Date().getTime()).toString(16) + 'x' + Math.round(Math.random(9e9) * 9e9).toString(16);
-var testApp = require('./test-app.js');
+var testApp = require('./lib/test-app.js');
 
-GLOBAL.config = require('./test-config.js').config;
+GLOBAL.config = require('./lib/test-config.js').config;
 var faye = require('faye'), expect = require("expect.js");
 var fayeClient = new faye.Client(GLOBAL.config.FAYEHOST);
 

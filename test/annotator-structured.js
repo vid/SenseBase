@@ -1,6 +1,6 @@
 
 var fs = require('fs'), expect = require("expect.js"), indexer = require('../lib/indexer.js'), fs = require('fs'), path = require('path');
-GLOBAL.config = require('./test-config.js').config;
+GLOBAL.config = require('./lib/test-config.js').config;
 var annotatorStructural = require('../lib/annotators/structural.js');
 
 describe('Structural annotators', function(done){

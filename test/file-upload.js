@@ -2,7 +2,7 @@
 var expect = require("expect.js"), indexer = require('../lib/indexer.js'), fs = require('fs'), path = require('path');
 var uniq = (new Date().getTime()).toString(16) + 'x' + Math.round(Math.random(9e9) * 9e9).toString(16);
 var fileUpload = require('../lib/file-upload.js');
-GLOBAL.config = require('./test-config.js').config;
+GLOBAL.config = require('./lib/test-config.js').config;
 
 describe('File upload', function(){
   it('should process the file', function(done) {

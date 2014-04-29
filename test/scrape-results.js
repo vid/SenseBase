@@ -2,7 +2,7 @@
 
 var fs = require('fs'), expect = require('expect.js');
 var scraper = require('../lib/scraper.js');
-GLOBAL.config = require('./test-config').config;
+GLOBAL.config = require('./lib/test-config').config;
 
 describe('Scraper links', function(done) {
   var sites = [

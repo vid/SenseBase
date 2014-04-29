@@ -1,8 +1,8 @@
 // Tests for configured indexer (ElasticSearch)
 
 var expect = require("expect.js");
-var indexer = require('../lib/indexer.js'), annotations = require('../lib/annotations.js'), testApp = require('./test-app.js'), utils = require('../lib/utils.js');
-GLOBAL.config = require('./test-config.js').config;
+var indexer = require('../lib/indexer.js'), annotations = require('../lib/annotations.js'), testApp = require('./lib/test-app.js'), utils = require('../lib/utils.js');
+GLOBAL.config = require('./lib/test-config.js').config;
 
 var uniq = utils.getUnique(), uniqMember = 'member'+uniq, uniqURI = 'http://test.com/' + uniq, uniqCategory = 'category' + uniq;
 

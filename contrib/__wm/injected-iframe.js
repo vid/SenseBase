@@ -171,6 +171,7 @@
               anno.exact + 
               endTag + 
               toReplace.substring(anno.offset + anno.exact.length));
+            console.log('replaced', anno.exact);
             var placed = { selector: anno.selector, replaced: toReplace}
             anno.placed = placed;
           } else {
