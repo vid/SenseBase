@@ -3,9 +3,14 @@
 
 GLOBAL.config = require('../config.js').config;
 var utils = require('../lib/utils.js'), scraperLib = require('../lib/scraper');
+
+exports.queueEsearchResults = queueEsearchResults;
+
+/*
 var annotator = process.argv[1].replace(/.*\//, '');
 
 queueEsearchResults({ scraper: annotator, terms: 'ferritin', tags: ['boo', 'bar'], validated: true, count: 5, relevance: 0, referers: []});
+*/
 
 // queue up terms with options. NB relevance on 0 means only the pages will be scraped (no links followed)
 function queueEsearchResults(options) {
