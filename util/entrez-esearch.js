@@ -1,7 +1,7 @@
 // queues up pubmed pages based on an entrez esearch query
 // http://www.ncbi.nlm.nih.gov/books/NBK25497/
 
-GLOBAL.config = require('../config.js').config;
+GLOBAL.config = require(__dirname + '/../config.js').config;
 var utils = require('../lib/utils.js'), scraperLib = require('../lib/scraper');
 
 exports.queueEsearchResults = queueEsearchResults;
