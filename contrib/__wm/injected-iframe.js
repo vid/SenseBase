@@ -86,11 +86,13 @@ console.log('select', anno);
 
     var treeItems = displayAnnoTree(annotations, uri, treeInterface);
     displayAllAnnos(treeItems);
-    $('.sbAnnotation', parent.document).click(function() {
-      $('#sbAnnotationDetails', parent.document).show();
-      $('#sbAnnotationDetails pre', parent.document).text(JSON.stringify(treeItems.get($(this).attr('id').split('-')[2]), null, 2));
-      $('#sbAnnotationDetails', parent.document).click(function() { $(this).hide();} ); 
-    });
+    if ($('.sbAnnotation', parent.document).length) {
+      $('.sbAnnotation', parent.document).click(function() {
+        $('#sbAnnotationDetails', parent.document).show();
+        $('#sbAnnotationDetails pre', parent.document).text(JSON.stringify(treeItems.get($(this).attr('id').split('-')[2]), null, 2));
+        $('#sbAnnotationDetails', parent.document).click(function() { $(this).hide();} ); 
+      });
+    }
   });
 
   // find the starting position of an instance
@@ -110,12 +112,12 @@ console.log('select', anno);
     // two passes; first assign offsets and add to array with the same selector
     for (var i in treeItems.map) {
       var anno = treeItems.map[i];
+      if (anno.selector === 'body') {
+        anno.selector = '#SBEnclosure';
+      }
       if (anno.instance && (!selector || selector === anno.selector)) {
         if (!newHTML) {
           selector = anno.selector;
-          if (selector === 'body') {
-            selector = '#SBEnclosure';
-          }
           newHTML = $(selector, parent.document).html();
         }
         anno.offset = findInstanceOffset(anno, newHTML);
@@ -139,7 +141,12 @@ console.log('select', anno);
         delete items[latest];
       }
     }
-    $(selector, parent.document).html(newHTML);
+    try {
+      $(selector, parent.document).html(newHTML);
+    } catch (e) {
+      console.log('failed for', selector, newHTML.length);
+      console.log(e);
+    }
   }
 
   // insert annotation tags at correct position
