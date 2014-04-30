@@ -28,7 +28,7 @@ function displayAnnoTree(annotations, uri) {
   var treeMap = {}, treeRoot = { text: 'Annotations', children: []}, annoTotal = 0, curParent;
   annotations.forEach(function(cur) {
     annoTotal++;
-    // get parent position (current position without current)
+    // get parent position (position without current)
     if (!cur.position) {
       console.log('missing position', cur);
       return;
@@ -49,9 +49,10 @@ function displayAnnoTree(annotations, uri) {
         curAdd = curParent;
     });
 
+console.log('DD', cur.position, treeMap);
     if (treeMap[cur.position]) {
       cur.children = treeMap[cur.position].children;
-      cur.id = treeMap[cur.position].id || id(cur);
+      cur.id = treeMap[cur.position].id || treeItems.id(cur);
     } else {
       cur.children = [];
       cur.id = treeItems.id(cur);
