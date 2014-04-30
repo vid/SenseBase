@@ -83,3 +83,7 @@ Everything else (aside from direct field data) is saved as an annotation.
 
 This project is supported by and forms the basis of http://www.github.com/TsangLab/Proxiris, as well as work developed for the PatientSense project for eHealth in Motion | Dataparc.
 
+# Copyright notices
+
+Uses material from NCBI. See http://www.ncbi.nlm.nih.gov/About/disclaimer.html
+
