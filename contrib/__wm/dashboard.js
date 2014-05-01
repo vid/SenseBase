@@ -143,7 +143,7 @@ $(function() {
 });
 
 function moreLikeThis(uri) {
-  fayeClient.publish('/moreLikeThis', { uri: uri});
+  fayeClient.publish('/moreLikeThis', { client: myID, uri: uri});
 }
 
 var encIDs = [];
