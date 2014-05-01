@@ -49,7 +49,6 @@ function displayAnnoTree(annotations, uri) {
         curAdd = curParent;
     });
 
-console.log('DD', cur.position, treeMap);
     if (treeMap[cur.position]) {
       cur.children = treeMap[cur.position].children;
       cur.id = treeMap[cur.position].id || treeItems.id(cur);
