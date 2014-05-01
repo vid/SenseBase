@@ -7,7 +7,7 @@ var doc = '<html><script lah lah></script><body class="something">Good <b>bad</b
 
 describe('sentiment', function(done){
   it('should identify the candidates', function() {
-    sentiment.process({ uri: 'test', html: doc, text: doc.replace(/<.*?>/g, '')}, function(err, result) {
+    sentiment.doProcess({ uri: 'test', html: doc, text: doc.replace(/<.*?>/g, '')}, function(err, result) {
       console.dir('EE', err, result);
       expect(err).to.be.undefined;
       done();

@@ -8,7 +8,8 @@ describe('Structural annotators', function(done){
     var sampleDoc = fs.readFileSync('./data/structural/regexes.html').toString();
     annotatorStructural.doProcess({ uri: GLOBAL.config.HOMEPAGE + '/test', text: sampleDoc}, function(err, result) {
       expect(err).to.be.undefined;
-      var l = result.length;
+      var annos = result.annoRows;
+      var l = annos.length;
       expect(l).to.be(21);
       done();
     });
@@ -17,7 +18,8 @@ describe('Structural annotators', function(done){
     var sampleDoc = fs.readFileSync('./data/structural/tableDatedValues.html').toString();
     annotatorStructural.doProcess({ uri: GLOBAL.config.HOMEPAGE + '/tableDateValuesTest', text: sampleDoc}, function(err, result) {
       expect(err).to.be.undefined;
-      var l = result.length;
+      var annos = result.annoRows;
+      var l = annos.length;
       expect(l).to.be(3);
       done();
     });
