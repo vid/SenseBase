@@ -1,5 +1,5 @@
 
-var fs = require('fs'), expect = require("expect.js"), indexer = require('../lib/indexer.js'), fs = require('fs'), path = require('path');
+var fs = require('fs'), expect = require("expect.js"), indexer = require('../lib/indexer.js'), path = require('path');
 GLOBAL.config = require('./lib/test-config.js').config;
 var annotatorStructural = require('../lib/annotators/structural.js');
 
