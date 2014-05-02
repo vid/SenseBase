@@ -110,7 +110,7 @@ function updateResults(results) {
   var container = '#results';
   if (results.hits) {
     $(container).html('');
-    $('#searchCount').html(results.hits.hits.length);
+    $('#searchCount').html(results.hits.hits.length === results.hits.total ? results.hits.total : (results.hits.hits.length + '/' + results.hits.total));
     resultView(container, results);
   } else {
     $(container).html('<i>No items.</i>');
