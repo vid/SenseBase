@@ -32,7 +32,9 @@ resultViews.table = function(dest, results) {
       curURI = uri;
       if ($el.hasClass('selectURI')) {
         $('#preview').remove();
-        $el.parent().after('<iframe style="width: 100%" id="preview" src="'+uri+'"></iframe>');
+        // use cached address FIXME canonicalize URIs
+        //$el.parent().after('<iframe style="width: 100%" id="preview" src="<!-- @var HOMEPAGE -->cached/'+ encodeURIComponent(uri) +'"></iframe>');
+        $el.parent().after('<iframe style="width: 100%" id="preview" src="' + uri +'"></iframe>');
         window.location.hash = id;
         noUpdates = true;
       } else {
@@ -74,7 +76,7 @@ resultViews.table = function(dest, results) {
       var v = r.fields || r._source;
       var rankVal = r._score ? r._score : ++count;
       var row = '<tr class="selectRow" id="' + encID(v.uri) + '"><td data-sort-value="' + rankVal + '"><input class="selectItem" type="checkbox" name="cb_' + encID(v.uri) + '" />' + rankVal + '</td><td data-sort-value="' + v.title + '">' +
-        '<div><a target="_link" href="' + v.uri + '"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' + 
+        '<div><a href="javascript:void(0)"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' + 
         '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div>'+
   '</td><td class="rowVisitors" data-sort-value="' + (v.visitors ? v.visitors.length : 0) + '">';
       // roll up visitors
