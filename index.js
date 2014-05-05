@@ -68,15 +68,12 @@ exports.start = function(config) {
     app.use(express.methodOverride());
     app.use(express.session({ secret: 'popsicle-fish' }));
     app.use(flash());
-    app.use(GLOBAL.config.sitebase, actions);
+    app.use(actions);
     app.use(app.router);
 
     app.enable('trust proxy');
   });
 
-
-
-  
   var server = app.listen(GLOBAL.config.HTTP_PORT || 9999);
   
   pubsub.start(server);
