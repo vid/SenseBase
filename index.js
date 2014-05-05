@@ -64,7 +64,7 @@ exports.start = function(config) {
     app.set('view engine', 'ejs');
     app.use(express.cookieParser());
     app.use(express.bodyParser());
-    app.use(express.logger({stream: GLOBAL.config.logStream}));
+//    app.use(express.logger({stream: GLOBAL.config.logStream}));
     app.use(express.methodOverride());
     app.use(express.session({ secret: 'popsicle-fish' }));
     app.use(flash());
