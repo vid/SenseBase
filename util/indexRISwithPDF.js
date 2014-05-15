@@ -99,7 +99,7 @@ function processItem(cur) {
 
   cur.content = content.toString().replace(/<.*?>/g,'');
   cur.uri = 'file://' + pdfBase + cur.fileName;
-  var loc = GLOBAL.config.HOMEPAGE + '/files/' + cur.fileName;
+  var loc = GLOBAL.config.HOMEPAGE + 'files/' + cur.fileName;
   var cItem = annotations.createContentItem({ uri: loc, title: cur.title, visitors: [{member: myUser, '@timestamp' : new Date().toISOString()} ], content: cur.content});
   var annos = [];
   cur.keyword.toString().split(',').forEach(function(k) {
