@@ -1,31 +1,43 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="lib/semantic-ui/build/packaged/css/semantic.css">
+</head>
+<body>
+
 <% if (banner) { %>
 <%= banner %>
 <% } %>
+<div class="ui form segment">
+  <form method="post">
+    <div class="field">
+      <label>Username</label>
+      <div class="ui left labeled icon input">
+        <input type="text" id="username" name="username" placeholder="Username">
+        <i class="user icon"></i>
+        <div class="ui corner label">
+          <i class="icon asterisk"></i>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <div class="ui left labeled icon input">
+        <input id="password" name="password" type="password">
+        <i class="lock icon"></i>
+        <div class="ui corner label">
+          <i class="icon asterisk"></i>
+        </div>
+      </div>
+    </div>
 <% if (message) { %>
-<p><%= message %></p>
+    <div class="ui error message">
+      <div class="header"><%= message %></div>
+    </div>
+    <input type="submit" class="ui blue submit button" value="Login" />
 <% } %>
-<style>
-body { font-family: sans-serif; font-size: 80% }
-</style>
-
-<div style="width: 400px">
-<form action="login" method="post">
-<h3 style="border-bottom: 1px dotted grey">Login</h3>
-	<div style="float:right">
-    <div>
-      <label for="username">Username:</label>
-      <input id="username" type="text" name="username"/>
-    </div>
-    <div>
-      <label for="password">Password:</label>
-      <input id="password" type="password" name="password"/>
-    </div>
-    <div style="float: right">
-      <br />
-      <input type="submit" value="Submit"/>
-      <input type="submit" value="Forgot password"/>
-    </div>
-  </div>
-</form>
+  </form>
 </div>
+</body>
+</html>
 
