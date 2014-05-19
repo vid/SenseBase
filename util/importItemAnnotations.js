@@ -32,21 +32,27 @@ importer.init(fieldMappings);
 var data = require(process.argv[3] || '../test/mock/mesh.json');
 
 // process results
+var imported = 0, failed = 0,
+  queued = { tags: 'import', relevance: 0, attempts: 0, lastAttempt: new Date().toISOString() }
 data.forEach(function(d) {
     try {
-      var r = importer.mapToItem(d);
+      var r = importer.mapToItem(d, { queued: queued });
+
       console.log('ITEM', r.contentItem._id, r.annotations.length);
       var cItem = r.contentItem, annotations = r.annotations;
-      cItem.visitors = [{ member: 'demo', '@timestamp': new Date().toISOString() }];
+      cItem.queued = queued;
+      cItem.visitors = [{ member: 'import', '@timestamp': new Date().toISOString() }];
       indexer._saveContentItem(cItem);
       indexer.saveAnnotations(cItem.uri, annotations);
+      imported++;
 //    indexer.updateAnnotations(cItem.uri);
     } catch (e) {
+      failed++;
       console.log(e);
     }
-  return; 
 });
 
+console.log('imported', imported, 'failed', failed);
 // fields that were not mapped
 console.log('unmapped', importer.getUnMapped());
 

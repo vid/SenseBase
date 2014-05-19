@@ -52,7 +52,8 @@ function getUnMapped() {
 }
 
 // converts a mapped item to an ContentItem and Annotations
-function mapToItem(item, json) {
+// adding an optional queed state
+function mapToItem(item, merge) {
   // first pass, find fields and annos and add to a proto
   var proto = {categories: [], vals: []};
   for (var key in item) {
@@ -81,7 +82,14 @@ function mapToItem(item, json) {
   var annos = [];
 
 // base annotation
-  var cItem = annotations.createContentItem({ title: proto.title, uri: proto.uri, content: proto.content});
+  cItem = { title: proto.title, uri: proto.uri, content: proto.content};
+
+  if (merge) {
+    for (var key in merge) {
+      cItem[key] = merge[key];
+    }
+  }
+  var cItem = annotations.createContentItem(cItem);
 
   var isVal = true; // TODO func this
 
