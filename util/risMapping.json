@@ -106,6 +106,7 @@
   "CRF" : "CRF",
   "CRI" : "CRI",
   "RIN" : ["RIN"],
-  "IR" : ["IR"]
+  "IR" : ["IR"],
 
+  "PY" : "Publication Year"
 }

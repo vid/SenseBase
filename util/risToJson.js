@@ -34,10 +34,12 @@ exports.risToJson = function(src, options) {
       var dest = risMapping[key];
       foundFields[dest] = foundFields[dest] ? foundFields[dest] + 1 : 1;
 
-      if (!dest) {
-        console.log('key not found', key);
+      if (!dest ) {
+        if (!notFoundKeys[key]) {
+          console.log('key not found', key);
+        }
         dest = key;
-        notFoundKeys[key] = 1;
+        notFoundKeys[key] = notFoundKeys[key] ? ++notFoundKeys[key] : 1;
       }
       lastField = key;
       if (typeof dest !== 'string') { // array for multiples
