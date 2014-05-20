@@ -146,6 +146,10 @@ function moreLikeThis(uri) {
   fayeClient.publish('/moreLikeThis', { client: myID, uri: uri});
 }
 
+function refreshAnnos(uri) {
+  fayeClient.publish('/updateContent', { uri: uri } );
+}
+
 var encIDs = [];
 // encode a string (URI) for an ID
 function encID(c) {
