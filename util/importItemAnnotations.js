@@ -1,6 +1,6 @@
 // sample code for creating annotation items (TODO: convert to test)
 
-var importer = require('../util/mapJsonToItemAnnotation'), indexer = require('../lib/indexer');
+var importer = require('../util/mapJsonToItemAnnotation'), indexer = require('../lib/indexer'), siteQueries = require('./siteQueries');
 
 GLOBAL.config = require('../config.js').config;
 var i = 0;
@@ -36,22 +36,39 @@ var imported = 0, failed = 0,
   queued = { tags: 'import', relevance: 0, attempts: 0, lastAttempt: new Date().toISOString() }
 data.forEach(function(d) {
     try {
-      var r = importer.mapToItem(d, { queued: queued });
+      // find uri from pubmed
+      if (!d.uri) {
+        siteQueries.findPubMedArticle(d.Title, function(err, res) {
+          if (err || !res) {
+            d.uri = 'http://www.ncbi.nlm.nih.gov/pubmed/?term=' + d.Title.replace(/ /g, '+');
+          } else {
+            d.uri = 'http://www.ncbi.nlm.nih.gov/pubmed/' + res;
+          }
+          doImport(d);
+        });
+      } else {
+        doImport(d);
+      }
 
-      console.log('ITEM', r.contentItem._id, r.annotations.length);
-      var cItem = r.contentItem, annotations = r.annotations;
-      cItem.queued = queued;
-      cItem.visitors = [{ member: 'import', '@timestamp': new Date().toISOString() }];
-      indexer._saveContentItem(cItem);
-      indexer.saveAnnotations(cItem.uri, annotations);
-      imported++;
-//    indexer.updateAnnotations(cItem.uri);
     } catch (e) {
       failed++;
       console.log(e);
     }
 });
 
+
+function doImport(d) {
+  var r = importer.mapToItem(d, { queued: queued });
+
+  console.log('ITEM', r.contentItem._id, r.annotations.length);
+  var cItem = r.contentItem, annotations = r.annotations;
+  cItem.queued = queued;
+  cItem.visitors = [{ member: 'import', '@timestamp': new Date().toISOString() }];
+  indexer._saveContentItem(cItem);
+  indexer.saveAnnotations(cItem.uri, annotations);
+  indexer.updateAnnotationSummary(cItem.uri);
+  imported++;
+}
 console.log('imported', imported, 'failed', failed);
 // fields that were not mapped
 console.log('unmapped', importer.getUnMapped());
