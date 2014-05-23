@@ -50,7 +50,7 @@ console.log('select', anno);
 
   $('body').append('<span id="annotationCount"></span><div id="treeContainer"></div>');
   $('head').append('<link rel="stylesheet" href="<!-- @var HOMEPAGE -->lib/jstree/dist/themes/default/style.min.css" />');
-  $('head').append('<link rel="stylesheet" href="<!-- @var HOMEPAGE -->lib/Semantic-UI/build/packaged/css/semantic.css" />');
+  $('head').append('<link rel="stylesheet" href="<!-- @var HOMEPAGE -->lib/semantic-ui/build/packaged/css/semantic.css" />');
 
   // actions
   $('.left.hand.icon').click(function() {
