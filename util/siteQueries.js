@@ -7,11 +7,13 @@ exports.findPubMedArticle = findPubMedArticle;
 */
 
 function findPubMedArticle(title, callback) {
-  utils.retrieve('http://www.ncbi.nlm.nih.gov/pubmed/?term=' + title.replace(/ /g, '+'), function(err, contents) {
+  var uri = 'http://www.ncbi.nlm.nih.gov/pubmed/?term=' + title.replace(/ /g, '+');
+  utils.retrieve(uri, function(err, contents) {
      var $ = cheerio.load(contents); 
      var absid = $('#absid');
      if (absid) {
-       callback(null, $(absid).val());
+       var id = $(absid).val();
+       callback(null, id, 'http://www.ncbi.nlm.nih.gov/pubmed/' + id);
      } else {
        callback(null, null);
      }
