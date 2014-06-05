@@ -5,7 +5,7 @@
 // if relevance is > 0, relevant page links are added
 
 var fs = require('fs'), expect = require('expect.js');
-var scraper = require('../lib/scraper.js'), testApp = require('./lib/test-app.js'), utils = require('../lib/utils.js');
+var scraper = require('../../lib/scraper.js'), testApp = require('../lib/test-app.js'), utils = require('../../lib/utils.js');
 
 var testTag = 'tag-'+utils.getUnique(), scrapeLink, queuedTotal;
 
@@ -18,7 +18,7 @@ describe('Scraper links', function(done) {
   });
 
   it('should queue document links', function() {
-    var text = fs.readFileSync('./data/search-results/pubmed.html').toString()
+    var text = fs.readFileSync('../data/search-results/pubmed.html').toString()
     var cItem = { uri: 'http://www.ncbi.nlm.nih.gov/pubmed/?term=pubmed', content: text, previousState: 'queue', state: 'visited', 
       queued: { relevance: 2, attempts: 0, tags: [testTag] } };
     var links = scraper.queueLinks(cItem);

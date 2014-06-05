@@ -1,8 +1,8 @@
 // test scraper functions
 
 var fs = require('fs'), expect = require('expect.js');
-var scraper = require('../lib/scraper.js');
-GLOBAL.config = require('./lib/test-config').config;
+var scraper = require('../../lib/scraper.js');
+GLOBAL.config = require('../lib/test-config').config;
 
 describe('Scraper links', function(done) {
   var sites = [
@@ -20,7 +20,7 @@ describe('Scraper links', function(done) {
   sites.forEach(function(site) {
     var name = Object.keys(site)[0], uri = site[name];
     it('should find ' + name + ' nav and results', function() {
-      var content = fs.readFileSync('./data/search-results/' + name + '.html');
+      var content = fs.readFileSync('../data/search-results/' + name + '.html');
       var allLinks = [], links = scraper.getRecognizedLinks({ uri: uri, content: content.toString()});
       ['navLinks', 'resultLinks'].forEach(function(type) {
         if (links[type]) {

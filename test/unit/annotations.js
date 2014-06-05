@@ -1,7 +1,7 @@
 // test annotation types
 // these tests rely on the library not throwing an exception.
 
-var annotations = require('../lib/annotations.js'), annoLib = require('../lib/annotators/annotateLib');
+var annotations = require('../../lib/annotations.js'), annoLib = require('../../lib/annotators/annotateLib');
 
 var item = annotations.createContentItem({title: 'test title', uri: 'http://test.com/', content: 'test content'});
 
