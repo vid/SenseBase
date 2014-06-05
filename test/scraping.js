@@ -5,7 +5,7 @@
 // if relevance is > 0, relevant page links are added
 
 var fs = require('fs'), expect = require('expect.js');
-var scraper = require('../lib/scraper.js'), testApp = require('./test-app.js'), utils = require('../lib/utils.js');
+var scraper = require('../lib/scraper.js'), testApp = require('./lib/test-app.js'), utils = require('../lib/utils.js');
 
 var testTag = 'tag-'+utils.getUnique(), scrapeLink, queuedTotal;
 
