@@ -11,6 +11,8 @@ Then ```npm install```, ```bower install``` if you are working directly in the s
 
 Presuming a debian derived distro, you will need to have build-essentials installed
 
+Finally, ```npm install -g uglifyjs`` and execute this to generate the client Javascript library: ```uglifyjs  --screw-ie8  bower-components/jquery/dist/jquery.js bower-components/faye/include.js bower-components/jstree/dist/jstree```
+
 # Configure
 
 create a config.js:
@@ -46,6 +48,8 @@ create a config.js:
       logStream : { write: function() {}}
     }
 
+Copy site.json to local-site.json for local site data.
+
 # Run
 
 if including SenseBase from your own project, create a bootstrap (app.js) that looks like this:
@@ -75,9 +79,11 @@ All 'team' interaction is via pubsub.js. ElasticSearch is not exposed.
 
 Annotations are a child relationship to contentItems.
 
-ContentItems initially have an state of 'visited' ('queued' if scraping, then 'visited' when scraped). After their first annotation and an annotationSummary is added, this becomes 'annotated.'
+ContentItems initially have an state of 'visited' (or 'queued' if scraping, then 'visited' when scraped). After their first annotation and an annotationSummary is added, this becomes 'annotated.'
 
 Everything else (aside from direct field data) is saved as an annotation.
+
+Global configuration and services used by libraries is via the GLOBAL.config object. Tests can use this to provide mocks.
 
 # Acknowledgement
 
