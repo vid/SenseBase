@@ -1,3 +1,5 @@
+// service to perform sentiment annotation
+
 var http = require('http');
 var querystring = require('querystring');
 var fs = require('fs');

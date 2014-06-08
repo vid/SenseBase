@@ -1,3 +1,4 @@
+// combine a CSV file with field per row with RIS content
 
 var csv = require('csv'), ris = require('./risToJson'), json2csv = require('json2csv'), fs = require('fs'), foundFields, matchTo, allHeaders,
   inputCSV = process.argv[2],

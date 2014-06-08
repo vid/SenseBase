@@ -1,6 +1,6 @@
-var maxProcess = 9e9;
-
 // import RIS items with attached PDFs
+
+var maxProcess = 9e9;
 
 // where PDFs are stored
 var pdfBase = process.argv[2];

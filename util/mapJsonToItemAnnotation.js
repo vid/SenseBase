@@ -1,3 +1,4 @@
+// map saved data with arbitrary structure to ContentItems and Annotations
 
 var found;
 var annotations = require('../lib/annotations.js'), utils = require('../lib/utils.js');

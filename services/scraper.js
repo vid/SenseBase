@@ -1,4 +1,4 @@
-// services that periodically checks for and requests queued content
+// service that periodically checks for and requests queued content
 
 var scraper = require('./scraper.js'), content = require('./content.js'), utils = require('./utils.js');
 

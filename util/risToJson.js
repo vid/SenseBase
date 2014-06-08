@@ -1,3 +1,5 @@
+// convert data in RIS format to JSON
+
 var fs = require('fs'), maxProcess = 9e9, risMapping = require('./risMapping');
 
 // RIS / medline mappings

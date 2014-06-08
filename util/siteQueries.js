@@ -1,3 +1,5 @@
+// site related search queries
+
 var utils = require('../lib/utils'), cheerio = require('cheerio');
 exports.findPubMedArticle = findPubMedArticle;
 

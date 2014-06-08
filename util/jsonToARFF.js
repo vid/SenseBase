@@ -1,3 +1,5 @@
+// converts JSON structure to ARFF
+
 var doString = false; // values as strings
 
 var merged = require('./mergedData.json');
