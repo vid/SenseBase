@@ -59,12 +59,12 @@ function showEdit(username) {
     $('.searcher.button').click(function() {
       var links = [];
       editingMember.locations.split('\n').forEach(function(l) {
-        l = l.replace('$SBQUERY', $('#searcherQuery').val());
+        l = l.replace('$SBQUERY', encodeURIComponent($('#searcherQuery').val()));
         links.push(l);
       });
       console.log('sending links', links);
 // FIXME: convert to module for reuse in test
-      fayeClient.publish('/queueLinks', { links: links, relevance: 2, scraper: editingMember.username, tags: $('#searcherTags').val().split(',')});
+      fayeClient.publish('/queueLinks', { links: links, relevance: 1, scraper: editingMember.username, tags: $('#searcherTags').val().split(',')});
       $('#annoSearch').val($('#searcherTags').val());
       $('#validationState').val('queued');
       $('#refreshQueries').prop('checked', true);
