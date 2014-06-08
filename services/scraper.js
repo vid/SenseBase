@@ -2,6 +2,7 @@
 
 GLOBAL.config = require('../config.js').config;
 GLOBAL.config.indexer = require('../lib/indexer.js');
+GLOBAL.config.pubsub = require('../lib/pubsub.js');
 
 var scraper = require('../lib/scraper.js');
 
