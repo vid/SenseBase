@@ -94,10 +94,15 @@ $(function() {
   }
 
   function doSearch() {
-    fayeClient.publish('/search', getSearchOptions());
-    $('.search.button').animate({opacity: 0.2}, 200, 'linear');
+    if (!isSearching) {
+      isSearching = true;
+      $('.search.submit').attr('disabled','disabled');
+      fayeClient.publish('/search', getSearchOptions());
+      $('.search.button').animate({opacity: 0.2}, 200, 'linear');
+    } else {
+      console.log('already searching');
+    }
   }
-
 
   $('.delete.item').click(function() {
     $('.ui.modal').modal('show');

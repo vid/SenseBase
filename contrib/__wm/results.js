@@ -68,7 +68,7 @@ fayeClient.subscribe('/updateItem', function(result) {
 $('.search input').keyup(function(e) {
   if(e.keyCode == 13) doSearch();
 });
-$('.search.button').click(function(event) {
+$('.search.submit').click(function(event) {
   doSearch();
 });
 
@@ -95,7 +95,7 @@ function shortenURI(u) {
 }
 
 // for updating
-var lastResults;
+var lastResults, isSearching;
 
 function updateResults(results) {
   // content is being viewed or edited, delay updates
@@ -116,6 +116,8 @@ function updateResults(results) {
     $(container).html('<i>No items.</i>');
     $('#searchCount').html('0');
   }
+  $('.search.submit').removeAttr('disabled');
+  isSearching = false;
 }
 
 // populate and display the URI's sidebar
