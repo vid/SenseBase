@@ -5,8 +5,9 @@ var config = require('./config.js');
 module.exports = function(grunt) {
   var srcFiles = [
     'lib/*.js',
+    'services/*.js',
     // frontend
-    'static/__wm/*.js'
+    'contrib/__wm/*.js'
   ];
 
   grunt.initConfig({
@@ -65,17 +66,17 @@ module.exports = function(grunt) {
       }
     },
     mochaTest: {
-      configTest: {
-        options: {
-          reporter: 'spec',
-        },
-        src: ['test/configuration.js']
-      },
       devUnitTest: {
         options: {
-          reporter: 'spec'
+          reporter: 'list'
         },
-        src: ['test/*.js']
+        src: ['test/unit/*.js']
+      },
+      devIntegrationTest: {
+        options: {
+          reporter: 'list'
+        },
+        src: ['test/int/*.js']
       }
     },
     docco: {
@@ -100,11 +101,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-includes');
   grunt.loadNpmTasks('grunt-string-replace');
   grunt.loadNpmTasks('grunt-mocha-test');
-  grunt.loadNpmTasks('grunt-docco2');
+  grunt.loadNpmTasks('grunt-docco');
   grunt.loadNpmTasks('grunt-plato');
 
-  grunt.registerTask('default', ['includes', 'string-replace', 'develop', 'watch', 'mochaTest']);
-  grunt.registerTask('sanity-test', ['jshint', 'mochaTest:configTest', 'mochaTest:devUnitTest']);
+  grunt.registerTask('default', ['includes', 'string-replace', 'develop', 'watch', 'mochaTest:devUnitTest']);
+  grunt.registerTask('test', ['mochaTest:devUnitTest', 'mochaTest:devIntegrationTest']);
+  grunt.registerTask('tidy', ['jshint', 'plato']);
 
 };
 
