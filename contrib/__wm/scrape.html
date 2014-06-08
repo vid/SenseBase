@@ -1,36 +1,43 @@
-<div class="ui two column stackable page grid">
+<form id="findSetup">
+<div class="ui three column stackable page grid">
   <div class="column">
     <div class="ui fluid form segment">
       <div class="field">
-        <label for="startingPage">Starting page</label>
-        <input id="startingPage" style="width: 100%" />
+        <label for="findInput">Input</label>
+        <input id="findInput" style="width: 100%" />
       </div>
       <div class="field">
         <label for="continueFinding">Continue scraping</label>
         <select id="continueFinding" title="when should search paths stop">
-          <option>link only</option>
-          <option>term within 1 link</option>
-          <option>term within 2 links</option>
-          <option>term within 3 links</option>
-          <option selected>entire site</option>
+          <option value="0">link only</option>
+          <option selected value="1">term within 1 link</option>
+          <option value="2">term within 2 links</option>
+          <option value="3">term within 3 links</option>
+          <option>entire site</option>
         </select>
       </div>
       <div class="field">
         <label for="applyTags">Apply tags</label>
         <input id="applyTags" />
       </div>
-      <div class="field">
-        <label for="scanEvery">Scan every</label>
-        <input id="scanEvery" class="spinner" value="once only" size="8" title="when to recheck starting points"> 
-        <select style="width: 8em"><option>hours</option><option>days</option></select>
-      </div>
     </div>
   </div>
   <div class="column">
     <div class="ui fluid form segment">
+      <h3 class="heading">Members</h3>
+    </div>
+  </div>
+  <div class="column">
+    <div class="ui fluid form segment">
+      <h3>Persistent search</h3>
       <div class="field">
         <label for="scrapeSave">Name</label> 
         <input name="scrapeName" />  <button class="ui mini button"><i class="save icon"></i></button>
+      </div>
+      <div class="field">
+        <label for="scanEvery">Scan every</label>
+        <input id="scanEvery" class="spinner" value="once only" size="8" title="when to recheck starting points"> 
+        <select style="width: 8em"><option>hours</option><option>days</option></select>
       </div>
       <h4>Existing scrapes</h4>
       <div id="existingScrapes">
@@ -38,3 +45,4 @@
     </div>
   </div>
 </div>
+</form>
