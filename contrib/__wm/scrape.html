@@ -1,14 +1,13 @@
-<form id="findSetup">
 <div class="ui three column stackable page grid">
   <div class="column">
-    <div class="ui fluid form segment">
+    <div class="ui fluid scraping form segment">
       <div class="field">
-        <label for="findInput">Input</label>
-        <input id="findInput" style="width: 100%" />
+        <label for="scrapeInput">Input</label>
+        <input id="scrapeInput" style="width: 100%" />
       </div>
       <div class="field">
-        <label for="continueFinding">Continue scraping</label>
-        <select id="continueFinding" title="when should search paths stop">
+        <label for="scrapeContinue">Continue scraping</label>
+        <select id="scrapeContinue" title="when should search paths stop">
           <option value="0">link only</option>
           <option selected value="1">term within 1 link</option>
           <option value="2">term within 2 links</option>
@@ -17,15 +16,24 @@
         </select>
       </div>
       <div class="field">
-        <label for="applyTags">Apply tags</label>
-        <input id="applyTags" />
+        <label for="scrapeTags">Apply tags</label>
+        <input id="scrapeTags" />
+      </div>
+      <div class="field">
+        <div class="ui warning message">
+          <i class="close icon"></i>
+          <div class="header">
+            You must register before you can do that!
+          </div>
+        </div>
+        <button class="ui blue mini scrape submit button">Queue</button>
       </div>
     </div>
   </div>
   <div class="column">
     <div class="ui fluid form segment">
       <h3 class="heading">Members</h3>
-      <select multiple class="team container" style="width: 100%"></select>
+      <select multiple class="scraping team container" style="width: 100%" id="scrapeTeam"></select>
     </div>
   </div>
   <div class="column">
@@ -46,4 +54,3 @@
     </div>
   </div>
 </div>
-</form>

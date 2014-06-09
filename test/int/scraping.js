@@ -1,5 +1,5 @@
 // test scraper workflow
-// initial doc is saved to state queue with queue: { relevance: 3 }
+// initial doc is saved to state queue with queue: { relevance: 2 }
 // as pages are accessed, previousState  is set to last state
 // if they have previousState as queue, scraper.queueLinks finds relevance
 // if relevance is > 0, relevant page links are added

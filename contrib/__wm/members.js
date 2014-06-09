@@ -59,29 +59,6 @@ function showEdit(username) {
     }
   });
   // meta searches
-  if (editingMember.type === 'Searcher') {
-    $('.searcher.form').show();
-    $('.action.message').hide();
-    $('#searcherTags').val(editingMember.username + '-' + new Date().getTime());
-    $('.searcher.button').click(function() {
-      var links = [];
-      editingMember.locations.split('\n').forEach(function(l) {
-        l = l.replace('$SBQUERY', encodeURIComponent($('#searcherQuery').val()));
-        links.push(l);
-      });
-      console.log('sending links', links);
-// FIXME: convert to module for reuse in test
-      fayeClient.publish('/queueLinks', { links: links, relevance: 1, scraper: editingMember.username, tags: $('#searcherTags').val().split(',')});
-      $('#annoSearch').val($('#searcherTags').val());
-      $('#validationState').val('queued');
-      $('#refreshQueries').prop('checked', true);
-      setupQueryRefresher(5000);
-      doSearch();
-    });
-  } else {
-    $('.searcher.form').hide();
-    $('.action.message').show();
-  }
   console.log('member', editingMember);
   $('#username').val(editingMember.username);
   $('#lastUsername').val(editingMember.username);
