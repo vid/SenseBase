@@ -3,13 +3,20 @@ var justEdited, rTeams, editingMember;
 fayeClient.subscribe('/teamList', function(teams) {
   $('#aneditor').hide();
   console.log('teams', teams);
+  // populate any team containers
+  $('.team.container').find('option').remove();
   teams.forEach(function(m) {
+    if (m.status === 'available') {
+      $('.team.container').append('<option value="' + m.username + '">' + m.username + '</option>');
+    }
     var row = '<a style="margin: 4px" id="' + m.username + '" class="ui small ' + (m.status === 'available' ? 'enabled' : 'disabled') + ' member image label">' +
       (m.class ? '<i class="' + m.class + ' icon"></i>' : 
         '<img style="height: 24px" class="image '  + '" src="<!-- @var HOMEPAGE -->__wm/icons/' + (m.icon || 'mesh.png') + '" alt="' + m.username + '" />') + 
       ' ' + m.username + '</a>';
     $('.teamlist.segment').prepend(row);
   });
+  $('.enabled.member').draggable({stack: 'a', helper: 'clone'});
+
   $('#newName').val(''); 
   $('#newEmail').val('');
   $('.teamCancel').click(function() { $('#aneditor').hide(); });

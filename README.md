@@ -11,8 +11,6 @@ Then ```npm install```, ```bower install``` if you are working directly in the s
 
 Presuming a debian derived distro, you will need to have build-essentials installed
 
-Finally, ```npm install -g uglifyjs`` and execute this to generate the client Javascript library: ```uglifyjs  --screw-ie8  bower-components/jquery/dist/jquery.js bower-components/faye/include.js bower-components/jstree/dist/jstree```
-
 # Configure
 
 create a config.js:

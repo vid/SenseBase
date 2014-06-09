@@ -139,7 +139,14 @@ $(function() {
     checkSelected();
   });
 
+// drag and drop members
+  $('.team.container').droppable({
+    drop: function(event, ui) {
+      console.log('DROP', this, event, ui);
+      window.ee = ui;
+    } });
   doSearch();
+  $('.team.container').select2();
 
   include "results.js"
   include "members.js"
