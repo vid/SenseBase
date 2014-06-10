@@ -47,11 +47,6 @@ $(function() {
     fayeClient.publish('/cluster', getSearchOptions());
   });
 
-  $('.member.actions').click(function() {
-    $('.member.actions').addClass('active');
-    $('.member.actions.segment').show();
-  });
-
   $('.member.options').click(function() {
     $('.member.options').addClass('active');
     $('.member.options.segment').show();
