@@ -45,7 +45,7 @@ function submitScrape() {
   console.log('publishing', data, fayeClient);
   fayeClient.publish('/queueSearch', data);
   $('#annoSearch').val($('#searcherTags').val());
-  $('#validationState').val('queued');
+//  $('#validationState').val('queued');
   $('#refreshQueries').prop('checked', true);
   setupQueryRefresher(5000);
   doSearch();

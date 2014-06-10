@@ -2,7 +2,7 @@
   <a class="member item options">Options</a>
   <a class="member item statistics">Statistics</a>
 </div>
-<div class="ui hidden member options segment">
+<div class="ui member options segment">
   <div class="ui grid">
     <div class="six wide column" id="aneditor">
       <div class="ui form">
@@ -66,8 +66,12 @@
         <div class="anedit" id="editSearcher">
           <h2>Searcher</h2>
           <div class="field">
-            <label title="Search template" for="template">Template</label>
-            <textarea id="template"></textarea>
+            <label title="Search API" for="searchAPI">API</label>
+            <input disabled id="searchAPI" />
+          </div>
+          <div class="field">
+            <label title="Search template" for="searchTemplate">Template</label>
+            <textarea disabled id="searchTemplate"></textarea>
           </div>
         </div>
         <div class="anedit" id="editScraper">
