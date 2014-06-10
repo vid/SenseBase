@@ -22,31 +22,6 @@ console.log('select', anno);
   $('#sbIframe', parent.document).after('<div id="sbAnnotationDetails" style="background: #ffe; filter:alpha(opacity=90); opacity:0.9; position: absolute; top: 8%; left: 8%; width: 80%; height: 80%; display: none; z-index: 999; border: 1px dotted grey"><i class="close icon"></i><pre></pre></div>');
   $('#sbIframe', parent.document).after('<style>\n.sbShort { height: 10%; }\n.sbAnnotationBlink { background: yellow !important; }\n.sbAnnotation-a { background: lightgreen; }\n.sbAnnotation-b { background: lightblue; }\n</style>');
   var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
-// do scraper actions as appropriate
-  var senseBase = window.senseBase;
-  if (senseBase.isScraper) {
-    $('#treeContainer').html('<h1>scraper</h1>');
-    console.log('isScraper', senseBase);
-    // publish our current link
-    setInterval(function() {
-      console.log('scraper waiting for link');
-      fayeClient.publish('/visitWait');
-    }, 20000);
-    fayeClient.subscribe('/visit', function(msg) {
-      $('#treeContainer').html(JSON.stringify(msg, null, 2));
-      console.log('/visit', msg);
-      if (!msg.site || !msg.site.uri || msg.site.uri.toLowerCase().indexOf('https') === 0) {
-        console.log('not scraping undefined');
-      } else {
-        if (msg.site.uri === parent.window.location.href) {
-          console.log('not re-indexing self');
-        } else {
-          setTimeout(function() { parent.window.location.href = msg.site.uri;}, 2000);
-        }
-      }
-    });
-    return;
-  }
 
   $('body').append('<span id="annotationCount"></span><div id="treeContainer"></div>');
   $('head').append('<link rel="stylesheet" href="<!-- @var HOMEPAGE -->lib/jstree/dist/themes/default/style.min.css" />');
