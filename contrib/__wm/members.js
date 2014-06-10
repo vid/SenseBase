@@ -82,7 +82,7 @@ function showEdit(username) {
     $('#editAnnoSet').show();
   } else if (editingMember.type === 'Searcher') {
     $('#teamRemove').show();
-    $('#locations').val(editingMember.locations);
+    $('#searchTemplate').val(editingMember.locations || editdingMember.template);
     $('#editSearcher').show();
   } else {
     $('#teamRemove').hide();

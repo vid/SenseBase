@@ -78,14 +78,19 @@ $('#refreshQueries').click(function(e) {
   if ($(e.target).prop('checked')) {
     setupQueryRefresher(5000);
   } else {
-    if (queryRefresher) {
-      clearInterval(queryRefresher);
-    }
+    clearQueryRefresher();
   }
   console.log('refrresh', queryRefresher);
 });
 
+function clearQueryRefresher() {
+  if (queryRefresher) {
+    clearInterval(queryRefresher);
+  }
+}
+
 function setupQueryRefresher(interval) {
+  clearQueryRefresher();
   queryRefresher = setInterval(doSearch, interval);
 }
 

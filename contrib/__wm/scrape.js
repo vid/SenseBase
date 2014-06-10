@@ -48,6 +48,7 @@ function submitScrape() {
   $('#validationState').val('queued');
   $('#refreshQueries').prop('checked', true);
   setupQueryRefresher(5000);
+  doSearch();
 }
 
 // populate with initial set of saved scrapes
