@@ -5,9 +5,12 @@ fayeClient.subscribe('/teamList', function(teams) {
   console.log('teams', teams);
   // populate any team containers
   $('.team.container').find('option').remove();
+  var teamTypes = {};
   teams.forEach(function(m) {
+    // create selects
     if (m.status === 'available') {
-      $('.team.container').append('<option value="' + m.username + '">' + m.username + '</option>');
+      // group by type
+      teamTypes[m.type] = (teamTypes[m.type] || '') + '<option value="' + m.username + '">' + m.username + '</option>';
     }
     var row = '<a style="margin: 4px" id="' + m.username + '" class="ui small ' + (m.status === 'available' ? 'enabled' : 'disabled') + ' member image label">' +
       (m.class ? '<i class="' + m.class + ' icon"></i>' : 
@@ -15,6 +18,9 @@ fayeClient.subscribe('/teamList', function(teams) {
       ' ' + m.username + '</a>';
     $('.teamlist.segment').prepend(row);
   });
+  for (type in teamTypes) {
+    $('.team.container').append('<optgroup label="' + type + '">' + teamTypes[type] + '</optgroup>');
+  }
   $('.enabled.member').draggable({stack: 'a', helper: 'clone'});
 
   $('#newName').val(''); 
