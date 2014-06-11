@@ -9,12 +9,16 @@ resultViews.scatter = function(dest, results) {
 
       for (j = 0; j < results.hits.hits.length; j++) {
         var hit = results.hits.hits[j]._source;
+        var annos = hit.annotationSummary ? (hit.annotationSummary.validated + hit.annotationSummary.unvalidated): 1;
+        var annosVal = hit.annotationSummary.validated ? hit.annotationSummary.validated : 1;
+        annos = random(); //FIXME
+
         cur.values.push({
           x: new Date(hit[field]),
-          y: random(),
+          y: annos,
           data: hit,
-          size: hit.annotationSummary ? hit.annotationSummary.validated : 1,   //Configure the size of each scatter point
-          shape: (Math.random() > 0.95) ? shapes[j % 6] : "circle"  //Configure the shape of each scatter point.
+          size: annosVal,   //Configure the size of each scatter point
+          shape: "circle"  //Configure the shape of each scatter point.
         });
       }
       data.push(cur);
