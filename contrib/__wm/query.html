@@ -17,15 +17,21 @@
       <div class="field">
         <label for="annoSearch">Annotations</label>
         <input id="annoSearch" />
-        <select id="validationState"><option value="valOrUnval">Validated or unvalidated</option><option value="val">Validated</option><option value="unval">Unvalidated</option><option value="notann">Not annotated</option><option value="queued">Not visited</option></select>
       </div>
     </div>
     <div class="column">
       <div class="field">
-        <label>Results</label>
         <button class="ui blue mini search submit button" id="searchForm">Search</button> &nbsp;
-        <button class="ui mini viz submit button">Cluster</button> &nbsp;
-        <p><span class="ui checkbox"><input id="refreshQueries" type="checkbox" /> <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label></span></p>
+        <button class="ui mini viz submit button">Cluster</button>
+        <div><select id="validationState">
+          <option value="all">Everything</option>
+          <option value="val">Has validated</option>
+          <option value="unval">Has unvalidated</option>
+          <option value="notann">Not annotated</option>
+          <option value="valOrUnval">Visited, no annotations</option>
+          <option value="queued">Not visited (queued)</option>
+        </select><</div>
+        <div><span class="ui checkbox"><input id="refreshQueries" type="checkbox" /> <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label></span></div>
       </div>
     </div>
   </div>

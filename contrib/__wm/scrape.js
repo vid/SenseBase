@@ -44,7 +44,7 @@ function submitScrape() {
   var data = { input: input, relevance: scrapeContinue, team: scrapeTeam, tags: scrapeTags, member: sbUser};
   console.log('publishing', data, fayeClient);
   fayeClient.publish('/queueSearch', data);
-  $('#annoSearch').val($('#searcherTags').val());
+  $('#annoSearch').val($('#scrapeTags').val());
 //  $('#validationState').val('queued');
   $('#refreshQueries').prop('checked', true);
   setupQueryRefresher(5000);
