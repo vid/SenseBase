@@ -1,89 +1,78 @@
-<div class="ui member secondary pointing menu">
-  <a class="member item options">Options</a>
-  <a class="member item statistics">Statistics</a>
-</div>
-<div class="ui member options segment">
-  <div class="ui grid">
-    <div class="six wide column" id="aneditor">
-      <div class="ui form">
-        <div class="field">
-          <label title="Change name by editing this field" for="username">New name</label> <input id="username" size="30" /><input type="hidden" id="lastUsername" />
-        </div>
-        <div class="field">
-          <label for="memberDescription">Description</label>
-          <textarea id="memberDescription"></textarea>
-        </div>
-        <div class="two fields checkbox">
-          <input id="isInactive" type="checkbox"> <label title="If checked, member is inactive" for="isInactive">Active</label>
-        </div>
-        <div class="two fields checkbox">
-          <input id="needsValidation" type="checkbox"> <label title="If checked, values stored by this member must be validated by another" for="needsValidation">Needs validation</label>
+    <div class="ui member form" style="display: none">
+      <div class="fields">
+        <div class="four wide field">
+          <div class="field">
+            <label title="Change name by editing this field" for="username">New name</label> <input id="username" size="30" /><input type="hidden" id="lastUsername" />
+          </div>
+          <div class="field">
+            <label for="memberDescription">Description</label>
+            <textarea id="memberDescription"></textarea>
+          </div>
+          <div class="two fields checkbox">
+            <input id="isInactive" type="checkbox"> <label title="If checked, member is inactive" for="isInactive">Active</label>
+          </div>
+          <div class="inline fields checkbox">
+            <input id="needsValidation" type="checkbox"> <label title="If checked, values stored by this member must be validated by another" for="needsValidation">Needs validation</label>
+          </div>
         </div>
         <div class="three fields">
           <button class="ui mini blue button" id="teamUpdate">Update</button>
           <button class="ui mini red button" id="teamRemove">Remove</button>
           <button class="ui mini blue button" id="teamCancel">Cancel</button>
         </div>
-      </div>
-    </div>
-    <div class="ten wide column">
-      <div class="ui form">
-        <div class="anedit" id="editUser">
-          <h2>User</h2>
-          <div class="field">
-            <label for="newEmail">Email</label> <input id="newEmail" />
+        <div class="six wide field">
+          <div class="anedit" id="editUser">
+            <h2>User</h2>
+            <div class="field">
+              <label for="newEmail">Email</label> <input id="newEmail" />
+            </div>
+            <div class="field">
+              <label for="memberPassword">Password</label> <input type="password" id="memberPassword" />
+            </div>
+            <div class="field">
+              <label for="passwordRepeat">Repeat</label> <input type="password" id="passwordRepeat" />
+            </div>
+            <div class="field checkbox">
+              <input id="canValidate" type="checkbox"> <label title="If checked, member can validate other member's annotations" for="canValidate">Can validate</label>
+            </div>
           </div>
-          <div class="field">
-            <label for="memberPassword">Password</label> <input type="password" id="memberPassword" />
+          <div class="anedit" id="editAnnoSet">
+            <h2>Annotation set</h2>
+            <div class="field">
+              <label title="Positive value or affecting words, seperated by a comma. Use a semicolon then value for weighting" for="positiveTerms">Positive terms</label>
+              <textarea id="positiveTerms"></textarea>
+            </div>
+            <div class="field">
+              <label title="Negative value or affecting words, seperated by a comma. Use a semicolon then value for weighting" for="negativeTerms">Negative terms</label> 
+              <textarea id="negativeTerms"></textarea>
+            </div>
+            <div class="two fields checkbox">
+              <input id="doNullify" type="checkbox" /> <label title="If checked, removes annotation if positive are outweighed by negative" for="doNullify">nullify</label>
+            </div>
+            <div class="two fields checkbox">
+              <input id="doLemma" type="checkbox" /> <label title="If checked, merge forms of words" for="doLemma">Lemmatize</label>
+            </div>
+            <div class="two fields checkbox">
+              <input id="isTag" type="checkbox" /> <label title="If checked, make document rather than content level annotation" for="isTag">Tag</label>
+            </div>
           </div>
-          <div class="field">
-            <label for="passwordRepeat">Repeat</label> <input type="password" id="passwordRepeat" />
+          <div class="anedit" id="editSearcher">
+            <h2>Searcher</h2>
+            <div class="field">
+              <label title="Search API" for="searchAPI">API</label>
+              <input disabled id="searchAPI" />
+            </div>
+            <div class="field">
+              <label title="Search template" for="searchTemplate">Template</label>
+              <textarea disabled id="searchTemplate"></textarea>
+            </div>
           </div>
-          <div class="field checkbox">
-            <input id="canValidate" type="checkbox"> <label title="If checked, member can validate other member's annotations" for="canValidate">Can validate</label>
+          <div class="anedit" id="editScraper">
+            <h2>Scraper</h2>
           </div>
-        </div>
-        <div class="anedit" id="editAnnoSet">
-          <h2>Annotation set</h2>
-          <div class="field">
-            <label title="Positive value or affecting words, seperated by a comma. Use a semicolon then value for weighting" for="positiveTerms">Positive terms</label>
-            <textarea id="positiveTerms"></textarea>
+          <div class="anedit" id="editAgent">
+            <h2>Agent</h2>
           </div>
-          <div class="field">
-            <label title="Negative value or affecting words, seperated by a comma. Use a semicolon then value for weighting" for="negativeTerms">Negative terms</label> 
-            <textarea id="negativeTerms"></textarea>
-          </div>
-          <div class="two fields checkbox">
-            <input id="doNullify" type="checkbox" /> <label title="If checked, removes annotation if positive are outweighed by negative" for="doNullify">nullify</label>
-          </div>
-          <div class="two fields checkbox">
-            <input id="doLemma" type="checkbox" /> <label title="If checked, merge forms of words" for="doLemma">Lemmatize</label>
-          </div>
-          <div class="two fields checkbox">
-            <input id="isTag" type="checkbox" /> <label title="If checked, make document rather than content level annotation" for="isTag">Tag</label>
-          </div>
-        </div>
-        <div class="anedit" id="editSearcher">
-          <h2>Searcher</h2>
-          <div class="field">
-            <label title="Search API" for="searchAPI">API</label>
-            <input disabled id="searchAPI" />
-          </div>
-          <div class="field">
-            <label title="Search template" for="searchTemplate">Template</label>
-            <textarea disabled id="searchTemplate"></textarea>
-          </div>
-        </div>
-        <div class="anedit" id="editScraper">
-          <h2>Scraper</h2>
-        </div>
-        <div class="anedit" id="editAgent">
-          <h2>Agent</h2>
         </div>
       </div>
     </div>
-  </div>
-</div>
-<div class="ui hidden member statistics segment">
-  created, queue, annotations, logins
-</div>

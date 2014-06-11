@@ -1,5 +1,13 @@
 body { font-family: sans-serif; border: 0px; padding: 0px; margin: 0px }
 
+.function.field {
+  margin: 0 !important;
+}
+
+.function.form {
+  margin-top: 1em;
+  border-bottom: 1px dotted grey;
+}
 table {
   font-size: 90%;
 }
@@ -38,3 +46,22 @@ a {
 .innerMoreNext {
   padding-left: 10px;
 }
+
+/* file upload */
+#holder.hover { border: 4px dashed #0c0; }
+#holder img { display: block; margin: 10px auto; }
+#holder p { margin: 10px; font-size: 14px; }
+progress { width: 100%; } 
+progress:after { content: '%'; }
+.fail { background: #c00; padding: 2px; color: #fff; }
+
+a:link {text-decoration:none;}
+a:visited {text-decoration:none;}
+a:hover {text-decoration:underline;}
+a:active {text-decoration:underline;}
+
+.image {
+    height: 24px;
+} 
+
+

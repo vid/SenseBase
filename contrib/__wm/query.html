@@ -1,29 +1,23 @@
-<div class="ui form">
-  <div class="ui four column stackable page grid">
-    <div class="column">
-      <div class="field">
+  <div class="ui function form">
+    <div class="fields">
+      <div class="two wide field">
+        <h1 style="text-align: center">Query</h1>
+       </div>
+      <div class="three wide function field">
         <label for="termSearch">Terms</label>
         <input id="termSearch" />
       </div>
-    </div>
-    <div class="column">
-      <div class="field">
+      <div class="three wide function field">
         <label for="annoMember">Member</label>
         <input id="annoMember" />
         <select id="annotationState"><option value="visited">Visited</option><option value="requested">Annotation requested</option><option value="provided">Annotation provided</option></select>
       </div>
-    </div>
-    <div class="column">
-      <div class="field">
+      <div class="three wide function field">
         <label for="annoSearch">Annotations</label>
         <input id="annoSearch" />
       </div>
-    </div>
-    <div class="column">
-      <div class="field">
-        <button class="ui blue mini search submit button" id="searchForm">Search</button> &nbsp;
-        <button class="ui mini treemap submit button">Cluster</button>
-        <div class="field">
+      <div class="three wide function field">
+        <div class="inline field">
           <select id="validationState">
             <option value="all">Everything</option>
             <option value="val">Has validated</option>
@@ -33,50 +27,58 @@
             <option value="queued">Not visited (queued)</option>
           </select>
         </div>
-        <div class="field">
+        <div class="three wide function field">
           <span class="ui checkbox">
             <input id="refreshQueries" type="checkbox" />
             <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label>
           </span>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="ui two column stackable page grid" style="display: none">
-    <div class="column">
-      <div class="field">
-        <label for="fromDate">From</label>
-        <input id="fromDate" />
-      </div>
-      <div class="field">
-        <label for="toDate">To</label>
-        <input id="toDate" />
-      </div>
-      <div class="field">
-        <label for="searchMember">Member</label>
-        <input id="searchMember" />
-      </div>
-    </div>
-    <div class="column">
-      <div class="ui fluid form segment">
+      <div class="two wide function field">
         <div class="field">
-          <label for="searchName">Save</label>
-          <input name="searchName" />  <button class="ui mini button"><i class="save icon"></i></button>
+          <button class="ui blue mini search submit button" id="searchForm">Search</button> &nbsp;
         </div>
         <div class="field">
-          <div class="ui checkbox">
-            <input id="subscribeSearch" type="checkbox" name="subscribeSearch">
-            <label for="subscribeSearch">Subscribe</label>
-          </div>
+          <button class="ui mini treemap submit button">Cluster</button>
         </div>
-        <div>
-          <h4>Existing searches</h4>
-          <div id="existingScrapes">
+      </div>
+    </div>
+
+    <div class="ui two column stackable page grid" style="display: none">
+      <div class="column">
+        <div class="field">
+          <label for="fromDate">From</label>
+          <input id="fromDate" />
+        </div>
+        <div class="field">
+          <label for="toDate">To</label>
+          <input id="toDate" />
+        </div>
+        <div class="field">
+          <label for="searchMember">Member</label>
+          <input id="searchMember" />
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui fluid form segment">
+          <div class="field">
+            <label for="searchName">Save</label>
+            <input name="searchName" />  <button class="ui mini button"><i class="save icon"></i></button>
           </div>
           <div class="field">
+            <div class="ui checkbox">
+              <input id="subscribeSearch" type="checkbox" name="subscribeSearch">
+              <label for="subscribeSearch">Subscribe</label>
+            </div>
+          </div>
+          <div>
+            <h4>Existing searches</h4>
+            <div id="existingScrapes">
+            </div>
+            <div class="field">
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>

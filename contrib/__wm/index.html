@@ -1,33 +1,13 @@
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-<link rel="stylesheet" type="text/css" href="<!-- @var HOMEPAGE -->lib/semantic-ui/build/packaged/css/semantic.css">
-<link rel="stylesheet" type="text/css" href="<!-- @var HOMEPAGE -->lib/select2/select2.css">
-<link rel="stylesheet" href="<!-- @var HOMEPAGE -->lib/jquery-ui/themes/ui-lightness/jquery-ui.css" />
-<link rel="stylesheet" href="<!-- @var HOMEPAGE -->lib/jstree/dist/themes/default/style.min.css" />
-<link rel="stylesheet" href="<!-- @var HOMEPAGE -->__wm/dashboard.css" />
-<link rel="stylesheet" href="<!-- @var HOMEPAGE -->__wm/lib/d3plus/d3plus.css" />
-<link rel="stylesheet" href="<!-- @var HOMEPAGE -->__wm/lib/nvd3/nv.d3.css" />
-<style type="text/css">
-/* file upload */
-#holder.hover { border: 4px dashed #0c0; }
-#holder img { display: block; margin: 10px auto; }
-#holder p { margin: 10px; font-size: 14px; }
-progress { width: 100%; }
-progress:after { content: '%'; }
-.fail { background: #c00; padding: 2px; color: #fff; }
-
-a:link {text-decoration:none;}
-a:visited {text-decoration:none;}
-a:hover {text-decoration:underline;}
-a:active {text-decoration:underline;}
-
-.image {
-  height: 24px;
-}
-
-</style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="<!-- @var HOMEPAGE -->lib/semantic-ui/build/packaged/css/semantic.css">
+  <link rel="stylesheet" type="text/css" href="<!-- @var HOMEPAGE -->lib/select2/select2.css">
+  <link rel="stylesheet" href="<!-- @var HOMEPAGE -->lib/jquery-ui/themes/ui-lightness/jquery-ui.css" />
+  <link rel="stylesheet" href="<!-- @var HOMEPAGE -->lib/jstree/dist/themes/default/style.min.css" />
+  <link rel="stylesheet" href="<!-- @var HOMEPAGE -->__wm/lib/d3plus/d3plus.css" />
+  <link rel="stylesheet" href="<!-- @var HOMEPAGE -->__wm/lib/nvd3/nv.d3.css" />
+  <link rel="stylesheet" href="<!-- @var HOMEPAGE -->__wm/dashboard.css" />
 </head>
 <body>
 <div class="ui details overlay right sidebar" style="-moz-box-shadow: 3px 3px 5px 6px #ccc; -webkit-box-shadow: 3px 3px 5px 6px #ccc; box-shadow: 3px 3px 5px 6px #ccc;background-image: url(<!-- @var HOMEPAGE -->__wm/mesh.png)">
@@ -52,12 +32,12 @@ a:active {text-decoration:underline;}
 </div>
 <div class="ui content">
   <div class="main fluid ui buttons">
-   <button style="height: 49" title="Search settings" class="ui mini search toggle attached button">
+   <button style="height: 50px" title="Query" class="ui mini search toggle attached button">
       <i class="large search icon"></i>
       <span id="searchCount"><img src="<!-- @var HOMEPAGE -->__wm/loading.gif" alt="loading results" /><span>
     </button>
 
-   <button title="Scraper settings" class="ui scrape toggle attached button">
+   <button title="Search" class="ui scrape toggle attached button">
      <i class="large sitemap icon"></i>
    </button>
 
@@ -78,9 +58,6 @@ a:active {text-decoration:underline;}
   <div class="ui content container">
     <div class="team content hidden">
     include "team.html"
-    </div>
-    <div class="member content hidden">
-    include "member.html"
     </div>
     <div class="search content hidden">
     include "query.html"

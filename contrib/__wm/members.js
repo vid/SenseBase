@@ -16,7 +16,7 @@ fayeClient.subscribe('/teamList', function(teams) {
       (m.class ? '<i class="' + m.class + ' icon"></i>' : 
         '<img style="height: 24px" class="image '  + '" src="<!-- @var HOMEPAGE -->__wm/icons/' + (m.icon || 'mesh.png') + '" alt="' + m.username + '" />') + 
       ' ' + m.username + '</a>';
-    $('.teamlist.segment').prepend(row);
+    $('.teamlist.field').prepend(row);
   });
   for (type in teamTypes) {
     $('.team.container').append('<optgroup label="' + type + '">' + teamTypes[type] + '</optgroup>');
@@ -30,9 +30,9 @@ fayeClient.subscribe('/teamList', function(teams) {
     var id = $(this).attr('id');
     if ($('#lastUsername').val() === id) {
       $('#lastUsername').val('');
-      $('.member.content').hide();
+      $('.member.form').hide();
     } else {
-      $('.member.content').show();
+      $('.member.form').show();
       $('.member.button').removeClass('active');
       $(this).addClass('active');
       showEdit(id);
@@ -64,7 +64,6 @@ function showEdit(username) {
       editingMember = m;
     }
   });
-  // meta searches
   console.log('member', editingMember);
   $('#username').val(editingMember.username);
   $('#lastUsername').val(editingMember.username);

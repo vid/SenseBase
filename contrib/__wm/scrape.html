@@ -1,8 +1,11 @@
-<div class="ui three column stackable page grid">
-  <div class="column">
-    <div class="ui fluid scraping form segment">
+<div class="ui function scraping form">
+  <div class="fields">
+    <div class="two wide function field">
+      <h1 style="text-align: center">Search</h1>
+    </div>
+    <div class="four wide function field">
+      <h3 for="scrapeInput">Input</h3>
       <div class="field">
-        <label for="scrapeInput">Input</label>
         <input id="scrapeInput" style="width: 100%" />
       </div>
       <div class="field">
@@ -15,29 +18,21 @@
           <option>entire site</option>
         </select>
       </div>
+    </div>
+    <div class="four wide function field">
+      <br />
       <div class="field">
-        <label for="scrapeTags">Apply tags</label>
-        <input id="scrapeTags" />
+        <label for="scrapeTeam">Members</h3>
+        <select multiple class="scraping team container" style="width: 100%" id="scrapeTeam"></select>
       </div>
       <div class="field">
-        <div class="ui warning message">
-          <i class="close icon"></i>
-          <div class="header">
-            You must register before you can do that!
-          </div>
-        </div>
-        <button class="ui blue mini scrape submit button">Queue</button>
+        <label for="targetResults">
+          Target results
+        </label>
+        <input size="4" value="10" id="targetResults" />
       </div>
     </div>
-  </div>
-  <div class="column">
-    <div class="ui fluid form segment">
-      <h3 class="heading">Members</h3>
-      <select multiple class="scraping team container" style="width: 100%" id="scrapeTeam"></select>
-    </div>
-  </div>
-  <div class="column">
-    <div class="ui fluid form segment">
+    <div class="four wide field">
       <h3>Persistent search</h3>
       <div class="field">
         <label for="scrapeSave">Name</label> 
@@ -48,8 +43,20 @@
         <input id="scanEvery" disabled class="xspinner" value="once only" size="8" title="when to recheck starting points"> 
         <select disabled style="width: 8em"><option>hours</option><option>days</option></select>
       </div>
-      <h4>Existing scrapes</h4>
-      <div id="existingScrapes">
+    </div>
+    <div class="two wide function field">
+      <div class="field">
+        <label for="scrapeTags">Apply tags</label>
+        <input id="scrapeTags" />
+      </div>
+      <div class="field">
+        <button class="ui blue mini scrape submit button">Queue</button>
+      </div>
+      <div class="inline field">
+        <input type="checkbox" id="refreshScrape" />
+        <label for="refreshScrape">
+          Refresh results
+        </label>
       </div>
     </div>
   </div>
