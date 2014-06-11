@@ -35,19 +35,21 @@ $('.scraping.form').form(
 
 // submit a new scrape
 function submitScrape() {
-  var input = $('#scrapeInput').val(), scrapeContinue = $('#scrapeContinue').val(), scrapeTags = $('#scrapeTags').val().split(','), scrapeTeam = $(".scraping.team.container option:selected").map(function() { return this.value }).get();
+  var targetResults = $('#targetResults').val(), input = $('#scrapeInput').val(), scrapeContinue = $('#scrapeContinue').val(), scrapeTags = $('#scrapeTags').val().split(','), scrapeTeam = $(".scraping.team.container option:selected").map(function() { return this.value }).get();
   // FIXME: SUI validation for select2 field
   if (!scrapeTeam.length) {
     alert('Please select team members');
     return;
   }
-  var data = { input: input, relevance: scrapeContinue, team: scrapeTeam, tags: scrapeTags, member: sbUser};
+  var data = { input: input, relevance: scrapeContinue, team: scrapeTeam, tags: scrapeTags, member: sbUser, targetResults: targetResults};
   console.log('publishing', data, fayeClient);
   fayeClient.publish('/queueSearch', data);
-  $('#annoSearch').val($('#scrapeTags').val());
-//  $('#validationState').val('queued');
-  $('#refreshQueries').prop('checked', true);
-  setupQueryRefresher(5000);
+  if ($('#refreshScrape').prop('checked')) {
+    $('#annoSearch').val($('#scrapeTags').val());
+  //  $('#validationState').val('queued');
+    $('#refreshQueries').prop('checked', true);
+    setupQueryRefresher(5000);
+  }
   doSearch();
 }
 

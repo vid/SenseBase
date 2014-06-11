@@ -4,8 +4,8 @@
       <h1 style="text-align: center">Search</h1>
     </div>
     <div class="four wide function field">
-      <h3 for="scrapeInput">Input</h3>
       <div class="field">
+        <label for="scrapeInput">Input</label>
         <input id="scrapeInput" style="width: 100%" />
       </div>
       <div class="field">
@@ -15,12 +15,11 @@
           <option selected value="1">term within 1 link</option>
           <option value="2">term within 2 links</option>
           <option value="3">term within 3 links</option>
-          <option>entire site</option>
+          <option disabled>entire site</option>
         </select>
       </div>
     </div>
     <div class="four wide function field">
-      <br />
       <div class="field">
         <label for="scrapeTeam">Members</h3>
         <select multiple class="scraping team container" style="width: 100%" id="scrapeTeam"></select>
@@ -53,7 +52,7 @@
         <button class="ui blue mini scrape submit button">Queue</button>
       </div>
       <div class="inline field">
-        <input type="checkbox" id="refreshScrape" />
+        <input type="checkbox" checked id="refreshScrape" />
         <label for="refreshScrape">
           Refresh results
         </label>
