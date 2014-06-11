@@ -32,7 +32,7 @@ $(function() {
   $('.ui.add.button').click(function() { $('#annotateEditor').toggle(); return false;});
 
   $('.details.sidebar').sidebar('hide', { overlay: true});
-  $('.viz.sidebar').sidebar('hide', { });
+  $('.treemap.sidebar').sidebar('hide', { });
   $('.sidebar').sidebar();
 
   $('.member.item').click(function() {
@@ -40,9 +40,9 @@ $(function() {
     $('.member.segment').hide();
   });
 
-  $('.viz.button').click(function() {
-    $('#viz').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
-    $('.viz.sidebar').sidebar('toggle');
+  $('.treemap.button').click(function() {
+    $('#treemap').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
+    $('.treemap.sidebar').sidebar('toggle');
     var options = getSearchOptions();
     fayeClient.publish('/cluster', getSearchOptions());
   });

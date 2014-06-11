@@ -22,16 +22,23 @@
     <div class="column">
       <div class="field">
         <button class="ui blue mini search submit button" id="searchForm">Search</button> &nbsp;
-        <button class="ui mini viz submit button">Cluster</button>
-        <div><select id="validationState">
-          <option value="all">Everything</option>
-          <option value="val">Has validated</option>
-          <option value="unval">Has unvalidated</option>
-          <option value="notann">Not annotated</option>
-          <option value="valOrUnval">Visited, no annotations</option>
-          <option value="queued">Not visited (queued)</option>
-        </select></div>
-        <div><span class="ui checkbox"><input id="refreshQueries" type="checkbox" /> <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label></span></div>
+        <button class="ui mini treemap submit button">Cluster</button>
+        <div class="field">
+          <select id="validationState">
+            <option value="all">Everything</option>
+            <option value="val">Has validated</option>
+            <option value="unval">Has unvalidated</option>
+            <option value="notann">Not annotated</option>
+            <option value="valOrUnval">Visited, no annotations</option>
+            <option value="queued">Not visited (queued)</option>
+          </select>
+        </div>
+        <div class="field">
+          <span class="ui checkbox">
+            <input id="refreshQueries" type="checkbox" />
+            <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label>
+          </span>
+        </div>
       </div>
     </div>
   </div>
