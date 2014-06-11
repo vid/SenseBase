@@ -1,6 +1,6 @@
     <div class="ui member form" style="display: none">
       <div class="fields">
-        <div class="four wide field">
+        <div class="eight wide field">
           <div class="field">
             <label title="Change name by editing this field" for="username">New name</label> <input id="username" size="30" /><input type="hidden" id="lastUsername" />
           </div>
@@ -14,13 +14,13 @@
           <div class="inline fields checkbox">
             <input id="needsValidation" type="checkbox"> <label title="If checked, values stored by this member must be validated by another" for="needsValidation">Needs validation</label>
           </div>
+          <div class="three fields">
+            <button class="ui mini blue button" id="teamUpdate">Update</button>
+            <button class="ui mini red button" id="teamRemove">Remove</button>
+            <button class="ui mini blue button" id="teamCancel">Cancel</button>
+          </div>
         </div>
-        <div class="three fields">
-          <button class="ui mini blue button" id="teamUpdate">Update</button>
-          <button class="ui mini red button" id="teamRemove">Remove</button>
-          <button class="ui mini blue button" id="teamCancel">Cancel</button>
-        </div>
-        <div class="six wide field">
+        <div class="eight wide field">
           <div class="anedit" id="editUser">
             <h2>User</h2>
             <div class="field">
