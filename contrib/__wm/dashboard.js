@@ -31,9 +31,8 @@ $(function() {
   $('.ui.details.toggle.button').click(function() { $('.details.sidebar').sidebar('hide', { overlay: true}); return false;});
   $('.ui.add.button').click(function() { $('#annotateEditor').toggle(); return false;});
 
-  $('.details.sidebar').sidebar('hide', { overlay: true});
-  $('.treemap.sidebar').sidebar('hide', { });
-  $('.sidebar').sidebar();
+  $('.sidebar').sidebar('hide');
+  $('.details.sidebar').sidebar({ onShow : function() { $('.details.item i').addClass('inverted');  }, onHide : function() { $('.details.item i').removeClass('inverted'); }});
 
   $('.member.item').click(function() {
     $('.member.item').removeClass('active');
