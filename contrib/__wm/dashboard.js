@@ -1,7 +1,9 @@
 var resultViews = {}, resultView, annoSub; 
 var sbUser = window.senseBase.user;
 var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
-var treeInterface = { hover: function(anno) {}, select: function(anno) {} };
+var treeInterface = { hover: function(anno) {}, select: function(anno, e, data) {
+    console.log(anno, e, data);
+  } };
 
 var mainSize = 0, fluidSizes = ['four', 'five', 'six', 'seven']; // fluid sizes for main ui
 $(function() {
@@ -188,6 +190,5 @@ function setCurrentURI(u) {
   });
 
 }
-
 
 include "displayAnnoTree.js"

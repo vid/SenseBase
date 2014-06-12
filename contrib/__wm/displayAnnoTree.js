@@ -85,10 +85,10 @@ function displayAnnoTree(annotations, uri) {
   $('#treeContainer').html('<div id="annoTree"></div>');
   $('#annoTree').on('hover_node.jstree', function(e, data) {
     var anno = treeItems.get(data.node.id);
-    treeInterface.hover(anno);
+    treeInterface.hover(anno, e, data);
   }).on('select_node.jstree', function(e, data) {
     var anno = treeItems.get(data.node.id);
-    treeInterface.select(anno);
+    treeInterface.select(anno, e, data);
   }).jstree({
     core : { data: treeRoot },
     plugins : [ "search", "types", "wholerow" ],

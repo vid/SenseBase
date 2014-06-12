@@ -1,32 +1,24 @@
 <div id="annotateBar" style="background-color: #ffe">
-  <br style="clear: both" />
-  <div>Filter <input id="treeFilter"></div>
-  <div id="treeContainer" style="overflow: auto; padding: 4px">
+  <div id="annotateEditor" class="ui form">
+    <div class="annotation edit field">
+      <label for="annoValue">Value</label>
+      <input name="annoValue" id="annoValue" style="width: 100%" />
+    </div>
+    <div class="inline annotation edit two fields">
+      <label for="annoType">Type</label>
+      <select id="annoType"><option selected>category</option></select>
+      <i class="triangle right icon"></i><span class="children count">9</span>
+    </div>
+    <br />
+    <div class="field">
+      <div class="three fluid ui icons buttons">
+        <div class="ui button"><i class="green checked checkbox icon"></i></div>
+        <div class="ui button"><i class="yellow empty checkbox icon"></i></div>
+        <div class="ui button"><i class="red eraser icon"></i></div>
+      </div>
+    </div>
   </div>
-  <div id="annotateEditor" class="editor" style="display: none">
-    <form>
-      <input type="hidden" id="annoQuote" />
-      <fieldset>
-        <div id="schemas">
-        </div>
-        <div>
-          <label for="annoValue">Value</label>
-          <input name="annoValue" id="annoValue" style="width: 100%" />
-        </div>
-        <div>
-          <label for="types">Type</label>
-          <select id="annoType"><option>category</option></select>
-        </div>
-        <div>
-          <label for="annoDesc">Description</label>
-          <textarea style="width: 100%" name="annoDesc" id="annoDesc" class="text ui-widget-content ui-corner-all" /></textarea>
-        </div>
-        <div>      
-          <button id="annoSave">Save</button>
-          <button id="annoErase">Erase</button>
-          <span style="float: right"><button id="annoCancel">Cancel</button></span>
-        </div>
-      </fieldset>
-    </form>
+  <div style="border-top: 1px dotted grey">Filter <input id="treeFilter"></div>
+  <div id="treeContainer" style="overflow: auto; padding: 4px">
   </div>
 </div>
