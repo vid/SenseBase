@@ -1,24 +1,35 @@
-<div id="annotateBar" style="background-color: #ffe">
-  <div id="annotateEditor" class="ui form">
+<div id="annotateBar" style="background: #ddd">
+  <div id="annotateEditor" class="ui form" style="padding: 4px">
+    <div class="inline annotation edit two fields">
+      <label for="annoType">Type</label>
+      <select id="annoType"><option selected>category</option></select>
+      <span class="annotation children" style="display: none">
+        <i class="triangle right icon"></i><span class="count">9</span>
+      </span>
+    </div>
     <div class="annotation edit field">
       <label for="annoValue">Value</label>
       <input name="annoValue" id="annoValue" style="width: 100%" />
     </div>
-    <div class="inline annotation edit two fields">
-      <label for="annoType">Type</label>
-      <select id="annoType"><option selected>category</option></select>
-      <i class="triangle right icon"></i><span class="children count">9</span>
-    </div>
-    <br />
     <div class="field">
-      <div class="three fluid ui icons buttons">
-        <div class="ui button"><i class="green checked checkbox icon"></i></div>
-        <div class="ui button"><i class="yellow empty checkbox icon"></i></div>
-        <div class="ui button"><i class="red eraser icon"></i></div>
+      <div class="three ui buttons" style="float: left">
+        <div class="mini ui button"><i class="green checked checkbox icon"></i></div>
+        <div class="mini ui button"><i class="yellow empty checkbox icon"></i></div>
+        <div class="mini ui button"><i class="red eraser icon"></i></div>
       </div>
+      <div class="two ui buttons" style="float: right">
+        <div class="mini ui button"><i class="info icon"></i></div>
+        <div class="mini ui button"><i class="filter icon"></i></div>
+      </div>
+      <br style="clear: both" />
     </div>
   </div>
-  <div style="border-top: 1px dotted grey">Filter <input id="treeFilter"></div>
-  <div id="treeContainer" style="overflow: auto; padding: 4px">
+  <div class="ui form" style="background: #ffe; padding: 4px; padding-bottom: 0px">
+    <div class="inline field">
+      <label for="treeFilter">Filter</label>
+      <input id="treeFilter">
+    </div>
+    <div id="treeContainer" style="font-size: 80%; overflow: auto; padding: 4px">
+  </div>
   </div>
 </div>

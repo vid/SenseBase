@@ -1,9 +1,30 @@
 var resultViews = {}, resultView, annoSub; 
 var sbUser = window.senseBase.user;
 var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
-var treeInterface = { hover: function(anno) {}, select: function(anno, e, data) {
-    console.log(anno, e, data);
-  } };
+var treeInterface = { 
+  hover: function(anno) {}, 
+  select: function(anno, e, data) {
+    // selected an annotation
+    if (anno) {
+      console.log(anno);
+      $('#annoType option:contains(anno.type)').prop('selected', true);
+      // for now categories only
+      $('#annoValue').val(anno.text);
+      $('.filter.icon').click(function() {
+        console.log('filtering on', anno.text);
+        $('#annoSearch').val('category:'+anno.text);
+        doSearch();
+      });
+    }
+    // it has children
+    if (data.node.children.length < 1) {
+      $('.annotation.children').hide();
+    } else {
+      $('.annotation.children').show();
+      $('.annotation.children .count').html(data.node.children.length);
+    }
+  } 
+};
 
 var mainSize = 0, fluidSizes = ['four', 'five', 'six', 'seven']; // fluid sizes for main ui
 $(function() {
@@ -141,8 +162,10 @@ $(function() {
       console.log('DROP', this, event, ui);
       window.ee = ui;
     } });
+  // needed by filter
   doSearch();
   $('.team.container').select2();
+  window.doSearch = doSearch;
 
   include "results.js"
   include "members.js"
