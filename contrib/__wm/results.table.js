@@ -73,11 +73,14 @@ resultViews.table = function(dest, results) {
     'Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table>');
     var count = 0;
     results.hits.hits.forEach(function(r) {
-      var v = r.fields || r._source;
+      var v = r.fields || r._source, highlight = '';
+      if (r.highlight) {
+        highlight = r.highlight.text;
+      }
       var rankVal = r._score ? r._score : ++count;
       var row = '<tr class="selectRow" id="' + encID(v.uri) + '"><td data-sort-value="' + rankVal + '"><input class="selectItem" type="checkbox" name="cb_' + encID(v.uri) + '" />' + rankVal + '</td><td data-sort-value="' + v.title + '">' +
         '<div><a href="javascript:void(0)"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' + 
-        '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div>'+
+        '<a class="selectURI" href="'+ v.uri + '">' + shortenURI(v.uri) + '</a></div>' + highlight +
   '</td><td class="rowVisitors" data-sort-value="' + (v.visitors ? v.visitors.length : 0) + '">';
       // roll up visitors
       if (v.visitors) {
