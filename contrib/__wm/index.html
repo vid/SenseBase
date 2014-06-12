@@ -11,19 +11,17 @@
 </head>
 <body>
 <div class="ui details overlay right sidebar" style="-moz-box-shadow: 3px 3px 5px 6px #ccc; -webkit-box-shadow: 3px 3px 5px 6px #ccc; box-shadow: 3px 3px 5px 6px #ccc;background-image: url(<!-- @var HOMEPAGE -->__wm/mesh.png)">
-  <div class="three fluid ui buttons">
-    <button title="Annotations" class="ui mini annotations attached button">
-      <i class="large edit icon"></i>
-      <span id="annotationCount"><img src="<!-- @var HOMEPAGE -->__wm/loading.gif" alt="loading results" /><span>
-    </button>
-    <div title="More options" class="ui mini context attached dropdown button">
-      <i class="large reorder icon"></i>
-      <div id="itemContext" class="menu">
-      </div>
+  <div class="five fluid ui buttons">
+    <div title="More options" class="ui context mini dropdown button">
+      <i class="reorder icon"></i>
+      <div id="itemContext" class="menu"></div>
     </div>
-   <button title="New annotation" class="ui mini add attached button">
-      <i class="large add icon"></i>
-    </button>
+    <div class="ui mini button"><i class="green checked checkbox icon"></i></div>
+    <div class="ui mini button"><i class="yellow empty checkbox icon"></i></div>
+    <div class="ui mini button"><i class="red eraser icon"></i></div>
+    <div title="New annotation" class="ui mini add button">
+      <i class="add icon"></i>
+    </div>
   </div>
   include "iframe-contents.html"
 </div>

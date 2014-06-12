@@ -10,9 +10,15 @@ var treeInterface = {
       $('#annoType option:contains(anno.type)').prop('selected', true);
       // for now categories only
       $('#annoValue').val(anno.text);
+      $('#annoBy').val(anno.annotatedBy);
+      $('#annotatedAt').html(anno.annotatedAt || '&nbsp;');
       $('.filter.icon').click(function() {
-        console.log('filtering on', anno.text);
-        $('#annoSearch').val('category:'+anno.text);
+        console.log(anno, 'filtering on', this);
+        if ($(this).hasClass('by')) {
+          $('#annoMember').val('"' + anno.annotatedBy + '"');
+        } else {
+          $('#annoSearch').val('category:"' + anno.text + '"');
+        }
         doSearch();
       });
     }
