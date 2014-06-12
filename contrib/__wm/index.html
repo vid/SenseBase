@@ -31,7 +31,7 @@
 <div class="ui content">
   <div class="main fluid ui buttons">
    <button style="height: 50px" title="Query" class="ui mini search toggle attached button">
-      <i class="large search icon"></i>
+      <i class="large filter icon"></i>
       <span id="searchCount"><img src="<!-- @var HOMEPAGE -->__wm/loading.gif" alt="loading results" /><span>
     </button>
 
@@ -79,6 +79,12 @@
     </div>
     <progress class="hidden" id="uploadprogress" min="0" max="100" value="0">0</progress>
     <div class="ui tiny selected menu" style="margin: 2px">
+      <a class="item">
+        <div class="ui small query icon input">
+          <input id="termSearch" type="text" placeholder="Query...">
+          <i class="search icon query submit"></i>
+        </div>
+      </a>
       <div class="ui red selected label" style="margin-left: 4px; width: 3em; text-align: center">0</div>
       <a class="selectall item">
         <i class="checkmark icon"></i>

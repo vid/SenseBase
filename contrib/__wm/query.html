@@ -1,20 +1,16 @@
   <div class="ui function form">
     <div class="fields">
-      <div class="two wide field">
-        <h1 style="text-align: center">Query</h1>
+      <div class="two wide function field">
+        <h1 style="text-align: center">Filter</h1>
        </div>
       <div class="three wide function field">
-        <label for="termSearch">Terms</label>
-        <input id="termSearch" />
-      </div>
-      <div class="three wide function field">
         <label for="annoMember">Member</label>
-        <input id="annoMember" />
+        <input class="query input" id="annoMember" />
         <select id="annotationState"><option value="visited">Visited</option><option value="requested">Annotation requested</option><option value="provided">Annotation provided</option></select>
       </div>
       <div class="three wide function field">
         <label for="annoSearch">Annotations</label>
-        <input id="annoSearch" />
+        <input class="query input" id="annoSearch" />
       </div>
       <div class="three wide function field">
         <div class="inline field">
@@ -27,16 +23,18 @@
             <option value="queued">Not visited (queued)</option>
           </select>
         </div>
-        <div class="three wide function field">
+        <div class="field">
           <span class="ui checkbox">
             <input id="refreshQueries" type="checkbox" />
             <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label>
           </span>
         </div>
       </div>
+      <div class="three wide field">
+      </div>
       <div class="two wide function field">
         <div class="field">
-          <button class="ui blue mini search submit button" id="searchForm">Search</button> &nbsp;
+          <button class="ui blue mini query submit button" id="searchForm">Search</button> &nbsp;
         </div>
         <div class="field">
           <button class="ui mini treemap submit button">Cluster</button>

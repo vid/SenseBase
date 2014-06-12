@@ -65,10 +65,10 @@ fayeClient.subscribe('/updateItem', function(result) {
 });
 
 // set up form
-$('.search input').keyup(function(e) {
+$('.query input').keyup(function(e) {
   if(e.keyCode == 13) doSearch();
 });
-$('.search.submit').click(function(event) {
+$('.query.submit').click(function(event) {
   doSearch();
 });
 
