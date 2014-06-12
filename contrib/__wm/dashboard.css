@@ -39,6 +39,14 @@ table {
   overflow: auto;
 }
 
+.selectURI.uri {
+  color: #aaf;
+}
+
+.highlighted {
+  color: #222;
+}
+
 a {
   color: blue;
 }
