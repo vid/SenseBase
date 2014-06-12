@@ -9,8 +9,13 @@ resultViews.scatter = function(dest, results) {
 
       for (j = 0; j < results.hits.hits.length; j++) {
         var hit = results.hits.hits[j]._source;
-        var annos = hit.annotationSummary ? (hit.annotationSummary.validated + hit.annotationSummary.unvalidated): 1;
-        var annosVal = hit.annotationSummary.validated ? hit.annotationSummary.validated : 1;
+        if (hit.annotationSummary) {
+          var annos = hit.annotationSummary.validated + hit.annotationSummary.unvalidated + 1;
+          var annosVal = hit.annotationSummary.validated + 1;
+        } else {
+          annos = 1;
+          annosVal = 1;
+        }
         annos = random(); //FIXME
 
         cur.values.push({
