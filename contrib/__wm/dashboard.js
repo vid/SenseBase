@@ -85,16 +85,6 @@ $(function() {
     $('.member.statistics.segment').show();
   });
 
-  $('.ui.confirm.delete.button').click(function() { 
-    var selected = [];
-    $('.selectItem').each(function() {
-      if ($(this).is(':checked')) {
-        selected.push(deEncID($(this).attr('name').replace('cb_', '')));
-      }
-    });
-    fayeClient.publish('/delete', { selected: selected});
-    return false;
-  });
 
 //  $(document).tooltip();
 // input element
@@ -127,8 +117,43 @@ $(function() {
     }
   }
 
+// annotate selected
+  $('.annotate.item').click(function() {
+    if ($('.selected.label').text() > 0) {
+      $('.ui.annotate.modal').modal('show');
+    }
+  });
+
+  $('.ui.confirm.annotate.button').click(function() { 
+    var selected = [];
+    $('.selectItem').each(function() {
+      if ($(this).is(':checked')) {
+        selected.push(deEncID($(this).attr('name').replace('cb_', '')));
+      }
+    });
+    var annotations = $('#selectedAnnotations').val().split(',');
+    if (annotations.length) {
+      fayeClient.publish('/saveAnnotations', { uris: selected, annotatedBy: sbUser, annotations: annotations});
+      return false;
+    }
+  });
+
+// delete selected
   $('.delete.item').click(function() {
-    $('.ui.modal').modal('show');
+    if ($('.selected.label').text() > 0) {
+      $('.ui.delete.modal').modal('show');
+    }
+  });
+
+  $('.ui.confirm.delete.button').click(function() { 
+    var selected = [];
+    $('.selectItem').each(function() {
+      if ($(this).is(':checked')) {
+        selected.push(deEncID($(this).attr('name').replace('cb_', '')));
+      }
+    });
+    fayeClient.publish('/delete', { selected: selected});
+    return false;
   });
 
   $('.details.item').click(function() {
@@ -206,16 +231,18 @@ function setCurrentURI(u) {
   }
   // receive annotations
   annoSub = fayeClient.subscribe('/annotations', function(data) {
-    var annotations = data.annotations, uri = data.uri;
-    // it's not current but needs to be updated
-    if (uri !== currentURI) {
-      //FIXME should only update if its in current results
-      console.log('/annotations not current uri', uri, currentURI);
-      return;
-    }
-    console.log('/annotations updating current', data);
-  // it's our current item, display
-    displayAnnoTree(annotations, uri, treeInterface);
+    var annotations = data.annotations, uris = data.uris;
+    data.uris.forEach(function(uri) {
+      // it's not current but needs to be updated
+      if (uri !== currentURI) {
+        //FIXME should only update if its in current results
+        console.log('/annotations not current uri', uri, currentURI);
+        return;
+      }
+      console.log('/annotations updating current', data);
+    // it's our current item, display
+      displayAnnoTree(annotations, uri, treeInterface);
+    });
   });
 
 }

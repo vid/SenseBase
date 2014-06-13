@@ -92,8 +92,8 @@
       <a class="invert item">
         <i class="checkmark sign icon"></i> 
       </a>
-      <a class="download item">
-        <i class="download icon"></i>
+      <a class="annotate item">
+        <i class="tag icon"></i>
       </a>
       <a class="delete item">
         <i class="trash icon"></i> 
@@ -127,6 +127,22 @@
   </div>
 </div>
 
+<div class="ui annotate modal hidden form">
+  <div class="content">
+    <div class="message">
+      <label for="selectedAnnotations">Annotate selected?</label>
+    </div>
+    <br />
+    <div class="ui left labeled icon input">
+      <i class="pencil icon"></i>
+      <input id="selectedAnnotations" />
+    </div>
+  </div>
+  <div class="actions">
+    <button class="ui button">Cancel</button>
+    <button class="ui confirm annotate button">Yes</button>
+  </div>
+</div>
 </body>
 <script src="<!-- @var HOMEPAGE -->lib/jquery/dist/jquery.js"></script>
 <script src="<!-- @var HOMEPAGE -->__wm/lib/jquery.address.js"></script>
