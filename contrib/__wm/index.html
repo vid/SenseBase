@@ -16,9 +16,9 @@
       <i class="reorder icon"></i>
       <div id="itemContext" class="menu"></div>
     </div>
-    <div class="ui mini button"><i class="green checked checkbox icon"></i></div>
-    <div class="ui mini button"><i class="yellow empty checkbox icon"></i></div>
-    <div class="ui mini button"><i class="red eraser icon"></i></div>
+    <div title="Validate annotation" class="ui mini button"><i class="green checked checkbox icon"></i></div>
+    <div title="Unvalidated annotation" class="ui mini button"><i class="yellow empty checkbox icon"></i></div>
+    <div title="Erase annotation" class="ui mini button"><i class="red eraser icon"></i></div>
     <div title="New annotation" class="ui mini add button">
       <i class="add icon"></i>
     </div>
@@ -39,26 +39,23 @@
     <div class="scrape content hidden">
     include "scrape.html"
     </div>
-    <div class="settings content hidden">
-    include "settings.html"
-    </div>
+
     <div id="uploadInfo" class="hidden">
       <p id="upload" class="hidden"><label>Your browser doesn't support drag & drop, but you can still upload via this input field:<br /><input type="file"></label></p>
       <p id="filereader">File API & FileReader API not supported</p>
       <p id="formdata">XHR2's FormData is not supported</p>
       <p id="progress">XHR2's upload progress isn't supported</p>
     </div>
-
     <progress class="hidden" id="uploadprogress" min="0" max="100" value="0">0</progress>
 
     <div class="ui grey mini menu" style="margin: 2px">
-      <a title="Team" class="ui team toggle item">
+      <a title="Show team" class="ui team toggle item">
         <i class="users icon"></i>
       </a>
-      <a title="Search" class="ui scrape toggle item">
+      <a title="Show search" class="ui scrape toggle item">
         <i class="sun icon"></i>
       </a>
-      <a title="Query" class="ui search toggle item">
+      <a title="Show query filters" class="ui search toggle item">
         <i class="filter icon"></i>
         <span id="searchCount"><img src="<!-- @var HOMEPAGE -->__wm/loading.gif" alt="loading results" /><span>
       </a>
@@ -71,25 +68,25 @@
       <div class="item">
         <div class="ui red selected label">0</div>
       </div>
-      <a class="select all item">
+      <a title="Select all" class="select all item">
         <i class="checkmark icon"></i>
       </a>
-      <a class="select invert item">
+      <a title="Invert selection" class="select invert item">
         <i class="checkmark sign icon"></i> 
       </a>
-      <a class="disabled annotate requires selected item">
+      <a title="Annotate selected items" class="disabled annotate requires selected item">
         <i class="tag icon"></i>
       </a>
-      <a class="disabled delete requires selected item">
+      <a title="Delete selected items" class="disabled delete requires selected item">
         <i class="trash icon"></i> 
       </a>
-      <a class="details toggle item">
+      <a title="Toggle item details" class="details toggle item">
         <i class="edit icon"></i> 
       </a>
-      <a class="graph item">
+      <a title="Toggle items visualisation" class="graph item">
         <i class="unhide icon"></i> 
       </a>
-      <div class="right menu">
+      <div title="Sign out" class="right menu">
         <a class="signout item">
           <i class="sign out icon"></i> 
         </a>
