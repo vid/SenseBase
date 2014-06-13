@@ -41,15 +41,15 @@ $(function() {
 
   // main menu interaction
 
-  $('.search.toggle').click(function() { $('.search.content').toggle('hidden'); $('.search.toggle').toggleClass('active');});
-  $('.scrape.toggle').click(function() { $('.scrape.content').toggle('hidden'); $('.scrape.toggle').toggleClass('active'); });
-  $('.team.toggle').click(function() { $('.team.content').toggle('hidden'); $('.team.toggle').toggleClass('active'); $('.member.content').hide(); $('#lastUsername').val(''); /* FIXME move to members.js */ });
+  $('.search.toggle').click(function() { $('.search.content').toggle('hidden'); $('.search.toggle').toggleClass('active green');});
+  $('.scrape.toggle').click(function() { $('.scrape.content').toggle('hidden'); $('.scrape.toggle').toggleClass('active green'); });
+  $('.team.toggle').click(function() { $('.team.content').toggle('hidden'); $('.team.toggle').toggleClass('active green'); $('.member.content').hide(); $('#lastUsername').val(''); /* FIXME move to members.js */ });
   $('.details.toggle').click(function() { $('.details.content').toggle('hidden'); $('.details.toggle').toggleClass('active'); });
 
 
   $('.sidebar').sidebar('hide');
   $('.details.sidebar').sidebar({ overlay: true});
-  $('.details.sidebar').sidebar({ onShow : function() { $('.details.toggle').addClass('active');  }, onHide : function() { $('.details.toggle').removeClass('active'); }});
+  $('.details.sidebar').sidebar({ onShow : function() { $('.details.toggle').addClass('active green');  }, onHide : function() { $('.details.toggle').removeClass('active'); }});
 
   $('.add.button').click(function() { $('#annotateEditor').toggle(); return false;});
   $('.member.item').click(function() {
@@ -145,7 +145,7 @@ $(function() {
     return false;
   });
 
-  $('.details.item').click(function() {
+  $('.details.toggle').click(function() {
     $('.details.sidebar').sidebar('toggle');
   });
 

@@ -54,6 +54,8 @@ resultViews.table = function(dest, results) {
         hasSelected++;
       }
     });
+
+    $('.requires.selected').toggleClass('disabled', !(hasSelected > 0));
     $('.selected.label').html(hasSelected);
   } 
 
