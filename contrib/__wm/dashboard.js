@@ -39,30 +39,19 @@ $(function() {
   window.myID = sbUser + new Date().getTime();
   console.log('myID', window.myID);
 
-  if (window.senseBase.logo) {
-    $('<button style="height: 56px" title="Logo" class="ui mini logo attached button"> <img src="' + window.senseBase.logo + '" style="width: 100%" /></button>').prependTo('.main.fluid.buttons');
-    $('.ui.logo.button').click(function() { window.location = window.senseBase.homepage;  });
-    mainSize++;
-  }
-  if (window.senseBase.collab) {
-    $('<button title="Conversations" class="ui collab attached button"><i class="large chat icon"></i></button>').appendTo('.main.fluid.buttons');
-    $('.ui.collab.button').click(function() { TogetherJS(this); return false; });
-    mainSize++;
-  }
+  // main menu interaction
 
-  $('.main.fluid.buttons').addClass(fluidSizes[mainSize]);
+  $('.search.toggle').click(function() { $('.search.content').toggle('hidden'); $('.search.toggle').toggleClass('active');});
+  $('.scrape.toggle').click(function() { $('.scrape.content').toggle('hidden'); $('.scrape.toggle').toggleClass('active'); });
+  $('.team.toggle').click(function() { $('.team.content').toggle('hidden'); $('.team.toggle').toggleClass('active'); $('.member.content').hide(); $('#lastUsername').val(''); /* FIXME move to members.js */ });
+  $('.details.toggle').click(function() { $('.details.content').toggle('hidden'); $('.details.toggle').toggleClass('active'); });
 
-  $('.ui.search.toggle.button').click(function() { $('.search.content').toggle('hidden'); $('.ui.search.toggle.button').toggleClass('active');});
-  $('.ui.scrape.toggle.button').click(function() { $('.scrape.content').toggle('hidden'); $('.ui.scrape.toggle.button').toggleClass('active'); });
-  $('.ui.team.toggle.button').click(function() { $('.team.content').toggle('hidden'); $('.ui.team.toggle.button').toggleClass('active'); $('.member.content').hide(); $('#lastUsername').val(''); /* FIXME move to members.js */ });
-  $('.ui.lab.toggle.button').click(function() { $('.lab.content').toggle('hidden'); $('.ui.lab.toggle.button').toggleClass('active');  });
-  $('.ui.settings.toggle.button').click(function() { $('.settings.content').toggle('hidden'); $('.ui.settings.toggle.button').toggleClass('active');  });
-  $('.ui.details.toggle.button').click(function() { $('.details.sidebar').sidebar('hide', { overlay: true}); return false;});
-  $('.ui.add.button').click(function() { $('#annotateEditor').toggle(); return false;});
 
   $('.sidebar').sidebar('hide');
-  $('.details.sidebar').sidebar({ onShow : function() { $('.details.item i').addClass('inverted');  }, onHide : function() { $('.details.item i').removeClass('inverted'); }});
+  $('.details.sidebar').sidebar({ overlay: true});
+  $('.details.sidebar').sidebar({ onShow : function() { $('.details.toggle').addClass('active');  }, onHide : function() { $('.details.toggle').removeClass('active'); }});
 
+  $('.add.button').click(function() { $('#annotateEditor').toggle(); return false;});
   $('.member.item').click(function() {
     $('.member.item').removeClass('active');
     $('.member.segment').hide();
@@ -118,13 +107,13 @@ $(function() {
   }
 
 // annotate selected
-  $('.annotate.item').click(function() {
+  $('.annotate.selected').click(function() {
     if ($('.selected.label').text() > 0) {
-      $('.ui.annotate.modal').modal('show');
+      $('.annotate.modal').modal('show');
     }
   });
 
-  $('.ui.confirm.annotate.button').click(function() { 
+  $('.confirm.annotate.button').click(function() { 
     var selected = [];
     $('.selectItem').each(function() {
       if ($(this).is(':checked')) {
@@ -139,13 +128,13 @@ $(function() {
   });
 
 // delete selected
-  $('.delete.item').click(function() {
+  $('.delete.selected').click(function() {
     if ($('.selected.label').text() > 0) {
-      $('.ui.delete.modal').modal('show');
+      $('.delete.modal').modal('show');
     }
   });
 
-  $('.ui.confirm.delete.button').click(function() { 
+  $('.confirm.delete.button').click(function() { 
     var selected = [];
     $('.selectItem').each(function() {
       if ($(this).is(':checked')) {
@@ -175,12 +164,12 @@ $(function() {
     updateResults(lastResults);
   });
 
-  $('.selectall.item').click(function() {
+  $('.select.all').click(function() {
     $('.selectItem').prop('checked', true);
     checkSelected();
   });
 
-  $('.invert.item').click(function() {
+  $('.select.invert').click(function() {
     $('.selectItem').each(function() {
       $(this).prop('checked', !$(this).prop('checked'));
     });
@@ -231,18 +220,16 @@ function setCurrentURI(u) {
   }
   // receive annotations
   annoSub = fayeClient.subscribe('/annotations', function(data) {
-    var annotations = data.annotations, uris = data.uris;
-    data.uris.forEach(function(uri) {
-      // it's not current but needs to be updated
-      if (uri !== currentURI) {
-        //FIXME should only update if its in current results
-        console.log('/annotations not current uri', uri, currentURI);
-        return;
-      }
-      console.log('/annotations updating current', data);
-    // it's our current item, display
-      displayAnnoTree(annotations, uri, treeInterface);
-    });
+    var annotations = data.annotations, uri = data.uri;
+    // it's not current but needs to be updated
+    if (uri !== currentURI) {
+      //FIXME should only update if its in current results
+      console.log('/annotations not current uri', uri, currentURI);
+      return;
+    }
+    console.log('/annotations updating current', data);
+  // it's our current item, display
+    displayAnnoTree(annotations, uri, treeInterface);
   });
 
 }

@@ -29,30 +29,6 @@
   <div id="treemap" style="width: 100%; height: 98%"></div>
 </div>
 <div class="ui content">
-  <div class="main fluid ui buttons">
-   <button style="height: 50px" title="Query" class="ui mini search toggle attached button">
-      <i class="large filter icon"></i>
-      <span id="searchCount"><img src="<!-- @var HOMEPAGE -->__wm/loading.gif" alt="loading results" /><span>
-    </button>
-
-   <button title="Search" class="ui scrape toggle attached button">
-     <i class="large sun icon"></i>
-   </button>
-
-   <button title="Team" class="ui team toggle attached button">
-     <i class="large users icon"></i>
-   </button>
-
-<!--
-   <button title="Lab" class="ui lab toggle attached button">
-     <i class="large lab icon"></i>
-   </button>
--->
-
-   <button title="Settings" class="ui settings toggle attached button">
-     <i class="large settings icon"></i>
-   </button>
-  </div>
   <div class="ui content container">
     <div class="team content hidden">
     include "team.html"
@@ -66,39 +42,48 @@
     <div class="settings content hidden">
     include "settings.html"
     </div>
-    <!--
-    <div class="lab content hidden">
-    <iframe style="width: 100%; height: 100%" src="/lab"></iframe>
-    </div>
-    -->
     <div id="uploadInfo" class="hidden">
       <p id="upload" class="hidden"><label>Your browser doesn't support drag & drop, but you can still upload via this input field:<br /><input type="file"></label></p>
       <p id="filereader">File API & FileReader API not supported</p>
       <p id="formdata">XHR2's FormData is not supported</p>
       <p id="progress">XHR2's upload progress isn't supported</p>
     </div>
+
     <progress class="hidden" id="uploadprogress" min="0" max="100" value="0">0</progress>
-    <div class="ui tiny selected menu" style="margin: 2px">
-      <a class="item">
+
+    <div class="ui selected mini menu" style="margin: 2px">
+      <a title="Team" class="ui team toggle item">
+        <i class="users icon"></i>
+      </a>
+      <a title="Search" class="ui scrape toggle item">
+        <i class="sun icon"></i>
+      </a>
+      <a title="Query" class="ui search toggle item">
+        <i class="filter icon"></i>
+        <span id="searchCount"><img src="<!-- @var HOMEPAGE -->__wm/loading.gif" alt="loading results" /><span>
+      </a>
+      <div class="item">
         <div class="ui small query icon input">
-          <input id="termSearch" type="text" placeholder="Query...">
+          <input id="termSearch" type="text" placeholder="Query..." />
           <i class="search icon query submit"></i>
         </div>
-      </a>
-      <div class="ui red selected label" style="margin-left: 4px; width: 3em; text-align: center">0</div>
-      <a class="selectall item">
+      </div>
+      <div class="item">
+        <div class="ui red selected label" style="margin-left: 9px; margin-right: 9px">0</div>
+      </div>
+      <a class="select all item">
         <i class="checkmark icon"></i>
       </a>
-      <a class="invert item">
+      <a class="select invert item">
         <i class="checkmark sign icon"></i> 
       </a>
-      <a class="annotate item">
+      <a class="disabled annotate requires selected item">
         <i class="tag icon"></i>
       </a>
-      <a class="delete item">
+      <a class="disabled delete requires selected item">
         <i class="trash icon"></i> 
       </a>
-      <a class="details item">
+      <a class="grey details toggle item">
         <i class="edit icon"></i> 
       </a>
       <a class="graph item">
