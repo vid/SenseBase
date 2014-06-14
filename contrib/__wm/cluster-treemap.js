@@ -18,7 +18,7 @@ function doTreemap(data) {
 
 console.log(d3plus.viz);
   var visualization = d3plus.viz()
-    .container("#treemap")  // container DIV to hold the visualization
+    .container("#browse")  // container DIV to hold the visualization
     .data(data)  // data to use with the visualization
     .type("tree_map")   // visualization type
     .id("label")         // key for which our data is unique on
@@ -26,4 +26,4 @@ console.log(d3plus.viz);
     .size("size")      // sizing of blocks
     .draw();             // finally, draw the visualization!
 }
-d3.select('#treemap').on('click', selectCluster);
+d3.select('#browse').on('click', selectCluster);

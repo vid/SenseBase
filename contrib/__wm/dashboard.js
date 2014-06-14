@@ -58,8 +58,8 @@ $(function() {
   });
 
   $('.treemap.button').click(function() {
-    $('#treemap').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
-    $('.treemap.sidebar').sidebar('toggle');
+    $('#browse').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
+    $('.browse.sidebar').sidebar('toggle');
     var options = getSearchOptions();
     fayeClient.publish('/cluster', getSearchOptions());
   });
