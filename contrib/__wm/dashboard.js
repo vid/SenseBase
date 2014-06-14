@@ -46,6 +46,7 @@ $(function() {
   $('.team.toggle').click(function() { $('.team.content').toggle('hidden'); $('.team.toggle').toggleClass('active'); $('.member.content').hide(); $('#lastUsername').val(''); /* FIXME move to members.js */ });
   $('.details.toggle').click(function() { $('.details.content').toggle('hidden'); $('.details.toggle').toggleClass('active'); });
 
+   $('.selected.dropdown').dropdown('hide');
 
   $('.sidebar').sidebar('hide');
   $('.details.sidebar').sidebar({ overlay: true});

@@ -30,37 +30,27 @@
 </div>
 <div class="ui content">
   <div class="ui grey mini menu" style="margin: 2px">
-    <a title="Show team" class="ui team toggle item">
-      <i class="users icon"></i>
-    </a>
-    <a title="Show search" class="ui scrape toggle item">
-      <i class="sun icon"></i>
-    </a>
-    <a title="Show query filters" class="ui search toggle item">
-      <i class="filter icon"></i>
-      <span id="searchCount"><img src="<!-- @var HOMEPAGE -->__wm/loading.gif" alt="loading results" /><span>
-    </a>
-    <div class="item">
-      <div class="ui small query icon input">
-        <input id="termSearch" type="text" placeholder="Query..." />
-        <i class="search icon query submit"></i>
-      </div>
-    </div>
-    <div class="item">
-      <div class="ui red selected label">0</div>
-    </div>
     <a title="Select all" class="select all item">
       <i class="checkmark icon"></i>
     </a>
     <a title="Invert selection" class="select invert item">
       <i class="checkmark sign icon"></i> 
     </a>
-    <a title="Annotate selected items" class="disabled annotate requires selected item">
-      <i class="tag icon"></i>
-    </a>
-    <a title="Delete selected items" class="disabled delete requires selected item">
-      <i class="trash icon"></i> 
-    </a>
+    <div class="ui requires selected dropdown item">
+      <i class="reorder icon"></i>
+      <div class="menu">
+        <a title="Annotate selected items" class="disabled requires selected annotate item">
+          <i class="tag icon"></i>Annotate
+        </a>
+        <a title="Delete selected items" class="disabled requires selected delete item">
+          <i class="trash icon"></i> Delete
+        </a>
+        <a title="Hide unselected" class="disabled requires selected hide item">
+          <i class="remove circle icon"></i>Hide unselected
+        </a>
+      </div>
+      <div class="ui red selected label count" style="width: 3em; text-align: center">0</div>
+    </div>
     <a title="Toggle item details" class="details toggle item">
       <i class="edit icon"></i> 
     </a>
@@ -72,6 +62,22 @@
         <i class="sign out icon"></i> 
       </a>
     </div>
+    <a title="Show query filters" class="ui search toggle item">
+      <i class="filter icon"></i>
+      <span id="searchCount"><img src="<!-- @var HOMEPAGE -->__wm/loading.gif" alt="loading results" /><span>
+    </a>
+    <div class="item">
+      <div class="ui small query icon input">
+        <input id="termSearch" type="text" placeholder="Query..." />
+        <i class="search icon query submit"></i>
+      </div>
+    </div>
+    <a title="Show team" class="ui team toggle item">
+      <i class="users icon"></i>
+    </a>
+    <a title="Show search" class="ui scrape toggle item">
+      <i class="sun icon"></i>
+    </a>
   </div>
   <div class="team content hidden">
   include "team.html"

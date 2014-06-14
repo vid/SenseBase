@@ -56,7 +56,7 @@ resultViews.table = function(dest, results) {
     });
 
     $('.requires.selected').toggleClass('disabled', !(hasSelected > 0));
-    $('.selected.label').html(hasSelected);
+    $('.selected.count').html(hasSelected);
   } 
 
   setupTable = function() {
