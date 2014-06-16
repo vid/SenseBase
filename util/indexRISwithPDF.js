@@ -9,8 +9,8 @@ var htmlBase = process.argv[3];
 var src = process.argv[4];
 // default root for keywords
 var catRoot = process.argv[5];
-// set to 'true' for default validated
-var valStatus = process.argv[6];
+// set to state
+var valStatus = process.argv[6] || utils.states.unvalidated;
 
 var myUser = 'indexRISwithPDF';
 
@@ -103,7 +103,7 @@ function processItem(cur) {
   var cItem = annotations.createContentItem({ uri: loc, title: cur.title, visitors: [{member: myUser, '@timestamp' : new Date().toISOString()} ], content: cur.content});
   var annos = [];
   cur.keyword.toString().split(',').forEach(function(k) {
-    annos.push(annotations.createAnnotation({hasTarget: loc, type: 'category', category: (catRoot ? [catRoot, k] : [k]), validated: (valStatus === 'true'), annotatedBy: myUser}));
+    annos.push(annotations.createAnnotation({hasTarget: loc, type: 'category', category: (catRoot ? [catRoot, k] : [k]), state: (valStatus), annotatedBy: myUser}));
   });
   return { cItem: cItem, annotations: annos};
 }
