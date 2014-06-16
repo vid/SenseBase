@@ -25,8 +25,8 @@ console.log('/annotations/' + window.clientID);
 // receive annotations
 fayeClient.subscribe('/annotations/' + window.clientID, function(data) {
   console.log('/annotations', data);
-  // it's not current but needs to be updated
-  if (lastResults.hits) {
+  // update query items
+  if (data.annotationSummary && lastResults.hits) {
     var i = 0, l = lastResults.hits.hits.length;
     for (i; i < l; i++) {
       if (lastResults.hits.hits[i]._id === data.uri) {
@@ -34,8 +34,8 @@ fayeClient.subscribe('/annotations/' + window.clientID, function(data) {
         break;
       }
     }
+    updateResults(lastResults);
   }
-  updateResults(lastResults);
 
   if (data.uri === currentURI) {
     displayAnnoTree(data.annotations, data.uri, treeInterface);
