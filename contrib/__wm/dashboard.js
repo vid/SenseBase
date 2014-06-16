@@ -24,6 +24,18 @@ var treeInterface = {
         }
         doSearch();
       });
+
+      // set state buttons accordingly
+      $('.annotation.button').removeClass('disabled');
+      if (anno.state === 'erased') {
+        $('.erase.annotation').addClass('disabled');
+      } else if (anno.state === 'validated') {
+        $('.validate.button').addClass('disabled');
+      } else {
+        $('.unvalidate.button').addClass('disabled');
+      }
+      var annoFunctions = { anno: anno, select: function() { console.log(anno); } };
+      $('.annotation.button').click(annoFunctions.select);
     }
     // it has children
     if (data.node.children.length < 1) {

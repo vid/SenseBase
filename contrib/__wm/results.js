@@ -1,6 +1,6 @@
 
 // hasQueuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
-var queryRefresher, hasQueuedUpdates, noUpdates;
+var queryRefresher, hasQueuedUpdates, noUpdates, queuedNotifier;
 var resultViews = {};
 var lastResults, isSearching;
 
@@ -133,8 +133,13 @@ function updateResults(results) {
   if (noUpdates) {
     console.log('in noUpdates');
     hasQueuedUpdates = true;
+    clearTimeout(queuedNotifier);
+    queuedNotifier = setInterval(function() { $('.toggle.item').toggleClass('red') }, 2000);
     return;
   }
+  // clear queued notifier
+  $('.toggle.item').removeClass('red');
+  clearInterval(queuedNotifier);
   $('.search.button').animate({opacity: 1}, 500, 'linear');
   // use arbitrary rendering to fill results
   var container = '#results';
