@@ -1,4 +1,4 @@
-
+var treeFilterTimeout;
 // display all annotations, then return a structure containing instances mapped to IDs
 function displayAnnoTree(annotations, uri) {
   // utility to manage IDs for items
@@ -81,6 +81,7 @@ function displayAnnoTree(annotations, uri) {
   $('#annotationCount').html(annoTotal);
 
   $.jstree.defaults.core.themes.responsive = false;
+  $.jstree.defaults.search.fuzzy = false;
 
   $('#treeContainer').html('<div id="annoTree"></div>');
   $('#annoTree').jstree('open_all');
@@ -115,6 +116,13 @@ function displayAnnoTree(annotations, uri) {
    }
   });
   $('#annoTree').jstree('open_all');
+  $('#treeFilter').keyup(function () {
+    if(treeFilterTimeout) { clearTimeout(treeFilterTimeout); }
+    treeFilterTimeout = setTimeout(function () {
+      var v = $('#treeFilter').val();
+      $('#annoTree').jstree(true).search(v);
+    }, 250);
+  });
 
   console.log('treeAnnos', treeMap);
   return treeItems;
