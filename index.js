@@ -20,7 +20,7 @@ if (fs.existsSync('./local-site.json')) {
 }
 
 // start server with a configuration file
-exports.start = function(config) {
+exports.start = function(config, callback) {
   GLOBAL.authed = GLOBAL.authed || {}; //FIXME  use auth scheme that works behind proxies
   config.users = users;
   config.indexer = require('./lib/indexer.js');
@@ -84,6 +84,10 @@ exports.start = function(config) {
   
   // interactive command line
   
-  repl = require("repl");
+  repl = require('repl');
   r = repl.start({ prompt: GLOBAL.config.project + "> ", useGlobal: true});
+    console.log('CALLBACK', callback);
+  if (callback) {
+    callback();
+  }
 };
