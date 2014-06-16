@@ -86,6 +86,19 @@
 			"needsValidation": false
     },
     {
+      "id": 6,
+      "type": "Agent",
+      "username": "PubmedArticle",
+      "description": "Tagged with PubmedArticle data",
+      "activities": [
+        {
+          "annotate": "default"
+        }
+      ],
+      "status" : "available",
+      "needsValidation": false
+    },
+    {
       "id": 7,
       "type": "Agent",
       "username": "Board members",
