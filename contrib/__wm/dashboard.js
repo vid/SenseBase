@@ -17,7 +17,7 @@ var treeInterface = {
         if ($(this).hasClass('by')) {
           $('#annoMember').val('"' + anno.annotatedBy + '"');
         } else {
-          $('#annoSearch').val('category:"' + anno.text + '"');
+          $('#annoSearch').val('"' + anno.text + '"');
         }
         doSearch();
       });

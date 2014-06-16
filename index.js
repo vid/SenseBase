@@ -86,7 +86,6 @@ exports.start = function(config, callback) {
   
   repl = require('repl');
   r = repl.start({ prompt: GLOBAL.config.project + "> ", useGlobal: true});
-    console.log('CALLBACK', callback);
   if (callback) {
     callback();
   }

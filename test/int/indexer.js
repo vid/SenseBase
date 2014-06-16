@@ -6,7 +6,7 @@ GLOBAL.config = require('../lib/test-config.js').config;
 
 var uniq = utils.getUnique(), uniqMember = 'member'+uniq, uniqURI = 'http://test.com/' + uniq, uniqCategory = 'category' + uniq;
 
-describe('Indexer', function(){
+describe('Indexer', function(done) {
   it('should reset test app', function(done) {
     testApp.start(function(err, ok) {
       expect(err).to.be.null;
@@ -23,6 +23,14 @@ describe('Indexer', function(){
     });
   });
 
+  it('should retrieve by URI', function(done) {
+    indexer.retrieveByURI(uniqURI, function(err, r) {
+      expect(err).to.be.null;
+      expect(r.exists).to.be.true;
+      done();
+    });
+  });
+
   it('should index an annotation', function(done) {
     var annoCategory = annotations.createAnnotation({hasTarget: uniqURI, annotatedBy: uniqMember, type: 'category', category: uniqCategory});
     indexer.saveAnnotations(uniqURI, annoCategory, function(err, res) {
@@ -31,10 +39,10 @@ describe('Indexer', function(){
     });
   });
 
-  it('should retrieve by URI', function(done) {
-    indexer.retrieveByURI(uniqURI, function(err, r) {
+  it('should retrieve an annotation', function(done) {
+    indexer.retrieveAnnotations(uniqURI, function(err, res) {
       expect(err).to.be.null;
-      expect(r.exists).to.be.true;
+      expect(res.length).to.be(1);
       done();
     });
   });

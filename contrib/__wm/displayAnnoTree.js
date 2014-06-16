@@ -83,6 +83,7 @@ function displayAnnoTree(annotations, uri) {
   $.jstree.defaults.core.themes.responsive = false;
 
   $('#treeContainer').html('<div id="annoTree"></div>');
+  $('#annoTree').jstree('open_all');
   $('#annoTree').on('hover_node.jstree', function(e, data) {
     var anno = treeItems.get(data.node.id);
     treeInterface.hover(anno, e, data);
@@ -113,6 +114,7 @@ function displayAnnoTree(annotations, uri) {
       }
    }
   });
+  $('#annoTree').jstree('open_all');
 
   console.log('treeAnnos', treeMap);
   return treeItems;
