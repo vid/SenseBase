@@ -1,7 +1,8 @@
 
-// queuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
-var queryRefresher, queuedUpdates, noUpdates;
+// hasQueuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
+var queryRefresher, hasQueuedUpdates, noUpdates;
 var resultViews = {};
+var lastResults, isSearching;
 
 fayeClient.subscribe('/clusterResults', function(results) {
   console.log('clusterResults', results);
@@ -9,9 +10,36 @@ fayeClient.subscribe('/clusterResults', function(results) {
   updateResults(results);
 });
 
-fayeClient.subscribe('/searchResults/' + window.myID, function(results) {
+fayeClient.subscribe('/searchResults/' + window.clientID, function(results) {
   console.log('/searchResults', results);
   updateResults(results);
+});
+
+// sets the current annotation loc
+function setCurrentURI(u) {
+  currentURI = u.replace(/#.*/, '');
+  console.log('currentURI', currentURI);
+}
+
+console.log('/annotations/' + window.clientID);
+// receive annotations
+fayeClient.subscribe('/annotations/' + window.clientID, function(data) {
+  console.log('/annotations', data);
+  // it's not current but needs to be updated
+  if (lastResults.hits) {
+    var i = 0, l = lastResults.hits.hits.length;
+    for (i; i < l; i++) {
+      if (lastResults.hits.hits[i]._id === data.uri) {
+        lastResults.hits.hits[i]._source.annotationSummary = data.annotationSummary;
+        break;
+      }
+    }
+  }
+  updateResults(lastResults);
+
+  if (data.uri === currentURI) {
+    displayAnnoTree(data.annotations, data.uri, treeInterface);
+  }
 });
 
 // delete an item
@@ -99,17 +127,14 @@ function shortenURI(u) {
   return (!u || u.length < ULEN) ? u : (u.substring(0, ULEN - 3) + '…' + u.substring(u.length - 3));
 }
 
-// for updating
-var lastResults, isSearching;
-
 function updateResults(results) {
   // content is being viewed or edited, delay updates
+  lastResults = results;
   if (noUpdates) {
     console.log('in noUpdates');
-    queuedUpdates = results;
+    hasQueuedUpdates = true;
     return;
   }
-  lastResults = results;
   $('.search.button').animate({opacity: 1}, 500, 'linear');
   // use arbitrary rendering to fill results
   var container = '#results';
@@ -136,7 +161,7 @@ function displayItemSidebar(uri) {
     );
   $('.context.dropdown').dropdown();
   setCurrentURI(uri);
-  fayeClient.publish('/annotate', { uri: uri });
+  fayeClient.publish('/annotate', { clientID: window.clientID, uri: uri });
   $('#startingPage').val(uri);
   $('.details.sidebar').sidebar('show');
 }

@@ -18,10 +18,10 @@ resultViews.table = function(dest, results) {
         window.location.hash = '';
         window.location.hash = id;
       }
-      if (queuedUpdates) {
+      if (hasQueuedUpdates) {
         console.log('displaying queued updates');
-        updateResults(queuedUpdates);
-        queuedUpdates = null;
+        updateResults(lastResults);
+        hasQueuedUpdates = null;
       }
       hideItemSidebar();
       curURI = null;

@@ -1,6 +1,9 @@
+// GLOBALS
+
 var resultViews = {}, resultView, annoSub; 
 var sbUser = window.senseBase.user;
 var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
+
 var treeInterface = { 
   hover: function(anno) {}, 
   select: function(anno, e, data) {
@@ -36,8 +39,8 @@ var mainSize = 0, fluidSizes = ['four', 'five', 'six', 'seven']; // fluid sizes 
 $(function() {
   // General setup and functions
   var currentURI;
-  window.myID = sbUser + new Date().getTime();
-  console.log('myID', window.myID);
+  window.clientID = sbUser + new Date().getTime();
+  console.log('clientID', window.clientID);
 
   // main menu interaction
 
@@ -89,7 +92,7 @@ $(function() {
 
   // formulate search parameters
   function getSearchOptions() {
-    var options = { client: myID, terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
+    var options = { clientID: clientID, terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
       validationState: $('#validationState').val(), annotationState: $('#annotationState').val(),
       from: $('#fromDate').val(), to: $('#toDate').val(),
       member: $('#annoMember').val() };
@@ -107,6 +110,17 @@ $(function() {
     }
   }
 
+// return all items selected
+  function getSelected() {
+    var selected = [];
+    $('.selectItem').each(function() {
+      if ($(this).is(':checked')) {
+        selected.push(deEncID($(this).attr('name').replace('cb_', '')));
+      }
+    });
+    return selected;
+  }
+
 // annotate selected
   $('.annotate.selected').click(function() {
     if ($('.selected.label').text() > 0) {
@@ -115,15 +129,9 @@ $(function() {
   });
 
   $('.confirm.annotate.button').click(function() { 
-    var selected = [];
-    $('.selectItem').each(function() {
-      if ($(this).is(':checked')) {
-        selected.push(deEncID($(this).attr('name').replace('cb_', '')));
-      }
-    });
-    var annotations = $('#selectedAnnotations').val().split(',');
+    var annotations = $('#selectedAnnotations').val().split(',').map(function(a) { return { type: 'category', category: a.trim()} });
     if (annotations.length) {
-      fayeClient.publish('/saveAnnotations', { uris: selected, annotatedBy: sbUser, annotations: annotations});
+      fayeClient.publish('/saveAnnotations', { clientID: window.clientID, uris: getSelected(), annotatedBy: sbUser, annotations: annotations});
       return false;
     }
   });
@@ -136,13 +144,7 @@ $(function() {
   });
 
   $('.confirm.delete.button').click(function() { 
-    var selected = [];
-    $('.selectItem').each(function() {
-      if ($(this).is(':checked')) {
-        selected.push(deEncID($(this).attr('name').replace('cb_', '')));
-      }
-    });
-    fayeClient.publish('/delete', { selected: selected});
+    fayeClient.publish('/delete', { selected: getSelected()});
     return false;
   });
 
@@ -195,7 +197,7 @@ $(function() {
 });
 
 function moreLikeThis(uri) {
-  fayeClient.publish('/moreLikeThis', { client: myID, uri: uri});
+  fayeClient.publish('/moreLikeThis', { client: clientID, uri: uri});
 }
 
 function refreshAnnos(uri) {
@@ -210,29 +212,6 @@ function encID(c) {
 
 function deEncID(c) {
   return encIDs[c.replace('enc', '')];
-}
-
-// sets the current annotation loc
-function setCurrentURI(u) {
-  currentURI = u.replace(/#.*/, '');
-  console.log('currentURI', currentURI);
-  if (annoSub) {
-    annoSub.cancel();
-  }
-  // receive annotations
-  annoSub = fayeClient.subscribe('/annotations', function(data) {
-    var annotations = data.annotations, uri = data.uri;
-    // it's not current but needs to be updated
-    if (uri !== currentURI) {
-      //FIXME should only update if its in current results
-      console.log('/annotations not current uri', uri, currentURI);
-      return;
-    }
-    console.log('/annotations updating current', data);
-  // it's our current item, display
-    displayAnnoTree(annotations, uri, treeInterface);
-  });
-
 }
 
 include "displayAnnoTree.js"
