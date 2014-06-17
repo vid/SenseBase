@@ -170,7 +170,7 @@ $(function() {
   });
 
 // FIXME toggle graph or table view
-  $('.graph.item').click(function() {
+  $('.visualization.item').click(function() {
     if (resultView === resultViews.scatter) {
       resultView = resultViews.table;
     } else {

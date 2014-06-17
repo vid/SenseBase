@@ -54,7 +54,7 @@
     <a title="Toggle item details" class="details toggle item">
       <i class="edit icon"></i> 
     </a>
-    <a title="Toggle items visualisation" class="graph item">
+    <a title="Toggle items visualisation" class="visualization item">
       <i class="unhide icon"></i> 
     </a>
     <div title="Sign out" class="right menu">
@@ -90,7 +90,7 @@
   </div>
 
   <div id="uploadInfo" class="hidden">
-    <p id="upload" class="hidden"><label>Your browser doesn't support drag & drop, but you can still upload via this input field:<br /><input type="file"></label></p>
+    <p id="upload" class="hidden"><label>Your browser doesn't support drag & drop, but you can still upload via this input field:<br /><input type="file" /></label></p>
     <p id="filereader">File API & FileReader API not supported</p>
     <p id="formdata">XHR2's FormData is not supported</p>
     <p id="progress">XHR2's upload progress isn't supported</p>
@@ -101,6 +101,10 @@
     <div id="results" style="width: 100%">
       <div class="table content"></div>
   </div>
+</div>
+<div class="ui bottom visualization floating sidebar" style="background: white">
+  <div class="visualization container"></div>
+</div>
 </div>
 
 <div class="ui delete modal hidden">

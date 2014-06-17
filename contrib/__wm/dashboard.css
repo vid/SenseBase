@@ -1,5 +1,11 @@
 body { font-family: sans-serif; border: 0px; padding: 0px; margin: 0px }
 
+.active.visualization.sidebar {
+  top: 40% !important;
+  height: 65% !important;
+  margin-top: 0px !important;
+}
+
 .function.field {
   margin: 0 !important;
 }
