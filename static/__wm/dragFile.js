@@ -29,8 +29,8 @@ function setupDND(dropzone, postLoc) {
   });
 
   if (tests.dnd) { 
-    holder.ondragover = function () { console.log('hi'); this.className += ' hover'; return false; };
-    holder.ondragend = function () { console.log('bye'); this.className = this.className.replace(' hover', ''); return false; };
+    holder.ondragover = function () { this.className += ' hover'; return false; };
+    holder.ondragleave = function () { this.className = this.className.replace(/ hover/g, ''); return false; };
     holder.ondrop = function (e) {
       this.className = '';
       e.preventDefault();
