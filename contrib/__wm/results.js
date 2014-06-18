@@ -2,18 +2,7 @@
 // hasQueuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
 var queryRefresher, hasQueuedUpdates, noUpdates, queuedNotifier;
 var resultViews = {};
-var lastResults, isSearching;
-
-fayeClient.subscribe('/clusterResults', function(results) {
-  console.log('clusterResults', results);
-  doTreemap(results.clusters);
-  updateResults(results);
-});
-
-fayeClient.subscribe('/searchResults/' + window.clientID, function(results) {
-  console.log('/searchResults', results);
-  updateResults(results);
-});
+var lastResults;
 
 // sets the current annotation loc
 function setCurrentURI(u) {
@@ -93,8 +82,8 @@ fayeClient.subscribe('/updateItem', function(result) {
 });
 
 // set up form
-$('.query input').keyup(function(e) {
-  if(e.keyCode == 13) doSearch();
+$('.query.input').keyup(function(e) {
+  if (e.keyCode == 13) doSearch();
 });
 $('.query.submit').click(function(event) {
   doSearch();
@@ -128,6 +117,7 @@ function shortenURI(u) {
 }
 
 function updateResults(results) {
+  console.log('hihi');
   // content is being viewed or edited, delay updates
   lastResults = results;
   if (noUpdates) {
@@ -151,8 +141,6 @@ function updateResults(results) {
     $(container).html('<i>No items.</i>');
     $('#searchCount').html('0');
   }
-  $('.search.submit').removeAttr('disabled');
-  isSearching = false;
 }
 
 // populate and display the URI's sidebar

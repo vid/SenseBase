@@ -1,6 +1,6 @@
 // GLOBALS
 
-var resultViews = {}, resultView, annoSub; 
+var resultViews = {}, resultView, searchSub, clusterSub; 
 var sbUser = window.senseBase.user;
 var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
 
@@ -76,8 +76,7 @@ $(function() {
   $('.treemap.button').click(function() {
     $('#browse').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
     $('.browse.sidebar').sidebar('toggle');
-    var options = getSearchOptions();
-    fayeClient.publish('/cluster', getSearchOptions());
+    doCluster();
   });
 
   $('.member.options').click(function() {
@@ -103,23 +102,49 @@ $(function() {
   });
 
   // formulate search parameters
-  function getSearchOptions() {
-    var options = { clientID: clientID, terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
+  function getSearchOptions(ts) {
+    var options = { clientID: clientID + '-' + ts, terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
       validationState: $('#validationState').val(), annotationState: $('#annotationState').val(),
       from: $('#fromDate').val(), to: $('#toDate').val(),
       member: $('#annoMember').val() };
+      console.log(options);
     return options;
   }
 
-  function doSearch() {
-    if (!isSearching) {
-      isSearching = true;
-      $('.search.submit').attr('disabled','disabled');
-      fayeClient.publish('/search', getSearchOptions());
-      $('.search.button').animate({opacity: 0.2}, 200, 'linear');
-    } else {
-      console.log('already searching');
+// perform a cluster search
+  function doCluster() {
+    // cancel any outstanding search
+    if (clusterSub) {
+      clusterSub.cancel();
     }
+
+    var ts = new Date().getTime(), options = getSearchOptions(ts);
+
+    // use the generated clientID for the current search
+    clusterSub = fayeClient.subscribe('/clusterResults/' + options.clientID, function(results) {
+      console.log('/clusterResults', results);
+      doTreemap(results.clusters);
+      updateResults(results);
+    });
+    fayeClient.publish('/cluster', options);
+  }
+
+// perform a cluster search
+  function doSearch() {
+    // cancel any outstanding search
+    if (searchSub) {
+      searchSub.cancel();
+    }
+
+    var ts = new Date().getTime(), options = getSearchOptions(ts);
+    // use the generated clientID for the current search
+    searchSub = fayeClient.subscribe('/searchResults/' + options.clientID, function(results) {
+      console.log('/searchResults', results);
+      updateResults(results);
+    });
+
+    fayeClient.publish('/search', options);
+    $('.search.button').animate({opacity: 0.2}, 200, 'linear');
   }
 
 // return all items selected
