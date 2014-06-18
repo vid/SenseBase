@@ -1,6 +1,6 @@
 var justEdited, rTeams, editingMember;
 
-fayeClient.subscribe('/teamList', function(teams) {
+fayeClient.subscribe('/teamList/' + clientID, function(teams) {
   $('#aneditor').hide();
   console.log('teams', teams);
   // populate any team containers
@@ -44,10 +44,10 @@ fayeClient.subscribe('/teamList', function(teams) {
     justEdited = null;
   }
 });
-fayeClient.publish('/team/list', {});
+fayeClient.publish('/team/list', { clientID: clientID});
 
 $('#newCreate').click(function() {
-  fayeClient.publish('/team/add', { name: $('#newName').val(), type: $('#newType').val() });
+  fayeClient.publish('/team/add', { clientID: clientID, name: $('#newName').val(), type: $('#newType').val() });
   justEdited = $('#newName').val();
   return false;
 });
@@ -98,7 +98,7 @@ function showEdit(username) {
 }
 
 $('#teamRemove').click(function() {
-  fayeClient.publish('/team/remove', { username: editingMember.username});
+  fayeClient.publish('/team/remove', { clientID: clientID, username: editingMember.username});
   return false;
 });
 
@@ -138,6 +138,7 @@ $('#teamUpdate').click(function() {
   } else {
     
   }
+  // FIXME add clientID
   fayeClient.publish('/team/save', editingMember);
   return false;
 });

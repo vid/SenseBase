@@ -168,7 +168,7 @@ $(function() {
   $('.confirm.annotate.button').click(function() { 
     var annotations = $('#selectedAnnotations').val().split(',').map(function(a) { return { type: 'category', category: a.trim()} });
     if (annotations.length) {
-      fayeClient.publish('/saveAnnotations', { clientID: window.clientID, uris: getSelected(), annotatedBy: sbUser, annotations: annotations});
+      fayeClient.publish('/saveAnnotations', { clientID: clientID, uris: getSelected(), annotatedBy: sbUser, annotations: annotations});
       return false;
     }
   });
@@ -181,7 +181,7 @@ $(function() {
   });
 
   $('.confirm.delete.button').click(function() { 
-    fayeClient.publish('/delete', { selected: getSelected()});
+    fayeClient.publish('/delete', { clientID: clientID, selected: getSelected()});
     return false;
   });
 
@@ -238,7 +238,7 @@ function moreLikeThis(uri) {
 }
 
 function refreshAnnos(uri) {
-  fayeClient.publish('/updateContent', { uri: uri } );
+  fayeClient.publish('/updateContent', { clientID : clientID, uri: uri } );
 }
 
 var encIDs = [];
