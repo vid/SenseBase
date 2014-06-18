@@ -59,13 +59,16 @@ $(function() {
   $('.search.toggle').click(function() { $('.search.content').toggle('hidden'); $('.search.toggle').toggleClass('active');});
   $('.scrape.toggle').click(function() { $('.scrape.content').toggle('hidden'); $('.scrape.toggle').toggleClass('active'); });
   $('.team.toggle').click(function() { $('.team.content').toggle('hidden'); $('.team.toggle').toggleClass('active'); $('.member.content').hide(); $('#lastUsername').val(''); /* FIXME move to members.js */ });
-  $('.details.toggle').click(function() { $('.details.content').toggle('hidden'); $('.details.toggle').toggleClass('active'); });
 
-   $('.selected.dropdown').dropdown('hide');
+  $('.details.toggle').click(function() { $('.details.sidebar').sidebar('toggle'); });
 
+  $('.dashboard.toggle').click(function() { $('.dashboard.sidebar').sidebar('toggle'); });
+
+  $('.selected.dropdown').dropdown('hide');
+
+  $('.dashboard.sidebar').sidebar({ onShow : function() { $('.dashboard.toggle').addClass('active'); $('.dashboard.sidebar').addClass('floating'); }, onHide : function() { $('.dashboard.toggle').removeClass('active'); $('.dashboard.sidebar').removeClass('floating'); }});
+  $('.details.sidebar').sidebar({ onShow : function() { $('.details.toggle').addClass('active'); $('.details.sidebar').addClass('floating'); }, onHide : function() { $('.details.toggle').removeClass('active'); $('.details.sidebar').removeClass('floating'); }});
   $('.sidebar').sidebar('hide');
-  $('.details.sidebar').sidebar({ overlay: true});
-  $('.details.sidebar').sidebar({ onShow : function() { $('.details.toggle').addClass('active');  }, onHide : function() { $('.details.toggle').removeClass('active'); }});
 
   $('.add.button').click(function() { $('#annotateEditor').toggle(); return false;});
   $('.member.item').click(function() {
@@ -183,10 +186,6 @@ $(function() {
   $('.confirm.delete.button').click(function() { 
     fayeClient.publish('/delete', { clientID: clientID, selected: getSelected()});
     return false;
-  });
-
-  $('.details.toggle').click(function() {
-    $('.details.sidebar').sidebar('toggle');
   });
 
   $('.signout.item').click(function() {

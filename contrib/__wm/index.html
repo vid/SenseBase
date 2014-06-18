@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -10,7 +11,7 @@
   <link rel="stylesheet" href="<!-- @var HOMEPAGE -->__wm/dashboard.css" />
 </head>
 <body>
-<div class="ui details overlay right sidebar" style="-moz-box-shadow: 3px 3px 5px 6px #ccc; -webkit-box-shadow: 3px 3px 5px 6px #ccc; box-shadow: 3px 3px 5px 6px #ccc;background-image: url(<!-- @var HOMEPAGE -->__wm/mesh.png)">
+<div class="ui details right sidebar">
   <div class="five fluid ui buttons">
     <div title="More options" class="ui context mini dropdown button">
       <i class="reorder icon"></i>
@@ -64,7 +65,7 @@
     </div>
     <a title="Show query filters" class="ui search toggle item">
       <i class="filter icon"></i>
-      <span id="searchCount"><img src="<!-- @var HOMEPAGE -->__wm/loading.gif" alt="loading results" /><span>
+      <span id="searchCount"><img src="<!-- @var HOMEPAGE -->__wm/loading.gif" alt="loading results" /></span>
     </a>
     <div class="item">
       <div class="ui small query icon input">
@@ -72,8 +73,8 @@
         <i class="search icon query submit"></i>
       </div>
     </div>
-    <a title="Show team" class="ui team toggle item">
-      <i class="users icon"></i>
+    <a title="Show dashboard" class="ui dashboard toggle item">
+      <i class="dashboard icon"></i>
     </a>
     <a title="Show search" class="ui scrape toggle item">
       <i class="sun icon"></i>
@@ -90,8 +91,8 @@
   </div>
 
   <div id="uploadInfo" class="hidden">
-    <p id="upload" class="hidden"><label>Your browser doesn't support drag & drop, but you can still upload via this input field:<br /><input type="file" /></label></p>
-    <p id="filereader">File API & FileReader API not supported</p>
+    <p id="upload" class="hidden"><label>Your browser doesn't support drag and drop, but you can still upload via this input field:<br /><input type="file" /></label></p>
+    <p id="filereader">File API and FileReader API not supported</p>
     <p id="formdata">XHR2's FormData is not supported</p>
     <p id="progress">XHR2's upload progress isn't supported</p>
   </div>
@@ -102,9 +103,21 @@
       <div class="table content"></div>
   </div>
 </div>
-<div class="ui bottom visualization floating sidebar" style="background: white">
-  <div class="visualization container"></div>
 </div>
+
+<div class="ui bottom dashboard sidebar" style="background: white">
+  <h1>Dashboard</h1>
+  <div class="ui dashboard grid">
+    <div class="three wide column">
+      Watchlist
+    </div>
+    <div class="three wide column">
+      Activity
+    </div>
+    <div class="column">
+      Workspace
+    </div>
+  </div>
 </div>
 
 <div class="ui delete modal hidden">
