@@ -73,11 +73,14 @@
         <i class="search icon query submit"></i>
       </div>
     </div>
-    <a title="Show dashboard" class="ui dashboard toggle item">
-      <i class="dashboard icon"></i>
+    <a title="Toggle team" class="team toggle item">
+      <i class="users icon"></i> 
     </a>
     <a title="Show search" class="ui scrape toggle item">
       <i class="sun icon"></i>
+    </a>
+    <a title="Show dashboard" class="ui dashboard toggle item">
+      <i class="dashboard icon"></i>
     </a>
   </div>
   <div class="team content hidden">
@@ -98,24 +101,35 @@
   </div>
   <progress class="hidden" id="uploadprogress" min="0" max="100" value="0">0</progress>
 
-  <div class="ui search results" id="holder" style="height: 90%; width: 100%; padding: 0px; overflow: auto">
+  <div class="holder ui search results" id="uploadItem" style="height: 90%; width: 100%; padding: 0px; overflow: auto">
     <div id="results" style="width: 100%">
       <div class="table content"></div>
+    </div>
   </div>
-</div>
 </div>
 
 <div class="ui bottom dashboard sidebar" style="background: white">
   <h1>Dashboard</h1>
   <div class="ui dashboard grid">
     <div class="three wide column">
-      Watchlist
+      <h2>Watchlist</h2>
     </div>
     <div class="three wide column">
-      Activity
+      <h2>Activity</h2>
     </div>
-    <div class="column">
-      Workspace
+    <div class="ten wide column">
+      <h2>Workspace</h2>
+      <div class="ui annotate form">
+        <div class="field">
+          Upload
+          <div class="holder" id="uploadWorkfile" style="border: 1px solid black; height: 3em; width: 100%; overflow: auto">
+            Drag RIS or CSV files here
+          </div>
+        </div>
+        <div class="field">
+          ID field <input id="idField" />
+        </div>
+      </div>
     </div>
   </div>
 </div>

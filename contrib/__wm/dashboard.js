@@ -49,6 +49,8 @@ var treeInterface = {
 
 var mainSize = 0, fluidSizes = ['four', 'five', 'six', 'seven']; // fluid sizes for main ui
 $(function() {
+  setupDND('uploadItem', '/upload');
+  setupDND('uploadWorkfile', '/workfile');
   // General setup and functions
   var currentURI;
   window.clientID = sbUser + new Date().getTime();
