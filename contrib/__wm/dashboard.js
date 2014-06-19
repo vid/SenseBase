@@ -111,7 +111,7 @@ $(function() {
     var options = { clientID: clientID + '-' + new Date().getTime(), terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
       validationState: $('#validationState').val(), annotationState: $('#annotationState').val(),
       from: $('#fromDate').val(), to: $('#toDate').val(),
-      member: $('#annoMember').val()};
+      member: $('#annoMember').val(), annotations: resultView ? resultView.annotations : null};
       console.log('hihhi', options);
     return options;
   }
@@ -134,7 +134,7 @@ $(function() {
     fayeClient.publish('/cluster', options);
   }
 
-// perform a cluster search
+// perform a general search
   function doSearch() {
     // cancel any outstanding search
     if (searchSub) {
@@ -201,10 +201,12 @@ $(function() {
       resultView = resultViews.scatter;
     } else if ($(this).hasClass('treemap')) {
       resultView = resultViews.treemap;
+    } else if ($(this).hasClass('debug')) {
+      resultView = resultViews.debug;
     } else {
       resultView = resultViews.table;
     }
-    updateResults(lastResults);
+    doSearch();
   });
 
   $('.select.all').click(function() {
