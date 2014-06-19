@@ -107,12 +107,12 @@ $(function() {
   });
 
   // formulate search parameters
-  function getSearchOptions(ts) {
-    var options = { clientID: clientID + '-' + ts, terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
+  function getSearchOptions() {
+    var options = { clientID: clientID + '-' + new Date().getTime(), terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
       validationState: $('#validationState').val(), annotationState: $('#annotationState').val(),
       from: $('#fromDate').val(), to: $('#toDate').val(),
-      member: $('#annoMember').val() };
-      console.log(options);
+      member: $('#annoMember').val()};
+      console.log('hihhi', options);
     return options;
   }
 
@@ -123,7 +123,7 @@ $(function() {
       clusterSub.cancel();
     }
 
-    var ts = new Date().getTime(), options = getSearchOptions(ts);
+    var options = getSearchOptions();
 
     // use the generated clientID for the current search
     clusterSub = fayeClient.subscribe('/clusterResults/' + options.clientID, function(results) {
@@ -141,7 +141,7 @@ $(function() {
       searchSub.cancel();
     }
 
-    var ts = new Date().getTime(), options = getSearchOptions(ts);
+    var options = getSearchOptions();
     // use the generated clientID for the current search
     searchSub = fayeClient.subscribe('/searchResults/' + options.clientID, function(results) {
       console.log('/searchResults', results);
