@@ -78,12 +78,6 @@ $(function() {
     $('.member.segment').hide();
   });
 
-  $('.treemap.button').click(function() {
-    $('#browse').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
-    $('.browse.sidebar').sidebar('toggle');
-    doCluster();
-  });
-
   $('.member.options').click(function() {
     $('.member.options').addClass('active');
     $('.member.options.segment').show();
@@ -111,7 +105,8 @@ $(function() {
     var options = { clientID: clientID + '-' + new Date().getTime(), terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
       validationState: $('#validationState').val(), annotationState: $('#annotationState').val(),
       from: $('#fromDate').val(), to: $('#toDate').val(),
-      member: $('#annoMember').val(), annotations: resultView ? resultView.annotations : null};
+      // FIXME normalize including annotations 
+      member: $('#annoMember').val(), annotations: ($("#browseNav" ).val() === 'annotations') ? '*' : null};
       console.log('hihhi', options);
     return options;
   }
@@ -128,7 +123,7 @@ $(function() {
     // use the generated clientID for the current search
     clusterSub = fayeClient.subscribe('/clusterResults/' + options.clientID, function(results) {
       console.log('/clusterResults', results);
-      doTreemap(results.clusters);
+      browseCluster.doTreemap(results.clusters, '#browse');
       updateResults(results);
     });
     fayeClient.publish('/cluster', options);
@@ -145,7 +140,16 @@ $(function() {
     // use the generated clientID for the current search
     searchSub = fayeClient.subscribe('/searchResults/' + options.clientID, function(results) {
       console.log('/searchResults', results);
+
       updateResults(results);
+
+// search navigator
+      if ($("#browseNav" ).val() === 'annotations') {
+        $('.browse.sidebar').sidebar('show');
+        browseAnnotations.doTreemap(results, '#browse');
+      } else {
+        $('.browse.sidebar').sidebar('hide');
+      }
     });
 
     fayeClient.publish('/search', options);

@@ -78,3 +78,47 @@ a:active {text-decoration:underline;}
 } 
 
 
+
+// browse annotations treemap
+
+.treemap #browes {
+  background: #ddd;
+}
+
+text {
+  pointer-events: none;
+}
+
+.grandparent text {
+  font-weight: bold;
+}
+
+.treemap rect {
+  fill: none;
+  stroke: #fff;
+}
+
+.treemap rect.parent, .grandparent rect {
+  stroke-width: 2px;
+}
+
+.treemap .grandparent rect {
+  fill: orange;
+}
+
+.treemap .grandparent:hover rect {
+  fill: #ee9700;
+}
+
+.treemap .children rect.parent, .grandparent rect {
+  cursor: pointer;
+}
+
+.treemap .children rect.parent {
+  fill: #bbb;
+  fill-opacity: .5;
+}
+
+.treemap .children:hover rect.child {
+  fill: #bbb;
+}

@@ -86,7 +86,13 @@ $('.query.input').keyup(function(e) {
   if (e.keyCode == 13) doSearch();
 });
 $('.query.submit').click(function(event) {
-  doSearch();
+  if ($( "#browseNav" ).val() === 'cluster') {
+    $('#browse').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
+    $('.browse.sidebar').sidebar('show');
+    doCluster();
+  } else {
+    doSearch();
+  }
 });
 
 $('#fromDate').datepicker();
@@ -97,7 +103,6 @@ $('#refreshQueries').click(function(e) {
   } else {
     clearQueryRefresher();
   }
-  console.log('refrresh', queryRefresher);
 });
 
 function clearQueryRefresher() {
@@ -165,5 +170,6 @@ function hideItemSidebar() {
 include "results.table.js"
 include "results.scatter.js"
 include "results.treemap.js"
+include "results.debug.js"
 
 resultView = resultViews.table;
