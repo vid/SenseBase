@@ -117,7 +117,6 @@ function shortenURI(u) {
 }
 
 function updateResults(results) {
-  console.log('hihi');
   // content is being viewed or edited, delay updates
   lastResults = results;
   if (noUpdates) {
@@ -136,7 +135,7 @@ function updateResults(results) {
   if (results.hits) {
     $(container).html('');
     $('#searchCount').html(results.hits.hits.length === results.hits.total ? results.hits.total : (results.hits.hits.length + '/' + results.hits.total));
-    resultView(container, results);
+    resultView.render(container, results);
   } else {
     $(container).html('<i>No items.</i>');
     $('#searchCount').html('0');
@@ -165,5 +164,6 @@ function hideItemSidebar() {
 
 include "results.table.js"
 include "results.scatter.js"
+include "results.treemap.js"
 
 resultView = resultViews.table;

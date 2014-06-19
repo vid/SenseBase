@@ -66,7 +66,7 @@ $(function() {
 
   $('.dashboard.toggle').click(function() { $('.dashboard.sidebar').sidebar('toggle'); });
 
-  $('.selected.dropdown').dropdown('hide');
+  $('.dropdown').dropdown('hide');
 
   $('.dashboard.sidebar').sidebar({ onShow : function() { $('.dashboard.toggle').addClass('active'); $('.dashboard.sidebar').addClass('floating'); }, onHide : function() { $('.dashboard.toggle').removeClass('active'); $('.dashboard.sidebar').removeClass('floating'); }});
   $('.details.sidebar').sidebar({ onShow : function() { $('.details.toggle').addClass('active'); $('.details.sidebar').addClass('floating'); }, onHide : function() { $('.details.toggle').removeClass('active'); $('.details.sidebar').removeClass('floating'); }});
@@ -196,11 +196,13 @@ $(function() {
   });
 
 // FIXME toggle graph or table view
-  $('.visualization.item').click(function() {
-    if (resultView === resultViews.scatter) {
-      resultView = resultViews.table;
-    } else {
+  $('.visualisation.item').click(function() {
+    if ($(this).hasClass('scatter')) { 
       resultView = resultViews.scatter;
+    } else if ($(this).hasClass('treemap')) {
+      resultView = resultViews.treemap;
+    } else {
+      resultView = resultViews.table;
     }
     updateResults(lastResults);
   });

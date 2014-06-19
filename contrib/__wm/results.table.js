@@ -1,78 +1,79 @@
 // render results in an html table
-resultViews.table = function(dest, results) {
-  var curURI, shown = false;
+resultViews.table = {
+  render: function(dest, results) {
+    var curURI, shown = false;
 
-  // display or close uri controls and frame (for link)
-  selectedURI = function(ev) {
-// FIXME firing twice
-    $('.selectRow').removeClass('active');
-    var $el = $(this), id = $el.parents('tr').attr('id'), uri = decodeURIComponent(deEncID(id));
-    if (curURI !== uri) {
-      $('#preview').remove();
-      shown = false;
-    }
-
-    if (shown) {
-      $('#preview').remove();
-      if ($el.hasClass('selectURI')) {
-        window.location.hash = '';
-        window.location.hash = id;
-      }
-      if (hasQueuedUpdates) {
-        console.log('displaying queued updates');
-        updateResults(lastResults);
-        hasQueuedUpdates = null;
-      }
-      hideItemSidebar();
-      curURI = null;
-      shown = false;
-      noUpdates = false;
-    } else {
-      displayItemSidebar(uri);
-      curURI = uri;
-      if ($el.hasClass('selectURI')) {
+    // display or close uri controls and frame (for link)
+    selectedURI = function(ev) {
+  // FIXME firing twice
+      $('.selectRow').removeClass('active');
+      var $el = $(this), id = $el.parents('tr').attr('id'), uri = decodeURIComponent(deEncID(id));
+      if (curURI !== uri) {
         $('#preview').remove();
-        // use cached address FIXME canonicalize URIs
-        //$el.parent().after('<iframe style="width: 100%" id="preview" src="<!-- @var HOMEPAGE -->cached/'+ encodeURIComponent(uri) +'"></iframe>');
-        $el.parent().after('<iframe style="width: 100%" id="preview" src="' + uri +'"></iframe>');
-        window.location.hash = id;
-        noUpdates = true;
-      } else {
+        shown = false;
+      }
+
+      if (shown) {
+        $('#preview').remove();
+        if ($el.hasClass('selectURI')) {
+          window.location.hash = '';
+          window.location.hash = id;
+        }
+        if (hasQueuedUpdates) {
+          console.log('displaying queued updates');
+          updateResults(lastResults);
+          hasQueuedUpdates = null;
+        }
+        hideItemSidebar();
+        curURI = null;
+        shown = false;
         noUpdates = false;
-        window.location.hash = '';
+      } else {
+        displayItemSidebar(uri);
+        curURI = uri;
+        if ($el.hasClass('selectURI')) {
+          $('#preview').remove();
+          // use cached address FIXME canonicalize URIs
+          //$el.parent().after('<iframe style="width: 100%" id="preview" src="<!-- @var HOMEPAGE -->cached/'+ encodeURIComponent(uri) +'"></iframe>');
+          $el.parent().after('<iframe style="width: 100%" id="preview" src="' + uri +'"></iframe>');
+          window.location.hash = id;
+          noUpdates = true;
+        } else {
+          noUpdates = false;
+          window.location.hash = '';
+        }
+        shown = true;
+        $el.parents('tr').addClass('active');
       }
-      shown = true;
-      $el.parents('tr').addClass('active');
+      return false;
     }
-    return false;
-  }
 
-  checkSelected = function() {
-    var hasSelected = 0;
-    $('.selectItem').each(function() {
-      if ($(this).is(':checked')) {
-        hasSelected++;
-      }
-    });
+    checkSelected = function() {
+      var hasSelected = 0;
+      $('.selectItem').each(function() {
+        if ($(this).is(':checked')) {
+          hasSelected++;
+        }
+      });
 
-    $('.requires.selected').toggleClass('disabled', !(hasSelected > 0));
-    $('.selected.count').html(hasSelected);
-  } 
+      $('.requires.selected').toggleClass('disabled', !(hasSelected > 0));
+      $('.selected.count').html(hasSelected);
+    } 
 
-  setupTable = function() {
-    $('.selectURI').click(selectedURI);
-    $('.annotations.button').click(selectedURI);
-    $('.showa').click(function() {
-      $(this).next().toggle();
-    });
-    $('.selectItem').click(checkSelected);
-    $('table').on('tablesort:complete', function(event, tablesort) {
-      setupTable();
-    });
-  }
+    setupTable = function() {
+      $('.selectURI').click(selectedURI);
+      $('.annotations.button').click(selectedURI);
+      $('.showa').click(function() {
+        $(this).next().toggle();
+      });
+      $('.selectItem').click(checkSelected);
+      $('table').on('tablesort:complete', function(event, tablesort) {
+        setupTable();
+      });
+    }
 
-  $(dest).append('<table id="resultsTable" class="ui sortable table"><thead><tr><th class="descending">' +
-    'Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table>');
+    $(dest).append('<table id="resultsTable" class="ui sortable table"><thead><tr><th class="descending">' +
+      'Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table>');
     var count = 0;
     results.hits.hits.forEach(function(r) {
       var v = r.fields || r._source, highlight = '';
@@ -112,4 +113,5 @@ resultViews.table = function(dest, results) {
 
     $('.sortable.table').tablesort();
     setupTable();
+  }
 }

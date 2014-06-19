@@ -52,17 +52,23 @@
       </div>
       <div class="ui red selected label count" style="width: 3em; text-align: center">0</div>
     </div>
+    <div title="Select results visualisation" class="ui visualization dropdown item">
+      <i class="unhide icon"></i> 
+      <div class="menu">
+        <a title="Table view" class="table visualisation item">
+          Table 
+        </a>
+        <a title="Timeline view" class="scatter visualisation item">
+          Scatter
+        </a>
+        <a title="Treemap view" class="treemap visualisation item">
+          Treemap
+        </a>
+      </div>
+    </div>
     <a title="Toggle item details" class="details toggle item">
       <i class="edit icon"></i> 
     </a>
-    <a title="Toggle items visualisation" class="visualization item">
-      <i class="unhide icon"></i> 
-    </a>
-    <div title="Sign out" class="right menu">
-      <a class="signout item">
-        <i class="sign out icon"></i> 
-      </a>
-    </div>
     <a title="Show query filters" class="ui search toggle item">
       <i class="filter icon"></i>
       <span id="searchCount"><img src="<!-- @var HOMEPAGE -->__wm/loading.gif" alt="loading results" /></span>
@@ -82,6 +88,11 @@
     <a title="Show dashboard" class="ui dashboard toggle item">
       <i class="dashboard icon"></i>
     </a>
+    <div title="Sign out" class="right menu">
+      <a class="signout item">
+        <i class="sign out icon"></i> 
+      </a>
+    </div>
   </div>
   <div class="team content hidden">
   include "team.html"
@@ -101,9 +112,8 @@
   </div>
   <progress class="hidden" id="uploadprogress" min="0" max="100" value="0">0</progress>
 
-  <div class="holder ui search results" id="uploadItem" style="height: 90%; width: 100%; padding: 0px; overflow: auto">
-    <div id="results" style="width: 100%">
-      <div class="table content"></div>
+  <div class="holder search results" id="uploadItem" style="height: 90%; width: 100%; padding: 0px; overflow: auto">
+    <div id="results" style="width: 100%; height: 100%">
     </div>
   </div>
 </div>
