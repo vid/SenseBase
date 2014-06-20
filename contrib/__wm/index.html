@@ -69,14 +69,14 @@
     <a title="Toggle item details" class="details toggle item">
       <i class="edit icon"></i> 
     </a>
-    <a title="Show query filters" class="ui search toggle item">
+    <a title="Show query filters" class="ui query toggle item">
       <i class="filter icon"></i>
-      <span id="searchCount"><img src="<!-- @var HOMEPAGE -->__wm/loading.gif" alt="loading results" /></span>
+      <span id="queryCount"><img src="<!-- @var HOMEPAGE -->__wm/loading.gif" alt="loading results" /></span>
     </a>
     <div class="item">
       <div class="ui small query icon input">
         <input id="termSearch" type="text" placeholder="Query..." />
-        <i class="search icon query submit"></i>
+        <i class="query icon query submit"></i>
       </div>
     </div>
     <a title="Toggle team" class="team toggle item">
@@ -97,7 +97,7 @@
   <div class="team content hidden">
   include "team.html"
   </div>
-  <div class="search content hidden">
+  <div class="query content hidden">
   include "query.html"
   </div>
   <div class="scrape content hidden">
@@ -112,7 +112,7 @@
   </div>
   <progress class="hidden" id="uploadprogress" min="0" max="100" value="0">0</progress>
 
-  <div class="holder search results" id="uploadItem" style="height: 90%; width: 100%; padding: 0px; overflow: auto">
+  <div class="holder query results" id="uploadItem" style="height: 90%; width: 100%; padding: 0px; overflow: auto">
     <div id="results" style="width: 100%; height: 100%">
     </div>
   </div>

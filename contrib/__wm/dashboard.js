@@ -1,6 +1,6 @@
 // GLOBALS
 
-var resultViews = {}, resultView, searchSub, clusterSub, qs; 
+var resultViews = {}, resultView, querySub, clusterSub, qs; 
 var sbUser = window.senseBase.user;
 var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
 var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav'];
@@ -59,7 +59,7 @@ $(function() {
 
   // main menu interaction
 
-  $('.search.toggle').click(function() { $('.search.content').toggle('hidden'); $('.search.toggle').toggleClass('active');});
+  $('.query.toggle').click(function() { $('.query.content').toggle('hidden'); $('.query.toggle').toggleClass('active');});
   $('.scrape.toggle').click(function() { $('.scrape.content').toggle('hidden'); $('.scrape.toggle').toggleClass('active'); });
   $('.team.toggle').click(function() { $('.team.content').toggle('hidden'); $('.team.toggle').toggleClass('active'); $('.member.content').hide(); $('#lastUsername').val(''); /* FIXME move to members.js */ });
 
@@ -101,9 +101,9 @@ $(function() {
     }
   });
 
-  // formulate search parameters
+  // formulate query parameters
   function getSearchOptions() {
-    var options = { clientID: clientID + '-' + new Date().getTime(), terms : $('#termSearch').val(), annotations : $('#annoSearch').val(),
+    var options = { clientID: clientID + '-' + new Date().getTime(), terms : $('#termSearch').val(), annotationSearch : $('#annoSearch').val(),
       validationState: $('#validationState').val(), annotationState: $('#annotationState').val(),
       from: $('#fromDate').val(), to: $('#toDate').val(),
       // FIXME normalize including annotations 
@@ -111,16 +111,16 @@ $(function() {
     return options;
   }
 
-// perform a cluster search
+// perform a cluster query
   function doCluster() {
-    // cancel any outstanding search
+    // cancel any outstanding query
     if (clusterSub) {
       clusterSub.cancel();
     }
 
     var options = getSearchOptions();
 
-    // use the generated clientID for the current search
+    // use the generated clientID for the current query
     clusterSub = fayeClient.subscribe('/clusterResults/' + options.clientID, function(results) {
       console.log('/clusterResults', results);
       browseCluster.doTreemap(results.clusters, '#browse');
@@ -129,22 +129,22 @@ $(function() {
     fayeClient.publish('/cluster', options);
   }
 
-// perform a general search
+// perform a general query
   function doSearch() {
 
-    // cancel any outstanding search
-    if (searchSub) {
-      searchSub.cancel();
+    // cancel any outstanding query
+    if (querySub) {
+      querySub.cancel();
     }
 
     var options = getSearchOptions();
-    // use the generated clientID for the current search
-    searchSub = fayeClient.subscribe('/searchResults/' + options.clientID, function(results) {
-      console.log('/searchResults', results);
+    // use the generated clientID for the current query
+    querySub = fayeClient.subscribe('/queryResults/' + options.clientID, function(results) {
+      console.log('/queryResults', results);
 
       updateResults(results);
 
-// search navigator
+// query browse
       if ($("#browseNav" ).val() === 'annotations') {
         $('.browse.sidebar').sidebar('show');
         browseAnnotations.doTreemap(results, '#browse');
@@ -153,8 +153,8 @@ $(function() {
       }
     });
 
-    fayeClient.publish('/search', options);
-    $('.search.button').animate({opacity: 0.2}, 200, 'linear');
+    fayeClient.publish('/query', options);
+    $('.query.button').animate({opacity: 0.2}, 200, 'linear');
   }
 
 // return all items selected
@@ -233,7 +233,7 @@ $(function() {
 
 
   // set up qs for parameters (from http://stackoverflow.com/a/3855394 )
-  // initial search
+  // initial query
   updateQueryForm();
   submitQuery();
   $('.team.container').select2();
@@ -247,7 +247,7 @@ $(function() {
 
 });
 
-// update the search form based on search fields
+// update the query form based on query fields
 function updateQueryForm() {
   // populate the querystring object
   if (!qs) {

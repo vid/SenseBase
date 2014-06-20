@@ -96,7 +96,7 @@ function submitQuery() {
     } 
   });
 
-  window.history.pushState('search form', 'Search', 'index.html?' + ss.join('&'));
+  window.history.pushState('query form', 'Search', 'index.html?' + ss.join('&'));
 
   if ($("#browseNav" ).val() === 'cluster') {
     $('#browse').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
@@ -147,16 +147,16 @@ function updateResults(results) {
   // clear queued notifier
   $('.toggle.item').removeClass('red');
   clearInterval(queuedNotifier);
-  $('.search.button').animate({opacity: 1}, 500, 'linear');
+  $('.query.button').animate({opacity: 1}, 500, 'linear');
   // use arbitrary rendering to fill results
   var container = '#results';
   if (results.hits) {
     $(container).html('');
-    $('#searchCount').html(results.hits.hits.length === results.hits.total ? results.hits.total : (results.hits.hits.length + '/' + results.hits.total));
+    $('#queryCount').html(results.hits.hits.length === results.hits.total ? results.hits.total : (results.hits.hits.length + '/' + results.hits.total));
     resultView.render(container, results);
   } else {
     $(container).html('<i>No items.</i>');
-    $('#searchCount').html('0');
+    $('#queryCount').html('0');
   }
 }
 
