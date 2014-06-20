@@ -70,7 +70,6 @@ fayeClient.subscribe('/updateItem', function(result) {
   } else {
     var i = 0, l = lastResults.hits.hits.length;
     for (i; i < l; i++) {
-      console.log(i, lastResults.hits.hits[i]._source);
       if (lastResults.hits.hits[i]._source.uri === result._source.uri) {
         lastResults.hits.hits.splice(i, 1);
         break;
@@ -83,15 +82,15 @@ fayeClient.subscribe('/updateItem', function(result) {
 
 // set up form
 $('.query.input').keyup(function(e) {
-  if (e.keyCode == 13) submitSearch();
+  if (e.keyCode == 13) submitQuery();
 });
-$('.query.submit').click(submitSearch);
+$('.query.submit').click(submitQuery);
 
-function submitSearch() {
-  updateQuerystring();
+// submit a query
+function submitQuery() {
 // save form contents in querystring
   var ss = [];
-  searchFields.forEach(function(i) {
+  queryFields.forEach(function(i) {
     if ($('#'+i).val()) {
       ss.push(i + '=' + $('#'+i).val());
     } 
@@ -99,7 +98,7 @@ function submitSearch() {
 
   window.history.pushState('search form', 'Search', 'index.html?' + ss.join('&'));
 
-  if ($( "#browseNav" ).val() === 'cluster') {
+  if ($("#browseNav" ).val() === 'cluster') {
     $('#browse').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
     $('.browse.sidebar').sidebar('show');
     doCluster();
@@ -183,7 +182,6 @@ function hideItemSidebar() {
 
 include "results.table.js"
 include "results.scatter.js"
-include "results.treemap.js"
 include "results.debug.js"
 
 resultView = resultViews.table;

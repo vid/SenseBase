@@ -9,9 +9,6 @@ var browseCluster = {
     });
     // update selected count
     checkSelected();
-
-    console.log('MM', d3.event.target.__data__.label, docs);
-
   },
   doTreemap : function(data, target) {
     $(target).removeClass('treemap');

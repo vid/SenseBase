@@ -3,7 +3,7 @@
 var resultViews = {}, resultView, searchSub, clusterSub, qs; 
 var sbUser = window.senseBase.user;
 var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
-var searchFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav'];
+var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav'];
 
 var treeInterface = { 
   hover: function(anno) {}, 
@@ -204,8 +204,6 @@ $(function() {
   $('.visualisation.item').click(function() {
     if ($(this).hasClass('scatter')) { 
       resultView = resultViews.scatter;
-    } else if ($(this).hasClass('treemap')) {
-      resultView = resultViews.treemap;
     } else if ($(this).hasClass('debug')) {
       resultView = resultViews.debug;
     } else {
@@ -236,7 +234,8 @@ $(function() {
 
   // set up qs for parameters (from http://stackoverflow.com/a/3855394 )
   // initial search
-  doSearch();
+  updateQueryForm();
+  submitQuery();
   $('.team.container').select2();
 
   // needed by filter
@@ -248,7 +247,9 @@ $(function() {
 
 });
 
-function updateQuerystring() {
+// update the search form based on search fields
+function updateQueryForm() {
+  // populate the querystring object
   if (!qs) {
     qs = (function(a) {
       if (a == "") return {};
@@ -262,7 +263,7 @@ function updateQuerystring() {
     })(window.location.search.substr(1).split('&'));
   }
 
-  searchFields.forEach(function(f) {
+  queryFields.forEach(function(f) {
     if (qs[f]) {
       $('#'+f).val(qs[f]);
     }
