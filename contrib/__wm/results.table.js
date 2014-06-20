@@ -94,7 +94,7 @@ resultViews.table = {
           va[visitor.member] = a;
         });
         for (var a in va) {
-          vv += '<p class="showa"><a class="ui black circular label">' + va[a].visits.length + '</a>' + a + '</p><div class="hidden">' + JSON.stringify(va[a].visits) + '</div>';
+          vv += '<div class="showa"><span class="mini ui basic button"><a class="mini ui black basic circular label">' + va[a].visits.length + '</a> ' + a + '</span></div><div class="hidden">' + JSON.stringify(va[a].visits) + '</div>';
         }
         row += '' + vv;
       }
