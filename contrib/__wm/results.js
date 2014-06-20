@@ -86,6 +86,8 @@ $('.query.input').keyup(function(e) {
   if (e.keyCode == 13) doSearch();
 });
 $('.query.submit').click(function(event) {
+  event.preventDefault();
+
   if ($( "#browseNav" ).val() === 'cluster') {
     $('#browse').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
     $('.browse.sidebar').sidebar('show');
