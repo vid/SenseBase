@@ -18,6 +18,11 @@ table {
   font-size: 90%;
 }
 
+em {
+  background: yellow;
+  font-style: normal;
+}
+
 .anedit { 
   display: none;
 }
