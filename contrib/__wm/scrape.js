@@ -35,7 +35,7 @@ $('.scraping.form').form(
 
 // submit a new scrape
 function submitScrape() {
-  var targetResults = $('#targetResults').val(), input = $('#scrapeInput').val(), scrapeContinue = $('#scrapeContinue').val(), scrapeTags = $('#scrapeTags').val().split(','), scrapeTeam = $(".scraping.team.container option:selected").map(function() { return this.value }).get();
+  var targetResults = $('#targetResults').val(), input = $('#scrapeInput').val(), scrapeContinue = $('#scrapeContinue').val(), scrapeTags = $('#scrapeTags').val().split(',').map(function(t) { return t.trim(); }), scrapeTeam = $(".scraping.team.container option:selected").map(function() { return this.value }).get();
   // FIXME: SUI validation for select2 field
   if (!scrapeTeam.length) {
     alert('Please select team members');
