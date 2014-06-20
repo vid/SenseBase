@@ -13,7 +13,7 @@ var treeInterface = {
       console.log(anno);
       $('#annoType option:contains(anno.type)').prop('selected', true);
       // for now categories only
-      $('#annoValue').val(anno.text);
+      $('#annoValue').val(anno.category || anno.value);
       $('#annoBy').val(anno.annotatedBy);
       $('#annotatedAt').html(anno.annotatedAt || '&nbsp;');
       $('.filter.icon').click(function() {
