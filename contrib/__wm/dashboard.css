@@ -103,7 +103,7 @@ a:active {text-decoration:underline;}
   pointer-events: none;
 }
 
-.treemap div.tooltip {   
+div.tooltip {   
   position: absolute;           
   width: 10em;;                  
   height: 3em;;                 
