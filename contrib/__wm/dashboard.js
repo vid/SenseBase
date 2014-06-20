@@ -1,6 +1,6 @@
 // GLOBALS
 
-var resultViews = {}, resultView, searchSub, clusterSub; 
+var resultViews = {}, resultView, searchSub, clusterSub, qs; 
 var sbUser = window.senseBase.user;
 var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
 var searchFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav'];
@@ -108,7 +108,6 @@ $(function() {
       from: $('#fromDate').val(), to: $('#toDate').val(),
       // FIXME normalize including annotations 
       member: $('#annoMember').val(), annotations: ($("#browseNav" ).val() === 'annotations') ? '*' : null};
-      console.log('hihhi', options);
     return options;
   }
 
@@ -132,17 +131,6 @@ $(function() {
 
 // perform a general search
   function doSearch() {
-console.log($('.query.form').serialize());
-
-    // update location with parameters
-    var qs = [];
-    searchFields.forEach(function(i) {
-      if ($('#'+i).val()) {
-        qs.push(i + '=' + $('#'+i).val());
-      }
-    });
-
-    window.history.pushState('search form', 'Search', 'index.html?' + qs.join('&'));
 
     // cancel any outstanding search
     if (searchSub) {
@@ -247,24 +235,7 @@ console.log($('.query.form').serialize());
 
 
   // set up qs for parameters (from http://stackoverflow.com/a/3855394 )
-  var qs = (function(a) {
-      if (a == "") return {};
-      var b = {};
-      for (var i = 0; i < a.length; ++i)
-      {
-          var p=a[i].split('=');
-          if (p.length != 2) continue;
-          b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
-      }
-      return b;
-  })(window.location.search.substr(1).split('&'));
-
   // initial search
-  searchFields.forEach(function(f) {
-    if (qs[f]) {
-      $('#'+f).val(qs[f]);
-    }
-  });
   doSearch();
   $('.team.container').select2();
 
@@ -276,6 +247,27 @@ console.log($('.query.form').serialize());
   include "scrape.js"
 
 });
+
+function updateQuerystring() {
+  if (!qs) {
+    qs = (function(a) {
+      if (a == "") return {};
+      var b = {};
+      for (var i = 0; i < a.length; ++i) {
+        var p=a[i].split('=');
+        if (p.length != 2) continue;
+        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+      }
+      return b;
+    })(window.location.search.substr(1).split('&'));
+  }
+
+  searchFields.forEach(function(f) {
+    if (qs[f]) {
+      $('#'+f).val(qs[f]);
+    }
+  });
+}
 
 function moreLikeThis(uri) {
   fayeClient.publish('/moreLikeThis', { client: clientID, uri: uri});

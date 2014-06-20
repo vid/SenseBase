@@ -83,10 +83,21 @@ fayeClient.subscribe('/updateItem', function(result) {
 
 // set up form
 $('.query.input').keyup(function(e) {
-  if (e.keyCode == 13) doSearch();
+  if (e.keyCode == 13) submitSearch();
 });
-$('.query.submit').click(function(event) {
-  event.preventDefault();
+$('.query.submit').click(submitSearch);
+
+function submitSearch() {
+  updateQuerystring();
+// save form contents in querystring
+  var ss = [];
+  searchFields.forEach(function(i) {
+    if ($('#'+i).val()) {
+      ss.push(i + '=' + $('#'+i).val());
+    } 
+  });
+
+  window.history.pushState('search form', 'Search', 'index.html?' + ss.join('&'));
 
   if ($( "#browseNav" ).val() === 'cluster') {
     $('#browse').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
@@ -95,7 +106,8 @@ $('.query.submit').click(function(event) {
   } else {
     doSearch();
   }
-});
+  return false;
+}
 
 $('#fromDate').datepicker();
 $('#toDate').datepicker();
