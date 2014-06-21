@@ -130,17 +130,14 @@ $(function() {
     fayeClient.publish('/cluster', options);
   }
 
-// perform a general query
-  function doSearch() {
-
+// update the query results subscription to this clientID
+  function updateQuerySub(clientID) {
     // cancel any outstanding query
     if (querySub) {
       querySub.cancel();
     }
 
-    var options = getSearchOptions();
-    // use the generated clientID for the current query
-    querySub = fayeClient.subscribe('/queryResults/' + options.clientID, function(results) {
+    querySub = fayeClient.subscribe('/queryResults/' + clientID, function(results) {
       console.log('/queryResults', results);
 
       updateResults(results);
@@ -153,6 +150,14 @@ $(function() {
         $('.browse.sidebar').sidebar('hide');
       }
     });
+  }
+
+// perform a general query
+  function doSearch() {
+
+    var options = getSearchOptions();
+    // use the generated clientID for the current query
+    updateQuerySub(options.clientID);
 
     fayeClient.publish('/query', options);
     $('.query.button').animate({opacity: 0.2}, 200, 'linear');
@@ -242,6 +247,7 @@ $(function() {
   // needed by filter
   window.doSearch = doSearch;
   window.submitQuery = submitQuery;
+  window.updateQuerySub = updateQuerySub;
 
   include "results.js"
   include "members.js"
@@ -295,7 +301,8 @@ function updateQueryForm() {
 }
 
 function moreLikeThis(uri) {
-  fayeClient.publish('/moreLikeThis', { client: clientID, uri: uri});
+  fayeClient.publish('/moreLikeThis', { clientID: clientID, uri: uri});
+  updateQuerySub(clientID);
 }
 
 function refreshAnnos(uri) {
