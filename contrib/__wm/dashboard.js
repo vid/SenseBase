@@ -20,6 +20,7 @@ var treeInterface = {
         console.log(anno, 'filtering on', this);
         if ($(this).hasClass('by')) {
           $('#annoMember').val('"' + anno.annotatedBy + '"');
+          $('#annotationState').val('provided');
         } else {
           $('#annoSearch').val('"' + anno.text + '"');
         }
