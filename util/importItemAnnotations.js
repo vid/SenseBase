@@ -2,6 +2,9 @@
 
 var importer = require('../util/mapJsonToItemAnnotation'), siteQueries = require('./siteQueries');
 var importLimit = 5;
+var LOOKUP_URIS = false, SAVE = true;
+
+console.log('LOOKUP_URIS', LOOKUP_URIS, 'SAVE', SAVE);
 
 GLOBAL.config = require('../config.js').config;
 GLOBAL.config.indexer = require('../lib/indexer.js');
@@ -24,7 +27,7 @@ data.forEach(function(d) {
   count++;
   try {
     // find uri from pubmed
-    if (!d.uri) {
+    if (!d.uri && LOOKUP_URIS) {
       siteQueries.findPubMedArticle(d.Title, function(err, res) {
         if (err || !res) {
           d.uri = 'http://www.ncbi.nlm.nih.gov/pubmed/?term=' + d.Title.replace(/ /g, '+');
@@ -34,6 +37,9 @@ data.forEach(function(d) {
         doImport(d);
       });
     } else {
+      if (!d.uri && !LOOKUP_URIS) {
+        d.uri = 'http://NOURI/' + count;
+      }
       doImport(d);
     }
 
@@ -64,9 +70,11 @@ function doImport(d) {
   cItem.queued = queued;
   cItem.visitors = [{ member: 'import', '@timestamp': new Date().toISOString() }];
   cItem.annotations = annotations;
-  GLOBAL.config.indexer._saveContentItem(cItem);
-  // FIXME only works for items with abstract content
-  GLOBAL.config.pubsub.requestAnnotate(cItem.uri, cItem.content);
+  if (SAVE) {
+    GLOBAL.config.indexer._saveContentItem(cItem);
+    // FIXME only works for items with abstract content
+    GLOBAL.config.pubsub.requestAnnotate(cItem.uri, cItem.content);
+  }
 
   imported++;
 }
