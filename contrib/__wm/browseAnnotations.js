@@ -1,62 +1,31 @@
 var browseAnnotations = {
   doTreemap : function(results, target) {
     $(target).addClass('treemap');
-    var root = { name : 'Annotations', size: 1, children: []
-    };
-    // build a size of hierarchical annotations
-    results.hits.hits.forEach(function(hit) {
-      (hit._source.annotations || []).forEach(function(anno) {
-        // for each start at the root
-        var last = root;
-        // iterate through its annotations
-        anno.position.forEach(function(p) {
-          var cur;
-          // find its parent
-          last.children.forEach(function(c) {
-            if (c.name === p) {
-              cur = c;
-              return;
-            }
-          });
-          // or create it
-          if (!cur) {
-            last.children.push({name: p, uri: 'http://', size: 1, children: []});
-            cur = last.children[last.children.length - 1];
-          }
-          // increment its instances
-          cur.size += 1;
-          // use it as the basis for the cur up
-          last = cur;
-        });
-      });
-    });
-    //$('#results').html('<pre>' + JSON.stringify(root, null, 2) + '</pre>');
+    renderTreemap(results.annotationOverview, target);
+    window.onresize = function() { renderTreemap(results.annotationOverview, target)};
 
-  renderTreemap(root, target);
-  window.onresize = function() { renderTreemap(root, target)};
+    function renderTreemap(root, target) {
+      $(target).html('');
+      var $target = $(target), 
+        w = $target.innerWidth(),
+        h = $target.innerHeight(),
+        x = d3.scale.linear().range([0, w]),
+        y = d3.scale.linear().range([0, h]);
 
-  function renderTreemap(root, target) {
-    $(target).html('');
-    var $target = $(target), 
-      w = $target.innerWidth(),
-      h = $target.innerHeight(),
-      x = d3.scale.linear().range([0, w]),
-      y = d3.scale.linear().range([0, h]);
+      var vis = d3.select(target).append("div")
+          .attr("class", "chart")
+          .style("width", w + "px")
+          .style("height", h + "px")
+        .append("svg:svg")
+          .attr("width", w)
+          .attr("height", h);
 
-    var vis = d3.select(target).append("div")
-        .attr("class", "chart")
-        .style("width", w + "px")
-        .style("height", h + "px")
-      .append("svg:svg")
-        .attr("width", w)
-        .attr("height", h);
+      var div = d3.select("body").append('div')   
+        .attr("class", "tooltip")               
+        .style("opacity", 0);
 
-    var div = d3.select("body").append('div')   
-      .attr("class", "tooltip")               
-      .style("opacity", 0);
-
-    var partition = d3.layout.partition()
-        .value(function(d) { return d.size; });
+      var partition = d3.layout.partition()
+          .value(function(d) { return d.size; });
 
       var g = vis.selectAll("g")
           .data(partition.nodes(root))
