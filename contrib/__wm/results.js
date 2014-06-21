@@ -2,7 +2,6 @@
 // hasQueuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
 var queryRefresher, hasQueuedUpdates, noUpdates, queuedNotifier;
 var resultViews = {};
-var lastResults;
 
 // sets the current annotation loc
 function setCurrentURI(u) {
@@ -85,28 +84,6 @@ $('.query.input').keyup(function(e) {
   if (e.keyCode == 13) submitQuery();
 });
 $('.query.submit').click(submitQuery);
-
-// submit a query
-function submitQuery() {
-// save form contents in querystring
-  var ss = [];
-  queryFields.forEach(function(i) {
-    if ($('#'+i).val()) {
-      ss.push(i + '=' + $('#'+i).val());
-    } 
-  });
-
-  window.history.pushState('query form', 'Search', 'index.html?' + ss.join('&'));
-
-  if ($("#browseNav" ).val() === 'cluster') {
-    $('#browse').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
-    $('.browse.sidebar').sidebar('show');
-    doCluster();
-  } else {
-    doSearch();
-  }
-  return false;
-}
 
 $('#fromDate').datepicker();
 $('#toDate').datepicker();

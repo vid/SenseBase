@@ -1,11 +1,11 @@
 // GLOBALS
 
-var resultViews = {}, resultView, querySub, clusterSub, qs; 
+var resultViews = {}, resultView, querySub, clusterSub, lastResults, qs; 
 var sbUser = window.senseBase.user;
 var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
 var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav'];
 
-var treeInterface = { 
+var treeInterface = {
   hover: function(anno) {}, 
   select: function(anno, e, data) {
     // selected an annotation
@@ -23,7 +23,7 @@ var treeInterface = {
         } else {
           $('#annoSearch').val('"' + anno.text + '"');
         }
-        doSearch();
+        submitQuery();
       });
 
       // set state buttons accordingly
@@ -240,10 +240,33 @@ $(function() {
 
   // needed by filter
   window.doSearch = doSearch;
+  window.submitQuery = submitQuery;
 
   include "results.js"
   include "members.js"
   include "scrape.js"
+// submit a query 
+function submitQuery() { 
+// save form contents in querystring 
+  var ss = []; 
+  queryFields.forEach(function(i) { 
+    if ($('#'+i).val()) { 
+      ss.push(i + '=' + $('#'+i).val()); 
+    }  
+  }); 
+ 
+  window.history.pushState('query form', 'Search', 'index.html?' + ss.join('&')); 
+ 
+  if ($("#browseNav" ).val() === 'cluster') { 
+    $('#browse').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap'); 
+    $('.browse.sidebar').sidebar('show'); 
+    doCluster(); 
+  } else { 
+    doSearch(); 
+  } 
+  return false; 
+} 
+
 
 });
 
