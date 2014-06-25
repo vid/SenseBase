@@ -1,6 +1,7 @@
-// sample code for creating annotation items (TODO: convert to test)
+// sample code for creating annotation items
+// hasty importing spaghetti mess; avoid if possible 
 
-var importer = require('../util/mapJsonToItemAnnotation'), siteQueries = require('./siteQueries');
+var importer = require('../util/mapJsonToItemAnnotation'), siteQueries = require('./siteQueries'), annoLib = require('../lib/annotations');
 var importLimit = 5;
 var LOOKUP_URIS = false, SAVE = true;
 
@@ -63,13 +64,23 @@ data.forEach(function(d) {
 
 
 function doImport(d) {
-  var r = importer.mapToItem(d, { queued: queued });
+  // transform if it hasn't been
+  if (!d.annotatedBy) {
+    var r = importer.mapToItem(d, { queued: queued });
 
-  console.log('ITEM', r.contentItem._id, r.annotations.length);
-  var cItem = r.contentItem, annotations = r.annotations;
+    console.log('ITEM', r.contentItem._id, r.annotations.length);
+    var cItem = r.contentItem, annotations = r.annotations;
+    cItem.annotations = annotations;
+  } else {
+    var newannos = d.annotations.map(function(a) {
+      return annoLib.createAnnotation({ hasTarget: d.uri, type: 'category', category: a['category'], annotatedBy: d.annotatedBy});
+    });
+    d.annotations = newannos;
+      
+    cItem = annoLib.createContentItem(d);
+  }
   cItem.queued = queued;
   cItem.visitors = [{ member: 'import', '@timestamp': new Date().toISOString() }];
-  cItem.annotations = annotations;
   if (SAVE) {
     GLOBAL.config.indexer._saveContentItem(cItem);
     // FIXME only works for items with abstract content

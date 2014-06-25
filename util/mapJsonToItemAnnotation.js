@@ -97,6 +97,8 @@ function mapToItem(item, merge) {
   // categories first
   for (var a in proto.categories) {
     var def = proto.categories[a];
+    def.level = def.level.filter(function(a) { if (a.length) { return true; }});
+
 // an array of categories
     if (Array.isArray(def.content)) {
       def.content.forEach(function(category) {
@@ -108,6 +110,7 @@ function mapToItem(item, merge) {
 // a single category
     } else {
       var level = def.level.slice(0); // copy base level
+      console.log('OO',def.level);
       level.push(def.category[0]);
       annos.push(annotations.createAnnotation({ hasTarget: cItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level, state: valState }));
     }

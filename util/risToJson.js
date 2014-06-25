@@ -18,8 +18,13 @@ exports.risToJson = function(src, options) {
   var cur = {}, risFound = [], processed = 0, lastField, notFoundKeys = {}, i;
 
   for (i = 0 ; i < risLines.length; i++) {
-    var l = risLines[i];
-    if (l.trim().length < 1) { // end of record
+    var l = risLines[i], key, val, hasKey;
+    if (l.substring(4, 5) === '-') { // new field in record
+      hasKey = true;
+      key = l.substr(0, 4).trim();
+      val = l.substr(6);
+    }
+    if (l.trim().length < 1 || key === 'ER') { // end of record
       if (Object.keys(cur).length > 1) {
         risFound.push(cur);
         processed++;
@@ -29,9 +34,7 @@ exports.risToJson = function(src, options) {
         cur = {};
         lastField = null;
       }
-    } else if (l.substring(4, 5) == '-') { // new field in record
-      var key = l.substr(0, 4).trim();
-      var val = l.substr(6);
+    } else if (hasKey) { // new field in record
 //      console.log(key, val);
       var dest = risMapping[key];
       foundFields[dest] = foundFields[dest] ? foundFields[dest] + 1 : 1;
@@ -51,7 +54,7 @@ exports.risToJson = function(src, options) {
         cur[dest].push(val);
       } else { // single value
         if (cur[dest]) {
-          throw('duplicate ' + dest + ' from ' + l);
+          console.log('duplicate ' + dest + ' from ' + l);
         }
         cur[dest] = val.trim();
       }
