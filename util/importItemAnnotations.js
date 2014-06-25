@@ -1,5 +1,5 @@
 // sample code for creating annotation items
-// hasty importing spaghetti mess; avoid if possible 
+// imports from mapped items or proto contentItems
 
 var importer = require('../util/mapJsonToItemAnnotation'), siteQueries = require('./siteQueries'), annoLib = require('../lib/annotations');
 var importLimit = 5;
@@ -64,7 +64,7 @@ data.forEach(function(d) {
 
 
 function doImport(d) {
-  // transform if it hasn't been
+  // transform mapped item if it's not a proto item 
   if (!d.annotatedBy) {
     var r = importer.mapToItem(d, { queued: queued });
 
