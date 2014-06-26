@@ -66,7 +66,17 @@ var browseAnnotations = {
   */
 
       function click(d) {
-        if (!d.children) return;
+        if (!d.children) {
+          // check selected
+          if (d.items.length) {
+            d.items.forEach(function(uri) {
+              $('input[name=cb_' + encID(uri) + ']').prop('checked', 'true');
+            });
+            // update selected count
+            checkSelected();
+          }
+          return;
+        }
 
         kx = (d.y ? w - 40 : w) / (1 - d.y);
         ky = h / d.dx;
