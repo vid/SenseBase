@@ -189,6 +189,7 @@ $(function() {
     }
   });
 
+
 // delete selected
   $('.delete.selected').click(function() {
     if ($('.selected.label').text() > 0) {
@@ -215,7 +216,7 @@ $(function() {
     } else {
       resultView = resultViews.table;
     }
-    doSearch();
+    updateResults(lastResults);
   });
 
   $('.select.all').click(function() {
