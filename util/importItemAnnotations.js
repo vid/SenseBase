@@ -3,7 +3,7 @@
 
 var importer = require('../util/mapJsonToItemAnnotation'), siteQueries = require('./siteQueries'), annoLib = require('../lib/annotations');
 var importLimit = 5;
-var LOOKUP_URIS = false, SAVE = true;
+var LOOKUP_URIS = true, SAVE = true;
 
 console.log('LOOKUP_URIS', LOOKUP_URIS, 'SAVE', SAVE);
 
@@ -29,9 +29,9 @@ data.forEach(function(d) {
   try {
     // find uri from pubmed
     if (!d.uri && LOOKUP_URIS) {
-      siteQueries.findPubMedArticle(d.Title, function(err, res) {
+      siteQueries.findPubMedArticle(d.Title || d.title, function(err, res) {
         if (err || !res) {
-          d.uri = 'http://www.ncbi.nlm.nih.gov/pubmed/?term=' + d.Title.replace(/ /g, '+');
+          d.uri = 'http://www.ncbi.nlm.nih.gov/pubmed/?term=' + (d.Title || d.title).replace(/ /g, '+');
         } else {
           d.uri = 'http://www.ncbi.nlm.nih.gov/pubmed/' + res;
         }
@@ -45,7 +45,8 @@ data.forEach(function(d) {
     }
 
   } catch (e) {
-    console.log('error', e);
+    console.log('error', e, 'for', d);
+    console.trace();
     failed++;
   }
 
@@ -65,21 +66,23 @@ data.forEach(function(d) {
 
 function doImport(d) {
   // transform mapped item if it's not a proto item 
-  if (!d.annotatedBy) {
+  if (d.Title) {
     var r = importer.mapToItem(d, { queued: queued });
 
     console.log('ITEM', r.contentItem._id, r.annotations.length);
     var cItem = r.contentItem, annotations = r.annotations;
     cItem.annotations = annotations;
   } else {
-    var newannos = d.annotations.map(function(a) {
-      return annoLib.createAnnotation({ hasTarget: d.uri, type: 'category', category: a['category'], annotatedBy: d.annotatedBy});
-    });
-    d.annotations = newannos;
-      
+    d.queued = queued;
     cItem = annoLib.createContentItem(d);
+    cItem.queued = queued;
   }
-  cItem.queued = queued;
+  (d.doAnnotations || []).forEach(function(a) {
+    a.hasTarget = cItem.uri;
+    a.annotatedBy = a.annotatedBy || cItem.annotatedBy;
+
+    cItem.annotations.push(annoLib.createAnnotation(a));
+  });
   cItem.visitors = [{ member: 'import', '@timestamp': new Date().toISOString() }];
   if (SAVE) {
     GLOBAL.config.indexer._saveContentItem(cItem);

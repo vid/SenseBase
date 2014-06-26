@@ -56,7 +56,7 @@ function getUnMapped() {
 // adding an optional queed state
 function mapToItem(item, merge) {
   // first pass, find fields and annos and add to a proto
-  var proto = {categories: [], vals: []};
+  var proto = {categories: [], vals: [], doAnnotations: item.doAnnotations};
   for (var key in item) {
     var mapped = flatFields[key];
     if (mapped) {

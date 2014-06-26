@@ -47,19 +47,31 @@ describe('Indexer', function(done) {
     });
   });
 
-  it('should form search by member', function(done) { 
-    var found = { member: uniqMember, annotationState: 'visited' }
+  it('should form search', function(done) { 
+    var found = { annotationState: 'visited' }
 
     indexer.formSearch(found, function(err, res) {
       expect(err).to.be.null;
       expect(res.hits.total).to.be(1);
+    });
+  });
 
-      var notFound = { member: uniqMember + 'nonense', annotationState: 'visited' }
-      indexer.formSearch(notFound, function(err, res) {
-        expect(err).to.be.null;
-        expect(res.hits.total).to.be(0);
-        done();
-      });
+  it('should form search by member', function(done) { 
+    var found = { member: uniqMember, annotationState: 'visited' }
+
+    indexer.formSearch(found, function(err, res) {
+      console.log(JSON.stringify(res, null, 2));
+      expect(err).to.be.null;
+      expect(res.hits.total).to.be(1);
+    });
+  });
+
+  it('should return no results for form search by non-member', function(done) { 
+    var notFound = { member: uniqMember + 'nonense', annotationState: 'visited' }
+    indexer.formSearch(notFound, function(err, res) {
+      expect(err).to.be.null;
+      expect(res.hits.total).to.be(0);
+      done();
     });
   });
 
