@@ -3,7 +3,7 @@
 var resultViews = {}, resultView, querySub, clusterSub, lastResults, qs; 
 var sbUser = window.senseBase.user;
 var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
-var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav'];
+var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav', 'browseNum'];
 
 var treeInterface = {
   hover: function(anno) {}, 
@@ -105,7 +105,7 @@ $(function() {
   // formulate query parameters
   function getSearchOptions() {
     var options = { clientID: clientID + '-' + new Date().getTime(), terms : $('#termSearch').val(), annotationSearch : $('#annoSearch').val(),
-      validationState: $('#validationState').val(), annotationState: $('#annotationState').val(),
+      validationState: $('#validationState').val(), annotationState: $('#annotationState').val(), browseNum: $('#browseNum').val(),
       from: $('#fromDate').val(), to: $('#toDate').val(),
       // FIXME normalize including annotations 
       member: $('#annoMember').val(), annotations: ($("#browseNav" ).val() === 'annotations') ? '*' : null};
