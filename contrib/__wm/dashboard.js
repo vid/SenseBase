@@ -189,6 +189,17 @@ $(function() {
     }
   });
 
+// remove selected
+  $('.remove.selected').click(function() {
+    var i = lastResults.hits.hits.length, sel = getSelected();
+    for (i; i > 0; ) {
+      i--;
+      if (sel.indexOf(lastResults.hits.hits[i]._source.uri) < 0) {
+        delete lastResults.hits.hits[i];
+      }
+    }
+    updateResults(lastResults);
+  });
 
 // delete selected
   $('.delete.selected').click(function() {
