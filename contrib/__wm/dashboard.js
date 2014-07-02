@@ -60,6 +60,19 @@ $(function() {
 
   // main menu interaction
 
+    $('.cron.edit').jqCron({
+      enabled_minute: false,
+      multiple_dom: true,
+      multiple_month: true,
+      multiple_mins: true,
+      multiple_dow: true,
+      multiple_time_hours: true,
+      multiple_time_minutes: true,
+      default_period: 'week',
+      default_value: $('.cron.display').val() || '15 12 * * 7',
+      no_reset_button: true,
+      lang: 'en'
+    });
   $('.query.toggle').click(function() { $('.query.content').toggle('hidden'); $('.query.toggle').toggleClass('active');});
   $('.scrape.toggle').click(function() { $('.scrape.content').toggle('hidden'); $('.scrape.toggle').toggleClass('active'); });
   $('.team.toggle').click(function() { $('.team.content').toggle('hidden'); $('.team.toggle').toggleClass('active'); $('.member.content').hide(); $('#lastUsername').val(''); /* FIXME move to members.js */ });
@@ -217,6 +230,13 @@ $(function() {
     fayeClient.publish('/logout');
     document.location.href = '/logout';
   });
+
+// schedule search
+  $('.schedule.button').click(function() {
+    $('.schedule.modal').modal('show');
+    $('.cron.edit').html('');
+  });
+
 
 // FIXME toggle graph or table view
   $('.visualisation.item').click(function() {
