@@ -1,3 +1,4 @@
+//populate search name
 $('.scraping.form').form(
   {
     scrapeInput: {
@@ -18,8 +19,8 @@ $('.scraping.form').form(
         }
       ]
     },
-    scrapeTeam: {
-      identifier : 'scrapeTeam',
+    searchTeam: {
+      identifier : 'searchTeam',
       rules: [
         {
           type   : 'empty',
@@ -33,17 +34,22 @@ $('.scraping.form').form(
   }
 );
 
+// convert the form values to data
+function getSearchInput() {
+  var cronValue = $('input.cron').val(), searchName = $('#searchName').val(), targetResults = $('#targetResults').val(), input = $('#scrapeInput').val(), scrapeContinue = $('#scrapeContinue').val(), scrapeTags = $('#scrapeTags').val().split(',').map(function(t) { return t.trim(); }), searchTeam = $(".scraping.team.container option:selected").map(function() { return this.value }).get();
+  return { name: searchName, cron: cronValue, input: input, relevance: scrapeContinue, team: searchTeam, tags: scrapeTags, member: sbUser, targetResults: targetResults, valid: (input.length > 0 && scrapeContinue.length > 0 && searchTeam.length > 0 && scrapeTags.length > 0 && sbUser.length > 0 && targetResults.length > 0 )};
+}
+
 // submit a new scrape
 function submitScrape() {
-  var targetResults = $('#targetResults').val(), input = $('#scrapeInput').val(), scrapeContinue = $('#scrapeContinue').val(), scrapeTags = $('#scrapeTags').val().split(',').map(function(t) { return t.trim(); }), scrapeTeam = $(".scraping.team.container option:selected").map(function() { return this.value }).get();
+  var searchInput = getSearchInput();
   // FIXME: SUI validation for select2 field
-  if (!scrapeTeam.length) {
+    if (!searchInput.valid) {
     alert('Please select team members');
     return;
   }
-  var data = { input: input, relevance: scrapeContinue, team: scrapeTeam, tags: scrapeTags, member: sbUser, targetResults: targetResults};
-  console.log('publishing', data, fayeClient);
-  fayeClient.publish('/queueSearch', data);
+  console.log('publishing', searchInput, fayeClient);
+  fayeClient.publish('/search/queue', searchInput);
   if ($('#refreshScrape').prop('checked')) {
     $('#annoSearch').val($('#scrapeTags').val());
   //  $('#validationState').val('queued');
@@ -54,49 +60,36 @@ function submitScrape() {
 }
 
 // populate with initial set of saved scrapes
-fayeClient.publish('/savedScrapes', { member: sbUser });
+fayeClient.publish('/search/list', { member: sbUser });
 
-// receive list of saved scrapes
-fayeClient.subscribe('/scrapesResults', function(results) {
-  console.log('scrapesResults', results);
-  if (results.hits) {
-    var rows = [];
-    results.hits.hits.forEach(function(r) {
-      var v = r.fields;
-      var row = [];
-      ['name', 'status', 'lastRun', 'author', 'tags', 'found'].forEach(function(f) {
-        row.push(v[f] || ''); 
-//          row += '<td class="' + f + '" id="'+r._id + '_' + f + '">' + v[f] + '</td>';
-      });
-      row.push(v['annotations'] ? v['annotations'] : '-')
-      rows.push(row);
-    });
-    $('#existingScrapes').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="scrapesTable"></table>' );
-    $('#scrapesTable').dataTable( {
-      iDisplayLength: 100,
-      bAutoWidth: false,
-      aaData: rows,
-      aaSorting: [[ 1, "desc" ]],
-      aoColumns: [
-        { "sName": "Name",
-          "sWidth": "50%"
-        },
-        { "sTitle": "Status",
-          "sWidth": "10%" },
-        { "sTitle": "Last run",
-          "sWidth": "10%" },
-        { "sTitle": "Author",
-          "sWidth": "10%" },
-        { "sTitle": "Tags",
-          "sWidth": "10%" },
-        { "sTitle": "Found",
-          "sWidth": "10%" },
-      ]
-    });
-
+// save a search
+$('.save.search').click(function() {
+  var searchInput = getSearchInput();
+  if (searchInput.valid && searchInput.name.length > 0) {
+    fayeClient.publish('/search/save', searchInput);
   } else {
-    $('#existingScrapes').html('<i>No items.</i>');
+    alert('Missing parameters');
   }
 });
 
+// load a search
+$('.load.search').click(function() {
+  $('.load.modal').modal('show');
+});
 
+// receive list of saved searches
+fayeClient.subscribe('/search/results', function(results) {
+  $("#loadSearch").select2({
+    createSearchChoice: function (term, data) {
+      if ($(data).filter(function () {
+        return this.text.localeCompare(term) === 0;
+      }).length === 0) {
+        return {
+          id: term,
+          text: term
+        };
+      }
+    },
+    data: results.searches.map(function(i) { return { id: i, text: i } })
+  });
+});

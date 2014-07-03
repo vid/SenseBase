@@ -119,3 +119,7 @@ div.tooltip {
   pointer-events: none;         
   z-index: 999;
 }
+
+.jqCron-text {
+  line-height: 140%;
+}

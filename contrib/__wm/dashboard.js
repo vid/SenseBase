@@ -60,7 +60,7 @@ $(function() {
 
   // main menu interaction
 
-    $('.cron.edit').jqCron({
+    $('input.cron').jqCron({
       enabled_minute: false,
       multiple_dom: true,
       multiple_month: true,
@@ -69,7 +69,7 @@ $(function() {
       multiple_time_hours: true,
       multiple_time_minutes: true,
       default_period: 'week',
-      default_value: $('.cron.display').val() || '15 12 * * 7',
+      default_value: $('input.cron').val() || '15 12 * * 7',
       no_reset_button: true,
       lang: 'en'
     });
