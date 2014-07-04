@@ -59,20 +59,6 @@ $(function() {
   console.log('clientID', window.clientID);
 
   // main menu interaction
-
-    $('input.cron').jqCron({
-      enabled_minute: false,
-      multiple_dom: true,
-      multiple_month: true,
-      multiple_mins: true,
-      multiple_dow: true,
-      multiple_time_hours: true,
-      multiple_time_minutes: true,
-      default_period: 'week',
-      default_value: $('input.cron').val() || '15 12 * * 7',
-      no_reset_button: true,
-      lang: 'en'
-    });
   $('.query.toggle').click(function() { $('.query.content').toggle('hidden'); $('.query.toggle').toggleClass('active');});
   $('.scrape.toggle').click(function() { $('.scrape.content').toggle('hidden'); $('.scrape.toggle').toggleClass('active'); });
   $('.team.toggle').click(function() { $('.team.content').toggle('hidden'); $('.team.toggle').toggleClass('active'); $('.member.content').hide(); $('#lastUsername').val(''); /* FIXME move to members.js */ });
@@ -286,7 +272,7 @@ function submitQuery() {
     }  
   }); 
  
-  window.history.pushState('query form', 'Search', 'index.html?' + ss.join('&')); 
+  window.history.pushState('query form', 'Query', 'index.html?' + ss.join('&')); 
  
   if ($("#browseNav" ).val() === 'cluster') { 
     $('#browse').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap'); 
