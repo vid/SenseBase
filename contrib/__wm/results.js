@@ -103,7 +103,7 @@ function clearQueryRefresher() {
 
 function setupQueryRefresher(interval) {
   clearQueryRefresher();
-  queryRefresher = setInterval(doSearch, interval);
+  queryRefresher = setInterval(doQuery, interval);
 }
 
 var ULEN = 70;

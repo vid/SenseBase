@@ -116,7 +116,7 @@ $(function() {
   });
 
   // formulate query parameters
-  function getSearchOptions() {
+  function getQueryOptions() {
     var options = { clientID: clientID + '-' + new Date().getTime(), terms : $('#termSearch').val(), annotationSearch : $('#annoSearch').val(),
       validationState: $('#validationState').val(), annotationState: $('#annotationState').val(), browseNum: $('#browseNum').val(),
       from: $('#fromDate').val(), to: $('#toDate').val(),
@@ -132,7 +132,7 @@ $(function() {
       clusterSub.cancel();
     }
 
-    var options = getSearchOptions();
+    var options = getQueryOptions();
 
     // use the generated clientID for the current query
     clusterSub = fayeClient.subscribe('/clusterResults/' + options.clientID, function(results) {
@@ -166,9 +166,9 @@ $(function() {
   }
 
 // perform a general query
-  function doSearch() {
+  function doQuery() {
 
-    var options = getSearchOptions();
+    var options = getQueryOptions();
     // use the generated clientID for the current query
     updateQuerySub(options.clientID);
 
@@ -231,13 +231,6 @@ $(function() {
     document.location.href = '/logout';
   });
 
-// schedule search
-  $('.schedule.button').click(function() {
-    $('.schedule.modal').modal('show');
-    $('.cron.edit').html('');
-  });
-
-
 // FIXME toggle graph or table view
   $('.visualisation.item').click(function() {
     if ($(this).hasClass('scatter')) { 
@@ -274,10 +267,9 @@ $(function() {
   // initial query
   updateQueryForm();
   submitQuery();
-  $('.team.container').select2();
 
   // needed by filter
-  window.doSearch = doSearch;
+  window.doQuery = doQuery;
   window.submitQuery = submitQuery;
   window.updateQuerySub = updateQuerySub;
 
@@ -301,7 +293,7 @@ function submitQuery() {
     $('.browse.sidebar').sidebar('show'); 
     doCluster(); 
   } else { 
-    doSearch(); 
+    doQuery(); 
   } 
   return false; 
 } 
