@@ -9,7 +9,7 @@ var fs = require('fs'),
   
 var utils = require('./lib/utils');
 
-var pubsub, scraper = require('./lib/scraper.js'), content = require('./lib/content.js');
+var pubsub, search = require('./lib/search.js'), content = require('./lib/content.js');
 
 var users;
 
