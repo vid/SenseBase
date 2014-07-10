@@ -178,15 +178,15 @@
 			"needsValidation": false
     },
     {
-      "id": 1385142808785,
-      "active": "2013-11-22T17:53:28.785Z",
-      "username": "scraper",
-      "type": "Scraper",
-      "description": "",
+      "id": 1385025182848,
+      "active": "2013-11-22T01:53:02.841Z",
+      "username": "Entrez",
+      "type": "Searcher",
+      "description": "Uses entrez esearch api",
       "status" : "available",
-			"needsValidation": false,
-      "class": "sitemap",
-      "password": "scraper"
+      "needsValidation": false,
+      "api" : "entrez-esearch",
+      "class": "search"
     },
     {
       "id": 1385085182849,
@@ -196,9 +196,28 @@
       "description": "",
       "status" : "available",
       "needsValidation": false,
-      "locations": "http://www.bing.com/search?q=$SBQUERY",
-      "class": "search",
-      "negativeTerms": ""
+      "api" : "bing.search",
+      "class": "search"
+    },
+    {
+      "id": 1385025182898,
+      "active": "2013-11-22T01:53:02.841Z",
+      "username": "Bing news",
+      "type": "Searcher",
+      "description": "Uses Bing news a searchpi",
+      "status" : "available",
+      "needsValidation": false,
+      "api" : "bing.news"
+    },
+    {
+      "id": 1385025182899,
+      "active": "2013-11-22T01:53:02.841Z",
+      "username": "Bing web",
+      "type": "Searcher",
+      "description": "Uses bing web search api",
+      "status" : "available",
+      "needsValidation": false,
+      "api" : "bing.web"
     }
   ]                                        
 }
