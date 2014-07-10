@@ -4,7 +4,7 @@ GLOBAL.config = require('../config.js').config;
 GLOBAL.config.indexer = require('../lib/indexer.js');
 GLOBAL.config.pubsub = require('../lib/pubsub.js');
 
-var scraper = require('../lib/scraper.js');
+var search = require('../lib/search.js');
 
 // watch for new links every 2 seconds
-setInterval(function() { scraper.getQueuedLink(scraper.getLink)}, 2000);
+setInterval(function() { search.getQueuedLink(search.getLink)}, 2000);
