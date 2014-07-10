@@ -8,7 +8,7 @@ fayeClient.subscribe('/teamList/' + clientID, function(teams) {
   var teamTypes = {};
   teams.forEach(function(m) {
     // create selects
-    if (m.status === 'available') {
+    if (m.status === 'available' && m.type === 'Searcher') {
       // group by type
       teamTypes[m.type] = (teamTypes[m.type] || '') + '<option value="' + m.username + '">' + m.username + '</option>';
     }
