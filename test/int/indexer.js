@@ -109,7 +109,7 @@ describe('Indexer', function(done) {
     });
   });
 
-  it('should save scrape', function(done) {
+  it('should save search', function(done) {
     indexer.saveScrape({ name : uniq, tags : 'test tags',
       startingPage: uniqURI, continueFinding: 'within 2',
       scanEvery: '5 hours', isSyndication: 'no', contentLocation: '' }, function(err, res) {
@@ -118,8 +118,8 @@ describe('Indexer', function(done) {
       });
   });
 
-  it('should search scrapes', function(done) {
-    indexer.scrapeSearch(uniq, function(err, res) {
+  it('should search searchs', function(done) {
+    indexer.searchSearch(uniq, function(err, res) {
       expect(err).to.be.null;;;;
       expect(res.hits.total).to.be(1);
       done();
