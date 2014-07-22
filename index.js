@@ -1,12 +1,12 @@
 // main module for SenseBase
 // meant to be modular but that needs some work.
 
-var fs = require('fs'), 
+var fs = require('fs'),
   http = require('http'),
   flash = require('connect-flash'),
   express = require('express'),
   util = require('util');
-  
+
 var utils = require('./lib/utils');
 
 var pubsub, search = require('./lib/search.js'), content = require('./lib/content.js');
@@ -26,7 +26,7 @@ exports.start = function(config, callback) {
   config.indexer = require('./lib/indexer.js');
   config.pageCache = require('./lib/pageCache.js');
   config.onRequest = require('./lib/auth.js');
-  // proxy has requested a content item.  
+  // proxy has requested a content item.
   config.onRetrieve = {
     process: function(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request) {
       var status = browser_request.proxy_received.statusCode;
@@ -58,7 +58,7 @@ exports.start = function(config, callback) {
   // Express stuff
   var app = express();
   var actions = require('./lib/app-actions.js');
-  
+
   app.configure(function() {
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
@@ -75,15 +75,15 @@ exports.start = function(config, callback) {
   });
 
   var server = app.listen(GLOBAL.config.HTTP_PORT || 9999);
-  
+
   pubsub.start(server);
-  
+
   var filterProxy = require('filter-proxy');
-  
-  filterProxy.start(GLOBAL.config); 
-  
+
+  filterProxy.start(GLOBAL.config);
+
   // interactive command line
-  
+
   repl = require('repl');
   r = repl.start({ prompt: GLOBAL.config.project + "> ", useGlobal: true});
   if (callback) {
