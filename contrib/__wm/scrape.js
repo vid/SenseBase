@@ -58,7 +58,7 @@ $('.scraping.form').form(
 // convert the form values to data
 function getSearchInput() {
   var cronValue = $('#scheduleSearch').prop('checked') ? $('input.cron').val() : null, searchName = $('#searchName').val(), targetResults = $('#targetResults').val(), input = $('#scrapeInput').val(), scrapeContinue = $('#scrapeContinue').val(), scrapeCategories = $('#scrapeCategories').val().split(',').map(function(t) { return t.trim(); }), searchTeam = $('select.scraping.team option:selected').map(function() { return this.value }).get();
-  return { name: searchName, cron: cronValue, input: input, relevance: scrapeContinue, team: searchTeam, categories: scrapeCategories, member: sbUser, targetResults: targetResults, valid: (input.length > 0 && scrapeContinue.length > 0 && searchTeam.length > 0 && scrapeCategories.length > 0 && sbUser.length > 0 && targetResults.length > 0 )};
+  return { searchName: searchName, cron: cronValue, input: input, relevance: scrapeContinue, team: searchTeam, categories: scrapeCategories, member: sbUser, targetResults: targetResults, valid: (input.length > 0 && scrapeContinue.length > 0 && searchTeam.length > 0 && scrapeCategories.length > 0 && sbUser.length > 0 && targetResults.length > 0 )};
 }
 
 // submit a new scrape
@@ -89,7 +89,7 @@ fayeClient.subscribe('/search/results', function(results) {
   savedSearches = results;
   if (results.hits.total > 0) {
     $("#loadSearch").select2({
-      data: results.hits.hits.map(function(i) { return { id: i._source.name, text: i._source.name } })
+      data: results.hits.hits.map(function(i) { return { id: i._source.searchName, text: i._source.searchName } })
     });
     $('.load.search').attr('disabled', false);
   } else {
@@ -100,7 +100,7 @@ fayeClient.subscribe('/search/results', function(results) {
 // save a search
 $('.save.search').click(function() {
   var searchInput = getSearchInput();
-  if (searchInput.valid && searchInput.name.length > 0) {
+  if (searchInput.valid && searchInput.searchName.length > 0) {
     fayeClient.publish('/search/save', searchInput);
   } else {
     alert('Missing parameters');
@@ -116,7 +116,7 @@ $('.load.search').click(function() {
 $('button.search.load').click(function() {
   var v = $('#loadSearch').val();
   savedSearches.hits.hits.forEach(function(s) {
-    if (s._source.name === v) {
+    if (s._source.searchName === v) {
       var r = s._source;
       if (r.cron) {
         $('input.cron').val(r.cron);

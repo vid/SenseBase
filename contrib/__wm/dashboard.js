@@ -1,12 +1,12 @@
 // GLOBALS
 
-var resultViews = {}, resultView, querySub, clusterSub, lastResults, qs; 
+var resultViews = {}, resultView, querySub, clusterSub, lastResults, qs;
 var sbUser = window.senseBase.user;
 var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
 var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav', 'browseNum'];
 
 var treeInterface = {
-  hover: function(anno) {}, 
+  hover: function(anno) {},
   select: function(anno, e, data) {
     // selected an annotation
     if (anno) {
@@ -46,7 +46,7 @@ var treeInterface = {
       $('.annotation.children').show();
       $('.annotation.children .count').html(data.node.children.length);
     }
-  } 
+  }
 };
 
 var mainSize = 0, fluidSizes = ['four', 'five', 'six', 'seven']; // fluid sizes for main ui
@@ -106,7 +106,7 @@ $(function() {
     var options = { clientID: clientID + '-' + new Date().getTime(), terms : $('#termSearch').val(), annotationSearch : $('#annoSearch').val(),
       validationState: $('#validationState').val(), annotationState: $('#annotationState').val(), browseNum: $('#browseNum').val(),
       from: $('#fromDate').val(), to: $('#toDate').val(),
-      // FIXME normalize including annotations 
+      // FIXME normalize including annotations
       member: $('#annoMember').val(), annotations: ($("#browseNav" ).val() === 'annotations') ? '*' : null};
     return options;
   }
@@ -180,7 +180,7 @@ $(function() {
     }
   });
 
-  $('.confirm.annotate.button').click(function() { 
+  $('.confirm.annotate.button').click(function() {
     var annotations = $('#selectedAnnotations').val().split(',').map(function(a) { return { type: 'category', category: a.trim()} });
     if (annotations.length) {
       fayeClient.publish('/saveAnnotations', { clientID: clientID, uris: getSelected(), annotatedBy: sbUser, annotations: annotations});
@@ -207,7 +207,7 @@ $(function() {
     }
   });
 
-  $('.confirm.delete.button').click(function() { 
+  $('.confirm.delete.button').click(function() {
     fayeClient.publish('/delete', { clientID: clientID, selected: getSelected()});
     return false;
   });
@@ -219,7 +219,7 @@ $(function() {
 
 // FIXME toggle graph or table view
   $('.visualisation.item').click(function() {
-    if ($(this).hasClass('scatter')) { 
+    if ($(this).hasClass('scatter')) {
       resultView = resultViews.scatter;
     } else if ($(this).hasClass('debug')) {
       resultView = resultViews.debug;
@@ -262,28 +262,27 @@ $(function() {
   include "results.js"
   include "members.js"
   include "scrape.js"
-// submit a query 
-function submitQuery() { 
-// save form contents in querystring 
-  var ss = []; 
-  queryFields.forEach(function(i) { 
-    if ($('#'+i).val()) { 
-      ss.push(i + '=' + $('#'+i).val()); 
-    }  
-  }); 
- 
-  window.history.pushState('query form', 'Query', 'index.html?' + ss.join('&')); 
- 
-  if ($("#browseNav" ).val() === 'cluster') { 
-    $('#browse').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap'); 
-    $('.browse.sidebar').sidebar('show'); 
-    doCluster(); 
-  } else { 
-    doQuery(); 
-  } 
-  return false; 
-} 
+// submit a query
+function submitQuery() {
+// save form contents in querystring
+  var ss = [];
+  queryFields.forEach(function(i) {
+    if ($('#'+i).val()) {
+      ss.push(i + '=' + $('#'+i).val());
+    }
+  });
 
+  window.history.pushState('query form', 'Query', 'index.html?' + ss.join('&'));
+
+  if ($("#browseNav" ).val() === 'cluster') {
+    $('#browse').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
+    $('.browse.sidebar').sidebar('show');
+    doCluster();
+  } else {
+    doQuery();
+  }
+  return false;
+}
 
 });
 
