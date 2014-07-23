@@ -36,7 +36,7 @@ function displayAnnoTree(annotations, uri) {
     var ppos = cur.position.slice(0, cur.position.length - 1);
     // find or create parents
     var roots = [], curAdd = treeRoot;
-    
+
     ppos.forEach(function(cpos) {
       roots.push(cpos);
       curParent = treeMap[roots];

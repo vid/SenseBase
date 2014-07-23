@@ -21,7 +21,7 @@ importer.init(fieldMappings);
 var data = require(process.argv[3] || '../test/mock/mesh.json');
 
 // process results
-var imported = 0, failed = 0, count = 0, queued = { tags: 'import', relevance: 0, attempts: 0, lastAttempt: new Date().toISOString() }
+var imported = 0, failed = 0, count = 0, queued = { categories: ['import'], relevance: 0, attempts: 0, lastAttempt: new Date().toISOString() }
 
 // do the actual import, limited by importLimit;
 data.forEach(function(d) {
@@ -65,7 +65,7 @@ data.forEach(function(d) {
 
 
 function doImport(d) {
-  // transform mapped item if it's not a proto item 
+  // transform mapped item if it's not a proto item
   if (d.Title) {
     var r = importer.mapToItem(d, { queued: queued });
 
@@ -104,7 +104,7 @@ function fv(vals, key) {
 }
 
 // add any function value assigners
-importer.funcVal('uri', function(data) { 
+importer.funcVal('uri', function(data) {
   var uri = data.uri || fv(data.vals.LinkFullPaper) || fv(data.vals.linkPubMed) || fv(data.vals.linkJrn);
   if (!uri) {
     throw Error('No uri');

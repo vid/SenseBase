@@ -1,13 +1,13 @@
 (function() {
   var selectMode = false;
-  // html buffer while annotation tags are processed
+  // html buffer while annotation categories are processed
   var newHTML;
-  var treeInterface = { 
+  var treeInterface = {
     hover: function(anno) {
-      if (!selectMode) { 
+      if (!selectMode) {
 console.log('hover', anno);
-      } 
-    }, 
+      }
+    },
     select: function(anno) {
       // clear select mode if it's the same anno
       if (selectMode && lastSelected === anno) {
@@ -65,7 +65,7 @@ console.log('select', anno);
       $('.sbAnnotation', parent.document).click(function() {
         $('#sbAnnotationDetails', parent.document).show();
         $('#sbAnnotationDetails pre', parent.document).text(JSON.stringify(treeItems.get($(this).attr('id').split('-')[2]), null, 2));
-        $('#sbAnnotationDetails', parent.document).click(function() { $(this).hide();} ); 
+        $('#sbAnnotationDetails', parent.document).click(function() { $(this).hide();} );
       });
     }
   });
@@ -124,11 +124,11 @@ console.log('select', anno);
     }
   }
 
-  // insert annotation tags at correct position
+  // insert annotation categories at correct position
   function insertAnno(anno, newHTML) {
     var annoID = 'SB-anno-' + anno.__id;
     var startTag = '<span id="' + annoID + '" class="sbAnnotation sbAnnotation-b">', endTag = '</span>';
-    
+
     anno.offset = findInstanceOffset(anno, newHTML);
     return newHTML.substring(0, anno.offset) + startTag + anno.exact + endTag + newHTML.substring(anno.offset + anno.exact.length);
   }

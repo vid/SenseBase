@@ -9,7 +9,7 @@ exports.queueEsearchResults = queueEsearchResults;
 /*
 var annotator = process.argv[1].replace(/.*\//, '');
 
-queueEsearchResults({ scraper: annotator, terms: 'ferritin', tags: ['boo', 'bar'], state: utils.states.validated, count: 5, relevance: 0, referers: []});
+queueEsearchResults({ scraper: annotator, terms: 'ferritin', categories: ['boo', 'bar'], state: utils.states.validated, count: 5, relevance: 0, referers: []});
 */
 
 // queue up terms with options. NB relevance on 0 means only the pages will be scraped (no links followed)
@@ -22,7 +22,7 @@ function queueEsearchResults(options) {
     var json = JSON.parse(res);
     json.esearchresult.idlist.forEach(function(id) {
       var uri = 'http://www.ncbi.nlm.nih.gov/pubmed/' + id;
-      scraperLib.queueLink(uri, (options.relevance || 0), options.tags, (options.referers || []), options.scraper, (options.state || utils.states.unvalidated));
+      scraperLib.queueLink(uri, (options.relevance || 0), options.categories, (options.referers || []), options.scraper, (options.state || utils.states.unvalidated));
     });
   });
 }

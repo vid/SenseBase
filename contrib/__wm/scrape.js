@@ -31,12 +31,12 @@ $('.scraping.form').form(
         }
       ]
     },
-    scrapeTags: {
-      identifier : 'scrapeTags',
+    scrapeCategories: {
+      identifier : 'scrapeCategories',
       rules: [
         {
           type   : 'empty',
-          prompt : 'Please enter one or more comma-seperated tags'
+          prompt : 'Please enter one or more comma-seperated categories'
         }
       ]
     },
@@ -48,17 +48,17 @@ $('.scraping.form').form(
           prompt : 'Please enter one or more members'
         }
       ]
-    } 
-  }, 
-  { 
+    }
+  },
+  {
     onSuccess: submitScrape
   }
 );
 
 // convert the form values to data
 function getSearchInput() {
-  var cronValue = $('#scheduleSearch').prop('checked') ? $('input.cron').val() : null, searchName = $('#searchName').val(), targetResults = $('#targetResults').val(), input = $('#scrapeInput').val(), scrapeContinue = $('#scrapeContinue').val(), scrapeTags = $('#scrapeTags').val().split(',').map(function(t) { return t.trim(); }), searchTeam = $('select.scraping.team option:selected').map(function() { return this.value }).get();
-  return { name: searchName, cron: cronValue, input: input, relevance: scrapeContinue, team: searchTeam, tags: scrapeTags, member: sbUser, targetResults: targetResults, valid: (input.length > 0 && scrapeContinue.length > 0 && searchTeam.length > 0 && scrapeTags.length > 0 && sbUser.length > 0 && targetResults.length > 0 )};
+  var cronValue = $('#scheduleSearch').prop('checked') ? $('input.cron').val() : null, searchName = $('#searchName').val(), targetResults = $('#targetResults').val(), input = $('#scrapeInput').val(), scrapeContinue = $('#scrapeContinue').val(), scrapeCategories = $('#scrapeCategories').val().split(',').map(function(t) { return t.trim(); }), searchTeam = $('select.scraping.team option:selected').map(function() { return this.value }).get();
+  return { name: searchName, cron: cronValue, input: input, relevance: scrapeContinue, team: searchTeam, categories: scrapeCategories, member: sbUser, targetResults: targetResults, valid: (input.length > 0 && scrapeContinue.length > 0 && searchTeam.length > 0 && scrapeCategories.length > 0 && sbUser.length > 0 && targetResults.length > 0 )};
 }
 
 // submit a new scrape
@@ -72,7 +72,7 @@ function submitScrape() {
   console.log('publishing', searchInput, fayeClient);
   fayeClient.publish('/search/queue', searchInput);
   if ($('#refreshScrape').prop('checked')) {
-    $('#annoSearch').val($('#scrapeTags').val());
+    $('#annoSearch').val($('#scrapeCategories').val());
   //  $('#validationState').val('queued');
     $('#refreshQueries').prop('checked', true);
     setupQueryRefresher(5000);
@@ -126,11 +126,11 @@ $('button.search.load').click(function() {
       }
       setupCronInput(r.cron);
       $('#scheduleSearch').trigger('change');
-      $('#searchName').val(v); 
-      $('#targetResults').val(r.targetResults); 
-      $('#scrapeInput').val(r.input); 
-      $('#scrapeContinue').val(r.relevance); 
-      $('#scrapeTags').val(r.tags);
+      $('#searchName').val(v);
+      $('#targetResults').val(r.targetResults);
+      $('#scrapeInput').val(r.input);
+      $('#scrapeContinue').val(r.relevance);
+      $('#scrapeCategories').val(r.categories);
       $('select.scraping.team').val(r.team);
       $('.team.container').select2('val', r.team);
       return;
