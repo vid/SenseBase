@@ -10,7 +10,7 @@ var src = process.argv[4];
 // default root for keywords
 var catRoot = process.argv[5];
 // set to state
-var valStatus = process.argv[6] || utils.states.unvalidated;
+var valStatus = process.argv[6] || utils.states.annotations.unvalidated;
 
 var myUser = 'indexRISwithPDF';
 
