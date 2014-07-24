@@ -1,4 +1,4 @@
-var config = require('./config.js'); 
+var config = require('./config.js');
 
 //  "uglifyjs  --screw-ie8  bower-components/jquery/dist/jquery.js bower-components/faye/include.js bower-components/jstree/dist/jstree
 
@@ -51,8 +51,8 @@ module.exports = function(grunt) {
     },
     includes: {
       files: {
-        src: ['contrib/**/*.*'], 
-        dest: 'static/__wm', 
+        src: ['contrib/**/*.*'],
+        dest: 'static/__wm',
         flatten: true,
         cwd: '.',
         options: {
@@ -91,8 +91,7 @@ module.exports = function(grunt) {
           'reports': srcFiles
         }
       }
-    },
-
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');

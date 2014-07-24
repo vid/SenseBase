@@ -20,7 +20,7 @@ exports.funcVal = funcVal;
 //  {
 //    "__TOP__" : {
 //      "Author" : ["Author"],
-//    }, 
+//    },
 //    "My taxonomy" : {
 //      "My sub taxonomy" : {
 //        "My value item" : { _VAL_ : ["My value"] }
@@ -72,7 +72,7 @@ function mapToItem(item, merge) {
     } else {
       unMapped[key] = item;
     }
-  } 
+  }
 
   // now make the annotations and contentItem
   for (var field in funcVals) {
@@ -92,7 +92,7 @@ function mapToItem(item, merge) {
   }
   var cItem = annotations.createContentItem(cItem);
 
-  var valState = utils.states.validated; // TODO func this
+  var valState = utils.states.annotations.validated; // TODO func this
 
   // categories first
   for (var a in proto.categories) {

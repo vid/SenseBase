@@ -19,7 +19,7 @@ describe('Content', function(done) {
   it('should index a queued page', function(done) {
     var cItem = annotations.createContentItem({title: 'test title', uri: uniqURI, state: utils.states.queued, queued : { lastAttempt: new Date().toISOString()} });
     cItem.member = uniqMember;
-    content.indexContentItem(cItem, function(err, res) {
+    content.indexContentItem(cItem, {member: uniqMember}, function(err, res) {
       expect(err).to.be.null;
       done();
     });
@@ -38,7 +38,7 @@ describe('Content', function(done) {
 
   it('should index an updated page with content', function(done) {
     ongoing.content = 'test content ' + uniq;
-    content.indexContentItem(ongoing, function(err, res) {
+    content.indexContentItem(ongoing, {member: uniqMember}, function(err, res) {
       expect(err).to.be.null;
       done();
     });

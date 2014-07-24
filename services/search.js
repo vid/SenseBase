@@ -7,4 +7,4 @@ GLOBAL.config.pubsub = require('../lib/pubsub.js');
 var search = require('../lib/search.js');
 
 // watch for new links every 2 seconds
-setInterval(function() { search.getQueuedLink(search.getLink)}, 2000);
+setInterval(function() { search.getQueuedLink(search.getLinkContents)}, 2000);
