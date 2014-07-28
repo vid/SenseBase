@@ -1,5 +1,4 @@
-// main module for SenseBase
-// meant to be modular but that needs some work.
+// Main module for SenseBase.
 
 var fs = require('fs'),
   http = require('http'),
@@ -11,22 +10,29 @@ var utils = require('./lib/utils');
 
 var pubsub, search = require('./lib/search.js'), content = require('./lib/content.js');
 
+// Runtime users.
 var users;
 
+// Load local configuration is available.
 if (fs.existsSync('./local-site.json')) {
   users = require('./local-site.json').logins;
 } else {
+// Use default included configuration.
   users = require('./site.json').logins;
 }
 
-// start server with a configuration file
+// Start server with configuration.
 exports.start = function(config, callback) {
   GLOBAL.authed = GLOBAL.authed || {}; //FIXME  use auth scheme that works behind proxies
   config.users = users;
   config.indexer = require('./lib/indexer.js');
+// Proxy operation.
   config.pageCache = require('./lib/pageCache.js');
+// Proxy operation.
   config.onRequest = require('./lib/auth.js');
-  // proxy has requested a content item.
+// Proxy operation.
+//
+// Proxy has requested a content item.
   config.onRetrieve = {
     process: function(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request) {
       var status = browser_request.proxy_received.statusCode;
@@ -41,6 +47,8 @@ exports.start = function(config, callback) {
       content.indexContentItem(desc);
     }
   };
+// Proxy operation.
+// Inject SenseBase controls.
   config.inject = function(content) {
     if (content.toString().match(/<\/body/i)) {
       GLOBAL.debug('injecting iframe');
@@ -51,12 +59,12 @@ exports.start = function(config, callback) {
     return content;
   };
   config.sitebase = config.sitebase || '';
-  // globally shared context
+// Globally shared config.
   GLOBAL.config = config;
   pubsub = require('./lib/pubsub.js');
   GLOBAL.config.pubsub = pubsub;
 
-  // Express stuff
+// Express stuff.
   var app = express();
   var actions = require('./lib/app-actions.js');
 
@@ -83,7 +91,7 @@ exports.start = function(config, callback) {
 
   filterProxy.start(GLOBAL.config);
 
-  // interactive command line
+// Interactive command line.
 
   repl = require('repl');
   r = repl.start({ prompt: GLOBAL.config.project + "> ", useGlobal: true});
