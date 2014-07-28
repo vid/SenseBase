@@ -31,7 +31,7 @@ exports.rangesFromMatches = rangesFromMatches;
 
 // convert instances of a match to instances
 function instancesFromMatches(word, text, selector) {
-  var ret = [];
+  var match, ret = [];
   var re = new RegExp('\\b'+utils.escapeRegex(word)+'\\b', 'gi');
   var instance = 1;
   while ((match = re.exec(text)) != null) {
