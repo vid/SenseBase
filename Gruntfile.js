@@ -79,10 +79,12 @@ module.exports = function(grunt) {
         src: ['test/int/*.js']
       }
     },
-    docco: {
-      docs: {
-        src: srcFiles,
-        dest: 'docs/annotated-source'
+    docker: {
+      options: {
+        exclude: ['node_modules', 'bower_components/**', 'static']
+      },
+      main: {
+        src: ['*.js', 'lib/*js', 'contrib/__wm/*js', 'test/**/*.js']
       }
     },
     plato: {
@@ -100,8 +102,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-includes');
   grunt.loadNpmTasks('grunt-string-replace');
   grunt.loadNpmTasks('grunt-mocha-test');
-  grunt.loadNpmTasks('grunt-docco');
   grunt.loadNpmTasks('grunt-plato');
+  grunt.loadNpmTasks('grunt-docker');
 
   grunt.registerTask('default', ['includes', 'string-replace', 'develop', 'watch', 'mochaTest:devUnitTest']);
   grunt.registerTask('test', ['mochaTest:devUnitTest', 'mochaTest:devIntegrationTest']);
