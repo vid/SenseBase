@@ -1,8 +1,7 @@
 // AFINN sentiment annotator
 'use strict';
 
-var querystring = require('querystring'), http = require('http'), request = require('request'), analyze = require('Sentimental').analyze;
-
+var analyze = require('Sentimental').analyze;
 
 var annoLib = require('./annotateLib'), annotations = require('../../lib/annotations'), utils = require('../../lib/utils.js');
 
@@ -19,7 +18,6 @@ function doProcess(combo, callback) {
   if (text.length > 0) {
     // process each individual callback
     var sentiments = analyze((text + '.').trim());
-    GLOBAL.info(sentiments);
     var annoRows = [], score = sentiments.score;
     annoRows.push(annotations.createAnnotation({type: 'value', annotatedBy: name, hasTarget: uri, key: 'score', value : score }));
 
