@@ -17,10 +17,11 @@ describe('Scraper links', function(done) {
     });
   });
 
+// save a link and verify one can be retrieved after saving time
   it('should queue a link', function(done) {
     search.queueLink(uniqLink, {member: uniqMember, categories: [testTag], relevance: 1});
 
-    // FIXME: queueLinks callback
+    // wait for link to be saved
     setTimeout(function() {
       // find any queued link from preceeding
       search.getQueuedLink(function(err, queuedLink) {
@@ -33,7 +34,8 @@ describe('Scraper links', function(done) {
   });
 
 
-  it('should have less queued links', function(done) {
+// verify not enough time has passed for a new link to be processed
+  it('should have less available queued links', function(done) {
     search.getQueuedLink(function(err, queuedLink) {
       expect(queuedLink).to.be.null;
       done();
