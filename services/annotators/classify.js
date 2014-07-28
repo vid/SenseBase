@@ -1,4 +1,5 @@
 // basic more like this classifier
+'use strict';
 
 var querystring = require('querystring');
 var http = require('http');

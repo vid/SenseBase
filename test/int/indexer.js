@@ -1,4 +1,5 @@
 // Tests for configured indexer (ElasticQuery)
+'use strict';
 
 var expect = require("expect.js");
 var indexer = require('../../lib/indexer.js'), annotations = require('../../lib/annotations.js'), testApp = require('../lib/test-app.js'), utils = require('../../lib/utils.js');
@@ -53,7 +54,7 @@ describe('Indexer', function(done) {
     }, 1000);
   });
 
-  it('should form search', function(done) { 
+  it('should form search', function(done) {
 // delay for ElasticSearch refresh delay
     indexer.formQuery({}, function(err, res) {
       expect(err).to.be.null;
@@ -62,7 +63,7 @@ describe('Indexer', function(done) {
     });
   });
 
-  it('should form search by member', function(done) { 
+  it('should form search by member', function(done) {
     var found = { member: uniqMember, annotationState: utils.states.content.visited }
 
     indexer.formQuery(found, function(err, res) {
@@ -72,7 +73,7 @@ describe('Indexer', function(done) {
     });
   });
 
-  it('should return no results for form search by non-member', function(done) { 
+  it('should return no results for form search by non-member', function(done) {
     var notFound = { member: uniqMember + 'nonense', annotationState: utils.states.content.visited }
     indexer.formQuery(notFound, function(err, res) {
       expect(err).to.be.null;
@@ -81,7 +82,7 @@ describe('Indexer', function(done) {
     });
   });
 
-  it('should form search by terms', function(done) { 
+  it('should form search by terms', function(done) {
     var found = { terms: uniq }
 
     indexer.formQuery(found, function(err, res) {
@@ -92,7 +93,7 @@ describe('Indexer', function(done) {
   });
 
 /*
-  it('should return no results for non-terms', function(done) { 
+  it('should return no results for non-terms', function(done) {
     var notFound = { terms: uniq + 'nonsense' }
     indexer.formQuery(notFound, function(err, res) {
       expect(err).to.be.null;
@@ -100,7 +101,7 @@ describe('Indexer', function(done) {
       done();
     });
   });
-  it('should form search by date range', function(done) { 
+  it('should form search by date range', function(done) {
     var e = { from: '2013-10-04T19:51:15.963Z', to: '2013-10-07T19:51:15.963Z' }
 
     indexer.formQuery(e, function(err, res) {
@@ -110,7 +111,7 @@ describe('Indexer', function(done) {
     });
   });
 
-  it('should form search by combination', function(done) { 
+  it('should form search by combination', function(done) {
     var e = { terms: uniq, from: '2013-10-04T19:51:15.963Z', to: '2013-10-07T19:51:15.963Z', member: uniqMember };
 
     indexer.formQuery(e, function(err, res) {

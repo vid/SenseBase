@@ -1,4 +1,5 @@
-// annotation helpers including pubsub
+// Annotation helpers including pubsub.
+'use strict';
 
 if (!GLOBAL.config) {
   GLOBAL.config = require('../../config.js').config;

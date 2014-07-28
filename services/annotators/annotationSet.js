@@ -1,5 +1,7 @@
-// finds words in text and adds tags
+// Finds words in text and adds tags.
 // FIXME update to standalone pubsub
+
+'use strict';
 
 var http = require('http');
 var request = require('request');
@@ -42,6 +44,6 @@ function candidates(text, callback) {
     }
   });
   callback(ret);
-  
+
 }
 

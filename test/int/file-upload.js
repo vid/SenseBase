@@ -1,3 +1,5 @@
+// Tests file upload api.
+'use strict';
 
 var expect = require("expect.js"), indexer = require('../../lib/indexer.js'), fs = require('fs'), path = require('path');
 var uniq = (new Date().getTime()).toString(16) + 'x' + Math.round(Math.random(9e9) * 9e9).toString(16);

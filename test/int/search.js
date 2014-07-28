@@ -3,6 +3,7 @@
 // as pages are accessed, previousState is set to last state
 // if they have previousState as queue, search.queueLinks finds relevance
 // if relevance is > 0, relevant page links are added
+'use strict';
 
 var fs = require('fs'), expect = require('expect.js');
 var search = require('../../lib/search.js'), testApp = require('../lib/test-app.js'), utils = require('../../lib/utils.js');

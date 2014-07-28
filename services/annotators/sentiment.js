@@ -1,4 +1,5 @@
 // AFINN sentiment annotator
+'use strict';
 
 var querystring = require('querystring'), http = require('http'), request = require('request'), analyze = require('Sentimental').analyze;
 

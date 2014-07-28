@@ -1,5 +1,6 @@
 // Strucutural annotator looks for structure and extracts fields
 // FIXME: extract multi lines
+'use strict';
 
 var annoLib = require('./annotateLib'), annotations = require('../../lib/annotations'), sites = require('../../lib/sites.js');
 var cheerio = require('cheerio');

@@ -1,4 +1,5 @@
-// tests sentiment service (requires running service)
+// Tests sentiment service (requires running service).
+'use strict';
 
 var expect = require("expect.js"), indexer = require('../../lib/indexer.js'), fs = require('fs'), path = require('path');
 GLOBAL.config = require('../lib/test-config.js').config;

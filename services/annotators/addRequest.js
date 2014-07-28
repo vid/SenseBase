@@ -1,5 +1,7 @@
-// secondary request for annotations
-// find any secondary requests relevant to a URI and execute them
+// Secondary request for annotations.
+//
+// Find any secondary requests relevant to a URI and execute them.
+'use strict';
 
 var xml2js = require('xml2js');
 var annoLib = require('./annotateLib'), annotations = require('../../lib/annotations'), sites = require('../../lib/sites.js'), utils = require('../../lib/utils.js'), siteQueries = require('../../util/siteQueries');

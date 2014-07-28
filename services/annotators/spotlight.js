@@ -1,5 +1,6 @@
 // DBPedia spotlight annotator
 // FIXME update to standalone pubsub
+'use strict';
 
 var querystring = require('querystring');
 var http = require('http');

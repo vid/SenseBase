@@ -1,4 +1,5 @@
-// Tests for configured indexer (ElasticSearch)
+// Tests for configured indexer (ElasticSearch).
+'use strict';
 
 var expect = require("expect.js");
 var content = require('../../lib/content.js'), indexer = require('../../lib/indexer.js'), annotations = require('../../lib/annotations.js'), testApp = require('../lib/test-app.js'), utils = require('../../lib/utils.js');

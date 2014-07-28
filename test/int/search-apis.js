@@ -1,4 +1,5 @@
 // test search apis
+'use strict';
 
 var expect = require('expect.js');
 

@@ -1,4 +1,5 @@
 // service that periodically checks for and requests queued content
+'use strict';
 
 GLOBAL.config = require('../config.js').config;
 GLOBAL.config.indexer = require('../lib/indexer.js');
