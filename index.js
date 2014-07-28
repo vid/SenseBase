@@ -43,8 +43,8 @@ exports.start = function(config, callback) {
       // FIXME don't save binaries
       GLOBAL.config.pageCache.cache(uri, referer, is_html, pageBuffer, contentType, saveHeaders, browser_request);
       var psMember = browser_request.psMember.username;
-      var desc = { uri: uri, member: psMember, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders}
-      content.indexContentItem(desc);
+      var desc = { uri: uri, referer: referer, isHTML: browser_request.is_html, content: pageBuffer, contentType: contentType, headers: saveHeaders}
+      content.indexContentItem(desc, { categories: ['proxy'], member: psMember});
     }
   };
 // Proxy operation.
