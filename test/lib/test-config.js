@@ -2,11 +2,7 @@ var winston = require('winston');
 var domain = 'localhost', http_port = 9988, method='http://';
 
 var logger = new (winston.Logger)({
-    transports: [
-      new (winston.transports.Console)({ level: 'error' }),
-      new (winston.transports.File)({ filename: 'tests.log' })
-    ]
-  });
+});
 
 GLOBAL.debug = logger.debug;
 GLOBAL.info = logger.info;

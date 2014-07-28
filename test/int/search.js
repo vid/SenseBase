@@ -7,7 +7,7 @@
 var fs = require('fs'), expect = require('expect.js');
 var search = require('../../lib/search.js'), testApp = require('../lib/test-app.js'), utils = require('../../lib/utils.js');
 
-var uniq = utils.getUnique(), uniqLink = 'http://test.com/' + uniq, testTag = 'tag-'+utils.getUnique(), searchLink, queuedTotal, uniqMember = 'member'+uniq;
+var uniq = utils.getUnique(), uniqLink = 'http://test.com/' + uniq, testTag = 'tag-'+utils.getUnique(), uniqMember = 'member'+uniq;
 
 describe('Scraper links', function(done) {
   it('should reset test app', function(done) {
@@ -17,30 +17,27 @@ describe('Scraper links', function(done) {
     });
   });
 
-  it('should queue a link', function() {
+  it('should queue a link', function(done) {
     search.queueLink(uniqLink, {member: uniqMember, categories: [testTag], relevance: 1});
 
     // FIXME: queueLinks callback
     setTimeout(function() {
       // find any queued link from preceeding
       search.getQueuedLink(function(err, queuedLink) {
-        searchLink = queuedLink;
         expect(queuedLink.uri).to.not.be.null;
         expect(queuedLink.queued.categories.length > 0).to.be.true;
         expect(queuedLink.queued.categories[0]).to.equal(testTag);
-        queuedTotal = queuedLink.total;
-        expect(queuedTotal > 0).to.true;
         done();
       }, 1);
-    }, 1100);
+    }, 1200);
   });
 
 
   it('should have less queued links', function(done) {
     search.getQueuedLink(function(err, queuedLink) {
-      expect(queuedTotal === queuedLink.total + 1);
+      expect(queuedLink).to.be.null;
       done();
-    }, 0);
+    }, 1);
 
   });
 });
