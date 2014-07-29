@@ -1,4 +1,4 @@
-// ### browseAnnotations
+// ### browseCluster
 
 'use strict';
 
