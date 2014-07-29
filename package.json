@@ -29,6 +29,7 @@
   "devDependencies": {
     "expect.js": "~0.2.0",
     "grunt": "0.4.x",
+    "grunt-browserify": "^2.1.4",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-contrib-watch": "0.5.x",
     "grunt-develop": "0.3.x",

@@ -39,7 +39,7 @@ module.exports = function(grunt) {
     watch: {
       assets: {
         files: 'contrib/**/*.*',
-        tasks: ['includes', 'string-replace'],
+        tasks: ['includes', 'browserify', 'string-replace'],
         options: {
           spawn: true
         },
@@ -49,9 +49,17 @@ module.exports = function(grunt) {
         tasks: ['develop'],
       }
     },
+    browserify: {
+      standalone: {
+        src: [ './contrib/__wm/index.js' ],
+        dest: './static/__wm/index.js',
+        options: {
+        }
+      },
+    },
     includes: {
       files: {
-        src: ['contrib/**/*.*'],
+        src: ['contrib/**/*.html'],
         dest: 'static/__wm',
         flatten: true,
         cwd: '.',
@@ -104,6 +112,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-plato');
   grunt.loadNpmTasks('grunt-docker');
+  grunt.loadNpmTasks('grunt-docker');
+  grunt.loadNpmTasks('grunt-browserify');
 
   grunt.registerTask('default', ['includes', 'string-replace', 'develop', 'watch', 'mochaTest:devUnitTest']);
   grunt.registerTask('test', ['mochaTest:devUnitTest', 'mochaTest:devIntegrationTest']);
