@@ -132,7 +132,7 @@ console.log('select', anno);
     anno.offset = findInstanceOffset(anno, newHTML);
     return newHTML.substring(0, anno.offset) + startTag + anno.exact + endTag + newHTML.substring(anno.offset + anno.exact.length);
   }
-include "displayAnnoTree.js"
+include "annoTree.js"
 }());
 parent.window.senseBaseIframe = this;
 

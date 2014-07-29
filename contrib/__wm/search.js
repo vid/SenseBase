@@ -1,59 +1,122 @@
-
+// ### Search
+//
 // lookup for saved searches
 var savedSearches;
 
-// set team input as select2 input
-$('.team.container').select2();
+exports.init = function() {
+  // set team input as select2 input
+  $('.team.container').select2();
 
-// schedule search
-$('.schedule.button').click(function() {
-  $('.schedule.modal').modal('show');
-  $('.cron.edit').html('');
-});
+  // schedule search
+  $('.schedule.button').click(function() {
+    $('.schedule.modal').modal('show');
+    $('.cron.edit').html('');
+  });
 
-// show search scheduler according to checkbox
-$('#scheduleSearch').on('change', function() {
-  $('#scheduleInput').toggle(this.checked);
-});
+  // show search scheduler according to checkbox
+  $('#scheduleSearch').on('change', function() {
+    $('#scheduleInput').toggle(this.checked);
+  });
 
-setupCronInput();
-$('input.cron').val()
+  setupCronInput();
+  $('input.cron').val()
 
-// setup semantic-ui form validation
-$('.scraping.form').form(
-  {
-    scrapeInput: {
-      identifier  : 'scrapeInput',
-      rules: [
-        {
-          type   : 'empty',
-          prompt : 'Please enter member input'
-        }
-      ]
+  // setup semantic-ui form validation
+  $('.scraping.form').form(
+    {
+      scrapeInput: {
+        identifier  : 'scrapeInput',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter member input'
+          }
+        ]
+      },
+      scrapeCategories: {
+        identifier : 'scrapeCategories',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter one or more comma-seperated categories'
+          }
+        ]
+      },
+      searchTeam: {
+        identifier : 'searchTeam',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter one or more members'
+          }
+        ]
+      }
     },
-    scrapeCategories: {
-      identifier : 'scrapeCategories',
-      rules: [
-        {
-          type   : 'empty',
-          prompt : 'Please enter one or more comma-seperated categories'
-        }
-      ]
-    },
-    searchTeam: {
-      identifier : 'searchTeam',
-      rules: [
-        {
-          type   : 'empty',
-          prompt : 'Please enter one or more members'
-        }
-      ]
+    {
+      onSuccess: submitScrape
     }
-  },
-  {
-    onSuccess: submitScrape
-  }
-);
+  );
+
+
+  // populate with initial set of saved scrapes
+  fayeClient.publish('/search/retrieve', { member: sbUser });
+
+
+  // receive list of saved searches
+  fayeClient.subscribe('/search/results', function(results) {
+    savedSearches = results;
+    if (results.hits.total > 0) {
+      $("#loadSearch").select2({
+        data: results.hits.hits.map(function(i) { return { id: i._source.searchName, text: i._source.searchName } })
+      });
+      $('.load.search').attr('disabled', false);
+    } else {
+      $('.load.search').attr('disabled', true);
+    }
+  });
+
+  // save a search
+  $('.save.search').click(function() {
+    var searchInput = getSearchInput();
+    if (searchInput.valid && searchInput.searchName.length > 0) {
+      fayeClient.publish('/search/save', searchInput);
+    } else {
+      alert('Missing parameters');
+    }
+  });
+
+  // display saved searches
+  $('.load.search').click(function() {
+    $('.load.modal').modal('show');
+  });
+
+  // load a search
+  $('button.search.load').click(function() {
+    var v = $('#loadSearch').val();
+    savedSearches.hits.hits.forEach(function(s) {
+      if (s._source.searchName === v) {
+        var r = s._source;
+        if (r.cron) {
+          $('input.cron').val(r.cron);
+          $('#scheduleSearch').prop('checked', true);
+        } else {
+          $('#scheduleSearch').prop('checked', false);
+        }
+        setupCronInput(r.cron);
+        $('#scheduleSearch').trigger('change');
+        $('#searchName').val(v);
+        $('#targetResults').val(r.targetResults);
+        $('#scrapeInput').val(r.input);
+        $('#scrapeContinue').val(r.relevance);
+        $('#scrapeCategories').val(r.categories);
+        $('select.scraping.team').val(r.team);
+        $('.team.container').select2('val', r.team);
+        return;
+      }
+    });
+  });
+
+}
 
 // convert the form values to data
 function getSearchInput() {
@@ -79,65 +142,6 @@ function submitScrape() {
   }
   doQuery();
 }
-
-// populate with initial set of saved scrapes
-fayeClient.publish('/search/retrieve', { member: sbUser });
-
-
-// receive list of saved searches
-fayeClient.subscribe('/search/results', function(results) {
-  savedSearches = results;
-  if (results.hits.total > 0) {
-    $("#loadSearch").select2({
-      data: results.hits.hits.map(function(i) { return { id: i._source.searchName, text: i._source.searchName } })
-    });
-    $('.load.search').attr('disabled', false);
-  } else {
-    $('.load.search').attr('disabled', true);
-  }
-});
-
-// save a search
-$('.save.search').click(function() {
-  var searchInput = getSearchInput();
-  if (searchInput.valid && searchInput.searchName.length > 0) {
-    fayeClient.publish('/search/save', searchInput);
-  } else {
-    alert('Missing parameters');
-  }
-});
-
-// display saved searches
-$('.load.search').click(function() {
-  $('.load.modal').modal('show');
-});
-
-// load a search
-$('button.search.load').click(function() {
-  var v = $('#loadSearch').val();
-  savedSearches.hits.hits.forEach(function(s) {
-    if (s._source.searchName === v) {
-      var r = s._source;
-      if (r.cron) {
-        $('input.cron').val(r.cron);
-        $('#scheduleSearch').prop('checked', true);
-      } else {
-        $('#scheduleSearch').prop('checked', false);
-      }
-      setupCronInput(r.cron);
-      $('#scheduleSearch').trigger('change');
-      $('#searchName').val(v);
-      $('#targetResults').val(r.targetResults);
-      $('#scrapeInput').val(r.input);
-      $('#scrapeContinue').val(r.relevance);
-      $('#scrapeCategories').val(r.categories);
-      $('select.scraping.team').val(r.team);
-      $('.team.container').select2('val', r.team);
-      return;
-    }
-  });
-});
-
 // set up the cron scheduler input
 function setupCronInput(val) {
   $('input.cron').jqCron({

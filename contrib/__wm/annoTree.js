@@ -1,6 +1,6 @@
 var treeFilterTimeout;
 // display all annotations, then return a structure containing instances mapped to IDs
-function displayAnnoTree(annotations, uri) {
+exports.display = function(annotations, uri, treeInterface) {
   // utility to manage IDs for items
   var treeItems = {
     // ids and their items
