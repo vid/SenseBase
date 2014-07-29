@@ -45,7 +45,7 @@ function resultsData(fields, results) { //# groups,# points per group
   fields.forEach(function(field) {
     var cur = { key : field, values : [] };
 
-    for (j = 0; j < results.hits.hits.length; j++) {
+    for (var j = 0; j < results.hits.hits.length; j++) {
       var hit = results.hits.hits[j]._source;
       if (hit.annotationSummary) {
         var annos = hit.annotationSummary.validated + hit.annotationSummary.unvalidated + 1;

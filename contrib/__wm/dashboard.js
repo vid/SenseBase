@@ -1,26 +1,23 @@
-// general module for SenseBase
+// ### Dashboard
+//
+// General module for SenseBase browser client.
 'use strict';
 
 // module variables
 
-var resultViews = { scatter: require('./results.scatter'), table: require('./results.table')},
-  resultView = resultViews.table, querySub, clusterSub, lastResults, qs;
+var resultViews = { scatter: require('./results.scatter'), table: require('./results.table'), debug: require('./results.debug')},
+  resultView = resultViews.table,
+  querySub, clusterSub, qs;
 var faye = require('faye');
 
 var fayeClient = new faye.Client('http://localhost:9999/faye/');
 
 var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav', 'browseNum'];
 
-var mainSize = 0, fluidSizes = ['four', 'five', 'six', 'seven']; // fluid sizes for main ui
+// Unique ID for pubsub
 var clientID;
 
-var resultsLib = require('./results');
-resultsLib.init(fayeClient, submitQuery, resultView, updateResults);
-
-var membersLib = require('./members');
-//membersLib.init(fayeClient, clientID);
-var search = require('./search');
-var utils = require('./clientUtils');
+var resultsLib = require('./results'), membersLib = require('./members'), searchLib = require('./search'), utils = require('./clientUtils');
 
 var browseCluster = require('./browseCluster');
 var browseAnnotations = require('./browseAnnotations');
@@ -28,7 +25,10 @@ var browseAnnotations = require('./browseAnnotations');
 var $ = window.$;
 // initialize page functions
 exports.init = function(sbUser) {
-  var fayeClient = require('faye')
+  resultsLib.init(fayeClient, submitQuery, resultView);
+  searchLib.init(fayeClient, sbUser, resultsLib);
+  membersLib.init(fayeClient, clientID);
+
   setupDND('uploadItem', '/upload');
   setupDND('uploadWorkfile', '/workfile');
   // General setup and functions
@@ -94,14 +94,14 @@ exports.init = function(sbUser) {
 
   // remove selected
   $('.remove.selected').click(function() {
-    var i = lastResults.hits.hits.length, sel = getSelected();
+    var i = resultsLib.lastResults.hits.hits.length, sel = getSelected();
     for (i; i > 0; ) {
       i--;
-      if (sel.indexOf(lastResults.hits.hits[i]._source.uri) < 0) {
-        delete lastResults.hits.hits[i];
+      if (sel.indexOf(resultsLib.lastResults.hits.hits[i]._source.uri) < 0) {
+        delete resultsLib.lastResults.hits.hits[i];
       }
     }
-    updateResults(lastResults);
+    resultsLib.updateResults(resultsLib.lastResults);
   });
 
   // delete selected
@@ -130,7 +130,7 @@ exports.init = function(sbUser) {
     } else {
       resultView = resultViews.table;
     }
-    updateResults(lastResults);
+    resultsLib.updateResults(resultsLib.lastResults, resultView);
   });
 
   $('.select.all').click(function() {
@@ -189,8 +189,8 @@ function doCluster() {
   // use the generated clientID for the current query
   clusterSub = fayeClient.subscribe('/clusterResults/' + options.clientID, function(results) {
     console.log('/clusterResults', results);
-    browseCluster.doTreemap(results.clusters, '#browse');
-    updateResults(results);
+    browseCluster.doTreemap(results.clusters, '#browse', resultView);
+    resultsLib.updateResults(results);
   });
   fayeClient.publish('/cluster', options);
 }
@@ -205,12 +205,12 @@ function updateQuerySub(clientID) {
   querySub = fayeClient.subscribe('/queryResults/' + clientID, function(results) {
     console.log('/queryResults', results);
 
-    updateResults(results);
+    resultsLib.updateResults(results);
 
 // query browse
     if ($("#browseNav" ).val() === 'annotations') {
       $('.browse.sidebar').sidebar('show');
-      browseAnnotations.doTreemap(results, '#browse');
+      browseAnnotations.doTreemap(results, '#browse', resultView);
     } else {
       $('.browse.sidebar').sidebar('hide');
     }
@@ -291,33 +291,4 @@ function moreLikeThis(uri) {
 
 function refreshAnnos(uri) {
   fayeClient.publish('/updateContent', { clientID : clientID, uri: uri } );
-}
-
-function updateResults(results) {
-  // content is being viewed or edited, delay updates
-
-  lastResults = results;
-  if (resultsLib.noUpdates) {
-    console.log('in noUpdates');
-    resultsLib.hasQueuedUpdates = true;
-    clearTimeout(resultsLib.queuedNotifier);
-    resultsLib.queuedNotifier = setInterval(function() { $('.toggle.item').toggleClass('red') }, 2000);
-    return;
-  }
-
-  // clear queued notifier
-  $('.toggle.item').removeClass('red');
-  clearInterval(resultsLib.queuedNotifier);
-
-  $('.query.button').animate({opacity: 1}, 500, 'linear');
-  // use arbitrary rendering to fill results
-  var container = '#results';
-  if (results.hits) {
-    $(container).html('');
-    $('#queryCount').html(results.hits.hits.length === results.hits.total ? results.hits.total : (results.hits.hits.length + '/' + results.hits.total));
-    resultView.render(container, results, resultsLib);
-  } else {
-    $(container).html('<i>No items.</i>');
-    $('#queryCount').html('0');
-  }
 }

@@ -7,53 +7,61 @@ var currentURI, fayeClient, noUpdates;
 // hasQueuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
 var queryRefresher, hasQueuedUpdates, queuedNotifier;
 
+var lastResults, resultView;
+
+// FIXME modularize these
 exports.hasQueuedUpdates = hasQueuedUpdates;
-exports.displayItemSidebar = displayItemSidebar;
 exports.noUpdates = noUpdates;
 exports.queuedNotifier = queuedNotifier;
+exports.setupQueryRefresher = setupQueryRefresher;
+exports.lastResults = lastResults;
+
+exports.displayItemSidebar = displayItemSidebar;
+exports.hideItemSidebar = hideItemSidebar;
+exports.updateResults = updateResults;
 
 var annoTree = require('./annoTree.js');
 
-exports.init = function(fayeClientIn, submitQuery, resultView, updateResults) {
+exports.init = function(fayeClientIn, submitQuery, resultViewIn) {
+  fayeClient = fayeClientIn;
+  resultView = resultViewIn;
 
-    fayeClient = fayeClientIn;
-
-    console.log('/annotations/' + window.clientID);
-    // receive annotations
-    fayeClient.subscribe('/annotations/' + window.clientID, function(data) {
-      console.log('/annotations', data);
-      // update query items
-      if (data.annotationSummary && lastResults.hits) {
-        var i = 0, l = lastResults.hits.hits.length;
-        for (i; i < l; i++) {
-          if (lastResults.hits.hits[i]._id === data.uri) {
-            lastResults.hits.hits[i]._source.annotationSummary = data.annotationSummary;
-            break;
-          }
+  console.log('/annotations/' + window.clientID);
+  // receive annotations
+  fayeClient.subscribe('/annotations/' + window.clientID, function(data) {
+    console.log('/annotations', data);
+    // update query items
+    if (data.annotationSummary && lastResults.hits) {
+      var i = 0, l = lastResults.hits.hits.length;
+      for (i; i < l; i++) {
+        if (lastResults.hits.hits[i]._id === data.uri) {
+          lastResults.hits.hits[i]._source.annotationSummary = data.annotationSummary;
+          break;
         }
-        updateResults(lastResults);
       }
+      updateResults(lastResults);
+    }
 
-      if (data.uri === currentURI) {
-        annoTree.display(data.annotations, data.uri, treeInterface);
-      }
-    });
+    if (data.uri === currentURI) {
+      annoTree.display(data.annotations, data.uri, treeInterface);
+    }
+  });
 
-    // delete an item
-    fayeClient.subscribe('/deletedItem', function(item) {
-      console.log('/deletedItem', item, lastResults);
-      if (lastResults.hits) {
-        var i = 0, l = lastResults.hits.hits.length;
-        for (i; i < l; i++) {
-          if (lastResults.hits.hits[i]._id === item._id) {
-            lastResults.hits.hits.splice(i, 1);
-            updateResults(lastResults);
-            return;
-          }
+  // delete an item
+  fayeClient.subscribe('/deletedItem', function(item) {
+    console.log('/deletedItem', item, lastResults);
+    if (lastResults && lastResults.hits) {
+      var i = 0, l = lastResults.hits.hits.length;
+      for (i; i < l; i++) {
+        if (lastResults.hits.hits[i]._id === item._id) {
+          lastResults.hits.hits.splice(i, 1);
+          updateResults(lastResults);
+          return;
         }
-        console.log('deletedItem not found', item);
       }
-    });
+      console.log('deletedItem not found', item);
+    }
+  });
 
   // set up form
   $('.query.input').keyup(function(e) {
@@ -186,3 +194,38 @@ var treeInterface = {
     }
   }
 };
+
+function updateResults(results, newView) {
+  resultView = newView || resultView;
+  if (results) {
+    lastResults = results;
+  } else {
+    results = lastResults;
+  }
+
+  // content is being viewed or edited, delay updates
+  if (noUpdates) {
+    console.log('in noUpdates');
+    hasQueuedUpdates = true;
+    clearTimeout(queuedNotifier);
+    queuedNotifier = setInterval(function() { $('.toggle.item').toggleClass('red') }, 2000);
+    return;
+  }
+
+  // clear queued notifier
+  $('.toggle.item').removeClass('red');
+  clearInterval(queuedNotifier);
+
+  $('.query.button').animate({opacity: 1}, 500, 'linear');
+  // use arbitrary rendering to fill results
+  var container = '#results';
+  if (results.hits) {
+    $(container).html('');
+    $('#queryCount').html(results.hits.hits.length === results.hits.total ? results.hits.total : (results.hits.hits.length + '/' + results.hits.total));
+    console.log('RR', resultView);
+    resultView.render(container, results, this);
+  } else {
+    $(container).html('<i>No items.</i>');
+    $('#queryCount').html('0');
+  }
+}

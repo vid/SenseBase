@@ -27,10 +27,10 @@ exports.render = function(dest, results, resultsLib) {
       }
       if (resultsLib.hasQueuedUpdates) {
         console.log('displaying queued updates');
-        updateResults(lastResults);
+        resultsLib.updateResults(resultsLib.lastResults);
         resultsLib.hasQueuedUpdates = null;
       }
-      hideItemSidebar();
+      resultsLib.hideItemSidebar();
       curURI = null;
       shown = false;
       resultsLib.noUpdates = false;

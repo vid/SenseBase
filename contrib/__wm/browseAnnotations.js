@@ -4,7 +4,7 @@
 
 var utils = require('./clientUtils');
 
-exports.doTreemap = function(results, target) {
+exports.doTreemap = function(results, target, resultView) {
   $(target).addClass('treemap');
   renderTreemap(results.annotationOverview, target);
   window.onresize = function() { renderTreemap(results.annotationOverview, target)};
