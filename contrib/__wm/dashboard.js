@@ -11,8 +11,7 @@ var resultViews = { scatter: require('./results.scatter'), table: require('./res
   resultView = resultViews.table,
   querySub, clusterSub, qs;
 var faye = require('faye');
-
-var fayeClient = new faye.Client(location.protocol + '://' + location.hostname + ':' + location.port + '/faye/');
+var fayeClient = new faye.Client(location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/faye/');
 
 var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav', 'browseNum'];
 

@@ -67,7 +67,7 @@ exports.init = function(fayeClient, sbUser, resultsLib) {
   // receive list of saved searches
   fayeClient.subscribe('/search/results', function(results) {
     savedSearches = results;
-    if (results.hits.total > 0) {
+    if (results && results.hits.total > 0) {
       $("#loadSearch").select2({
         data: results.hits.hits.map(function(i) { return { id: i._source.searchName, text: i._source.searchName } })
       });

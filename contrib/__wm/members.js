@@ -24,7 +24,7 @@ exports.init = function(fayeClient, clientID) {
         ' ' + m.username + '</a>';
       $('.teamlist.field').prepend(row);
     });
-    for (type in teamTypes) {
+    for (var type in teamTypes) {
       $('.team.container').append('<optgroup label="' + type + '">' + teamTypes[type] + '</optgroup>');
     }
     $('.enabled.member').draggable({stack: 'a', helper: 'clone'});
