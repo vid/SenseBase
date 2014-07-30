@@ -138,7 +138,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  grunt.registerTask('default', ['includes', 'string-replace', 'develop', 'watch', 'mochaTest:devUnitTest']);
+  grunt.registerTask('default', ['includes', 'string-replace', 'browserify', 'develop', 'watch', 'mochaTest:devUnitTest']);
   grunt.registerTask('test', ['mochaTest:devUnitTest', 'mochaTest:devIntegrationTest']);
   grunt.registerTask('tidy', ['jshint', 'plato']);
 
@@ -146,7 +146,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.registerTask('libs', [ 'concat:js', 'uglify:js' ]);
+  grunt.registerTask('libs', [ 'concat:js', 'uglify:js', 'concat:css' ]);
 };
 
 
