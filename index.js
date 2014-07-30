@@ -1,4 +1,7 @@
 // Main module for SenseBase.
+/*jslint node: true */
+
+'use strict';
 
 var fs = require('fs'),
   http = require('http'),
@@ -13,7 +16,7 @@ var pubsub, search = require('./lib/search.js'), content = require('./lib/conten
 // Runtime users.
 var users;
 
-// Load local configuration is available.
+// Load local configuration if available.
 if (fs.existsSync('./local-site.json')) {
   users = require('./local-site.json').logins;
 } else {
@@ -93,8 +96,8 @@ exports.start = function(config, callback) {
 
 // Interactive command line.
 
-  repl = require('repl');
-  r = repl.start({ prompt: GLOBAL.config.project + "> ", useGlobal: true});
+  var repl = require('repl');
+  var r = repl.start({ prompt: GLOBAL.config.project + "> ", useGlobal: true});
   if (callback) {
     callback();
   }

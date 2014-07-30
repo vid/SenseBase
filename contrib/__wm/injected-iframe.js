@@ -1,4 +1,10 @@
-(function() {
+// ### injectec-iframe
+/*jslint node: true */
+
+'use strict';
+
+exports.inject = function() {
+  var annoTree = require('./annoTree');
   var selectMode = false;
   // html buffer while annotation categories are processed
   var newHTML;
@@ -30,7 +36,7 @@ console.log('select', anno);
   // actions
   $('.left.hand.icon').click(function() {
     var w = 300; //window.innerwidth;
-    $('#sbIframe', parent.document).css('left', '1em')
+    $('#sbIframe', parent.document).css('left', '1em');
     $('#sbIframe', parent.document).css('width', w + 'px');
   });
   $('.long.arrow.right.icon').click(function() {
@@ -83,9 +89,9 @@ console.log('select', anno);
 
   // prepare and display eligible annotations
   function displayAllAnnos(treeItems) {
-    var items = [], selector, newHTML;
+    var items = [], selector, newHTML, i;
     // two passes; first assign offsets and add to array with the same selector
-    for (var i in treeItems.map) {
+    for (i in treeItems.map) {
       var anno = treeItems.map[i];
       if (anno.selector === 'body') {
         anno.selector = '#SBEnclosure';
@@ -101,7 +107,7 @@ console.log('select', anno);
     }
     console.log(items.length, 'eligible in', selector, 'out of', i);
     // second pass, sort and display annotations, later first.
-    var latest = 1, i, item;
+    var latest = 1, item;
     while (latest > -1) {
       latest = -1;
       for (i = 0; i < items.length; i++) {
@@ -132,8 +138,5 @@ console.log('select', anno);
     anno.offset = findInstanceOffset(anno, newHTML);
     return newHTML.substring(0, anno.offset) + startTag + anno.exact + endTag + newHTML.substring(anno.offset + anno.exact.length);
   }
-include "annoTree.js"
-}());
+};
 parent.window.senseBaseIframe = this;
-
-

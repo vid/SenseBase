@@ -18,10 +18,7 @@ var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember
 // Unique ID for pubsub
 var clientID;
 
-var resultsLib = require('./results'), membersLib = require('./members'), searchLib = require('./search'), utils = require('./clientUtils');
-
-var browseCluster = require('./browseCluster');
-var browseAnnotations = require('./browseAnnotations');
+var resultsLib = require('./results'), membersLib = require('./members'), searchLib = require('./search'), utils = require('./clientUtils'), browseCluster = require('./browseCluster'), browseAnnotations = require('./browseAnnotations');
 
 // initialize page functions
 exports.init = function(sbUser) {
@@ -252,7 +249,7 @@ function submitQuery() {
   window.history.pushState('query form', 'Query', 'index.html?' + ss.join('&'));
 
   if ($("#browseNav" ).val() === 'cluster') {
-    $('#browse').html('<img src="/__wm/loading.gif" alt="loading" /><br />Loading cluster treemap');
+    $('#browse').html('<img src="loading.gif" alt="loading" /><br />Loading cluster treemap');
     $('.browse.sidebar').sidebar('show');
     doCluster();
   } else {

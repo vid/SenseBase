@@ -9,35 +9,13 @@ module.exports = function(grunt) {
   ];
 
   grunt.initConfig({
-    'string-replace': {
-      domain: {
-        files: {
-          'static/__wm/' : ['static/__wm/*.js', 'static/__wm/*.html']
-        },
-        options: {
-          replacements: [{
-            pattern: /<!-- @var (.*?) -->/g,
-            replacement: function (match, p1, offset, string) {
-              console.log('string-replace', match, p1, rep);
-              var rep = config.config[p1];
-              if (!rep) {
-                console.log('Missing ', p1, ' in config.js');
-                throw 'Missing ' + p1 + ' in config.js';
-              }
-              return rep;
-            }
-          }]
-        }
-      }
-    },
-
     jshint: {
       files: srcFiles
     },
     watch: {
       assets: {
         files: 'contrib/**/*.*',
-        tasks: ['includes', 'browserify', 'string-replace'],
+        tasks: ['includes', 'browserify'],
         options: {
           spawn: true
         },
@@ -128,21 +106,19 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-develop');
   grunt.loadNpmTasks('grunt-includes');
-  grunt.loadNpmTasks('grunt-string-replace');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-plato');
   grunt.loadNpmTasks('grunt-docker');
   grunt.loadNpmTasks('grunt-docker');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-
-  grunt.registerTask('default', ['includes', 'string-replace', 'browserify', 'develop', 'watch', 'mochaTest:devUnitTest']);
-  grunt.registerTask('test', ['mochaTest:devUnitTest', 'mochaTest:devIntegrationTest']);
-  grunt.registerTask('tidy', ['jshint', 'plato']);
-
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+
+  grunt.registerTask('default', ['includes', 'browserify', 'develop', 'watch', 'mochaTest:devUnitTest']);
+  grunt.registerTask('test', ['mochaTest:devUnitTest', 'mochaTest:devIntegrationTest']);
+  grunt.registerTask('tidy', ['jshint', 'plato']);
   grunt.registerTask('libs', [ 'concat:js', 'uglify:js', 'concat:css' ]);
 };
