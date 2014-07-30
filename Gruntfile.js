@@ -1,7 +1,5 @@
 var config = require('./config.js');
 
-//  uglifyjs  --screw-ie8  bower_components/jquery/dist/jquery.js static/__wm/lib/jquery.address.js static/__wm/lib/tablesort.js bower_components/jquery-ui/ui/jquery-ui.js bower_components/jstree/dist/jstree.min.js bower_components/semantic-ui/build/packaged/javascript/semantic.js static/__wm/lib/dragFile.js bower_components/select2/select2.js static/__wm/lib/d3plus/d3.js static/__wm/lib/d3plus/d3plus.min.js static/__wm/lib/nvd3/nv.d3.js static/__wm/lib/jqCron/jqCron.js -o static/__wm/libs.min.js
-
 module.exports = function(grunt) {
   var srcFiles = [
     'lib/*.js',
@@ -148,5 +146,3 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.registerTask('libs', [ 'concat:js', 'uglify:js', 'concat:css' ]);
 };
-
-
