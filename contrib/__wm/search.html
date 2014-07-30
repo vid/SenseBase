@@ -1,29 +1,29 @@
-<div class="ui function scraping form" style="padding: 4px">
+<div class="ui function searching form" style="padding: 4px">
   <div class="fields">
     <div class="four wide function field">
       <div class="field">
-        <label for="scrapeInput">Input</label>
-        <input id="scrapeInput" style="width: 100%" />
+        <label for="searchTeam">Members</h3>
+        <select multiple class="searching team container" style="width: 100%" id="searchTeam"></select>
       </div>
       <div class="field">
-        <label for="scrapeContinue">Continue scraping</label>
-        <select id="scrapeContinue" title="when should search paths stop">
+        <label for="searchCategories">Apply categories</label>
+        <input id="searchCategories" />
+      </div>
+    </div>
+    <div class="four wide function field">
+      <div class="field">
+        <label for="searchInput">Input</label>
+        <input id="searchInput" style="width: 100%" />
+      </div>
+      <div class="field">
+        <label for="searchContinue">Continue searching</label>
+        <select id="searchContinue" title="when should search paths stop">
           <option value="0">link only</option>
           <option selected value="1">term within 1 link</option>
           <option value="2">term within 2 links</option>
           <option value="3">term within 3 links</option>
           <option disabled>entire site</option>
         </select>
-      </div>
-    </div>
-    <div class="four wide function field">
-      <div class="field">
-        <label for="scrapeTeam">Members</h3>
-        <select multiple class="scraping team container" style="width: 100%" id="scrapeTeam"></select>
-      </div>
-      <div class="field">
-        <label for="scrapeCategories">Apply categories</label>
-        <input id="scrapeCategories" />
       </div>
     </div>
     <div class="two wide function field">
@@ -34,11 +34,11 @@
         <input size="4" value="10" id="targetResults" />
       </div>
       <div class="field">
-        <button class="ui blue mini scrape submit button">Queue</button>
+        <button class="ui blue mini search submit button">Queue</button>
       </div>
       <div class="inline field">
-        <input type="checkbox" checked id="refreshScrape" />
-        <label for="refreshScrape">
+        <input type="checkbox" checked id="refreshSearch" />
+        <label for="refreshSearch">
           Refresh results
         </label>
       </div>
@@ -49,7 +49,7 @@
         <input type="checkbox" id="scheduleSearch" /> Schedule <span id="scheduleInput" style="display: none"><input class="cron search" style="display: none" /></span>
       </div>
       <div class="two inline fields">
-        <label for="scrapeSave">Name</label>
+        <label for="searchSave">Name</label>
         <input id="searchName" style="width: 60%" />
         <button class="ui mini save search button"><i class="save icon"></i></button>
         <button class="ui mini load search button"><i class="ellipsis horizontal icon"></i></button>

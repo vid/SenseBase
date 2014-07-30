@@ -22,10 +22,10 @@ exports.init = function(fayeClient, sbUser, resultsLib) {
   $('input.cron').val()
 
   // setup semantic-ui form validation
-  $('.scraping.form').form(
+  $('.searching.form').form(
     {
-      scrapeInput: {
-        identifier  : 'scrapeInput',
+      searchInput: {
+        identifier  : 'searchInput',
         rules: [
           {
             type   : 'empty',
@@ -33,8 +33,8 @@ exports.init = function(fayeClient, sbUser, resultsLib) {
           }
         ]
       },
-      scrapeCategories: {
-        identifier : 'scrapeCategories',
+      searchCategories: {
+        identifier : 'searchCategories',
         rules: [
           {
             type   : 'empty',
@@ -53,11 +53,11 @@ exports.init = function(fayeClient, sbUser, resultsLib) {
       }
     },
     {
-      onSuccess: submitScrape
+      onSuccess: submitSearch
     }
   );
 
-  // populate with initial set of saved scrapes
+  // populate with initial set of saved searchs
   fayeClient.publish('/search/retrieve', { member: sbUser });
 
   // receive list of saved searches
@@ -104,10 +104,10 @@ exports.init = function(fayeClient, sbUser, resultsLib) {
         $('#scheduleSearch').trigger('change');
         $('#searchName').val(v);
         $('#targetResults').val(r.targetResults);
-        $('#scrapeInput').val(r.input);
-        $('#scrapeContinue').val(r.relevance);
-        $('#scrapeCategories').val(r.categories);
-        $('select.scraping.team').val(r.team);
+        $('#searchInput').val(r.input);
+        $('#searchContinue').val(r.relevance);
+        $('#searchCategories').val(r.categories);
+        $('select.searching.team').val(r.team);
         $('.team.container').select2('val', r.team);
         return;
       }
@@ -132,12 +132,12 @@ exports.init = function(fayeClient, sbUser, resultsLib) {
 
   // convert the form values to data
   function getSearchInput() {
-    var cronValue = $('#scheduleSearch').prop('checked') ? $('input.cron').val() : null, searchName = $('#searchName').val(), targetResults = $('#targetResults').val(), input = $('#scrapeInput').val(), scrapeContinue = $('#scrapeContinue').val(), scrapeCategories = $('#scrapeCategories').val().split(',').map(function(t) { return t.trim(); }), searchTeam = $('select.scraping.team option:selected').map(function() { return this.value }).get();
-    return { searchName: searchName, cron: cronValue, input: input, relevance: scrapeContinue, team: searchTeam, categories: scrapeCategories, member: sbUser, targetResults: targetResults, valid: (input.length > 0 && scrapeContinue.length > 0 && searchTeam.length > 0 && scrapeCategories.length > 0 && sbUser.length > 0 && targetResults.length > 0 )};
+    var cronValue = $('#scheduleSearch').prop('checked') ? $('input.cron').val() : null, searchName = $('#searchName').val(), targetResults = $('#targetResults').val(), input = $('#searchInput').val(), searchContinue = $('#searchContinue').val(), searchCategories = $('#searchCategories').val().split(',').map(function(t) { return t.trim(); }), searchTeam = $('select.searching.team option:selected').map(function() { return this.value }).get();
+    return { searchName: searchName, cron: cronValue, input: input, relevance: searchContinue, team: searchTeam, categories: searchCategories, member: sbUser, targetResults: targetResults, valid: (input.length > 0 && searchContinue.length > 0 && searchTeam.length > 0 && searchCategories.length > 0 && sbUser.length > 0 && targetResults.length > 0 )};
   }
 
-  // submit a new scrape
-  function submitScrape() {
+  // submit a new search
+  function submitSearch() {
     var searchInput = getSearchInput();
     // FIXME: SUI validation for select2 field
       if (!searchInput.valid) {
@@ -146,8 +146,8 @@ exports.init = function(fayeClient, sbUser, resultsLib) {
     }
     console.log('publishing', searchInput, fayeClient);
     fayeClient.publish('/search/queue', searchInput);
-    if ($('#refreshScrape').prop('checked')) {
-      $('#annoSearch').val($('#scrapeCategories').val());
+    if ($('#refreshSearch').prop('checked')) {
+      $('#annoSearch').val($('#searchCategories').val());
     //  $('#validationState').val('queued');
       $('#refreshQueries').prop('checked', true);
       resultsLib.setupQueryRefresher(5000);
