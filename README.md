@@ -13,37 +13,44 @@ Then `npm install`, `bower install`, `grunt libs`
 # Configure
 
 create a config.js:
-     
-    // logging
-    var winston = require('winston');
-     
-    GLOBAL.debug = winston.debug;
-    GLOBAL.info = winston.info;
-    GLOBAL.warn = winston.warn;
-    GLOBAL.error = winston.error;
 
-    var domain = 'my.great.domain', http_port = 9999;
-    var esOptions ={ _index : 'ps', server : { host : 'es.' + domain, port : 9200 }};
-    
-    exports.config = {
-      project: 'sensebase',
-      DOMAIN: domain,
-      FAYEHOST: 'http://faye.' + domain + ':' + http_port + '/montr',
-      ESEARCH:  esOptions,
-      ESEARCH_URI: 'http://es.' + domain + ':' + esOptions.server.port + '/' + esOptions._index,
-      HOMEPAGE: 'http://dashboard.' + domain,
-      AUTH_PORT: http_port,
-      HTTP_PORT: http_port,
-      PROXY_PORT: 8089,
-      SPOTLIGHT: { host: 'spotlight' + domain, port: 7272},
-      SENTIMENT: { host: 'sentiment' + domain, port: 9002},
-      NOCACHE_REGEX: '.*.' + domain,
-      CACHE_DIR : '/some/dir',
-      uploadDirectory: './static/files',
-      doCache : true,
-      doAuth: true,
-      logStream : { write: function() {}}
-    }
+	// set up logging
+	var winston = require('winston');
+
+	['debug', 'info', 'warn', 'error'].forEach(function(e) { 
+	  GLOBAL[e] = winston[e];
+	});
+
+	var domain = 'localhost',
+	  namespace = '',
+	  port = 9999,
+	  fayemount = namespace + '/faye',
+	  base = 'http://' + domain + (port ? ':' + port : '') + namespace;
+	var esOptions ={ _index : 'ps', server : { host : domain, port : 9200 }};
+	exports.config = {
+	  namespace: namespace,
+	  project: 'ps',
+	  FAYEMOUNT: fayemount,
+	  FAYEHOST: 'http://' + domain + (port ? ':' + port : '') + fayemount,
+	  ESEARCH: esOptions,
+	  ESEARCH_URI: 'http://' + esOptions.server.host + ':' + esOptions.server.port + '/' + esOptions._index,
+	  HOMEPAGE: base + '/',
+	  AUTH_PORT: port,
+	  PROXY_PORT: 8089,
+	  SPOTLIGHT: { host: domain, port: 7272},
+	  NOCACHE_REGEX: '.*.' + domain,
+	  CACHE_DIR : '/home/vid/pcache/',
+	  uploadDirectory: './uploads',
+	  doCache : true,
+	  doAuth: true,
+	  logStream : { write: function() {}},
+	  annotationLocations: {
+
+	  },
+	  structuralMatches: [ <configured structuralMatches> ],
+	  apis : { <configured api keys> }
+	//
+	};
 
 Copy site.json to local-site.json for local site data.
 
