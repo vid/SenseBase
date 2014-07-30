@@ -3,13 +3,12 @@
 # UNDER CONSTRUCTION
 (= (= (= (= (= (= (=
 
-Install ElasticSearch.
+Install ElasticSearch and Node.js (tested with version 0.10).
 
-npm install SenseBase
+`npm install SenseBase`
+`npm install -g grunt`
 
-Then ```npm install```, ```bower install``` if you are working directly in the source base.
-
-Presuming a debian derived distro, you will need to have build-essentials installed
+Then `npm install`, `bower install`, `grunt libs`
 
 # Configure
 
@@ -58,7 +57,7 @@ if including SenseBase from your own project, create a bootstrap (app.js) that l
 
 start any services
 
-then ```node app.js```
+then `node app.js`
 
 
 # Develop

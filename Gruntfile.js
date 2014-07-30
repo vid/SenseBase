@@ -1,6 +1,6 @@
 var config = require('./config.js');
 
-//  "uglifyjs  --screw-ie8  bower-components/jquery/dist/jquery.js bower-components/faye/include.js bower-components/jstree/dist/jstree
+//  uglifyjs  --screw-ie8  bower_components/jquery/dist/jquery.js static/__wm/lib/jquery.address.js static/__wm/lib/tablesort.js bower_components/jquery-ui/ui/jquery-ui.js bower_components/jstree/dist/jstree.min.js bower_components/semantic-ui/build/packaged/javascript/semantic.js static/__wm/lib/dragFile.js bower_components/select2/select2.js static/__wm/lib/d3plus/d3.js static/__wm/lib/d3plus/d3plus.min.js static/__wm/lib/nvd3/nv.d3.js static/__wm/lib/jqCron/jqCron.js -o static/__wm/libs.min.js
 
 module.exports = function(grunt) {
   var srcFiles = [
@@ -101,7 +101,29 @@ module.exports = function(grunt) {
           'reports': srcFiles
         }
       }
-    }
+    },
+    concat: {
+      css: {
+       src: [
+         'bower_components/semantic-ui/build/packaged/css/semantic.css', 'bower_components/select2/select2.css', 'bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css', 'bower_components/jstree/dist/themes/default/style.min.css', 'static/__wm/lib/d3plus/d3plus.css', 'static/__wm/lib/nvd3/nv.d3.css', 'static/__wm/lib/jqCron/jqCron.css'
+
+       ],
+       dest: 'static/__wm/libs.css'
+      },
+      js : {
+        src : [
+         'bower_components/jquery/dist/jquery.js', 'static/__wm/lib/jquery.address.js', 'static/__wm/lib/tablesort.js', 'bower_components/jquery-ui/ui/jquery-ui.js', 'bower_components/jstree/dist/jstree.min.js', 'bower_components/semantic-ui/build/packaged/javascript/semantic.js', 'static/__wm/lib/dragFile.js', 'bower_components/select2/select2.js', 'static/__wm/lib/d3plus/d3.js', 'static/__wm/lib/d3plus/d3plus.min.js', 'static/__wm/lib/nvd3/nv.d3.js', 'static/__wm/lib/jqCron/jqCron.js'
+        ],
+        dest : 'static/__wm/libs.min.js'
+      }
+    },
+    uglify : {
+      js: {
+        files: {
+          'static/__wm/libs.min.js' : [ 'static/__wm/libs.min.js' ]
+        }
+      }
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -114,11 +136,17 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-docker');
   grunt.loadNpmTasks('grunt-docker');
   grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   grunt.registerTask('default', ['includes', 'string-replace', 'develop', 'watch', 'mochaTest:devUnitTest']);
   grunt.registerTask('test', ['mochaTest:devUnitTest', 'mochaTest:devIntegrationTest']);
   grunt.registerTask('tidy', ['jshint', 'plato']);
 
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.registerTask('libs', [ 'concat:js', 'uglify:js' ]);
 };
 
 
