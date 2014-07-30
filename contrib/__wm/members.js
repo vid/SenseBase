@@ -1,5 +1,7 @@
 // ## Members
 //
+/*jslint node: true */
+'use strict';
 
 var justEdited, rTeams, editingMember;
 
@@ -146,4 +148,4 @@ exports.init = function(fayeClient, clientID) {
     fayeClient.publish('/team/save', editingMember);
     return false;
   });
-}
+};

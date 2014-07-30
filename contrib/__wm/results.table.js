@@ -1,6 +1,7 @@
 // ### results.table
 //
 // Render results in an html table.
+/*jslint node: true */
 
 'use strict';
 
@@ -56,7 +57,7 @@ exports.render = function(dest, results, resultsLib) {
       $el.parents('tr').addClass('active');
     }
     return false;
-  }
+  };
 
   $(dest).append('<table id="resultsTable" class="ui sortable table"><thead><tr><th class="descending">' +
     'Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table>');
@@ -127,5 +128,3 @@ function checkSelected() {
   $('.requires.selected').toggleClass('disabled', !(hasSelected > 0));
   $('.selected.count').html(hasSelected);
 }
-
-

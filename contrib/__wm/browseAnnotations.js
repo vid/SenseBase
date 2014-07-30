@@ -1,4 +1,5 @@
 // ### browseAnnotations
+/*jslint node: true */
 
 'use strict';
 
@@ -63,7 +64,7 @@ exports.doTreemap = function(results, target, resultView) {
       .attr("transform", transform)
       .attr("dy", ".35em")
       .style("opacity", function(d) { return d.dx * ky > 12 ? 1 : 0; })
-      .text(function(d) { return d.name; })
+      .text(function(d) { return d.name; });
 
 /*
     d3.select(window)
@@ -107,4 +108,4 @@ exports.doTreemap = function(results, target, resultView) {
       return "translate(8," + d.dx * ky / 2 + ")";
     }
   }
-}
+};

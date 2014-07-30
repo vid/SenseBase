@@ -1,6 +1,8 @@
 // ### Dashboard
 //
 // General module for SenseBase browser client.
+/*jslint node: true */
+
 'use strict';
 
 // module variables
@@ -22,7 +24,6 @@ var resultsLib = require('./results'), membersLib = require('./members'), search
 var browseCluster = require('./browseCluster');
 var browseAnnotations = require('./browseAnnotations');
 
-var $ = window.$;
 // initialize page functions
 exports.init = function(sbUser) {
   resultsLib.init(fayeClient, submitQuery, resultView);
@@ -266,7 +267,7 @@ function updateQueryForm() {
   // populate the querystring object
   if (!qs) {
     qs = (function(a) {
-      if (a == "") return {};
+      if (a === "") return {};
       var b = {};
       for (var i = 0; i < a.length; ++i) {
         var p=a[i].split('=');

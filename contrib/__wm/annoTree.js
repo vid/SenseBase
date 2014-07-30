@@ -126,4 +126,4 @@ exports.display = function(annotations, uri, treeInterface) {
 
   console.log('treeAnnos', treeMap);
   return treeItems;
-}
+};

@@ -1,6 +1,8 @@
 // ### Results
 //
 // Result actions.
+/*jslint node: true */
+
 'use strict';
 
 var currentURI, fayeClient, noUpdates;
@@ -97,7 +99,7 @@ exports.init = function(fayeClientIn, submitQuery, resultViewIn) {
     lastResults.hits.hits.unshift(result);
     updateResults(lastResults);
   });
-}
+};
 
 // FIXME normalize fields between base and _source
 function normalizeResult(result) {

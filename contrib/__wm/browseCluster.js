@@ -1,4 +1,5 @@
 // ### browseCluster
+/*jslint node: true */
 
 'use strict';
 
@@ -29,4 +30,3 @@ exports.doTreemap = function(data, target, resultView) {
     resultView.checkSelected();
   });
 }
-

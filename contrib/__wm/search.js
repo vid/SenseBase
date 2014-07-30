@@ -1,6 +1,10 @@
 // ### Search
 //
 // lookup for saved searches
+/*jslint node: true */
+
+'use strict';
+
 var savedSearches;
 
 exports.init = function(fayeClient, sbUser, resultsLib) {
@@ -155,7 +159,4 @@ exports.init = function(fayeClient, sbUser, resultsLib) {
     doQuery();
   }
 
-}
-
-
-
+};

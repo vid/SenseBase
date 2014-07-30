@@ -12,8 +12,8 @@ exports.encID = function(c) {
 
 exports.deEncID = function(c) {
   return encIDs[c.replace('enc', '')];
-}
+};
 
 exports.shortenURI = function(u) {
   return (!u || u.length < ULEN) ? u : (u.substring(0, ULEN - 3) + '…' + u.substring(u.length - 3));
-}
+};

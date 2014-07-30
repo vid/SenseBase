@@ -1,3 +1,6 @@
+// ### results.scatter
+/*jslint node: true */
+
 'use strict';
 
 var utils = require('./clientUtils');

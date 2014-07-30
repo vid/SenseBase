@@ -1,4 +1,5 @@
 // ### results.debug
+/*jslint node: true */
 
 'use strict';
 
