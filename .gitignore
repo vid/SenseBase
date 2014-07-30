@@ -1,8 +1,4 @@
-target/
-src/main/nodejs/bproxy/node_modules
-src/main/java/config/proxiris.properties
-src/main/resources/mycoMINE/application-resources/machineLearning/savedFiles/logFileForNLPLearning.save
-docs/
+doc/
 reports/
 node_modules/
 config.js

@@ -35,7 +35,7 @@ module.exports = function(grunt) {
     },
     includes: {
       files: {
-        src: ['contrib/**/*.html'],
+        src: ['contrib/__wm/index.html'],
         dest: 'static/__wm',
         flatten: true,
         cwd: '.',
