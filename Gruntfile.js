@@ -18,7 +18,7 @@ module.exports = function(grunt) {
     watch: {
       assets: {
         files: 'contrib/**/*.*',
-        tasks: ['includes', 'string-replace', 'browserify'],
+        tasks: ['includes', 'browserify', 'string-replace'],
         options: {
           spawn: true
         },
@@ -28,13 +28,16 @@ module.exports = function(grunt) {
         tasks: ['develop'],
       }
     },
-    browserify: {
-      standalone: {
-        src: [ './contrib/__wm/index.js' ],
-        dest: './static/__wm/index.js',
+    includes: {
+      files: {
+        src: ['contrib/__wm/index.html', 'contrib/__wm/injected-iframe.*'],
+        dest: 'static/__wm',
+        flatten: true,
+        cwd: '.',
         options: {
+          silent: false,
         }
-      },
+      }
     },
     'string-replace': {
       domain: {
@@ -56,16 +59,19 @@ module.exports = function(grunt) {
         }
       }
     },
-    includes: {
-      files: {
-        src: ['contrib/__wm/index.html', 'contrib/__wm/injected-iframe.*'],
-        dest: 'static/__wm',
-        flatten: true,
-        cwd: '.',
+    browserify: {
+      index: {
+        src: [ 'contrib/__wm/index.js' ],
+        dest: 'static/__wm/index.js',
         options: {
-          silent: false,
         }
-      }
+      },
+      iframe: {
+        src: [ 'contrib/__wm/index-injected.js' ],
+        dest: 'static/__wm/index-injected.js',
+        options: {
+        }
+      },
     },
     develop: {
       server: {
@@ -141,7 +147,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-string-replace');
 
-  grunt.registerTask('default', ['includes', 'string-replace', 'browserify', 'develop', 'watch', 'mochaTest:devUnitTest']);
+  grunt.registerTask('default', ['includes', 'browserify', 'string-replace', 'develop', 'watch', 'mochaTest:devUnitTest']);
   grunt.registerTask('test', ['mochaTest:devUnitTest', 'mochaTest:devIntegrationTest']);
   grunt.registerTask('tidy', ['jshint', 'plato']);
   grunt.registerTask('libs', [ 'concat:js', 'uglify:js', 'concat:css' ]);
