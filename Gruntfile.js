@@ -65,7 +65,8 @@ module.exports = function(grunt) {
     },
     docker: {
       options: {
-        exclude: ['node_modules', 'bower_components/**', 'static']
+        exclude: ['node_modules', 'bower_components/**', 'static'],
+        layout: 'linear'
       },
       main: {
         src: ['*.js', 'lib/*js', 'contrib/__wm/*js', 'test/**/*.js']
@@ -108,7 +109,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-includes');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-plato');
-  grunt.loadNpmTasks('grunt-docker');
   grunt.loadNpmTasks('grunt-docker');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-uglify');
