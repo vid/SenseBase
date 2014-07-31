@@ -1,5 +1,7 @@
 // ### results.debug
+/*jslint browser: true */
 /*jslint node: true */
+/* global $ */
 
 'use strict';
 

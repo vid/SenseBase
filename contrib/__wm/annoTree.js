@@ -1,3 +1,8 @@
+/*jslint browser: true */
+/*jslint node: true */
+/* global $ */
+'use strict';
+
 var treeFilterTimeout;
 // display all annotations, then return a structure containing instances mapped to IDs
 exports.display = function(annotations, uri, treeInterface) {

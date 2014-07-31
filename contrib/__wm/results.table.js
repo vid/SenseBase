@@ -1,7 +1,9 @@
 // ### results.table
 //
 // Render results in an html table.
+/*jslint browser: true */
 /*jslint node: true */
+/* global $ */
 
 'use strict';
 
@@ -125,6 +127,6 @@ function checkSelected() {
     }
   });
 
-  $('.requires.selected').toggleClass('disabled', !(hasSelected > 0));
+  $('.requires.selected').toggleClass('disabled', (hasSelected < 1));
   $('.selected.count').html(hasSelected);
 }

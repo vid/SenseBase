@@ -1,6 +1,7 @@
 // ### results.scatter
+/*jslint browser: true */
 /*jslint node: true */
-
+/* global $,nv,d3 */
 'use strict';
 
 var utils = require('./clientUtils');
@@ -22,7 +23,7 @@ exports.render = function(dest, results) {
 
     //Axis settings
 //    chart.xAxis.tickFormat(d3.format('.02f'));
-    chart.xAxis.tickFormat(function(d) { return d3.time.format('%b %d')(new Date(d)); })
+    chart.xAxis.tickFormat(function(d) { return d3.time.format('%b %d')(new Date(d)); });
     chart.yAxis.tickFormat(d3.format('.02f'));
 
     //We want to show shapes other than circles.
@@ -37,7 +38,7 @@ exports.render = function(dest, results) {
 
     return chart;
   });
-}
+};
 
 
 function resultsData(fields, results) { //# groups,# points per group
@@ -49,10 +50,10 @@ function resultsData(fields, results) { //# groups,# points per group
     var cur = { key : field, values : [] };
 
     for (var j = 0; j < results.hits.hits.length; j++) {
-      var hit = results.hits.hits[j]._source;
+      var annos, annosVal, hit = results.hits.hits[j]._source;
       if (hit.annotationSummary) {
-        var annos = hit.annotationSummary.validated + hit.annotationSummary.unvalidated + 1;
-        var annosVal = hit.annotationSummary.validated + 1;
+        annos = hit.annotationSummary.validated + hit.annotationSummary.unvalidated + 1;
+        annosVal = hit.annotationSummary.validated + 1;
       } else {
         annos = 1;
         annosVal = 1;

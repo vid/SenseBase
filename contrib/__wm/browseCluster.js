@@ -1,5 +1,7 @@
 // ### browseCluster
+/*jslint browser: true */
 /*jslint node: true */
+/* global $,d3plus,d3 */
 
 'use strict';
 
@@ -29,4 +31,4 @@ exports.doTreemap = function(data, target, resultView) {
     // update selected count
     resultView.checkSelected();
   });
-}
+};

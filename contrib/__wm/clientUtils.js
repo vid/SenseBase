@@ -1,4 +1,6 @@
 // ### clientUtils
+/*jslint node: true */
+'use strict';
 
 var encIDs = [];
 

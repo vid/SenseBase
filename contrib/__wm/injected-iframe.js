@@ -1,5 +1,7 @@
 // ### injectec-iframe
+/*jslint browser: true */
 /*jslint node: true */
+/* global $ */
 
 'use strict';
 
@@ -65,7 +67,7 @@ console.log('select', anno);
     }
     console.log('/annotations', data);
 
-    var treeItems = displayAnnoTree(annotations, uri, treeInterface);
+    var treeItems = annoTree.display(annotations, uri, treeInterface);
     displayAllAnnos(treeItems);
     if ($('.sbAnnotation', parent.document).length) {
       $('.sbAnnotation', parent.document).click(function() {

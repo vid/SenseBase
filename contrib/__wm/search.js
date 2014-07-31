@@ -1,8 +1,9 @@
 // ### Search
 //
 // lookup for saved searches
+/*jslint browser: true */
 /*jslint node: true */
-
+/* global $,alert */
 'use strict';
 
 var savedSearches;
@@ -23,7 +24,7 @@ exports.init = function(fayeClient, sbUser, resultsLib) {
     $('#scheduleInput').toggle(this.checked);
   });
 
-  $('input.cron').val()
+  $('input.cron').val();
 
   // setup semantic-ui form validation
   $('.searching.form').form(
@@ -69,7 +70,7 @@ exports.init = function(fayeClient, sbUser, resultsLib) {
     savedSearches = results;
     if (results && results.hits.total > 0) {
       $("#loadSearch").select2({
-        data: results.hits.hits.map(function(i) { return { id: i._source.searchName, text: i._source.searchName } })
+        data: results.hits.hits.map(function(i) { return { id: i._source.searchName, text: i._source.searchName }; })
       });
       $('.load.search').attr('disabled', false);
     } else {
@@ -136,7 +137,7 @@ exports.init = function(fayeClient, sbUser, resultsLib) {
 
   // convert the form values to data
   function getSearchInput() {
-    var cronValue = $('#scheduleSearch').prop('checked') ? $('input.cron').val() : null, searchName = $('#searchName').val(), targetResults = $('#targetResults').val(), input = $('#searchInput').val(), searchContinue = $('#searchContinue').val(), searchCategories = $('#searchCategories').val().split(',').map(function(t) { return t.trim(); }), searchTeam = $('select.searching.team option:selected').map(function() { return this.value }).get();
+    var cronValue = $('#scheduleSearch').prop('checked') ? $('input.cron').val() : null, searchName = $('#searchName').val(), targetResults = $('#targetResults').val(), input = $('#searchInput').val(), searchContinue = $('#searchContinue').val(), searchCategories = $('#searchCategories').val().split(',').map(function(t) { return t.trim(); }), searchTeam = $('select.searching.team option:selected').map(function() { return this.value; }).get();
     return { searchName: searchName, cron: cronValue, input: input, relevance: searchContinue, team: searchTeam, categories: searchCategories, member: sbUser, targetResults: targetResults, valid: (input.length > 0 && searchContinue.length > 0 && searchTeam.length > 0 && searchCategories.length > 0 && sbUser.length > 0 && targetResults.length > 0 )};
   }
 

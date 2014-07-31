@@ -1,5 +1,7 @@
 // ### browseAnnotations
+/*jslint browser: true */
 /*jslint node: true */
+/* global $,d3 */
 
 'use strict';
 
@@ -8,7 +10,7 @@ var utils = require('./clientUtils');
 exports.doTreemap = function(results, target, resultView) {
   $(target).addClass('treemap');
   renderTreemap(results.annotationOverview, target);
-  window.onresize = function() { renderTreemap(results.annotationOverview, target)};
+  window.onresize = function() { renderTreemap(results.annotationOverview, target);};
 
   function renderTreemap(root, target) {
     $(target).html('');
@@ -40,7 +42,7 @@ exports.doTreemap = function(results, target, resultView) {
         .on('mouseover', function(d) {
           div.transition()
             .duration(200)
-            .style("opacity", .9);
+            .style("opacity", 0.9);
             div.html(d.name + ' (' + (d.children ? d.children.length + ' sub' : d.size + ' items') + ')')
               .style("left", (d3.event.pageX) + "px")
               .style("top", (d3.event.pageY - 28) + "px");

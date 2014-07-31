@@ -1,8 +1,9 @@
 // ### Results
 //
 // Result actions.
+/*jslint browser: true */
 /*jslint node: true */
-
+/* global $ */
 'use strict';
 
 var currentURI, fayeClient, noUpdates;

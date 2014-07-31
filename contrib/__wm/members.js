@@ -1,6 +1,9 @@
 // ## Members
 //
+/*jslint browser: true */
 /*jslint node: true */
+/* global $,alert */
+
 'use strict';
 
 var justEdited, rTeams, editingMember;
