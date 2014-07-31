@@ -6,6 +6,7 @@
 'use strict';
 
 exports.init = function() {
+  var clientID = window.clientID;
   var annoTree = require('./annoTree');
   var selectMode = false;
   // html buffer while annotation categories are processed
@@ -32,8 +33,6 @@ console.log('select', anno);
   var faye = require('faye');
   var fayeClient = new faye.Client('<!-- @var FAYEHOST -->');
 
-  $('body').append('<span id="annotationCount"></span><div id="treeContainer"></div>');
-
   // actions
   $('.left.hand.icon').click(function() {
     var w = 300; //window.innerwidth;
@@ -56,9 +55,10 @@ console.log('select', anno);
     console.log('toggle short');
   });
   console.log('SenseBase iframe', parent.window.location.href);
-  fayeClient.publish('/annotate', { uri: parent.window.location.href} );
 
-  fayeClient.subscribe('/annotations', function(data) {
+  fayeClient.publish('/annotate', { clientID: clientID, uri: parent.window.location.href} );
+
+  fayeClient.subscribe('/annotations/' + clientID, function(data) {
     var annotations = data.annotations, uri = data.uri;
     if (uri.replace(/#.*/, '') !== parent.window.location.href) {
       console.log('ignoring annotations', uri);
