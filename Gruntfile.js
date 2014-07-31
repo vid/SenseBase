@@ -1,3 +1,6 @@
+/* jslint node: true */
+'use strict';
+
 var config = require('./config.js');
 
 module.exports = function(grunt) {
@@ -15,7 +18,7 @@ module.exports = function(grunt) {
     watch: {
       assets: {
         files: 'contrib/**/*.*',
-        tasks: ['includes', 'browserify'],
+        tasks: ['includes', 'string-replace', 'browserify'],
         options: {
           spawn: true
         },
@@ -33,9 +36,29 @@ module.exports = function(grunt) {
         }
       },
     },
+    'string-replace': {
+      domain: {
+        files: {
+          'static/__wm/' : ['static/__wm/*.js', 'static/__wm/*.html']
+        },
+        options: {
+          replacements: [{
+            pattern: /<!-- @var (.*?) -->/g,
+            replacement: function(match, p1, offset, string) {
+              var rep = config.config[p1];
+              console.log('string-replace', match, p1, rep);
+              if (!rep) {
+                throw('Missing', p1, 'in config.js');
+              }
+              return rep;
+            }
+          }]
+        }
+      }
+    },
     includes: {
       files: {
-        src: ['contrib/__wm/index.html'],
+        src: ['contrib/__wm/index.html', 'contrib/__wm/injected-iframe.*'],
         dest: 'static/__wm',
         flatten: true,
         cwd: '.',
@@ -116,8 +139,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-string-replace');
 
-  grunt.registerTask('default', ['includes', 'browserify', 'develop', 'watch', 'mochaTest:devUnitTest']);
+  grunt.registerTask('default', ['includes', 'string-replace', 'browserify', 'develop', 'watch', 'mochaTest:devUnitTest']);
   grunt.registerTask('test', ['mochaTest:devUnitTest', 'mochaTest:devIntegrationTest']);
   grunt.registerTask('tidy', ['jshint', 'plato']);
   grunt.registerTask('libs', [ 'concat:js', 'uglify:js', 'concat:css' ]);
