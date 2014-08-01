@@ -2,6 +2,9 @@
 Web components
 ==============
 
+### views
+
+Used by Express backend.
 
 ### dashboard
 
