@@ -43,7 +43,7 @@ module.exports = function(grunt) {
     },
     includes: {
       files: {
-        src: ['web/dashboard/index.html'],
+        src: ['web/dashboard/index.html', 'web/dashboard/dashboard.css'],
         dest: 'web/static',
         flatten: true,
         cwd: '.',
