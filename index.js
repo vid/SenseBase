@@ -72,8 +72,6 @@ exports.start = function(config, callback) {
   var actions = require('./lib/app-actions.js');
 
   app.configure(function() {
-    app.set('views', __dirname + '/views');
-    app.set('view engine', 'ejs');
     app.use(express.cookieParser());
     app.use(express.bodyParser());
 //    app.use(express.logger({stream: GLOBAL.config.logStream}));
