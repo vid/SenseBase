@@ -5,7 +5,9 @@ module.exports = function(grunt) {
     'lib/*.js',
     'services/*.js',
     // frontend
-    'contrib/__wm/*.js'
+    'web/dashboard/*.js',
+    'web/lib/*.js',
+    'web/iframe/*.js'
   ];
 
   grunt.initConfig({
@@ -14,7 +16,7 @@ module.exports = function(grunt) {
     },
     watch: {
       assets: {
-        files: 'contrib/**/*.*',
+        files: srcFiles,
         tasks: ['includes', 'browserify'],
         options: {
           spawn: true
@@ -26,17 +28,24 @@ module.exports = function(grunt) {
       }
     },
     browserify: {
-      standalone: {
-        src: [ './contrib/__wm/index.js' ],
-        dest: './static/__wm/index.js',
+      dashboard: {
+        src: [ 'web/dashboard/index.js' ],
+        dest: './web/static/index.js',
         options: {
         }
       },
+      iframe: {
+        src: [ 'web/iframe/inject.js' ],
+        dest: './web/static/injected.js',
+        options: {
+        }
+      },
+
     },
     includes: {
       files: {
-        src: ['contrib/__wm/index.html'],
-        dest: 'static/__wm',
+        src: ['web/dashboard/index.html'],
+        dest: 'web/static',
         flatten: true,
         cwd: '.',
         options: {
@@ -69,7 +78,7 @@ module.exports = function(grunt) {
         layout: 'linear'
       },
       main: {
-        src: ['*.js', 'lib/*js', 'contrib/__wm/*js', 'test/**/*.js']
+        src: ['*.js', 'lib/*js', 'web/lib/*js', 'web/dashboard/*js, 'test/**/*.js']
       }
     },
     plato: {
@@ -82,16 +91,33 @@ module.exports = function(grunt) {
     concat: {
       css: {
        src: [
-         'bower_components/semantic-ui/build/packaged/css/semantic.css', 'bower_components/select2/select2.css', 'bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css', 'bower_components/jstree/dist/themes/default/style.min.css', 'static/__wm/lib/d3plus/d3plus.css', 'static/__wm/lib/nvd3/nv.d3.css', 'static/__wm/lib/jqCron/jqCron.css'
+         'bower_components/semantic-ui/build/packaged/css/semantic.css',
+         'bower_components/select2/select2.css',
+         'bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css',
+         'bower_components/jstree/dist/themes/default/style.min.css',
+         'web/ext-libs/d3plus/d3plus.css',
+         'web/ext-libs/nvd3/nv.d3.css',
+         'web/ext-libs/jqCron/jqCron.css'
 
        ],
        dest: 'static/__wm/libs.css'
       },
       js : {
         src : [
-         'bower_components/jquery/dist/jquery.js', 'static/__wm/lib/jquery.address.js', 'static/__wm/lib/tablesort.js', 'bower_components/jquery-ui/ui/jquery-ui.js', 'bower_components/jstree/dist/jstree.min.js', 'bower_components/semantic-ui/build/packaged/javascript/semantic.js', 'static/__wm/lib/dragFile.js', 'bower_components/select2/select2.js', 'static/__wm/lib/d3plus/d3.js', 'static/__wm/lib/d3plus/d3plus.min.js', 'static/__wm/lib/nvd3/nv.d3.js', 'static/__wm/lib/jqCron/jqCron.js'
+         'bower_components/jquery/dist/jquery.js',
+         'bower_components/jquery-ui/ui/jquery-ui.js',
+         'bower_components/jstree/dist/jstree.min.js',
+         'bower_components/semantic-ui/build/packaged/javascript/semantic.js',
+         'bower_components/select2/select2.js',
+         'web/ext-lib/jquery.address.js',
+         'web/ext-lib/tablesort.js',
+         'web/ext-lib/dragFile.js',
+         'web/ext-lib/d3plus/d3.js',
+         'web/ext-lib/d3plus/d3plus.min.js',
+         'web/ext-lib/nvd3/nv.d3.js',
+         'web/ext-lib/jqCron/jqCron.js'
         ],
-        dest : 'static/__wm/libs.min.js'
+        dest : 'web/static/libs.min.js'
       }
     },
     uglify : {
