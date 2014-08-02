@@ -30,17 +30,16 @@ module.exports = function(grunt) {
     browserify: {
       dashboard: {
         src: [ 'web/dashboard/index.js' ],
-        dest: './web/static/index.js',
+        dest: 'web/static/index.js',
         options: {
         }
       },
       iframe: {
-        src: [ 'web/iframe/inject.js' ],
-        dest: './web/static/injected.js',
+        src: [ 'web/iframe/index-injected.js' ],
+        dest: 'web/static/injected.js',
         options: {
         }
       },
-
     },
     includes: {
       files: {
@@ -78,7 +77,7 @@ module.exports = function(grunt) {
         layout: 'linear'
       },
       main: {
-        src: ['*.js', 'lib/*js', 'web/lib/*js', 'web/dashboard/*js, 'test/**/*.js']
+        src: ['*.js', 'lib/*js', 'web/lib/*js', 'web/dashboard/*js', 'test/**/*.js']
       }
     },
     plato: {
@@ -100,7 +99,7 @@ module.exports = function(grunt) {
          'web/ext-libs/jqCron/jqCron.css'
 
        ],
-       dest: 'static/__wm/libs.css'
+       dest: 'web/static/libs.css'
       },
       js : {
         src : [
@@ -123,7 +122,7 @@ module.exports = function(grunt) {
     uglify : {
       js: {
         files: {
-          'static/__wm/libs.min.js' : [ 'static/__wm/libs.min.js' ]
+          'web/static/libs.min.js' : [ 'web/static/libs.min.js' ]
         }
       }
     },

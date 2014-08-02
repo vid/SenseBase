@@ -6,7 +6,7 @@
 'use strict';
 
 exports.inject = function() {
-  var annoTree = require('./annoTree');
+  var annoTree = require('../lib/annoTree');
   var selectMode = false;
   // html buffer while annotation categories are processed
   var newHTML;

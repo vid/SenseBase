@@ -1,6 +1,0 @@
-var browseAnnotations = {
-  doTreemap : function() {
-  }
-}
-
-

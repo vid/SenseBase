@@ -9,9 +9,8 @@
 
 // module variables
 
-var resultViews = { scatter: require('./results.scatter'), table: require('./results.table'), debug: require('./results.debug')},
-  resultView = resultViews.table,
-  querySub, clusterSub, qs;
+var resultViews = { scatter: require('../lib/results.scatter'), table: require('../lib/results.table'),
+  debug: require('../lib/results.debug')}, resultView = resultViews.table, querySub, clusterSub, qs;
 var faye = require('faye');
 var fayeClient = new faye.Client(location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/faye/');
 
@@ -20,7 +19,9 @@ var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember
 // Unique ID for pubsub
 var clientID;
 
-var resultsLib = require('./results'), membersLib = require('./members'), searchLib = require('./search'), utils = require('./clientUtils'), browseCluster = require('./browseCluster'), browseAnnotations = require('./browseAnnotations');
+var resultsLib = require('../lib/results'), membersLib = require('../lib/members'), searchLib = require('../lib/search'),
+  utils = require('../lib/clientUtils'), browseCluster = require('../lib/browseCluster'),
+  browseAnnotations = require('../lib/browseAnnotations');
 
 // initialize page functions
 exports.init = function(sbUser) {
