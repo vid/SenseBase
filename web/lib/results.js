@@ -3,7 +3,7 @@
 // Result actions.
 /*jslint browser: true */
 /*jslint node: true */
-/* global $ */
+/* global $,doQuery,submitQuery */
 'use strict';
 
 var currentURI, noUpdates;
@@ -210,7 +210,7 @@ function updateResults(results, newView) {
     console.log('in noUpdates');
     hasQueuedUpdates = true;
     clearTimeout(queuedNotifier);
-    queuedNotifier = setInterval(function() { $('.toggle.item').toggleClass('red') }, 2000);
+    queuedNotifier = setInterval(function() { $('.toggle.item').toggleClass('red'); }, 2000);
     return;
   }
 

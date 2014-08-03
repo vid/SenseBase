@@ -3,10 +3,10 @@
 // lookup for saved searches
 /*jslint browser: true */
 /*jslint node: true */
-/* global $,alert */
+/* global $,alert,doQuery */
 'use strict';
 
-var savedSearches;
+var savedSearches, sbUser = window.senseBase.user.username;
 var pubsub = require('./pubsub');
 
 exports.init = function(resultsLib) {
