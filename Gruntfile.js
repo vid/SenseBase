@@ -108,7 +108,6 @@ module.exports = function(grunt) {
          'bower_components/jstree/dist/jstree.min.js',
          'bower_components/semantic-ui/build/packaged/javascript/semantic.js',
          'bower_components/select2/select2.js',
-         'web/ext-lib/jquery.address.js',
          'web/ext-lib/tablesort.js',
          'web/ext-lib/dragFile.js',
          'web/ext-lib/d3plus/d3.js',
