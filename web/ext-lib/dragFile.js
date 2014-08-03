@@ -10,7 +10,7 @@ function setupDND(dropzone, postLoc) {
       dnd: 'draggable' in document.createElement('span'),
       formdata: !!window.FormData,
       progress: "upload" in new XMLHttpRequest
-    }, 
+    },
     support = {
       filereader: document.getElementById('filereader'),
       formdata: document.getElementById('formdata'),
@@ -20,7 +20,7 @@ function setupDND(dropzone, postLoc) {
     fileupload = document.getElementById('upload');
 
   ["filereader", "formdata", "progress"].forEach(function (api) {
-  console.log(api, support[api]);
+//  console.log(api, support[api]);
     if (tests[api] === false) {
       support[api].className = 'fail';
     } else {
@@ -28,7 +28,7 @@ function setupDND(dropzone, postLoc) {
     }
   });
 
-  if (tests.dnd) { 
+  if (tests.dnd) {
     holder.ondragover = function () { this.className += ' hover'; return false; };
     holder.ondragleave = function () { this.className = this.className.replace(/ hover/g, ''); return false; };
     holder.ondrop = function (e) {
@@ -57,7 +57,7 @@ function setupDND(dropzone, postLoc) {
       reader.readAsDataURL(file);
     }  else {
       holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '');
-      console.log(file);
+//      console.log(file);
     }
   }
 

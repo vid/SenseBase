@@ -10,6 +10,7 @@ web/static/libs.css
 web/static/libs.min.js
 web/static/index.html
 web/static/dashboard.css
+web/static/inject.js
 web/static/injected-iframe.html
-web/static/injected.js
+web/static/index-injected.js
 web/static/injected-iframe.js

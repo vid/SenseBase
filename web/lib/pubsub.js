@@ -7,10 +7,10 @@
 
 'use strict';
 
-var clientID = window.senseBase.user, username = window.senseBase.user;
+var clientID = window.senseBase.user, username = window.senseBase.user, homepage = window.senseBase.homepage;
 
 var faye = require('faye');
-var fayeClient = new faye.Client(location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/faye/');
+var fayeClient = new faye.Client(homepage + 'faye/');
 
 // annotate a page
 exports.annotate = function(uri) {

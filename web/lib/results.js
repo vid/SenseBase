@@ -28,7 +28,7 @@ var annoTree = require('./annoTree.js'), pubsub = require('./pubsub');
 exports.init = function(submitQuery, resultViewIn) {
   resultView = resultViewIn;
 
-  console.log('/annotations/' + window.clientID);
+  console.log('/annotations/' + window.senseBase.clientID);
   // receive annotations
   pubsub.annotations(function(data) {
     console.log('/annotations', data);

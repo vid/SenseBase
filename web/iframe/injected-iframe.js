@@ -5,6 +5,13 @@
 
 'use strict';
 
+var $sbPortal = $('#sbIframe', parent.document), loc = parent.window.location;
+if (!$sbPortal.length) {
+  loc = window.location;
+  $sbPortal = $('#sbPortal');
+}
+var pubsub = require('../lib/pubsub');
+
 exports.inject = function() {
   var annoTree = require('../lib/annoTree');
   var selectMode = false;
@@ -27,40 +34,36 @@ console.log('select', anno);
     }
   };
 
-  $('#sbIframe', parent.document).after('<div id="sbAnnotationDetails" style="background: #ffe; filter:alpha(opacity=90); opacity:0.9; position: absolute; top: 8%; left: 8%; width: 80%; height: 80%; display: none; z-index: 999; border: 1px dotted grey"><i class="close icon"></i><pre></pre></div>');
-  $('#sbIframe', parent.document).after('<style>\n.sbShort { height: 10%; }\n.sbAnnotationBlink { background: yellow !important; }\n.sbAnnotation-a { background: lightgreen; }\n.sbAnnotation-b { background: lightblue; }\n</style>');
-  var faye = require('faye');
-  var fayeClient = new faye.Client(location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/faye/');
+  console.log('SenseBase iframe', parent.window.location.href, $sbPortal.attr('id'));
 
-  $('body').append('<span id="annotationCount"></span><div id="treeContainer"></div>');
+  $sbPortal.append('<div style="background: black; padding: 6px; margin: 0px; height: 1em"> <i class="minus checkbox inverted icon"></i> <i class="hand left inverted icon"></i> <i class="refresh inverted icon"></i> <i class="long arrow right inverted icon"></i> <span style="background: white; float: right" a class="ui black circular label" id="annotationCount"> &nbsp;  </span> </div> <div id="treeContainer" style="position: fixed; top: 2em; overflow: auto; width: 100%; height: 90%"></div> ');
+  $sbPortal.after('<div id="sbAnnotationDetails" style="background: #ffe; filter:alpha(opacity=90); opacity:0.9; position: absolute; top: 8%; left: 8%; width: 80%; height: 80%; display: none; z-index: 999; border: 1px dotted grey"><i class="close icon"></i><pre></pre></div>');
+  $sbPortal.after('<style>\n.sbShort { height: 10%; }\n.sbAnnotationBlink { background: yellow !important; }\n.sbAnnotation-a { background: lightgreen; }\n.sbAnnotation-b { background: lightblue; }\n</style>');
 
   // actions
   $('.left.hand.icon').click(function() {
     var w = 300; //window.innerwidth;
-    $('#sbIframe', parent.document).css('left', '1em');
-    $('#sbIframe', parent.document).css('width', w + 'px');
+    $sbPortal.css('left', '1em');
+    $sbPortal.css('width', w + 'px');
   });
   $('.long.arrow.right.icon').click(function() {
     console.log('embed');
-    $('#sbIframe', parent.document).prependTo('#SBInsie', parent.document);
+    $sbPortal.prependTo('#SBInsie', parent.document);
   });
 
   $('.refresh.icon').click(function() {
     console.log('updateContent');
-    fayeClient.publish('/updateContent', { uri: parent.window.location.href, content: parent.document.documentElement.outerHTML} );
+    pubsub.updateContent({ uri: loc.href, content: parent.document.documentElement.outerHTML} );
   });
 
   $('.minus.checkbox.icon').click(function() {
     // FIXME
-    $('#sbIframe', parent.document).css('height', $('#sbIframe', parent.document).css('height') === '50px' ? '90%' : '50px');
+    $sbPortal.css('height', $sbPortal.css('height') === '50px' ? '90%' : '50px');
     console.log('toggle short');
   });
-  console.log('SenseBase iframe', parent.window.location.href);
-  fayeClient.publish('/annotate', { uri: parent.window.location.href} );
-
-  fayeClient.subscribe('/annotations', function(data) {
+  pubsub.annotate(loc.href, function(data) {
     var annotations = data.annotations, uri = data.uri;
-    if (uri.replace(/#.*/, '') !== parent.window.location.href) {
+    if (uri.replace(/#.*/, '') !== loc.href) {
       console.log('ignoring annotations', uri);
       return;
     }
@@ -140,4 +143,3 @@ console.log('select', anno);
     return newHTML.substring(0, anno.offset) + startTag + anno.exact + endTag + newHTML.substring(anno.offset + anno.exact.length);
   }
 };
-parent.window.senseBaseIframe = this;
