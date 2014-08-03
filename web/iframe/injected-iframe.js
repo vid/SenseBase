@@ -5,9 +5,10 @@
 
 'use strict';
 
-var $sbPortal = $('#sbIframe', parent.document), loc = parent.window.location;
+var $sbPortal = $('#sbIframe', parent.document), loc = parent.window.location, doc = parent.document;
 if (!$sbPortal.length) {
   loc = window.location;
+  doc = document;
   $sbPortal = $('#sbPortal');
 }
 var pubsub = require('../lib/pubsub');
@@ -34,7 +35,7 @@ console.log('select', anno);
     }
   };
 
-  console.log('SenseBase iframe', parent.window.location.href, $sbPortal.attr('id'));
+  console.log('SenseBase iframe', loc.href, $sbPortal.attr('id'));
 
   $sbPortal.append('<div style="background: black; padding: 6px; margin: 0px; height: 1em"> <i class="minus checkbox inverted icon"></i> <i class="hand left inverted icon"></i> <i class="refresh inverted icon"></i> <i class="long arrow right inverted icon"></i> <span style="background: white; float: right" a class="ui black circular label" id="annotationCount"> &nbsp;  </span> </div> <div id="treeContainer" style="position: fixed; top: 2em; overflow: auto; width: 100%; height: 90%"></div> ');
   $sbPortal.after('<div id="sbAnnotationDetails" style="background: #ffe; filter:alpha(opacity=90); opacity:0.9; position: absolute; top: 8%; left: 8%; width: 80%; height: 80%; display: none; z-index: 999; border: 1px dotted grey"><i class="close icon"></i><pre></pre></div>');
@@ -48,12 +49,12 @@ console.log('select', anno);
   });
   $('.long.arrow.right.icon').click(function() {
     console.log('embed');
-    $sbPortal.prependTo('#SBInsie', parent.document);
+    $sbPortal.prependTo('#SBInsie', doc);
   });
 
   $('.refresh.icon').click(function() {
     console.log('updateContent');
-    pubsub.updateContent({ uri: loc.href, content: parent.document.documentElement.outerHTML} );
+    pubsub.updateContent({ uri: loc.href, content: doc.documentElement.outerHTML} );
   });
 
   $('.minus.checkbox.icon').click(function() {
@@ -71,11 +72,11 @@ console.log('select', anno);
 
     var treeItems = annoTree.display(annotations, uri, treeInterface);
     displayAllAnnos(treeItems);
-    if ($('.sbAnnotation', parent.document).length) {
-      $('.sbAnnotation', parent.document).click(function() {
-        $('#sbAnnotationDetails', parent.document).show();
-        $('#sbAnnotationDetails pre', parent.document).text(JSON.stringify(treeItems.get($(this).attr('id').split('-')[2]), null, 2));
-        $('#sbAnnotationDetails', parent.document).click(function() { $(this).hide();} );
+    if ($('.sbAnnotation', doc).length) {
+      $('.sbAnnotation', doc).click(function() {
+        $('#sbAnnotationDetails', doc).show();
+        $('#sbAnnotationDetails pre', doc).text(JSON.stringify(treeItems.get($(this).attr('id').split('-')[2]), null, 2));
+        $('#sbAnnotationDetails', doc).click(function() { $(this).hide();} );
       });
     }
   });
@@ -103,7 +104,7 @@ console.log('select', anno);
       if (anno.instance && (!selector || selector === anno.selector)) {
         if (!newHTML) {
           selector = anno.selector;
-          newHTML = $(selector, parent.document).html();
+          newHTML = $(selector, doc).html();
         }
         anno.offset = findInstanceOffset(anno, newHTML);
         items.push(anno);
@@ -127,7 +128,7 @@ console.log('select', anno);
       }
     }
     try {
-      $(selector, parent.document).html(newHTML);
+      $(selector, doc).html(newHTML);
     } catch (e) {
       console.log('failed for', selector, newHTML.length);
       console.log(e);

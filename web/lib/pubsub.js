@@ -8,6 +8,7 @@
 'use strict';
 
 var clientID = window.senseBase.user, username = window.senseBase.user, homepage = window.senseBase.homepage;
+console.log('faye init with', homepage);
 
 var faye = require('faye');
 var fayeClient = new faye.Client(homepage + 'faye/');
@@ -70,8 +71,9 @@ exports.queryResults = function(cb) {
   return fayeClient.subscribe('/queryResults/' + clientID, cb);
 };
 
-exports.updateContent = function(uri) {
-  fayeClient.publish('/updateContent', { clientID : clientID, uri: uri } );
+exports.updateContent = function(desc) {
+  desc.clientID = clientID;
+  fayeClient.publish('/updateContent', desc);
 };
 
 // Publish and subscribe to team listings
