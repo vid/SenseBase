@@ -19,6 +19,8 @@ var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember
 // Unique ID for pubsub
 var clientID;
 
+var basePage = '/?';
+
 var resultsLib = require('../lib/results'), membersLib = require('../lib/members'), searchLib = require('../lib/search'),
   utils = require('../lib/clientUtils'), browseCluster = require('../lib/browseCluster'),
   browseAnnotations = require('../lib/browseAnnotations');
@@ -249,7 +251,7 @@ function submitQuery() {
     }
   });
 
-  window.history.pushState('query form', 'Query', 'index.html?' + ss.join('&'));
+  window.history.pushState('query form', 'Query', basePage + ss.join('&'));
 
   if ($("#browseNav" ).val() === 'cluster') {
     $('#browse').html('<img src="loading.gif" alt="loading" /><br />Loading cluster treemap');

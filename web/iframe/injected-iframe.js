@@ -29,7 +29,8 @@ console.log('select', anno);
 
   $('#sbIframe', parent.document).after('<div id="sbAnnotationDetails" style="background: #ffe; filter:alpha(opacity=90); opacity:0.9; position: absolute; top: 8%; left: 8%; width: 80%; height: 80%; display: none; z-index: 999; border: 1px dotted grey"><i class="close icon"></i><pre></pre></div>');
   $('#sbIframe', parent.document).after('<style>\n.sbShort { height: 10%; }\n.sbAnnotationBlink { background: yellow !important; }\n.sbAnnotation-a { background: lightgreen; }\n.sbAnnotation-b { background: lightblue; }\n</style>');
-  var fayeClient = new Faye.Client('<!-- @var FAYEHOST -->');
+  var faye = require('faye');
+  var fayeClient = new faye.Client(location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/faye/');
 
   $('body').append('<span id="annotationCount"></span><div id="treeContainer"></div>');
   $('head').append('<link rel="stylesheet" href="<!-- @var HOMEPAGE -->lib/jstree/dist/themes/default/style.min.css" />');

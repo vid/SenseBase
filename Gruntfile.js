@@ -36,14 +36,14 @@ module.exports = function(grunt) {
       },
       iframe: {
         src: [ 'web/iframe/index-injected.js' ],
-        dest: 'web/static/injected.js',
+        dest: 'web/static/index-injected.js',
         options: {
         }
       },
     },
     includes: {
       files: {
-        src: ['web/dashboard/index.html', 'web/dashboard/dashboard.css'],
+        src: ['web/dashboard/index.html', 'web/iframe/injected-iframe.html', 'web/dashboard/dashboard.css'],
         dest: 'web/static',
         flatten: true,
         cwd: '.',
