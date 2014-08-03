@@ -15,7 +15,7 @@ var fayeClient = new faye.Client(homepage + 'faye/');
 
 // annotate a page
 exports.annotate = function(uri) {
-  fayeClient.publish('/annotate', { clientID: window.clientID, uri: uri });
+  fayeClient.publish('/annotate', { clientID: clientID, uri: uri });
 };
 
 // save annotations for user

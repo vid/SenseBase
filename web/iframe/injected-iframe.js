@@ -37,8 +37,12 @@ console.log('select', anno);
 
   console.log('SenseBase iframe', loc.href, $sbPortal.attr('id'));
 
-  $sbPortal.append('<div style="background: black; padding: 6px; margin: 0px; height: 1em"> <i class="minus checkbox inverted icon"></i> <i class="hand left inverted icon"></i> <i class="refresh inverted icon"></i> <i class="long arrow right inverted icon"></i> <span style="background: white; float: right" a class="ui black circular label" id="annotationCount"> &nbsp;  </span> </div> <div id="treeContainer" style="position: fixed; top: 2em; overflow: auto; width: 100%; height: 90%"></div> ');
-  $sbPortal.after('<div id="sbAnnotationDetails" style="background: #ffe; filter:alpha(opacity=90); opacity:0.9; position: absolute; top: 8%; left: 8%; width: 80%; height: 80%; display: none; z-index: 999; border: 1px dotted grey"><i class="close icon"></i><pre></pre></div>');
+  $sbPortal.html('<div style="background: black; padding: 6px; margin: 0px; height: 1em">' +
+    '<i class="minus checkbox inverted icon"></i> <i class="hand left inverted icon"></i> <i class="refresh inverted icon"></i>' +
+    '<i class="long arrow right inverted icon"></i>' +
+    '<span style="background: white; float: right" a class="ui black circular label" id="annotationCount"> &nbsp; </span></div>' +
+    '<div id="treeContainer" style="position: relative; top: 2em; overflow: auto; width: 100%; height: 90%"></div> ');
+  $sbPortal.append('<div id="sbAnnotationDetails" style="background: #ffe; filter:alpha(opacity=90); opacity:0.9; position: absolute; top: 8%; left: 8%; width: 80%; height: 80%; display: none; z-index: 999; border: 1px dotted grey"><i class="close icon"></i><pre></pre></div>');
   $sbPortal.after('<style>\n.sbShort { height: 10%; }\n.sbAnnotationBlink { background: yellow !important; }\n.sbAnnotation-a { background: lightgreen; }\n.sbAnnotation-b { background: lightblue; }\n</style>');
 
   // actions
@@ -62,7 +66,8 @@ console.log('select', anno);
     $sbPortal.css('height', $sbPortal.css('height') === '50px' ? '90%' : '50px');
     console.log('toggle short');
   });
-  pubsub.annotate(loc.href, function(data) {
+  pubsub.annotate(loc.href);
+  pubsub.annotations(function(data) {
     var annotations = data.annotations, uri = data.uri;
     if (uri.replace(/#.*/, '') !== loc.href) {
       console.log('ignoring annotations', uri);
