@@ -107,8 +107,7 @@ function fv(vals, key) {
 importer.funcVal('uri', function(data) {
   var uri = data.uri || fv(data.vals.LinkFullPaper) || fv(data.vals.linkPubMed) || fv(data.vals.linkJrn);
   if (!uri) {
-    throw Error('No uri');
+    throw new Error('No uri');
   }
   return uri;
 });
-
