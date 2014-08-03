@@ -33,8 +33,6 @@ console.log('select', anno);
   var fayeClient = new faye.Client(location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/faye/');
 
   $('body').append('<span id="annotationCount"></span><div id="treeContainer"></div>');
-  $('head').append('<link rel="stylesheet" href="<!-- @var HOMEPAGE -->lib/jstree/dist/themes/default/style.min.css" />');
-  $('head').append('<link rel="stylesheet" href="<!-- @var HOMEPAGE -->lib/semantic-ui/build/packaged/css/semantic.css" />');
 
   // actions
   $('.left.hand.icon').click(function() {
