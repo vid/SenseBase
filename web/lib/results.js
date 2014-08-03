@@ -6,7 +6,7 @@
 /* global $ */
 'use strict';
 
-var currentURI, fayeClient, noUpdates;
+var currentURI, noUpdates;
 // hasQueuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
 var queryRefresher, hasQueuedUpdates, queuedNotifier;
 
@@ -23,15 +23,14 @@ exports.displayItemSidebar = displayItemSidebar;
 exports.hideItemSidebar = hideItemSidebar;
 exports.updateResults = updateResults;
 
-var annoTree = require('./annoTree.js');
+var annoTree = require('./annoTree.js'), pubsub = require('./pubsub');
 
-exports.init = function(fayeClientIn, submitQuery, resultViewIn) {
-  fayeClient = fayeClientIn;
+exports.init = function(submitQuery, resultViewIn) {
   resultView = resultViewIn;
 
   console.log('/annotations/' + window.clientID);
   // receive annotations
-  fayeClient.subscribe('/annotations/' + window.clientID, function(data) {
+  pubsub.annotations(function(data) {
     console.log('/annotations', data);
     // update query items
     if (data.annotationSummary && lastResults.hits) {
@@ -51,7 +50,7 @@ exports.init = function(fayeClientIn, submitQuery, resultViewIn) {
   });
 
   // delete an item
-  fayeClient.subscribe('/deletedItem', function(item) {
+  pubsub.subDeletedItem(function(item) {
     console.log('/deletedItem', item, lastResults);
     if (lastResults && lastResults.hits) {
       var i = 0, l = lastResults.hits.hits.length;
@@ -83,7 +82,7 @@ exports.init = function(fayeClientIn, submitQuery, resultViewIn) {
   });
 
   // add a new or updated item
-  fayeClient.subscribe('/updateItem', function(result) {
+  pubsub.updateItem(function(result) {
     console.log('/updateItem', result, lastResults);
     result = normalizeResult(result);
     if (!lastResults.hits) {
@@ -138,7 +137,7 @@ function displayItemSidebar(uri) {
     );
   $('.context.dropdown').dropdown();
   setCurrentURI(uri);
-  fayeClient.publish('/annotate', { clientID: window.clientID, uri: uri });
+  pubsub.annotate(uri);
   $('#startingPage').val(uri);
   $('.details.sidebar').sidebar('show');
 }

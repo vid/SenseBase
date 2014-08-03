@@ -7,8 +7,9 @@
 'use strict';
 
 var savedSearches;
+var pubsub = require('./pubsub');
 
-exports.init = function(fayeClient, sbUser, resultsLib) {
+exports.init = function(resultsLib) {
   // set team input as select2 input
   $('.team.container').select2();
 
@@ -62,11 +63,7 @@ exports.init = function(fayeClient, sbUser, resultsLib) {
     }
   );
 
-  // populate with initial set of saved searchs
-  fayeClient.publish('/search/retrieve', { member: sbUser });
-
-  // receive list of saved searches
-  fayeClient.subscribe('/search/results', function(results) {
+  pubsub.subSearches(function(results) {
     savedSearches = results;
     if (results && results.hits.total > 0) {
       $("#loadSearch").select2({
@@ -82,7 +79,7 @@ exports.init = function(fayeClient, sbUser, resultsLib) {
   $('.save.search').click(function() {
     var searchInput = getSearchInput();
     if (searchInput.valid && searchInput.searchName.length > 0) {
-      fayeClient.publish('/search/save', searchInput);
+      pubsub.searchSave(searchInput);
     } else {
       alert('Missing parameters');
     }
@@ -149,8 +146,8 @@ exports.init = function(fayeClient, sbUser, resultsLib) {
       alert('Please select team members');
       return;
     }
-    console.log('publishing', searchInput, fayeClient);
-    fayeClient.publish('/search/queue', searchInput);
+    console.log('publishing', searchInput);
+    pubsub.searchQueue(searchInput);
     if ($('#refreshSearch').prop('checked')) {
       $('#annoSearch').val($('#searchCategories').val());
     //  $('#validationState').val('queued');

@@ -7,9 +7,10 @@
 'use strict';
 
 var justEdited, rTeams, editingMember;
+var pubsub = require('./pubsub');
 
-exports.init = function(fayeClient, clientID) {
-  fayeClient.subscribe('/teamList/' + clientID, function(teams) {
+exports.init = function() {
+  pubsub.subTeamList(function(teams) {
     $('#aneditor').hide();
     console.log('teams', teams);
     // populate any team containers
@@ -53,10 +54,9 @@ exports.init = function(fayeClient, clientID) {
       justEdited = null;
     }
   });
-  fayeClient.publish('/team/list', { clientID: clientID});
 
   $('#newCreate').click(function() {
-    fayeClient.publish('/team/add', { clientID: clientID, name: $('#newName').val(), type: $('#newType').val() });
+    //fayeClient.publish('/team/add', { clientID: clientID, name: $('#newName').val(), type: $('#newType').val() });
     justEdited = $('#newName').val();
     return false;
   });
@@ -107,7 +107,7 @@ exports.init = function(fayeClient, clientID) {
   }
 
   $('#teamRemove').click(function() {
-    fayeClient.publish('/team/remove', { clientID: clientID, username: editingMember.username});
+    //fayeClient.publish('/team/remove', { clientID: clientID, username: editingMember.username});
     return false;
   });
 
@@ -148,7 +148,7 @@ exports.init = function(fayeClient, clientID) {
 
     }
     // FIXME add clientID
-    fayeClient.publish('/team/save', editingMember);
+    //fayeClient.publish('/team/save', editingMember);
     return false;
   });
 };

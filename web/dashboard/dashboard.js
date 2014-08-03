@@ -11,31 +11,24 @@
 
 var resultViews = { scatter: require('../lib/results.scatter'), table: require('../lib/results.table'),
   debug: require('../lib/results.debug')}, resultView = resultViews.table, querySub, clusterSub, qs;
-var faye = require('faye');
-var fayeClient = new faye.Client(location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '/faye/');
 
 var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav', 'browseNum'];
-
-// Unique ID for pubsub
-var clientID;
 
 var basePage = '/?';
 
 var resultsLib = require('../lib/results'), membersLib = require('../lib/members'), searchLib = require('../lib/search'),
   utils = require('../lib/clientUtils'), browseCluster = require('../lib/browseCluster'),
-  browseAnnotations = require('../lib/browseAnnotations');
+  browseAnnotations = require('../lib/browseAnnotations'), pubsub = require('../lib/pubsub');
 
 // initialize page functions
 exports.init = function(sbUser) {
-  resultsLib.init(fayeClient, submitQuery, resultView);
-  searchLib.init(fayeClient, sbUser, resultsLib);
-  membersLib.init(fayeClient, clientID);
+  resultsLib.init(submitQuery, resultView);
+  searchLib.init(sbUser, resultsLib);
+  membersLib.init();
 
   setupDND('uploadItem', '/upload');
   setupDND('uploadWorkfile', '/workfile');
   // General setup and functions
-  clientID = sbUser + new Date().getTime();
-  console.log('clientID', window.clientID);
 
   // main menu interaction
   $('.query.toggle').click(function() { $('.query.content').toggle('hidden'); $('.query.toggle').toggleClass('active');});
@@ -89,7 +82,7 @@ exports.init = function(sbUser) {
   $('.confirm.annotate.button').click(function() {
     var annotations = $('#selectedAnnotations').val().split(',').map(function(a) { return { type: 'category', category: a.trim()}; });
     if (annotations.length) {
-      fayeClient.publish('/saveAnnotations', { clientID: clientID, uris: getSelected(), annotatedBy: sbUser, annotations: annotations});
+      pubsub.saveAnnotations(getSelected(), annotations);
       return false;
     }
   });
@@ -114,12 +107,12 @@ exports.init = function(sbUser) {
   });
 
   $('.confirm.delete.button').click(function() {
-    fayeClient.publish('/delete', { clientID: clientID, selected: getSelected()});
+    pubsub.delete(getSelected());
     return false;
   });
 
   $('.signout.item').click(function() {
-    fayeClient.publish('/logout');
+    pubsub.logout();
     document.location.href = '/logout';
   });
 
@@ -164,14 +157,13 @@ exports.init = function(sbUser) {
   // needed by filter
   window.doQuery = doQuery;
   window.submitQuery = submitQuery;
-  window.updateQuerySub = updateQuerySub;
 
 };
 // end of init
 
 // formulate query parameters
 function getQueryOptions() {
-  var options = { clientID: clientID + '-' + new Date().getTime(), terms : $('#termSearch').val(), annotationSearch : $('#annoSearch').val(),
+  var options = { terms : $('#termSearch').val(), annotationSearch : $('#annoSearch').val(),
     validationState: $('#validationState').val(), annotationState: $('#annotationState').val(), browseNum: $('#browseNum').val(),
     from: $('#fromDate').val(), to: $('#toDate').val(),
     // FIXME normalize including annotations
@@ -189,22 +181,21 @@ function doCluster() {
   var options = getQueryOptions();
 
   // use the generated clientID for the current query
-  clusterSub = fayeClient.subscribe('/clusterResults/' + options.clientID, function(results) {
+  clusterSub = pubsub.cluster(options, function(results) {
     console.log('/clusterResults', results);
     browseCluster.doTreemap(results.clusters, '#browse', resultView);
     resultsLib.updateResults(results);
   });
-  fayeClient.publish('/cluster', options);
 }
 
 // update the query results subscription to this clientID
-function updateQuerySub(clientID) {
+function updateQuerySub() {
   // cancel any outstanding query
   if (querySub) {
     querySub.cancel();
   }
 
-  querySub = fayeClient.subscribe('/queryResults/' + clientID, function(results) {
+  querySub = pubsub.queryResults(function(results) {
     console.log('/queryResults', results);
 
     resultsLib.updateResults(results);
@@ -224,10 +215,8 @@ function doQuery() {
 
   var options = getQueryOptions();
   // use the generated clientID for the current query
-  updateQuerySub(options.clientID);
-
-  fayeClient.publish('/query', options);
-  $('.query.button').animate({opacity: 0.2}, 200, 'linear');
+  updateQuerySub();
+  pubsub.query(options);
 }
 
 // return all items selected
@@ -287,10 +276,10 @@ function updateQueryForm() {
 }
 
 function moreLikeThis(uri) {
-  fayeClient.publish('/moreLikeThis', { clientID: clientID, uri: uri});
-  updateQuerySub(clientID);
+  pubsub.moreLikeThis(uri);
+  updateQuerySub();
 }
 
 function refreshAnnos(uri) {
-  fayeClient.publish('/updateContent', { clientID : clientID, uri: uri } );
+  pubsub.updateContennt(uri);
 }

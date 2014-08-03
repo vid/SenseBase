@@ -2,8 +2,8 @@
   window.location = '/login';
 <% } else { %>
   var senseBase = {
-    user : '<%= user.username %>',
-    clientID: '<%= clientID %>' %>,
+    username : '<%= user.username %>',
+    clientID: '<%= clientID %>',
     homepage : '<%= homepage %>',
     isScraper : <%= user.type == 'Scraper' %>
   }
