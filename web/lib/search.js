@@ -6,7 +6,7 @@
 /* global $,alert,doQuery */
 'use strict';
 
-var savedSearches, sbUser = window.senseBase.user.username;
+var savedSearches, sbUser = window.senseBase.user;
 var pubsub = require('./pubsub');
 
 exports.init = function(resultsLib) {
