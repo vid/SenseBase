@@ -1,5 +1,5 @@
 <% if (!user) { %>
-  window.location = '/login';
+  (parent.window || window).location = '<%= homepage %>login';
 <% } else { %>
   var senseBase = {
     username : '<%= user.username %>',
