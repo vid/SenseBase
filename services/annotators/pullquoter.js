@@ -1,4 +1,6 @@
 // Tries to extract significant quotes.
+/*jslint node: true */
+
 'use strict';
 
 // Reqular require doesn't seem to work.

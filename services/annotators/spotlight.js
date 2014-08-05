@@ -1,5 +1,7 @@
 // DBPedia spotlight annotator
 // FIXME update to standalone pubsub
+/*jslint node: true */
+
 'use strict';
 
 var querystring = require('querystring');

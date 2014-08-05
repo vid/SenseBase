@@ -1,6 +1,8 @@
 // Secondary request for annotations.
 //
 // Find any secondary requests relevant to a URI and execute them.
+/*jslint node: true */
+
 'use strict';
 
 var xml2js = require('xml2js');
@@ -53,15 +55,15 @@ function processFound(uri, callback) {
         var loc = processor.getURI(uri);
         GLOBAL.info(name, loc, found.addRequest, areq.name);
         // local name
-        var name = areq.name;
+        var reqName = areq.name;
         // retrieve contents and process
         utils.retrieve(loc, function(err, resp) {
           if (err) {
-            GLOBAL.error(name, err);
+            GLOBAL.error(reqName, err);
           } else {
             if (processor.type === 'XML') {
               // process XML using this processor
-              processXML(name, uri, processor, resp, callback);
+              processXML(reqName, uri, processor, resp, callback);
             } else {
               GLOBAL.error('unknown processor type', processor.type);
             }

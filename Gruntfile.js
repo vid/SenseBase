@@ -7,7 +7,8 @@ module.exports = function(grunt) {
     // frontend
     'web/dashboard/*.js',
     'web/lib/*.js',
-    'web/iframe/*.js'
+    'web/iframe/*.js',
+    'services/**'
   ];
   var assetFiles = [
     'web/dashboard/*.html',

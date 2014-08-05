@@ -1,5 +1,7 @@
 // Strucutural annotator looks for structure and extracts fields
 // FIXME: extract multi lines
+/*jslint node: true */
+
 'use strict';
 
 var annoLib = require('./annotateLib'), annotations = require('../../lib/annotations'), sites = require('../../lib/sites.js');
@@ -19,7 +21,7 @@ function doProcess(combo, callback) {
 
   var uri = combo.uri, html = combo.html, text = combo.text, selector = combo.selector, annoRows = [], xregex, found;
 
-  matchers = {
+  var matchers = {
     // extract tables from vertical table values with a date
     // Example:
     //
@@ -68,7 +70,7 @@ function doProcess(combo, callback) {
       }
       return annoRows;
     }
-  }
+  };
 
   var sMatches = GLOBAL.config.structuralMatches;
   sMatches.forEach(function(sMatch) {
@@ -78,4 +80,3 @@ function doProcess(combo, callback) {
   });
   callback(null, { name: name, uri: uri, annoRows: annoRows });
 }
-

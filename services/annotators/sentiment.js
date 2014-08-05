@@ -1,4 +1,6 @@
 // AFINN sentiment annotator
+/*jslint node: true */
+
 'use strict';
 
 var analyze = require('Sentimental').analyze;
