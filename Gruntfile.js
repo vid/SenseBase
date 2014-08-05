@@ -121,7 +121,7 @@ module.exports = function(grunt) {
          'web/ext-libs/jqCron/jqCron.css'
 
        ],
-       dest: 'web/static/libs.css'
+       dest: 'web/static/lib/libs.css'
       },
       js : {
         src : [
@@ -137,7 +137,7 @@ module.exports = function(grunt) {
          'web/ext-lib/nvd3/nv.d3.js',
          'web/ext-lib/jqCron/jqCron.js'
         ],
-        dest : 'web/static/libs.min.js'
+        dest : 'web/static/lib/libs.min.js'
       }
     },
     uglify : {

@@ -14,7 +14,7 @@ var resultViews = { scatter: require('../lib/results.scatter'), table: require('
 
 var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav', 'browseNum'];
 
-var basePage = '/?';
+var basePage = location.pathname + '?';
 
 var resultsLib = require('../lib/results'), membersLib = require('../lib/members'), searchLib = require('../lib/search'),
   utils = require('../lib/clientUtils'), browseCluster = require('../lib/browseCluster'),
@@ -113,7 +113,7 @@ exports.init = function(sbUser) {
 
   $('.signout.item').click(function() {
     pubsub.logout();
-    document.location.href = '/logout';
+    document.location.href = './logout';
   });
 
   // FIXME toggle graph or table view
