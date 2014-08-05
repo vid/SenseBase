@@ -23,14 +23,14 @@ module.exports = function(grunt) {
     watch: {
       assets: {
         files: assetFiles,
-        tasks: ['includes', 'browserify'],
+        tasks: ['includes'],
         options: {
           spawn: true
         },
       },
       src: {
         files: srcFiles,
-        tasks: ['includes'],
+        tasks: ['includes', 'browserify'],
         options: {
           spawn: true
         },
