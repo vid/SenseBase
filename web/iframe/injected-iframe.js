@@ -5,11 +5,12 @@
 
 'use strict';
 
-var loc = window.location, doc = document, $sbPortal = $('#sbPortal');
+var loc = window.location, doc = document, $sbPortal = $('#sbPortal'), $sbIframe = $sbPortal;
 // running in an iframe
 if (parent.window.location) {
   loc = parent.window.location;
   doc = parent.document;
+  $sbIframe = $('#sbIframe', parent.document);
 }
 var pubsub = require('../lib/pubsub');
 
@@ -48,8 +49,7 @@ console.log('select', anno);
   // actions
   $('.left.hand.icon').click(function() {
     var w = 300; //window.innerwidth;
-    $sbPortal.css('left', '1em');
-    $sbPortal.css('width', w + 'px');
+    $sbIframe.css('left', '1em');
   });
   $('.long.arrow.right.icon').click(function() {
     console.log('embed');
@@ -62,8 +62,9 @@ console.log('select', anno);
   });
 
   $('.minus.checkbox.icon').click(function() {
-    // FIXME
-    $sbPortal.css('height', $sbPortal.css('height') === '50px' ? '90%' : '50px');
+    console.log('!!', $('#sbIframe', parent.document).html());
+    $sbIframe.css('left', (parent.window.innerWidth - 50) + 'px');
+    $sbIframe.css('height', '28px');
     console.log('toggle short');
   });
   pubsub.annotate(loc.href);
