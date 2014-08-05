@@ -12,5 +12,7 @@ web/static/index.html
 web/static/dashboard.css
 web/static/inject.js
 web/views/iframe.html
+web/static/dashboard.js
+web/static/lib/libs.css
+web/static/lib/libs.min.js
 web/static/index-injected.js
-web/static/injected-iframe.js

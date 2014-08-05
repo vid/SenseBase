@@ -4,7 +4,7 @@ Web components
 
 ### views
 
-Used by Express backend.
+Used by Express backend and interpreted proxy includes.
 
 ### dashboard
 
