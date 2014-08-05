@@ -9,6 +9,11 @@ module.exports = function(grunt) {
     'web/lib/*.js',
     'web/iframe/*.js'
   ];
+  var assetFiles = [
+    'web/dashboard/*.html',
+    'web/dashboard/*.css',
+    'web/iframe/*.html'
+  ]
 
   grunt.initConfig({
     jshint: {
@@ -16,8 +21,15 @@ module.exports = function(grunt) {
     },
     watch: {
       assets: {
-        files: srcFiles,
+        files: assetFiles,
         tasks: ['includes', 'browserify'],
+        options: {
+          spawn: true
+        },
+      },
+      src: {
+        files: srcFiles,
+        tasks: ['includes'],
         options: {
           spawn: true
         },
@@ -43,7 +55,7 @@ module.exports = function(grunt) {
     },
     includes: {
       files: {
-        src: ['web/iframe/inject.js', 'web/dashboard/index.html', 'web/iframe/injected-iframe.html', 'web/dashboard/dashboard.css'],
+        src: ['web/dashboard/index.html', 'web/iframe/injected-iframe.html', 'web/dashboard/dashboard.css'],
         dest: 'web/static',
         flatten: true,
         cwd: '.',

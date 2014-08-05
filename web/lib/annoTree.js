@@ -88,7 +88,7 @@ exports.display = function(annotations, uri, treeInterface) {
   $.jstree.defaults.core.themes.responsive = false;
   $.jstree.defaults.search.fuzzy = false;
 
-  $('#treeContainer').html('<div id="annoTree"></div>');
+  $('#treeContainer').html('<div id="annoTree" style="height: 100%"></div>');
   $('#annoTree').jstree('open_all');
   $('#annoTree').on('hover_node.jstree', function(e, data) {
     var anno = treeItems.get(data.node.id);

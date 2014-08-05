@@ -5,11 +5,11 @@
 
 'use strict';
 
-var $sbPortal = $('#sbIframe', parent.document), loc = parent.window.location, doc = parent.document;
-if (!$sbPortal.length) {
-  loc = window.location;
-  doc = document;
-  $sbPortal = $('#sbPortal');
+var loc = window.location, doc = document, $sbPortal = $('#sbPortal');
+// running in an iframe
+if (parent.window.location) {
+  loc = parent.window.location;
+  doc = parent.document;
 }
 var pubsub = require('../lib/pubsub');
 
@@ -41,7 +41,7 @@ console.log('select', anno);
     '<i class="minus checkbox inverted icon"></i> <i class="hand left inverted icon"></i> <i class="refresh inverted icon"></i>' +
     '<i class="long arrow right inverted icon"></i>' +
     '<span style="background: white; float: right" a class="ui black circular label" id="annotationCount"> &nbsp; </span></div>' +
-    '<div id="treeContainer" style="position: relative; overflow: auto; width: 100%; height: 7em"></div> ');
+    '<div id="treeContainer" style="position: relative; top: 1em; overflow: auto; width: 100%"></div> ');
   $sbPortal.append('<div id="sbAnnotationDetails" style="background: #ffe; filter:alpha(opacity=90); opacity:0.9; position: absolute; top: 8%; left: 8%; width: 80%; height: 80%; display: none; z-index: 999; border: 1px dotted grey"><i class="close icon"></i><pre></pre></div>');
   $sbPortal.after('<style>\n.sbShort { height: 10%; }\n.sbAnnotationBlink { background: yellow !important; }\n.sbAnnotation-a { background: lightgreen; }\n.sbAnnotation-b { background: lightblue; }\n</style>');
 
