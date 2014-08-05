@@ -55,7 +55,7 @@ module.exports = function(grunt) {
     },
     includes: {
       files: {
-        src: ['web/dashboard/index.html', 'web/iframe/injected-iframe.html', 'web/dashboard/dashboard.css'],
+        src: ['web/dashboard/index.html', 'web/iframe/injected-iframe.html', 'web/dashboard/dashboard.css', 'bower_components/jstree/dist/themes/default/throbber.gif', './bower_components/jstree/dist/themes/default/32px.png' ],
         dest: 'web/static',
         flatten: true,
         cwd: '.',
