@@ -62,6 +62,15 @@ module.exports = function(grunt) {
         options: {
           silent: false,
         }
+      },
+      iframe: {
+        src: ['web/iframe/iframe.html'],
+        dest: 'web/views',
+        flatten: true,
+        cwd: '.',
+        options: {
+          silent: false,
+        }
       }
     },
     develop: {

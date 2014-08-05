@@ -65,7 +65,7 @@ exports.start = function(config, callback) {
       content = content.toString()//replace(/(<body.*?>)/im, '<div style="margin: 0; padding: 0" id="SBEnclosure">$1')
         .replace(/<\/body/im, '<div id="sbIframe" ' +
          'style="z-index: 899; position: fixed; right: 1em; top: 0; width: 20em; height: 90%; color: black; background: #ffe; filter:alpha(opacity=90); opacity:0.9; border: 0">' +
-         '<iframe style="width: 100%; height: 100%" src="/__wm/injected-iframe.html"></iframe>' +
+         '<iframe style="width: 100%; height: 100%" src="/__wm/iframe.html"></iframe>' +
          '</div>' +
          /*
          '<link type="text/css" rel="stylesheet" href="/__wm/libs.css" />' +
