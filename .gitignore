@@ -14,5 +14,3 @@ web/static/inject.js
 web/views/iframe.html
 web/static/index-injected.js
 web/static/injected-iframe.js
-web/static/32px.png
-web/static/throbber.gif
