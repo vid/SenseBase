@@ -12,7 +12,7 @@
     "express-flash": "0.0.2",
     "express-namespace": "^0.1.1",
     "faye": "1.0.x",
-    "filter-proxy": "0.0.4",
+    "filter-proxy": "0.0.5",
     "jquery": "2.1.x",
     "lodash": "~2.4.1",
     "passport": "0.2.x",

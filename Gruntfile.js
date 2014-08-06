@@ -14,7 +14,7 @@ module.exports = function(grunt) {
     'web/dashboard/*.html',
     'web/dashboard/*.css',
     'web/iframe/*.html'
-  ]
+  ];
 
   grunt.initConfig({
     jshint: {
