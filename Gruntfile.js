@@ -143,7 +143,7 @@ module.exports = function(grunt) {
     uglify : {
       js: {
         files: {
-          'web/static/libs/libs.min.js' : [ 'web/static/libs/libs.min.js' ]
+          'web/static/lib/libs.min.js' : [ 'web/static/lib/libs.min.js' ]
         }
       }
     },
