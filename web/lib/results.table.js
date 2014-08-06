@@ -8,6 +8,7 @@
 'use strict';
 
 var utils = require('./clientUtils');
+var homepage = window.senseBase.homepage;
 
 exports.render = function(dest, results, resultsLib) {
   var curURI, shown = false, selectedURI;
@@ -45,7 +46,7 @@ exports.render = function(dest, results, resultsLib) {
         // use cached address FIXME canonicalize URIs
         //$el.parent().after('<iframe style="width: 100%" id="preview" src="<!-- @var HOMEPAGE -->cached/'+ encodeURIComponent(uri) +'"></iframe>');
         if ($el.hasClass('content')) { // text content
-          uri = '<!-- @var HOMEPAGE -->content/' + encodeURIComponent(uri);
+          uri = homepage + 'content/' + encodeURIComponent(uri);
         }
         console.log($el, uri);
         $el.parent().after('<iframe style="width: 100%" id="preview" src="' + uri +'"></iframe>');

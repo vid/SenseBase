@@ -1,7 +1,9 @@
 // ### Dashboard
 //
 // General module for SenseBase browser client.
-/*jslint browser: true, jslint node: true, global $,setupDND */
+/* jslint browser: true */
+/* jslint node: true */
+/* global $,setupDND */
 
 'use strict';
 
