@@ -1,6 +1,3 @@
-/* jslint node: true */
-'use strict';
-
 var config = require('./config.js');
 
 module.exports = function(grunt) {
@@ -8,8 +5,16 @@ module.exports = function(grunt) {
     'lib/*.js',
     'services/*.js',
     // frontend
-    'contrib/__wm/*.js'
+    'web/dashboard/*.js',
+    'web/lib/*.js',
+    'web/iframe/*.js',
+    'services/**'
   ];
+  var assetFiles = [
+    'web/dashboard/*.html',
+    'web/dashboard/*.css',
+    'web/iframe/*.html'
+  ]
 
   grunt.initConfig({
     jshint: {
@@ -17,8 +22,15 @@ module.exports = function(grunt) {
     },
     watch: {
       assets: {
-        files: 'contrib/**/*.*',
-        tasks: ['includes', 'browserify', 'string-replace'],
+        files: assetFiles,
+        tasks: ['includes'],
+        options: {
+          spawn: true
+        },
+      },
+      src: {
+        files: srcFiles,
+        tasks: ['includes', 'browserify'],
         options: {
           spawn: true
         },
@@ -28,50 +40,39 @@ module.exports = function(grunt) {
         tasks: ['develop'],
       }
     },
+    browserify: {
+      dashboard: {
+        src: [ 'web/dashboard/index.js' ],
+        dest: 'web/static/index.js',
+        options: {
+        }
+      },
+      iframe: {
+        src: [ 'web/iframe/index-injected.js' ],
+        dest: 'web/static/index-injected.js',
+        options: {
+        }
+      },
+    },
     includes: {
       files: {
-        src: ['contrib/__wm/index.html', 'contrib/__wm/injected-iframe.*'],
-        dest: 'static/__wm',
+        src: ['web/dashboard/dashboard.js', 'web/dashboard/index.html', 'web/iframe/injected-iframe.html', 'web/dashboard/dashboard.css'],
+        dest: 'web/static',
+        flatten: true,
+        cwd: '.',
+        options: {
+          silent: false,
+        }
+      },
+      iframe: {
+        src: ['web/iframe/iframe.html'],
+        dest: 'web/views',
         flatten: true,
         cwd: '.',
         options: {
           silent: false,
         }
       }
-    },
-    'string-replace': {
-      domain: {
-        files: {
-          'static/__wm/' : ['static/__wm/*.js', 'static/__wm/*.html']
-        },
-        options: {
-          replacements: [{
-            pattern: /<!-- @var (.*?) -->/g,
-            replacement: function(match, p1, offset, string) {
-              var rep = config.config[p1];
-              console.log('string-replace', match, p1, rep);
-              if (!rep) {
-                throw('Missing', p1, 'in config.js');
-              }
-              return rep;
-            }
-          }]
-        }
-      }
-    },
-    browserify: {
-      index: {
-        src: [ 'contrib/__wm/index.js' ],
-        dest: 'static/__wm/index.js',
-        options: {
-        }
-      },
-      iframe: {
-        src: [ 'contrib/__wm/index-injected.js' ],
-        dest: 'static/__wm/index-injected.js',
-        options: {
-        }
-      },
     },
     develop: {
       server: {
@@ -98,7 +99,7 @@ module.exports = function(grunt) {
         layout: 'linear'
       },
       main: {
-        src: ['*.js', 'lib/*js', 'contrib/__wm/*js', 'test/**/*.js']
+        src: ['*.js', 'lib/*js', 'web/lib/*js', 'web/dashboard/*js', 'test/**/*.js']
       }
     },
     plato: {
@@ -111,22 +112,38 @@ module.exports = function(grunt) {
     concat: {
       css: {
        src: [
-         'bower_components/semantic-ui/build/packaged/css/semantic.css', 'bower_components/select2/select2.css', 'bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css', 'bower_components/jstree/dist/themes/default/style.min.css', 'static/__wm/lib/d3plus/d3plus.css', 'static/__wm/lib/nvd3/nv.d3.css', 'static/__wm/lib/jqCron/jqCron.css'
+         'bower_components/semantic-ui/build/packaged/css/semantic.css',
+         'bower_components/select2/select2.css',
+         'bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css',
+         'bower_components/jstree/dist/themes/default/style.min.css',
+         'web/ext-libs/d3plus/d3plus.css',
+         'web/ext-libs/nvd3/nv.d3.css',
+         'web/ext-libs/jqCron/jqCron.css'
 
        ],
-       dest: 'static/__wm/libs.css'
+       dest: 'web/static/lib/libs.css'
       },
       js : {
         src : [
-         'bower_components/jquery/dist/jquery.js', 'static/__wm/lib/jquery.address.js', 'static/__wm/lib/tablesort.js', 'bower_components/jquery-ui/ui/jquery-ui.js', 'bower_components/jstree/dist/jstree.min.js', 'bower_components/semantic-ui/build/packaged/javascript/semantic.js', 'static/__wm/lib/dragFile.js', 'bower_components/select2/select2.js', 'static/__wm/lib/d3plus/d3.js', 'static/__wm/lib/d3plus/d3plus.min.js', 'static/__wm/lib/nvd3/nv.d3.js', 'static/__wm/lib/jqCron/jqCron.js'
+         'bower_components/jquery/dist/jquery.js',
+         'bower_components/jquery-ui/ui/jquery-ui.js',
+         'bower_components/jstree/dist/jstree.min.js',
+         'bower_components/semantic-ui/build/packaged/javascript/semantic.js',
+         'bower_components/select2/select2.js',
+         'web/ext-lib/tablesort.js',
+         'web/ext-lib/dragFile.js',
+         'web/ext-lib/d3plus/d3.js',
+         'web/ext-lib/d3plus/d3plus.min.js',
+         'web/ext-lib/nvd3/nv.d3.js',
+         'web/ext-lib/jqCron/jqCron.js'
         ],
-        dest : 'static/__wm/libs.min.js'
+        dest : 'web/static/lib/libs.min.js'
       }
     },
     uglify : {
       js: {
         files: {
-          'static/__wm/libs.min.js' : [ 'static/__wm/libs.min.js' ]
+          'web/static/lib/libs.min.js' : [ 'web/static/lib/libs.min.js' ]
         }
       }
     },
@@ -145,9 +162,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-string-replace');
 
-  grunt.registerTask('default', ['includes', 'browserify', 'string-replace', 'develop', 'watch', 'mochaTest:devUnitTest']);
+  grunt.registerTask('default', ['includes', 'browserify', 'develop', 'watch', 'mochaTest:devUnitTest']);
   grunt.registerTask('test', ['mochaTest:devUnitTest', 'mochaTest:devIntegrationTest']);
   grunt.registerTask('tidy', ['jshint', 'plato']);
   grunt.registerTask('libs', [ 'concat:js', 'uglify:js', 'concat:css' ]);

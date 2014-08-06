@@ -1,5 +1,6 @@
 // Finds words in text and adds tags.
 // FIXME update to standalone pubsub
+/*jslint node: true */
 
 'use strict';
 
@@ -17,12 +18,12 @@ exports.doProcess = function(text, callback) {
     console.log('returning', annoRows.length);
     callback(null, annoRows);
   });
-}
+};
 
 function getOffsets(word, text, type, needsValidation) {
-  var ret = [];
+  var ret = [], match;
   var re = new RegExp(word, 'g');
-  while ((match = re.exec(text)) != null) {
+  while ((match = re.exec(text)) !== null) {
      ret.push({"ranges":[{"start":"/section[1]","startOffset":match.index,"end":"/section[1]","endOffset":match.index + word.length}],"quote":word,'text':'Annotation term "' + word + '" ' + match.index, value: type, types: [type], validated: !needsValidation});
 //    console.log("match found at " + match.index);
   }
@@ -46,4 +47,3 @@ function candidates(text, callback) {
   callback(ret);
 
 }
-

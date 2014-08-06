@@ -67,7 +67,7 @@ function mapToItem(item, merge) {
       } else if (mapped._VAL_) {
         proto.vals.push({ key: mapped._VAL_[0] || key, value: item[key], level: mapped.level});
       } else {
-        throw Error('unknown type' + mapped);
+        throw new Error('unknown type' + mapped);
       }
     } else {
       unMapped[key] = item;
@@ -144,4 +144,3 @@ function flatten(level, map) {
     }
   }
 }
-

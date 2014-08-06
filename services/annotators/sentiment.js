@@ -1,4 +1,6 @@
 // AFINN sentiment annotator
+/*jslint node: true */
+
 'use strict';
 
 var analyze = require('Sentimental').analyze;
@@ -12,13 +14,13 @@ exports.doProcess = doProcess;
 annoLib.requestAnnotate(doProcess);
 
 function doProcess(combo, callback) {
-  var uri = combo.uri, html = combo.html, text = combo.text, selector = combo.selector;
+  var uri = combo.uri, html = combo.html, text = combo.text, selector = combo.selector, annoRows = [];
   GLOBAL.info(name, uri, selector, text ? text.length : 'notext');
 
   if (text.length > 0) {
     // process each individual callback
     var sentiments = analyze((text + '.').trim());
-    var annoRows = [], score = sentiments.score;
+    var score = sentiments.score;
     annoRows.push(annotations.createAnnotation({type: 'value', annotatedBy: name, hasTarget: uri, key: 'score', value : score }));
 
     var seen = {};

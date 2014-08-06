@@ -1,4 +1,6 @@
 // Annotation helpers including pubsub.
+/*jslint node: true */
+
 'use strict';
 
 if (!GLOBAL.config) {
@@ -34,7 +36,7 @@ function instancesFromMatches(word, text, selector) {
   var match, ret = [];
   var re = new RegExp('\\b'+utils.escapeRegex(word)+'\\b', 'gi');
   var instance = 1;
-  while ((match = re.exec(text)) != null) {
+  while ((match = re.exec(text)) !== null) {
     GLOBAL.debug(text.length, text.substring(0, 10), word, match.index, text.substr(match.index, word.length));
     if (text.indexOf('>', match.index) > text.indexOf('<'.match.index)) {
       ret.push(anno.createInstance({exact: text.substr(match.index, word.length), instance: instance, selector: selector}));
@@ -45,9 +47,9 @@ function instancesFromMatches(word, text, selector) {
 }
 // convert instances of a match to ranges
 function rangesFromMatches(word, text, selector) {
-  var ret = [];
+  var ret = [], match;
   var re = new RegExp('\\b'+word+'\\b', 'gi');
-  while ((match = re.exec(text)) != null) {
+  while ((match = re.exec(text)) !== null) {
     GLOBAL.debug(text.length, text.substring(0, 10), word, match.index, text.substr(match.index, word.length));
      ret.push(anno.createRange({exact: text.substr(match.index, word.length), offset: match.index, selector: selector}));
   }
