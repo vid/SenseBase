@@ -8,7 +8,8 @@ module.exports = function(grunt) {
     'web/dashboard/*.js',
     'web/lib/*.js',
     'web/iframe/*.js',
-    'services/**'
+    'services/**',
+    'util/**'
   ];
   var assetFiles = [
     'web/dashboard/*.html',
