@@ -9,7 +9,7 @@ if (!GLOBAL.config) {
 var faye = require('faye');
 var bayeux = new faye.NodeAdapter({mount: '/montr', timeout: 45});
 var fayeClient = new faye.Client(GLOBAL.config.FAYEHOST);
-var anno = require('../../lib/annotations'), utils = require('../../lib/utils');
+var annoLib = require('../../lib/annotations'), utils = require('../../lib/utils');
 
 // receive requests for annotations
 exports.requestAnnotate = function(callback) {
@@ -38,10 +38,11 @@ function instancesFromMatches(word, text, selector) {
   var instance = 1;
   while ((match = re.exec(text)) !== null) {
     GLOBAL.debug(text.length, text.substring(0, 10), word, match.index, text.substr(match.index, word.length));
+    // It's not in a tag
     if (text.indexOf('>', match.index) > text.indexOf('<'.match.index)) {
-      ret.push(anno.createInstance({exact: text.substr(match.index, word.length), instance: instance, selector: selector}));
+      ret.push(annoLib.createInstance({exact: text.substr(match.index, word.length), instance: instance, selector: selector}));
     }
-     instance++;
+    instance++;
   }
   return ret;
 }
@@ -51,7 +52,7 @@ function rangesFromMatches(word, text, selector) {
   var re = new RegExp('\\b'+word+'\\b', 'gi');
   while ((match = re.exec(text)) !== null) {
     GLOBAL.debug(text.length, text.substring(0, 10), word, match.index, text.substr(match.index, word.length));
-     ret.push(anno.createRange({exact: text.substr(match.index, word.length), offset: match.index, selector: selector}));
+     ret.push(annoLib.createRange({exact: text.substr(match.index, word.length), offset: match.index, selector: selector}));
   }
   return ret;
 }

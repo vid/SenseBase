@@ -14,7 +14,7 @@ exports.doProcess = doProcess;
 annoLib.requestAnnotate(doProcess);
 
 function doProcess(combo, callback) {
-  var uri = combo.uri, html = combo.html, text = combo.text, selector = combo.selector, annoRows = [];
+  var uri = combo.uri, html = combo.content, text = combo.text, selector = combo.selector, annoRows = [];
   GLOBAL.info(name, uri, selector, text ? text.length : 'notext');
 
   if (text.length > 0) {
@@ -27,9 +27,13 @@ function doProcess(combo, callback) {
     ['positive', 'negative'].forEach(function(set) {
       sentiments[set].words.forEach(function(w) {
         if (!seen[w]) {
-          annoRows.push(annotations.createAnnotation({type: 'quote', annotatedBy: name, roots: [set], hasTarget: uri, quote: w,
-            ranges: annoLib.bodyInstancesFromMatches(w, html, selector)}));
-          seen[w] = 1;
+          try {
+            annoRows.push(annotations.createAnnotation({type: 'quote', annotatedBy: name, roots: [set], hasTarget: uri, quote: w,
+              ranges: annoLib.bodyInstancesFromMatches(w, html, selector)}));
+            seen[w] = 1;
+          } catch (e) {
+            console.log('annoRow failed', e);
+          }
         }
       });
     });
