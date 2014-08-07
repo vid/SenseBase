@@ -1,17 +1,21 @@
 // Tests sentiment service (requires running service).
 'use strict';
 
-var expect = require("expect.js"), indexer = require('../../lib/indexer.js'), fs = require('fs'), path = require('path');
+var expect = require("expect.js"), indexer = require('../../lib/indexer.js'), fs = require('fs'), path = require('path'), _ = require('lodash');
 GLOBAL.config = require('../lib/test-config.js').config;
-var sentiment = require('../../lib/annotators/sentiment.js');
+var sentiment = require('../../services/annotators/sentiment.js'), utils = require('../../lib/utils.js');;
 
 var doc = '<html><script lah lah></script><body class="something">Good <b>bad</b> amazing</body></html>';
 
 describe('sentiment', function(done){
-  it('should identify the candidates', function() {
-    sentiment.doProcess({ uri: 'test', html: doc, text: doc.replace(/<.*?>/g, '')}, function(err, result) {
-      console.dir('EE', err, result);
+  it('should identify the candidates', function(done) {
+    sentiment.doProcess({ uri: 'test', html: doc, text: utils.getTextFromHtml(doc), selector: 'body'}, function(err, result) {
       expect(err).to.be.undefined;
+      expect(result.annoRows.length > 0).to.be.true;
+      var annos = _.groupBy(result.annoRows, function(r) { return r.type;});
+      expect(annos.value.size === 1).to.be.true;
+      expect(annos.quote.size === 3).to.be.true;
+      expect(annos.quote[0].ranges.length === 1).to.be.true;
       done();
     });
   });
