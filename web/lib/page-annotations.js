@@ -15,7 +15,7 @@ var pubsub = require('./pubsub'), annotations = require('../../lib/annotations')
 exports.findAndPublish = function(page, location) {
   var hostname = url.parse(location).hostname;
   console.log('host', hostname);
-  if (page.wgCategories.length) {
+  if (page.wgCategories) {
     var annos = [];
     page.wgCategories.forEach(function(c) {
       annos.push(annotations.createAnnotation({ type: 'category', category: c, annotatedBy : 'Mediawiki', hasTarget: location, roots: ['Categories', hostname]}));
