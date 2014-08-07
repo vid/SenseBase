@@ -110,6 +110,7 @@ console.log('select', anno);
     // two passes; first assign offsets and add to array with the same selector
     for (i in treeItems.map) {
       var anno = treeItems.map[i];
+      console.log(anno);
       if (anno.selector === 'body') {
         anno.selector = '#SBEnclosure';
       }
