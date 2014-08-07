@@ -5,6 +5,9 @@
 
 'use strict';
 
+// Fixes some cross site issues.
+document.domain = require('tldjs').getDomain(document.domain);
+
 var loc = window.location, doc = document, $sbPortal = $('#sbPortal'), $sbIframe = $sbPortal;
 // running in an iframe
 if (parent.window.location) {
@@ -12,7 +15,7 @@ if (parent.window.location) {
   doc = parent.document;
   $sbIframe = $('#sbIframe', parent.document);
 }
-var pubsub = require('../lib/pubsub');
+var pubsub = require('../lib/pubsub'), pageAnnotations = require('../lib/page-annotations');
 
 exports.inject = function() {
   var annoTree = require('../lib/annoTree');
@@ -86,6 +89,9 @@ console.log('select', anno);
       });
     }
   });
+
+// FIXME: this needs to be better organized. but it's fun for now.
+  pageAnnotations.findAndPublish(parent.window, parent.document.location.href);
 
   // find the starting position of an instance
   function findInstanceOffset(anno, text) {

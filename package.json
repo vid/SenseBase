@@ -12,7 +12,7 @@
     "express-flash": "0.0.2",
     "express-namespace": "^0.1.1",
     "faye": "1.0.x",
-    "filter-proxy": "0.0.5",
+    "filter-proxy": "0.0.6",
     "jquery": "2.1.x",
     "lodash": "~2.4.1",
     "passport": "0.2.x",
@@ -20,6 +20,7 @@
     "pullquoter": "0.0.2",
     "querystring": "0.2.x",
     "request": "2.33.x",
+    "tldjs": "^1.5.0",
     "unfluff": "~0.2.0",
     "winston": "~0.7.2",
     "xml2js": "^0.4.2"

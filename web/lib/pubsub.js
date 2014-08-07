@@ -7,7 +7,7 @@
 
 'use strict';
 
-var clientID = window.senseBase.user, username = window.senseBase.user, homepage = window.senseBase.homepage;
+var clientID = window.senseBase.username, username = window.senseBase.user, homepage = window.senseBase.homepage;
 console.log('faye init with', homepage);
 
 var faye = require('faye');
@@ -20,6 +20,7 @@ exports.annotate = function(uri) {
 
 // save annotations for user
 exports.saveAnnotations = function(uris, annotations) {
+  console.log('/saveAnnotations', uris, annotations);
   fayeClient.publish('/saveAnnotations', { clientID: clientID, uris: uris, annotations: annotations });
 };
 
