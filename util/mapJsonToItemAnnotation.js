@@ -1,5 +1,9 @@
 // map saved data with arbitrary structure to ContentItems and Annotations
 
+/*jslint node: true */
+
+'use strict';
+
 var found;
 var annotations = require('../lib/annotations.js'), utils = require('../lib/utils.js');
 
@@ -86,8 +90,8 @@ function mapToItem(item, merge) {
   cItem = { title: proto.title, uri: proto.uri, content: proto.content};
 
   if (merge) {
-    for (var key in merge) {
-      cItem[key] = merge[key];
+    for (var mergeKey in merge) {
+      cItem[key] = merge[mergeKey];
     }
   }
   var cItem = annotations.createContentItem(cItem);
@@ -104,7 +108,7 @@ function mapToItem(item, merge) {
       def.content.forEach(function(category) {
         var level = def.level.slice(0); // copy base level
         level = level.concat(category.split('/'));
-        var a = { hasTarget: cItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level, state: valState }
+        var a = { hasTarget: cItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level, state: valState };
         annos.push(annotations.createAnnotation(a));
       });
 // a single category

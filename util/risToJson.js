@@ -1,4 +1,7 @@
 // convert data in RIS format to JSON
+/*jslint node: true */
+
+'use strict';
 
 var fs = require('fs'), maxProcess = 9e9, risMapping = require('./risMapping');
 
@@ -9,7 +12,7 @@ var fs = require('fs'), maxProcess = 9e9, risMapping = require('./risMapping');
 
 var foundFields = {}, notFoundRecords = [];
 
-// usage: src file, options supports maxProcess 
+// usage: src file, options supports maxProcess
 
 exports.risToJson = function(src, options) {
   options = options || {};
@@ -72,7 +75,7 @@ exports.risToJson = function(src, options) {
           console.log(cur, l, dest, cur[dest], lastField);
           throw(e);
         }
-        cur[dest].push(o + ' ' + l.trim()); 
+        cur[dest].push(o + ' ' + l.trim());
       } else {
         cur[dest] = cur[dest] + ' ' + l.trim();
       }
@@ -85,4 +88,3 @@ exports.risToJson = function(src, options) {
 exports.getFoundFields = function() {
   return foundFields;
 };
-

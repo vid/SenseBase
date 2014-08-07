@@ -1,4 +1,9 @@
 // import RIS items with attached PDFs
+/*jslint node: true */
+
+'use strict';
+
+var utils = require('../lib/utils');
 
 var maxProcess = 9e9;
 

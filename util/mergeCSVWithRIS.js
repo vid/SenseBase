@@ -1,4 +1,7 @@
 // combine a CSV file with field per row with RIS content
+/*jslint node: true */
+
+'use strict';
 
 var csv = require('csv'), ris = require('./risToJson'), json2csv = require('json2csv'), fs = require('fs'), foundFields, matchTo, allHeaders,
   inputCSV = process.argv[2],
@@ -77,4 +80,3 @@ csv().from(inputCSV).to.array(function(csvRows, count) {
 function norm(p) {
   return !p || p.toLowerCase().replace(/[^A-Za-z]/g, '');
 }
-

@@ -1,4 +1,7 @@
 // site related search queries
+/*jslint node: true */
+
+'use strict';
 
 var utils = require('../lib/utils'), cheerio = require('cheerio');
 exports.findPubMedArticle = findPubMedArticle;
@@ -11,7 +14,7 @@ exports.findPubMedArticle = findPubMedArticle;
 function findPubMedArticle(title, callback) {
   var uri = 'http://www.ncbi.nlm.nih.gov/pubmed/?term=' + title.replace(/ /g, '+');
   utils.retrieve(uri, function(err, contents) {
-     var $ = cheerio.load(contents); 
+     var $ = cheerio.load(contents);
      var absid = $('#absid');
      if (absid) {
        var id = $(absid).val();
@@ -22,4 +25,3 @@ function findPubMedArticle(title, callback) {
 
   });
 }
-

@@ -1,4 +1,7 @@
 // converts JSON structure to ARFF
+/*jslint node: true */
+
+'use strict';
 
 var doString = false; // values as strings
 
@@ -7,7 +10,7 @@ var merged = require('./mergedData.json');
 var shareFields = [
 ];
 
-var keepFields = []
+var keepFields = [];
 
 var meshTerms = 'MeSH Terms';
 
@@ -75,5 +78,3 @@ merged.forEach(function(m) {
 });
 
 console.log(arff);
-
-

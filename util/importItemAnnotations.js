@@ -1,6 +1,10 @@
 // sample code for creating annotation items
 // imports from mapped items or proto contentItems
 
+/*jslint node: true */
+
+'use strict';
+
 var importer = require('../util/mapJsonToItemAnnotation'), siteQueries = require('./siteQueries'), annoLib = require('../lib/annotations');
 var importLimit = 5;
 var LOOKUP_URIS = true, SAVE = true;
@@ -21,7 +25,7 @@ importer.init(fieldMappings);
 var data = require(process.argv[3] || '../test/mock/mesh.json');
 
 // process results
-var imported = 0, failed = 0, count = 0, queued = { categories: ['import'], relevance: 0, attempts: 0, lastAttempt: new Date().toISOString() }
+var imported = 0, failed = 0, count = 0, queued = { categories: ['import'], relevance: 0, attempts: 0, lastAttempt: new Date().toISOString() };
 
 // do the actual import, limited by importLimit;
 data.forEach(function(d) {
@@ -65,12 +69,13 @@ data.forEach(function(d) {
 
 
 function doImport(d) {
+  var cItem, annotations;
   // transform mapped item if it's not a proto item
   if (d.Title) {
     var r = importer.mapToItem(d, { queued: queued });
 
     console.log('ITEM', r.contentItem._id, r.annotations.length);
-    var cItem = r.contentItem, annotations = r.annotations;
+    cItem = r.contentItem, annotations = r.annotations;
     cItem.annotations = annotations;
   } else {
     d.queued = queued;
