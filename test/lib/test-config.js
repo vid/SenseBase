@@ -1,3 +1,6 @@
+/* jshint node: true */
+'use strict';
+
 var winston = require('winston');
 var domain = 'localhost', http_port = 9988, method='http://';
 

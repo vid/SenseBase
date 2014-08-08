@@ -19,7 +19,7 @@ var pubsub = require('../lib/pubsub'), pageAnnotations = require('../lib/page-an
 
 exports.inject = function() {
   var annoTree = require('../lib/annoTree');
-  var selectMode = false;
+  var selectMode = false, lastSelected;
   // html buffer while annotation categories are processed
   var newHTML;
   var treeInterface = {
