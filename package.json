@@ -19,7 +19,6 @@
     "passport-local": "0.1.x",
     "pullquoter": "0.0.2",
     "querystring": "0.2.x",
-    "request": "2.33.x",
     "tldjs": "^1.5.0",
     "unfluff": "~0.2.0",
     "winston": "~0.7.2",
