@@ -54,7 +54,10 @@
     "url": "https://github.com/Vid/SenseBase"
   },
   "keywords": [
-    "semantic",
+    "workgroup",
+    "browser",
+    "proxy",
+    "search",
     "annotation"
   ],
   "author": "Vid",
