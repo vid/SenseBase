@@ -1,4 +1,4 @@
-// ### injectec-iframe
+// ### injected-iframe
 /*jslint browser: true */
 /*jslint node: true */
 /* global $ */
