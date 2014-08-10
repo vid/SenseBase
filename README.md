@@ -81,7 +81,7 @@ index.js manages access and bootstraps /lib/pubsub.js
 
 All 'team' interaction is via pubsub.js. ElasticSearch is not exposed and should be firewalled.
 
-Annotations are a child relationship to contentItems.
+Annotations are nested in ContentItems (ElasticSearch versions will be used to prevent conflict). ContentItems store a checksummed history.
 
 ContentItems initially have an state of 'visited' (or 'queued' if searching, then 'visited' when retrieved). After their first annotation and an annotationSummary is added, this becomes 'annotated.'
 
