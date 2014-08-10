@@ -5,7 +5,7 @@
 
 'use strict';
 
-var importer = require('../util/mapJsonToItemAnnotation'), siteQueries = require('./siteQueries'), annoLib = require('../lib/annotations');
+var importer = contentLib = require('../lib/content'), require('../util/mapJsonToItemAnnotation'), siteQueries = require('./siteQueries'), annoLib = require('../lib/annotations');
 var importLimit = 5;
 var LOOKUP_URIS = true, SAVE = true;
 
@@ -90,9 +90,7 @@ function doImport(d) {
   });
   cItem.visitors = [{ member: 'import', '@timestamp': new Date().toISOString() }];
   if (SAVE) {
-    GLOBAL.config.indexer._saveContentItem(cItem);
-    // FIXME only works for items with abstract content
-    GLOBAL.config.pubsub.requestAnnotate(cItem.uri, cItem.content);
+    conentLib.indexContentItem(cItem);
   }
 
   imported++;
