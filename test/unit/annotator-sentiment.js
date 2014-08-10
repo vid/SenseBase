@@ -8,7 +8,7 @@ var doc = '<html><script lah lah></script><body class="something">Good <b>bad</b
 
 describe('sentiment', function(done){
   it('should identify the candidates', function(done) {
-    sentiment.doProcess({ uri: 'test', html: doc, text: utils.getTextFromHtml(doc), selector: 'body'}, function(err, result) {
+    sentiment.doProcess({ uri: 'test', content: doc, text: utils.getTextFromHtml(doc), selector: 'body'}, function(err, result) {
       expect(err).to.be.undefined;
       expect(result.annoRows.length > 0).to.be.true;
       var annos = _.groupBy(result.annoRows, function(r) { return r.type;});
@@ -19,4 +19,3 @@ describe('sentiment', function(done){
     });
   });
 });
-

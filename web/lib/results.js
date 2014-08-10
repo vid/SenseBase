@@ -81,7 +81,7 @@ exports.init = function(submitQuery, resultViewIn) {
     }
   });
 
-  // add a new or updated item
+  // Add new or update item.
   pubsub.updateItem(function(result) {
     console.log('/updateItem', result, lastResults);
     result = normalizeResult(result);
@@ -133,7 +133,7 @@ function displayItemSidebar(uri) {
     '<div onclick="moreLikeThis(\'' + uri +'\')" class="item"><i class="puzzle piece icon"></i>More like this</div>' +
     '<div onclick="refreshAnnos(\'' + uri +'\')" class="item"><i class="refresh icon"></i>Refresh</div>' +
     '<div class="item"><i class="delete icon"></i>Delete</div>' +
-    '<div class="item"><a target="_debug" href="<!-- @var ESEARCH_URI -->/contentItem/' + encodeURIComponent(uri) + '?pretty=true"><i class="bug icon"></i>Debug</a></div>'
+    '<div class="item"><a target="_debug" href="http://localhost:9200/ps/contentItem/' + encodeURIComponent(uri) + '?pretty=true"><i class="bug icon"></i>Debug</a></div>'
     );
   $('.context.dropdown').dropdown();
   setCurrentURI(uri);
