@@ -12,10 +12,10 @@ var pubsub = require('./pubsub');
 exports.init = function(resultsLib) {
   // set team input as select2 input
   $('.team.container').select2();
+  setupCronInput();
 
   // schedule search
   $('.schedule.button').click(function() {
-    setupCronInput();
     $('.schedule.modal').modal('show');
     $('.cron.edit').html('');
   });

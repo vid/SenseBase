@@ -119,7 +119,7 @@ module.exports = function(grunt) {
          'bower_components/jstree/dist/themes/default/style.min.css',
          'web/ext-libs/d3plus/d3plus.css',
          'web/ext-libs/nvd3/nv.d3.css',
-         'web/ext-libs/jqCron/jqCron.css'
+         'web/ext-lib/jqCron/jqCron.css'
 
        ],
        dest: 'web/static/lib/libs.css'
