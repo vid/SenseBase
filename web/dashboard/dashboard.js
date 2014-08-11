@@ -9,6 +9,8 @@
 
 // module variables
 
+var homepage = window.senseBase.homepage;
+
 var resultViews = { scatter: require('../lib/results.scatter'), table: require('../lib/results.table'),
   debug: require('../lib/results.debug')}, resultView = resultViews.table, querySub, clusterSub, qs;
 
@@ -26,8 +28,8 @@ exports.init = function(sbUser) {
   searchLib.init(sbUser, resultsLib);
   membersLib.init();
 
-  setupDND('uploadItem', '/upload');
-  setupDND('uploadWorkfile', '/workfile');
+  setupDND('uploadItem', homepage + 'upload');
+  setupDND('uploadWorkfile', homepage + 'workfile');
   // General setup and functions
 
   // main menu interaction
