@@ -136,7 +136,8 @@ module.exports = function(grunt) {
          'web/ext-lib/d3plus/d3.js',
          'web/ext-lib/d3plus/d3plus.min.js',
          'web/ext-lib/nvd3/nv.d3.js',
-         'web/ext-lib/jqCron/jqCron.js'
+         'web/ext-lib/jqCron/jqCron.js',
+         'web/ext-lib/jqCron/jqCron.en.js'
         ],
         dest : 'web/static/lib/libs.min.js'
       }
