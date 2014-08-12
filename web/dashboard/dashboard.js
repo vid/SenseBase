@@ -19,7 +19,7 @@ var basePage = location.pathname + '?';
 
 var resultsLib = require('../lib/results'), membersLib = require('../lib/members'), searchLib = require('../lib/search'),
   utils = require('../lib/clientUtils'), browseCluster = require('../lib/browseCluster'),
-  browseAnnotations = require('../lib/browseAnnotations'), pubsub = require('../lib/pubsub');
+  browseAnnotations = require('../lib/browseAnnotations'), pubsub = require('../../lib/pubsub-client');
 
 var _ = require('lodash');
 
