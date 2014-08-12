@@ -35,14 +35,26 @@
     <div class="ui requires selected dropdown item">
       <i class="reorder icon"></i>
       <div class="menu">
+        <div class="header item">
+          Item menu
+        </div>
         <a title="Annotate selected items" class="disabled requires selected annotate item">
           <i class="tag icon"></i>Annotate
+        </a>
+        <a title="Subscribe to selected items" class="disabled requires selected subscribe item">
+          <i class="rss icon"></i>Subscribe
         </a>
         <a title="Delete selected items" class="disabled requires selected delete item">
           <i class="trash icon"></i> Delete
         </a>
         <a title="Remove unselected" class="disabled requires selected remove item">
           <i class="remove circle icon"></i>Remove unselected
+        </a>
+        <a title="More like this" class="disabled requires selected morelikethis item">
+          <i class="puzzle piece icon"></i>More like this
+        </a>
+        <a title="Open in new window" class="disabled requires selected newwindow item">
+          <i class="external url icon"></i>Open in new window
         </a>
       </div>
       <div class="ui red selected label count" style="width: 3em; text-align: center">0</div>
@@ -149,10 +161,26 @@
   </div>
 </div>
 
+<div class="ui subscribe modal hidden form">
+  <div class="content">
+    <div class="message">
+      <label for="subscribeItems">Subscribe to:</label>
+    </div>
+    <br />
+    <div class="ui left labeled icon input">
+      <textarea id="subscribeItems"></textarea>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="ui button">Cancel</button>
+    <button class="ui confirm subscribe button">Subscribe</button>
+  </div>
+</div>
+
 <div class="ui annotate modal hidden form">
   <div class="content">
     <div class="message">
-      <label for="selectedAnnotations">Annotate selected?</label>
+      <label for="selectedAnnotations">Annotate selected with:</label>
     </div>
     <br />
     <div class="ui left labeled icon input">

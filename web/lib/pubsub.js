@@ -18,7 +18,14 @@ exports.annotate = function(uri) {
   fayeClient.publish('/annotate', { clientID: clientID, uri: uri });
 };
 
-// save annotations for user
+
+// save subscriptions for user
+exports.saveSubscriptions = function(matches) {
+  console.log('/saveSubscriptions', matches);
+  fayeClient.publish('/saveSubscriptions', { clientID: clientID, matches: matches });
+};
+
+// save annotations for content item
 exports.saveAnnotations = function(uris, annotations) {
   console.log('/saveAnnotations', uris, annotations);
   fayeClient.publish('/saveAnnotations', { clientID: clientID, uris: uris, annotations: annotations });
