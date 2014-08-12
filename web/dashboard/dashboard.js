@@ -159,6 +159,8 @@ exports.init = function(sbUser) {
   // needed by filter
   window.doQuery = doQuery;
   window.submitQuery = submitQuery;
+  // FIXME
+  window.moreLikeThis = moreLikeThis;
 
 };
 // end of init
