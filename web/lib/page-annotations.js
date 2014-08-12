@@ -9,7 +9,7 @@
 var username = window.senseBase.username;
 
 var url = require('url');
-var pubsub = require('../../pubsub-client'), annotations = require('../../lib/annotations');
+var pubsub = require('../../lib/pubsub-client').init(window), annotations = require('../../lib/annotations');
 
 // Find and publish page categories, for example from page javascript context. This is more of a demonstration.
 exports.findAndPublish = function(page, location) {
