@@ -2,9 +2,13 @@
 Web components
 ==============
 
+### site
+
+Site level templates used by Express backend and interpreted proxy includes.
+
 ### views
 
-Used by Express backend and interpreted proxy includes.
+Common ampersand.js view templates.
 
 ### dashboard
 
@@ -16,7 +20,7 @@ Injected iframe elements.
 
 ### lib
 
-Web focused elements used by the above.
+Common web focused libraries.
 
 ### ext-lib
 
@@ -25,3 +29,4 @@ Third party libraries not available via Bower etc.
 ### static
 
 Generated output and assets of the above, exported by the app.
+

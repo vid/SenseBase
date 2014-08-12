@@ -3,6 +3,7 @@ var config = require('./config.js');
 module.exports = function(grunt) {
   var srcFiles = [
     'lib/*.js',
+    'models/*.js',
     'services/*.js',
     // frontend
     'web/dashboard/*.js',
@@ -67,7 +68,7 @@ module.exports = function(grunt) {
       },
       iframe: {
         src: ['web/iframe/iframe.html'],
-        dest: 'web/views',
+        dest: 'web/site',
         flatten: true,
         cwd: '.',
         options: {
