@@ -18,14 +18,14 @@ var basePage = location.pathname + '?';
 
 var resultsLib = require('../lib/results'), membersLib = require('../lib/members'), searchLib = require('../lib/search'),
   utils = require('../lib/clientUtils'), browseCluster = require('../lib/browseCluster'),
-  browseAnnotations = require('../lib/browseAnnotations'), pubsub = require('../../lib/pubsub-client');
+  browseAnnotations = require('../lib/browseAnnotations'), pubsub = require('../../lib/pubsub-client').init(window.senseBase);
 
 var _ = require('lodash');
 
 // initialize page functions
-exports.init = function(sbUser) {
+exports.init = function() {
   resultsLib.init(submitQuery, resultView);
-  searchLib.init(sbUser, resultsLib);
+  searchLib.init(resultsLib);
   membersLib.init();
 
   setupDND('uploadItem', homepage + 'upload');

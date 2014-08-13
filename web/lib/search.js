@@ -6,8 +6,8 @@
 /* global $,alert,doQuery */
 'use strict';
 
-var savedSearches, sbUser = window.senseBase.user;
-var pubsub = require('../../lib/pubsub-client');
+var savedSearches;
+var pubsub = require('../../lib/pubsub-client').init(window.senseBase);
 
 exports.init = function(resultsLib) {
   // set team input as select2 input
@@ -135,7 +135,7 @@ exports.init = function(resultsLib) {
   // convert the form values to data
   function getSearchInput() {
     var cronValue = $('#scheduleSearch').prop('checked') ? $('input.cron').val() : null, searchName = $('#searchName').val(), targetResults = $('#targetResults').val(), input = $('#searchInput').val(), searchContinue = $('#searchContinue').val(), searchCategories = $('#searchCategories').val().split(',').map(function(t) { return t.trim(); }), searchTeam = $('select.searching.team option:selected').map(function() { return this.value; }).get();
-    return { searchName: searchName, cron: cronValue, input: input, relevance: searchContinue, team: searchTeam, categories: searchCategories, member: sbUser, targetResults: targetResults, valid: (input.length > 0 && searchContinue.length > 0 && searchTeam.length > 0 && searchCategories.length > 0 && sbUser.length > 0 && targetResults.length > 0 )};
+    return { searchName: searchName, cron: cronValue, input: input, relevance: searchContinue, team: searchTeam, categories: searchCategories, targetResults: targetResults, valid: (input.length > 0 && searchContinue.length > 0 && searchTeam.length > 0 && searchCategories.length > 0 && targetResults.length > 0 )};
   }
 
   // submit a new search

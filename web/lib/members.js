@@ -7,7 +7,7 @@
 'use strict';
 
 var justEdited, rTeams, editingMember;
-var pubsub = require('../../lib/pubsub-client');
+var pubsub = require('../../lib/pubsub-client').init(window.senseBase);
 
 exports.init = function() {
   pubsub.subTeamList(function(teams) {

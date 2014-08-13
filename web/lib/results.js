@@ -23,7 +23,7 @@ exports.displayItemSidebar = displayItemSidebar;
 exports.hideItemSidebar = hideItemSidebar;
 exports.updateResults = updateResults;
 
-var annoTree = require('./annoTree.js'), pubsub = require('../../lib/pubsub-client');
+var annoTree = require('./annoTree.js'), pubsub = require('../../lib/pubsub-client').init(window.senseBase);
 
 exports.init = function(submitQuery, resultViewIn) {
   resultView = resultViewIn;
