@@ -17,6 +17,9 @@ module.exports = function(grunt) {
     'web/dashboard/*.css',
     'web/iframe/*.html'
   ];
+  var testFiles = [
+    'test/**/*js'
+  ];
 
   grunt.initConfig({
     jshint: {
@@ -40,7 +43,14 @@ module.exports = function(grunt) {
       app: {
         files: ['config.js', 'app.js', 'index.js', 'lib/**'],
         tasks: ['develop'],
-      }
+      },
+      tests: {
+        files: testFiles.concat(srcFiles),
+        tasks: ['mochaTest:devUnitTest'],
+        options: {
+          spawn: true
+        },
+      },
     },
     browserify: {
       dashboard: {
@@ -84,7 +94,8 @@ module.exports = function(grunt) {
     mochaTest: {
       devUnitTest: {
         options: {
-          reporter: 'list'
+          reporter: 'list',
+          clearRequireCache: true
         },
         src: ['test/unit/*.js']
       },
@@ -168,7 +179,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-execute');
 

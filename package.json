@@ -37,6 +37,7 @@
     "grunt-contrib-watch": "0.5.3",
     "grunt-develop": "0.3.x",
     "grunt-docker": "latest",
+    "grunt-execute": "~0.2.2",
     "grunt-includes": "0.4.x",
     "grunt-mocha-test": "~0.8.2",
     "grunt-plato": "~0.2.1",
@@ -44,8 +45,7 @@
     "jshint": "~2.4.3",
     "mocha": "~1.12.0",
     "require-analyzer": "0.5.x",
-    "xunit-file": "0.0.4",
-    "grunt-execute": "~0.2.2"
+    "xunit-file": "0.0.4"
   },
   "scripts": {
     "test": "mocha test",
