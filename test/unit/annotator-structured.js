@@ -1,5 +1,5 @@
 /*jslint node: true */
-
+/* global describe, it */
 'use strict';
 
 var fs = require('fs'), expect = require("expect.js"), indexer = require('../../lib/indexer.js'), path = require('path');

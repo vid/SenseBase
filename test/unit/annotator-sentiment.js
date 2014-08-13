@@ -1,8 +1,11 @@
 // Tests sentiment service (requires running service).
+/* global describe, it */
+/* jshint node: true */
+
 'use strict';
 
 var expect = require("expect.js"), _ = require('lodash');
-var sentiment = require('../../services/annotators/sentiment.js'), utils = require('../../lib/utils.js');;
+var sentiment = require('../../services/annotators/sentiment.js'), utils = require('../../lib/utils.js');
 
 var doc = '<html><script lah lah></script><body class="something">Good <b>bad</b> amazing</body></html>';
 

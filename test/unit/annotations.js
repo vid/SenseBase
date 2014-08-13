@@ -1,7 +1,7 @@
 // test annotation types
 // these tests rely on the library not throwing an exception.
 /*jslint node: true */
-
+/* global describe, it */
 'use strict';
 
 var annotations = require('../../lib/annotations.js'), annoLib = require('../../services/annotators/annotateLib');

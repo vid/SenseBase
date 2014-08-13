@@ -1,10 +1,11 @@
 // test scraper functions
 /*jslint node: true */
+/* global describe, it */
 
 'use strict';
 
 var fs = require('fs'), expect = require('expect.js');
-var scraper = require('../../lib/scraper.js');
+var contentLib = require('../../lib/content');
 GLOBAL.config = require('../lib/test-config').config;
 
 describe('Scraper links', function(done) {
@@ -24,7 +25,7 @@ describe('Scraper links', function(done) {
     var name = Object.keys(site)[0], uri = site[name];
     it('should find ' + name + ' nav and results', function() {
       var content = fs.readFileSync('../data/search-results/' + name + '.html');
-      var allLinks = [], links = scraper.getRecognizedLinks({ uri: uri, content: content.toString()});
+      var allLinks = [], links = contentLib.getRecognizedLinks({ uri: uri, content: content.toString()});
       ['navLinks', 'resultLinks'].forEach(function(type) {
         if (links[type]) {
           expect(links[type].length > 0).to.be(true);
@@ -34,7 +35,7 @@ describe('Scraper links', function(done) {
           });
         }
       });
-      expect(allLinks.size > 0).to.be.true;
+      expect(allLinks.length > 0).to.be(true);
     });
   });
 });
