@@ -60,7 +60,7 @@
     {
       "id": 4,
       "type": "Agent",
-      "username": "Sentiment",
+      "username": "AFINN Sentiment",
       "description": "Tags with AFINN general sentiment",
       "icon": "sentiment.jpg",
       "activities": [
