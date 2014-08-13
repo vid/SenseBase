@@ -7,9 +7,8 @@
 'use strict';
 
 var savedSearches;
-var pubsub = require('../../lib/pubsub-client').init(window.senseBase);
 
-exports.init = function(resultsLib) {
+exports.init = function(pubsub, resultsLib) {
   // set team input as select2 input
   $('.team.container').select2();
   setupCronInput();

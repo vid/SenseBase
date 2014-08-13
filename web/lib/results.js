@@ -23,9 +23,9 @@ exports.displayItemSidebar = displayItemSidebar;
 exports.hideItemSidebar = hideItemSidebar;
 exports.updateResults = updateResults;
 
-var annoTree = require('./annoTree.js'), pubsub = require('../../lib/pubsub-client').init(window.senseBase);
+var annoTree = require('./annoTree.js');
 
-exports.init = function(submitQuery, resultViewIn) {
+exports.init = function(pubsub, submitQuery, resultViewIn) {
   resultView = resultViewIn;
 
   // receive annotations

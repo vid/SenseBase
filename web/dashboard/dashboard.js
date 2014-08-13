@@ -24,9 +24,9 @@ var _ = require('lodash');
 
 // initialize page functions
 exports.init = function() {
-  resultsLib.init(submitQuery, resultView);
-  searchLib.init(resultsLib);
-  membersLib.init();
+  resultsLib.init(pubsub, submitQuery, resultView);
+  searchLib.init(pubsub, resultsLib);
+  membersLib.init(pubsub);
 
   setupDND('uploadItem', homepage + 'upload');
   setupDND('uploadWorkfile', homepage + 'workfile');

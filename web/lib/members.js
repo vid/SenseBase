@@ -7,9 +7,8 @@
 'use strict';
 
 var justEdited, rTeams, editingMember;
-var pubsub = require('../../lib/pubsub-client').init(window.senseBase);
 
-exports.init = function() {
+exports.init = function(pubsub) {
   pubsub.subTeamList(function(teams) {
     $('#aneditor').hide();
     console.log('teams', teams);
