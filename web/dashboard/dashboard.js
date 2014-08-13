@@ -6,8 +6,8 @@
 /* global $,setupDND */
 
 'use strict';
-
 // module variables
+var homepage = window.senseBase.homepage;
 
 var resultViews = { scatter: require('../lib/results.scatter'), table: require('../lib/results.table'),
   debug: require('../lib/results.debug')}, resultView = resultViews.table, querySub, clusterSub, qs;
@@ -18,7 +18,9 @@ var basePage = location.pathname + '?';
 
 var resultsLib = require('../lib/results'), membersLib = require('../lib/members'), searchLib = require('../lib/search'),
   utils = require('../lib/clientUtils'), browseCluster = require('../lib/browseCluster'),
-  browseAnnotations = require('../lib/browseAnnotations'), pubsub = require('../lib/pubsub');
+  browseAnnotations = require('../lib/browseAnnotations'), pubsub = require('../../lib/pubsub-client');
+
+var _ = require('lodash');
 
 // initialize page functions
 exports.init = function(sbUser) {
@@ -26,8 +28,8 @@ exports.init = function(sbUser) {
   searchLib.init(sbUser, resultsLib);
   membersLib.init();
 
-  setupDND('uploadItem', '/upload');
-  setupDND('uploadWorkfile', '/workfile');
+  setupDND('uploadItem', homepage + 'upload');
+  setupDND('uploadWorkfile', homepage + 'workfile');
   // General setup and functions
 
   // main menu interaction
@@ -64,14 +66,38 @@ exports.init = function(sbUser) {
   //  $(document).tooltip();
   // input element
   var spinner = $(".spinner").spinner({
-    spin: function( event, ui ) {
-      if ( ui.value < 0 ) {
-        $( this ).spinner( "value", 'once only' );
+    spin: function(event, ui) {
+      if (ui.value < 0) {
+        $(this).spinner("value", 'once only');
         return false;
       }
     }
   });
 
+  // Subscribe to selected.
+  //
+  // See also subscribe to annotation.
+  $('.subscribe.item').click(function() {
+    if ($('.selected.label').text() > 0) {
+      $('.subscribe.modal').modal('show');
+      $('#subscribeItems').val(_.map(getSelected(), function(s) { return 'uri:'+s; }).join('\n'));
+    }
+  });
+
+  $('.confirm.subscribe.button').click(function() {
+    var items = $('#subscribeItems').val().split('\n');
+    if (items.length) {
+      pubsub.saveSubscriptions(items);
+      return false;
+    }
+  });
+
+  // morelikethis
+  $('.morelikethis.selected').click(function() {
+    if ($('.selected.label').text() > 0) {
+      moreLikeThis(getSelected());
+    }
+  });
   // annotate selected
   $('.annotate.selected').click(function() {
     if ($('.selected.label').text() > 0) {
@@ -275,8 +301,8 @@ function updateQueryForm() {
   });
 }
 
-function moreLikeThis(uri) {
-  pubsub.moreLikeThis(uri);
+function moreLikeThis(uris) {
+  pubsub.moreLikeThis(uris);
   updateQuerySub();
 }
 

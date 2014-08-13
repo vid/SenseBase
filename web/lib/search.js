@@ -7,15 +7,15 @@
 'use strict';
 
 var savedSearches, sbUser = window.senseBase.user;
-var pubsub = require('./pubsub');
+var pubsub = require('../../lib/pubsub-client');
 
 exports.init = function(resultsLib) {
   // set team input as select2 input
   $('.team.container').select2();
+  setupCronInput();
 
   // schedule search
   $('.schedule.button').click(function() {
-    setupCronInput();
     $('.schedule.modal').modal('show');
     $('.cron.edit').html('');
   });

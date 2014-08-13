@@ -3,6 +3,7 @@ var config = require('./config.js');
 module.exports = function(grunt) {
   var srcFiles = [
     'lib/*.js',
+    'models/*.js',
     'services/*.js',
     // frontend
     'web/dashboard/*.js',
@@ -67,7 +68,7 @@ module.exports = function(grunt) {
       },
       iframe: {
         src: ['web/iframe/iframe.html'],
-        dest: 'web/views',
+        dest: 'web/site',
         flatten: true,
         cwd: '.',
         options: {
@@ -119,7 +120,7 @@ module.exports = function(grunt) {
          'bower_components/jstree/dist/themes/default/style.min.css',
          'web/ext-libs/d3plus/d3plus.css',
          'web/ext-libs/nvd3/nv.d3.css',
-         'web/ext-libs/jqCron/jqCron.css'
+         'web/ext-lib/jqCron/jqCron.css'
 
        ],
        dest: 'web/static/lib/libs.css'
@@ -136,7 +137,8 @@ module.exports = function(grunt) {
          'web/ext-lib/d3plus/d3.js',
          'web/ext-lib/d3plus/d3plus.min.js',
          'web/ext-lib/nvd3/nv.d3.js',
-         'web/ext-lib/jqCron/jqCron.js'
+         'web/ext-lib/jqCron/jqCron.js',
+         'web/ext-lib/jqCron/jqCron.en.js'
         ],
         dest : 'web/static/lib/libs.min.js'
       }

@@ -7,26 +7,14 @@ var fs = require('fs'),
   http = require('http'),
   flash = require('connect-flash'),
   express = require('express'),
-  util = require('util');
+  util = require('util'),
+  _ = require('lodash');
 
 var utils = require('./lib/utils'), proxied = require('./lib/proxy-rewrite.js');
-var pubsub, search = require('./lib/search.js'), content = require('./lib/content.js');
-
-// Runtime users.
-var users;
-
-// Load local configuration if available.
-if (fs.existsSync('./local-site.json')) {
-  users = require('./local-site.json').logins;
-} else {
-// Use default included configuration.
-  users = require('./site.json').logins;
-}
+var pubsub, search = require('./lib/search.js'), content = require('./lib/content.js'), auth = require('./lib/auth');
 
 // Start server with configuration.
 exports.start = function(config, callback) {
-  GLOBAL.authed = GLOBAL.authed || {}; //FIXME  use auth scheme that works behind proxies
-  config.users = users;
   config.indexer = require('./lib/indexer.js');
   config.pageCache = require('./lib/pageCache.js');
 
@@ -38,6 +26,8 @@ exports.start = function(config, callback) {
 
 // Globally shared config.
   GLOBAL.config = config;
+  auth.setupUsers(GLOBAL);
+  console.log(GLOBAL);
   pubsub = require('./lib/pubsub.js');
   GLOBAL.config.pubsub = pubsub;
 

@@ -10,7 +10,7 @@ var currentURI, noUpdates;
 // hasQueuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
 var queryRefresher, hasQueuedUpdates, queuedNotifier;
 
-var lastResults, resultView;
+var lastResults, lastAnno, resultView;
 
 // FIXME modularize these
 exports.hasQueuedUpdates = hasQueuedUpdates;
@@ -23,12 +23,11 @@ exports.displayItemSidebar = displayItemSidebar;
 exports.hideItemSidebar = hideItemSidebar;
 exports.updateResults = updateResults;
 
-var annoTree = require('./annoTree.js'), pubsub = require('./pubsub');
+var annoTree = require('./annoTree.js'), pubsub = require('../../lib/pubsub-client');
 
 exports.init = function(submitQuery, resultViewIn) {
   resultView = resultViewIn;
 
-  console.log('/annotations/' + window.senseBase.clientID);
   // receive annotations
   pubsub.annotations(function(data) {
     console.log('/annotations', data);
@@ -81,7 +80,8 @@ exports.init = function(submitQuery, resultViewIn) {
     }
   });
 
-  // add a new or updated item
+
+  // Add new or update item.
   pubsub.updateItem(function(result) {
     console.log('/updateItem', result, lastResults);
     result = normalizeResult(result);
@@ -129,23 +129,28 @@ function setupQueryRefresher(interval) {
 // populate and display the URI's sidebar
 function displayItemSidebar(uri) {
   $('#itemContext').html(
-    '<div class="item"><a target="' + encodeURIComponent(uri) + '" href="' + uri + '"><i class="external url icon"></i>New window</a></div>' +
-    '<div onclick="moreLikeThis(\'' + uri +'\')" class="item"><i class="puzzle piece icon"></i>More like this</div>' +
-    '<div onclick="refreshAnnos(\'' + uri +'\')" class="item"><i class="refresh icon"></i>Refresh</div>' +
-    '<div class="item"><i class="delete icon"></i>Delete</div>' +
-    '<div class="item"><a target="_debug" href="<!-- @var ESEARCH_URI -->/contentItem/' + encodeURIComponent(uri) + '?pretty=true"><i class="bug icon"></i>Debug</a></div>'
+    '<div class="item"><a target="' + encodeURIComponent(uri) + '" href="' + uri + '">' +
+    '<div class="header item">Annotation menu</div>' +
+    '<a title="Subscribe to annotation" class="disabled subscribe annotation">' +
+      '<i class="rss icon"></i>Subscribe' +
+    '</a>'
     );
+  // subscribe to annotation
+  $('.subscribe.annotation').click(function() {
+    if (lastAnno) {
+      $('.subscribe.modal').modal('show');
+      $('#subscribeItems').val('annotations:'+lastAnno.flattened);
+    }
+  });
   $('.context.dropdown').dropdown();
   setCurrentURI(uri);
   pubsub.annotate(uri);
-  $('#startingPage').val(uri);
   $('.details.sidebar').sidebar('show');
 }
 
 function hideItemSidebar() {
   $('.details.sidebar').sidebar('hide');
 }
-
 
 // sets the current annotation loc
 function setCurrentURI(u) {
@@ -158,6 +163,8 @@ var treeInterface = {
   select: function(anno, e, data) {
     // selected an annotation
     if (anno) {
+      lastAnno = anno;
+      $('.subscribe.annotation').removeClass('disabled');
       console.log(anno);
       $('#annoType option:contains(anno.type)').prop('selected', true);
       // for now categories only
@@ -186,6 +193,9 @@ var treeInterface = {
       }
       var annoFunctions = { anno: anno, select: function() { console.log(anno); } };
       $('.annotation.button').click(annoFunctions.select);
+    } else {
+      $('.subscribe.annotation').addClass('disabled');
+      lastAnno = null;
     }
     // it has children
     if (data.node.children.length < 1) {
@@ -224,7 +234,6 @@ function updateResults(results, newView) {
   if (results.hits) {
     $(container).html('');
     $('#queryCount').html(results.hits.hits.length === results.hits.total ? results.hits.total : (results.hits.hits.length + '/' + results.hits.total));
-    console.log('RR', resultView);
     resultView.render(container, results, this);
   } else {
     $(container).html('<i>No items.</i>');

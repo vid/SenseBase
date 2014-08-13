@@ -1,4 +1,4 @@
-// ### injectec-iframe
+// ### injected-iframe
 /*jslint browser: true */
 /*jslint node: true */
 /* global $ */
@@ -15,7 +15,7 @@ if (parent.window.location) {
   doc = parent.document;
   $sbIframe = $('#sbIframe', parent.document);
 }
-var pubsub = require('../lib/pubsub'), pageAnnotations = require('../lib/page-annotations');
+var pubsub = require('../../lib/pubsub-client'), pageAnnotations = require('../lib/page-annotations');
 
 exports.inject = function() {
   var annoTree = require('../lib/annoTree');

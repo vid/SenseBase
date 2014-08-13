@@ -11,7 +11,7 @@ web/static/libs.min.js
 web/static/index.html
 web/static/dashboard.css
 web/static/inject.js
-web/views/iframe.html
+web/site/iframe.html
 web/static/dashboard.js
 web/static/lib/libs.css
 web/static/lib/libs.min.js
