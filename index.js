@@ -33,7 +33,7 @@ exports.start = function(config, callback) {
     throw new Error('local-site.json is missing, create it with build task in README.');
   }
 
-  auth.setupUsers(GLOBAL, users);
+  auth.setupUsers(GLOBAL);
   pubsub = require('./lib/pubsub.js');
   GLOBAL.config.pubsub = pubsub;
 

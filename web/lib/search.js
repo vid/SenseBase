@@ -60,11 +60,9 @@ exports.init = function(resultsLib) {
 // Retreive existing searches.
   pubsub.subSearches(function(results) {
     savedSearches = results;
-    console.log('RR', results);
     if (results && results.hits.total > 0) {
       // display saved searches
       $('.load.search').click(function() {
-        console.log('hihi');
         $('.load.modal').modal('show');
       });
       $("#loadSearch").select2({
