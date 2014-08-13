@@ -128,13 +128,6 @@ function setupQueryRefresher(interval) {
 
 // populate and display the URI's sidebar
 function displayItemSidebar(uri) {
-  $('#itemContext').html(
-    '<div class="item"><a target="' + encodeURIComponent(uri) + '" href="' + uri + '">' +
-    '<div class="header item">Annotation menu</div>' +
-    '<a title="Subscribe to annotation" class="disabled subscribe annotation">' +
-      '<i class="rss icon"></i>Subscribe' +
-    '</a>'
-    );
   // subscribe to annotation
   $('.subscribe.annotation').click(function() {
     if (lastAnno) {
