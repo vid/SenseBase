@@ -141,6 +141,13 @@ module.exports = function(grunt) {
         dest : 'web/static/lib/libs.min.js'
       }
     },
+    execute: {
+      clientids: {
+        target: {
+          src: ['util/updateAgentClientIDs.js']
+        }
+      }
+    },
     uglify : {
       js: {
         files: {
@@ -163,9 +170,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-execute');
 
   grunt.registerTask('default', ['includes', 'browserify', 'develop', 'watch', 'mochaTest:devUnitTest']);
   grunt.registerTask('test', ['mochaTest:devUnitTest', 'mochaTest:devIntegrationTest']);
   grunt.registerTask('tidy', ['jshint', 'plato']);
   grunt.registerTask('libs', [ 'concat:js', 'uglify:js', 'concat:css' ]);
+  grunt.registerTask('clientids', [ 'execute:clientids']);
 };
