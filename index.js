@@ -26,8 +26,14 @@ exports.start = function(config, callback) {
 
 // Globally shared config.
   GLOBAL.config = config;
-  auth.setupUsers(GLOBAL);
-  console.log(GLOBAL);
+  var users;
+  try {
+    users = require('./local-site.json').logins;
+  } catch (e) {
+    throw new Error('local-site.json is missing, create it with build task in README.');
+  }
+
+  auth.setupUsers(GLOBAL, users);
   pubsub = require('./lib/pubsub.js');
   GLOBAL.config.pubsub = pubsub;
 

@@ -12,7 +12,6 @@ describe('Scraper links', function() {
   var sites = [
   // bing doesn't force https (for proxy op)
     {bing : 'http://www.bing.com/search?q=bing'},
-    /*
     {clinicaltrials: 'http://www.clinicaltrials.gov/ct2/results?term=trials&Search=Search'},
     {'evidence-bmj': 'http://search.clinicalevidence.bmj.com/s/search.html?query=bmj&x=0&y=0&collection=bmj-clinical-evidence&profile=_default&form=simple'},
     {'evidence-nhs': 'http://www.evidence.nhs.uk/search?q=evidence'},
@@ -21,7 +20,6 @@ describe('Scraper links', function() {
     {trip:'http://www.tripdatabase.com/search?categoryid=27&sa=true&criteria=trip'},
     {'yahoo-answers': 'https://answers.yahoo.com/search/search_result?fr=uh3_answers_vert_gs&type=2button&p=yahoo'},
     { 'patient.co.uk' : 'http://www.patient.co.uk/search.asp?searchterm=ferritin&searchcoll=Discuss_Forums&x=10&y=14'}
-    */
   ];
   sites.forEach(function(site) {
     var name = Object.keys(site)[0], uri = site[name];

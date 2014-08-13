@@ -10,10 +10,10 @@ var faye = require('faye');
 var bayeux = new faye.NodeAdapter({mount: '/montr', timeout: 45});
 var fayeClient = new faye.Client(GLOBAL.config.FAYEHOST);
 var annoLib = require('../../lib/annotations'), utils = require('../../lib/utils'), auth = require('../../lib/auth');
-auth.setupUsers(GLOBAL);
 
 // receive requests for annotations
 exports.requestAnnotate = function(callback) {
+  // Presuming we are running standalone. Set up clientIDs for agents.
   fayeClient.subscribe('/requestAnnotate', function(data) {
     callback(data, function(err, data) {
       if (err) {
@@ -27,8 +27,13 @@ exports.requestAnnotate = function(callback) {
 
 // publish request to save annotations
 function publishAnnotations(annotator, uri, annotations) {
+  if (!GLOBAL.authed) {
+    auth.setupUsers(GLOBAL);
+  }
   console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAA', annotator, auth.clientIDByUsername(annotator));
-  fayeClient.publish('/saveAnnotations', { clientID: auth.clientIDByUsername(annotator), annotator: annotator, uri: uri, annotations: annotations });
+  var clientID = auth.clientIDByUsername(annotator);
+  console.log('FOO', annotator, clientID);
+  fayeClient.publish('/saveAnnotations', { clientID: clientID, annotator: annotator, uri: uri, annotations: annotations });
 }
 
 exports.rangesFromMatches = rangesFromMatches;
