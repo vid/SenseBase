@@ -14,12 +14,6 @@ exports.init = function(resultsLib) {
   $('.team.container').select2();
   setupCronInput();
 
-  // schedule search
-  $('.schedule.button').click(function() {
-    $('.schedule.modal').modal('show');
-    $('.cron.edit').html('');
-  });
-
   // show search scheduler according to checkbox
   $('#scheduleSearch').on('change', function() {
     $('#scheduleInput').toggle(this.checked);
@@ -63,9 +57,16 @@ exports.init = function(resultsLib) {
     }
   );
 
+// Retreive existing searches.
   pubsub.subSearches(function(results) {
     savedSearches = results;
+    console.log('RR', results);
     if (results && results.hits.total > 0) {
+      // display saved searches
+      $('.load.search').click(function() {
+        console.log('hihi');
+        $('.load.modal').modal('show');
+      });
       $("#loadSearch").select2({
         data: results.hits.hits.map(function(i) { return { id: i._source.searchName, text: i._source.searchName }; })
       });
@@ -85,13 +86,8 @@ exports.init = function(resultsLib) {
     }
   });
 
-  // display saved searches
-  $('.load.search').click(function() {
-    $('.load.modal').modal('show');
-  });
-
   // load a search
-  $('button.search.load').click(function() {
+  $('.confirm.search.load').click(function() {
     var v = $('#loadSearch').val();
     savedSearches.hits.hits.forEach(function(s) {
       if (s._source.searchName === v) {

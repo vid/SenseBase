@@ -1,11 +1,33 @@
 {
   "logins": [
     {
+      "id": 0,
+      "type": "Agent",
+      "username": "system",
+      "password": "",
+      "email": "demo@test.com",
+      "icon": "plato.jpg",
+      "active": "September 10, 2013",
+      "activities": [
+        {
+          "annotate": "default"
+        },
+        {
+          "search": true
+        }
+      ],
+      "description": "System user",
+      "canApprove": true,
+      "needsValidation": false,
+      "status" : "available",
+			"canValidate": true
+    },
+    {
       "id": 1,
       "type": "User",
       "username": "demo",
       "password": "demo",
-      "email": "demo@demo.com",
+      "email": "demo@test.com",
       "icon": "plato.jpg",
       "active": "September 10, 2013",
       "activities": [
@@ -27,7 +49,7 @@
       "type": "User",
       "username": "manager",
       "password": "manager",
-      "email": "manager@demo.com",
+      "email": "manager@test.com",
       "icon": "manager.png",
       "active": "September 10, 2013",
       "activities": [
