@@ -26,7 +26,7 @@ exports.requestAnnotate = function(callback) {
 
 // publish request to save annotations
 function publishAnnotations(annotator, uri, annotations) {
-  fayeClient.publish('/saveAnnotations', { annotator: annotator, uri: uri, annotations: annotations });
+  fayeClient.publish('/saveAnnotations', { clientID: auth.getClientIDByUsername(annotator), annotator: annotator, uri: uri, annotations: annotations });
 }
 
 exports.rangesFromMatches = rangesFromMatches;

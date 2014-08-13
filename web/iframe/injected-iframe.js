@@ -15,7 +15,7 @@ if (parent.window.location) {
   doc = parent.document;
   $sbIframe = $('#sbIframe', parent.document);
 }
-var pubsub = require('../../lib/pubsub-client').init(window), pageAnnotations = require('../lib/page-annotations');
+var pubsub = require('../../lib/pubsub-client'), pageAnnotations = require('../lib/page-annotations');
 
 exports.inject = function() {
   var annoTree = require('../lib/annoTree');

@@ -1,4 +1,4 @@
 // ### index
-// loads associated modules 
+// loads associated modules
 
-require('./dashboard').init('hiiii');
+require('./dashboard').init();

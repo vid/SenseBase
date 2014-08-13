@@ -7,7 +7,7 @@
 'use strict';
 
 var savedSearches, sbUser = window.senseBase.user;
-var pubsub = require('../../lib/pubsub-client').init(window);
+var pubsub = require('../../lib/pubsub-client');
 
 exports.init = function(resultsLib) {
   // set team input as select2 input
