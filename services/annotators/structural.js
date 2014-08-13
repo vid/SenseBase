@@ -16,7 +16,7 @@ exports.name = name;
 
 exports.doProcess = doProcess;
 
-function doProcess(combo, callback) {
+function doProcess(combo, sMatches, callback) {
   GLOBAL.info(name, uri);
 
   var uri = combo.uri, html = combo.html, text = combo.text, selector = combo.selector, annoRows = [], xregex, found;
@@ -72,7 +72,6 @@ function doProcess(combo, callback) {
     }
   };
 
-  var sMatches = GLOBAL.config.structuralMatches;
   sMatches.forEach(function(sMatch) {
     if (uri.match(sMatch.source)) {
       annoRows = matchers[sMatch.method](sMatch, text);

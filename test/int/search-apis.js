@@ -1,4 +1,6 @@
 // test search apis
+/* jshint node: true */
+/* globals describe, it */
 'use strict';
 
 var expect = require('expect.js');
@@ -34,4 +36,3 @@ describe('Search APIs', function(done) {
     });
   });
 });
-
