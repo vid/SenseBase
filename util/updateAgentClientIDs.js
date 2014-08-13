@@ -6,9 +6,9 @@ var site;
 var fs = require('fs');
 var auth = require('../lib/auth');
 
-try {
+if (fs.existsSync('./local-site.json')) {
   site = require('../local-site.json');
-} catch (e) {
+} else {
   site = require('../site.json');
 }
 
@@ -23,4 +23,3 @@ var updatedLogins = site.logins.map(function(login) {
 
 site.logins = updatedLogins;
 fs.writeFileSync('./local-site.json', JSON.stringify(site, null, 2));
-

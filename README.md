@@ -9,7 +9,7 @@ Install ElasticSearch (1.0+) and Node.js (tested with version 0.10). You'll need
 
 Check out the SenseBase repo, `cd` to it, then `npm install SenseBase`; `npm install -g grunt`
 
-Then `npm install`, `bower install`, `grunt libs`.
+Then `npm install`, `bower install`, `grunt libs`. Finally, `grunt clientids` to initialize local-site.json and assign local authentication IDs for agents.
 
 ## Configure
 
