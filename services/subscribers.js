@@ -3,13 +3,18 @@
 'use strict';
 
 var context = { config: require('../config.js').config };
-console.log(context);
 var auth = require('../lib/auth');
 auth.setupUsers(context);
 var clientID = auth.clientIDByUsername('system');
-console.log(clientID, context);
-var pubsub = require('../lib/pubsub-client').init({ homepage: context.config.HOMEPAGE, clientID: clientID });
+var pubsub = require('../lib/pubsub-client').init({ homepage: context.config.HOMEPAGE, clientID: clientID }), subscripionLib = require('../lib/subscriptions');
+var _ = require('lodash');
 
+// retrieve subscriptions
+  pubsub.retrieveSubscriptions({for: '*'}, function(results) {
+    if (results.hits) {
+      var subscriptions = _.pluck(results.hits.hits, '_source');
+    }
+  });
 pubsub.updateItem(function(result) {
-  console.log('update', result);
+  console.log('update', result.uri, result.annotations);
 });
