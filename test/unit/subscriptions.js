@@ -8,7 +8,7 @@ var _ = require('lodash'), expect = require('expect.js');
 var subscriptionLib = require('../../lib/subscriptions'), annotationLib = require('../../lib/annotations');
 
 describe('Subscriptions', function(){
-    var foundAnno = 'annotation:' + ['category', 'Demo', 'News'].join(annotationLib.unitSep);
+    var foundAnno = ['category', 'Demo', 'News'].join(annotationLib.unitSep);
     var cItem = {
       uri: 'http://cbc.ca',
       annotations: [
@@ -51,11 +51,11 @@ describe('Subscriptions', function(){
     expect(found.length).to.be(1);
   });
   it('should match annotation subscription', function() {
-    var found = subscriptionLib.matches(cItem, [{ match: foundAnno}]);
+    var found = subscriptionLib.matches(cItem, [{ match: 'annotation:' + foundAnno}]);
     expect(found.length).to.be(1);
   });
   it('should match uri and annotation subscriptions', function() {
-    var found = subscriptionLib.matches(cItem, [{ match: 'uri:http://cbc.ca'}, { match: foundAnno }]);
+    var found = subscriptionLib.matches(cItem, [{ match: 'uri:http://cbc.ca'}, { match: 'annotation:' + foundAnno }]);
     expect(found.length).to.be(2);
   });
 });
