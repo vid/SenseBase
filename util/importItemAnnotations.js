@@ -5,7 +5,7 @@
 
 'use strict';
 
-var importer = contentLib = require('../lib/content'), require('../util/mapJsonToItemAnnotation'), siteQueries = require('./siteQueries'), annoLib = require('../lib/annotations');
+var importer =  require('../util/mapJsonToItemAnnotation'), contentLib = require('../lib/content'), siteQueries = require('./siteQueries'), annoLib = require('../lib/annotations');
 var importLimit = 5;
 var LOOKUP_URIS = true, SAVE = true;
 
