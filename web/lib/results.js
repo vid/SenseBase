@@ -6,7 +6,7 @@
 /* global $,doQuery,submitQuery */
 'use strict';
 
-var currentURI, noUpdates;
+var currentURI, noUpdates, context = {};
 // hasQueuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
 var queryRefresher, hasQueuedUpdates, queuedNotifier;
 
@@ -26,6 +26,7 @@ exports.updateResults = updateResults;
 var annoTree = require('./annoTree.js');
 
 exports.init = function(pubsub, submitQuery, resultViewIn) {
+  context.pubsub = pubsub;
   resultView = resultViewIn;
 
   // receive annotations
@@ -132,12 +133,12 @@ function displayItemSidebar(uri) {
   $('.subscribe.annotation').click(function() {
     if (lastAnno) {
       $('.subscribe.modal').modal('show');
-      $('#subscribeItems').val('annotations:'+lastAnno.flattened);
+      $('#subscribeItems').val('annotation:'+lastAnno.flattened);
     }
   });
   $('.context.dropdown').dropdown();
   setCurrentURI(uri);
-  pubsub.annotate(uri);
+  context.pubsub.annotate(uri);
   $('.details.sidebar').sidebar('show');
 }
 
