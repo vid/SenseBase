@@ -4,23 +4,14 @@
       "id": 0,
       "type": "Agent",
       "username": "system",
-      "password": "",
-      "icon": "plato.jpg",
       "active": "September 10, 2013",
-      "activities": [
-        {
-          "annotate": "default"
-        },
-        {
-          "search": true
-        }
-      ],
       "description": "",
-      "canApprove": false,
+      "canApprove": true,
       "needsValidation": false,
       "status": "available",
       "canValidate": true
     },
+    {
       "id": 1,
       "type": "User",
       "username": "demo",
@@ -28,14 +19,6 @@
       "email": "demo@test.com",
       "icon": "plato.jpg",
       "active": "September 10, 2013",
-      "activities": [
-        {
-          "annotate": "default"
-        },
-        {
-          "search": true
-        }
-      ],
       "description": "",
       "canApprove": false,
       "needsValidation": false,
@@ -50,137 +33,101 @@
       "email": "manager@test.com",
       "icon": "manager.png",
       "active": "September 10, 2013",
-      "activities": [
-        {
-          "annotate": "default"
-        },
-        {
-          "search": true
-        }
-      ],
       "description": "",
       "needsValidation": false,
       "status": "available",
       "canValidate": true
     },
     {
-      "id": 3,
+      "id": 10000,
       "type": "Agent",
       "username": "Spotlight",
-      "service" : "spotlight",
+      "service" : "annotators/spotlight",
       "description": "Annotates with DBPedia Spotlight",
       "icon": "dbpedia.jpg",
-      "activities": [
-        {
-          "annotate": "default"
-        }
-      ],
       "status": "unavailable",
       "needsValidation": true
     },
     {
-      "id": 4,
+      "id": 10001,
       "type": "Agent",
       "username": "AFINN Sentiment",
-      "service" : "sentiment",
+      "service" : "annotators/sentiment",
       "description": "Tags with AFINN general sentiment",
       "icon": "sentiment.jpg",
-      "activities": [
-        {
-          "annotate": "default"
-        }
-      ],
       "status": "available",
       "needsValidation": true
     },
     {
-      "id": 4,
+      "id": 10002,
       "type": "Agent",
       "username": "Pullquoter",
-      "service" : "pullquoter",
+      "service" : "annotators/pullquoter",
       "description": "Extracts potentially meaningful phrases",
-      "activities": [
-        {
-          "annotate": "default"
-        }
-      ],
       "status": "available",
       "needsValidation": true
     },
     {
-      "id": 6,
+      "id": 10003,
       "type": "Agent",
       "username": "PubmedArticle",
-      "service" : "addRequest",
+      "service" : "annotators/addRequest",
       "description": "Tagged with PubmedArticle data",
-      "activities": [
-        {
-          "annotate": "default"
-        }
-      ],
       "status": "available",
       "needsValidation": false
     },
     {
-      "id": 7,
+      "id": 10004,
       "type": "Agent",
       "username": "Board members",
       "descriptions": "Annotates board members",
       "icon": "board.jpg",
-      "activities": [
-        {
-          "annotate": true
-        }
-      ],
       "description": "",
       "status": "unavailable",
       "needsValidation": true
     },
     {
-      "id": 8,
+      "id": 10005,
       "type": "Agent",
       "username": "MicroRDF",
       "description": "Annotates using inline microRDF",
       "icon": "rdf.png",
-      "activities": [
-        {
-          "annotate": true
-        }
-      ],
       "status": "unavailable",
       "needsValidation": true
     },
     {
-      "id": 10,
+      "id": 10006,
       "type": "Agent",
       "username": "ANNIE",
       "description": "Annotates with general entities (people, places, things, organizations, money, etc)",
       "icon": "gate.jpg",
-      "activities": [
-        {
-          "annotate": true
-        }
-      ],
       "status": "unavailable",
       "needsValidation": true
     },
     {
-      "id": 11,
-      "Type": "agent",
+      "id": 10007,
+      "type": "Agent",
       "username": "DC",
       "description": "Tags with Dublin Core metadata",
-      "type": "Agent",
       "icon": "dublin_core.png",
-      "activities": [
-        {
-          "annotate": "true"
-        },
-        {
-          "search": "default"
-        }
-      ],
       "status": "unavailable",
       "needsValidation": true
+    },
+    {
+      "id": 20000,
+      "type": "Agent",
+      "username": "Search",
+      "service" : "search",
+      "description": "Retrieves searches",
+      "status": "available"
+    },
+    {
+      "id": 20001,
+      "type": "Agent",
+      "username": "Subscribers",
+      "service" : "subscribers",
+      "description": "Processes subscriptions",
+      "status": "available"
     },
     {
       "id": 1385025182848,

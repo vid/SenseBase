@@ -1,16 +1,15 @@
 // ### service manager
 
-var forever = require('forever');
-var services = [];
+var forever = require('forever'), _ = require('lodash');
 
-['search', 'annotators/sentiment', 'annotators/addRequest'].forEach(function(service) {
-  services[service] =  forever.start('services/' + service + '.js', {});
+var auth = require('../lib/auth');
+
+var site = require('../local-site.json'), services = [];
+
+site.logins.forEach(function(member) {
+  if (member.type === 'Agent' && member.status === 'available' && member.service) {
+    var service = member.service;
+    services[service] =  forever.start('services/' + service + '.js', {});
+  }
 });
-console.log(services);
-
-forever.list ({}, function(err, res) {
-  console.log(err, res);
-});
-
-
-
+console.log(_.keys(services));
