@@ -93,6 +93,8 @@ Global configuration and services used by libraries is via the GLOBAL.config obj
 
 SenseBase uses standalone services for annotations, retrieving searches, and other functions.
 
+A few sample services are provided. Start then by executing `grunt services`. Edit them by making them available in your local-site.json.
+
 # Acknowledgement
 
 This project is supported by and forms the basis of http://www.github.com/TsangLab/Proxiris, as well as work developed for the PatientSense project for eHealth in Motion | Dataparc.

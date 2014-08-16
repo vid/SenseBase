@@ -155,9 +155,12 @@ module.exports = function(grunt) {
       }
     },
     execute: {
-        target: {
-          src: ['util/updateAgentClientIDs.js']
-        }
+      clientids: {
+        src: ['util/updateAgentClientIDs.js']
+      },
+      services : {
+        src: ['services/service-manager.js']
+      }
     },
     uglify : {
       js: {
@@ -186,5 +189,6 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['mochaTest:devUnitTest', 'mochaTest:devIntegrationTest']);
   grunt.registerTask('tidy', ['jshint', 'plato']);
   grunt.registerTask('libs', [ 'concat:js', 'uglify:js', 'concat:css' ]);
-  grunt.registerTask('clientids', [ 'execute']);
+  grunt.registerTask('clientids', [ 'execute:clientds']);
+  grunt.registerTask('services', [ 'execute:services']);
 };
