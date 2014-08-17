@@ -152,7 +152,7 @@
       "active": "2013-11-22T01:53:02.841Z",
       "username": "Bing news",
       "type": "Searcher",
-      "description": "Uses Bing news a searchpi",
+      "description": "Uses Bing news search api",
       "status": "available",
       "needsValidation": false,
       "api": "bing.news"
