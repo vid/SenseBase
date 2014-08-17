@@ -130,6 +130,14 @@
       "status": "available"
     },
     {
+      "id": 20002,
+      "type": "Agent",
+      "username": "Cron",
+      "service" : "cron",
+      "description": "Executes scheduled events",
+      "status": "available"
+    },
+    {
       "id": 1385025182848,
       "active": "2013-11-22T01:53:02.841Z",
       "username": "Entrez",
