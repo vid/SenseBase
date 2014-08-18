@@ -53,11 +53,9 @@ create a config.js:
 	//
 	};
 
-Copy site.json to local-site.json for local site data.
-
 ## Run
 
-Launch the software standalone with `grunt`.
+Launch the software standalone with `node app.js` (after generating assets).
 
 If including SenseBase from your own project, you can create a bootstrap that looks like this:
 
@@ -65,13 +63,13 @@ If including SenseBase from your own project, you can create a bootstrap that lo
 
     senseBase.start(require('./config.js').config);
 
-Start any services independently. For example, `node services/annotations/addRequest.js`.
+Start any services independently. For example, `node services/annotations/addRequest.js`. Or start all 'available' services by
+executing `grunt services`.
 
 # Develop
 
-* npm install -g grunt-cli
-* grunt
-* Edit assets, grunt will generate final files
+* `npm install -g grunt-cli`
+* `grunt` which watches code changes and starts app.js.
 
 ## Programming notes
 
@@ -93,7 +91,7 @@ Global configuration and services used by libraries is via the GLOBAL.config obj
 
 SenseBase uses standalone services for annotations, retrieving searches, and other functions.
 
-A few sample services are provided. Start then by executing `grunt services`. Edit them by making them available in your local-site.json.
+A few sample services are provided. Edit them by making them available in your local-site.json.
 
 # Acknowledgement
 
