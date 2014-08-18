@@ -129,10 +129,10 @@ module.exports = function(grunt) {
          'bower_components/select2/select2.css',
          'bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css',
          'bower_components/jstree/dist/themes/default/style.min.css',
+         'bower_components/slickgrid/slick.grid.css',
          'web/ext-libs/d3plus/d3plus.css',
          'web/ext-libs/nvd3/nv.d3.css',
          'web/ext-lib/jqCron/jqCron.css'
-
        ],
        dest: 'web/static/lib/libs.css'
       },
@@ -140,9 +140,12 @@ module.exports = function(grunt) {
         src : [
          'bower_components/jquery/dist/jquery.js',
          'bower_components/jquery-ui/ui/jquery-ui.js',
+         'bower_components/jquery.event.drag-drop/event.drag/jquery.event.drag.js',
          'bower_components/jstree/dist/jstree.min.js',
          'bower_components/semantic-ui/build/packaged/javascript/semantic.js',
          'bower_components/select2/select2.js',
+         'bower_components/slickgrid/slick.core.js',
+         'bower_components/slickgrid/slick.grid.js',
          'web/ext-lib/tablesort.js',
          'web/ext-lib/dragFile.js',
          'web/ext-lib/d3plus/d3.js',

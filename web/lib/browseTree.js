@@ -1,4 +1,4 @@
-// ### browseTreemap
+// ### browseTree
 /*jslint browser: true */
 /*jslint node: true */
 /* global $,d3 */

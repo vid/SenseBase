@@ -9,8 +9,8 @@
 // module variables
 var homepage = window.senseBase.homepage;
 
-var resultViews = { scatter: require('../lib/results.scatter'), table: require('../lib/results.table'),
-  debug: require('../lib/results.debug')}, resultView = resultViews.table, querySub, clusterSub, qs;
+var resultViews = { scatter: require('../lib/results.scatter'), grid: require('../lib/results.slickgrid'),
+  debug: require('../lib/results.debug')}, resultView = resultViews.grid, querySub, clusterSub, qs;
 
 var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav', 'browseNum'];
 
@@ -149,7 +149,7 @@ exports.init = function() {
     } else if ($(this).hasClass('debug')) {
       resultView = resultViews.debug;
     } else {
-      resultView = resultViews.table;
+      resultView = resultViews.grid;
     }
     resultsLib.updateResults(resultsLib.lastResults, resultView);
   });
