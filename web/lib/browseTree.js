@@ -5,11 +5,9 @@
 
 'use strict';
 
-var utils = require('./clientUtils');
-
 exports.render = function(results, target, resultView) {
-  console.log(results.annotationOverview);
   $(target).jstree({ 'core' : {
     'data' :  results.annotationOverview
-} });
+  } }).jstree('open_all');
+
 };
