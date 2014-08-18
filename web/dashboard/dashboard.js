@@ -17,8 +17,8 @@ var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember
 var basePage = location.pathname + '?';
 
 var resultsLib = require('../lib/results'), membersLib = require('../lib/members'), searchLib = require('../lib/search'),
-  utils = require('../lib/clientUtils'), browseCluster = require('../lib/browseCluster'),
-  browseAnnotations = require('../lib/browseAnnotations'), pubsub = require('../../lib/pubsub-client').init(window.senseBase);
+  utils = require('../lib/clientUtils'), browseCluster = require('../lib/browseCluster'), browseTree = require('../lib/browseTree'),
+  browseTreemap = require('../lib/browseTreemap'), pubsub = require('../../lib/pubsub-client').init(window.senseBase);
 
 var _ = require('lodash');
 
@@ -189,11 +189,12 @@ exports.init = function() {
 
 // formulate query parameters
 function getQueryOptions() {
+  var nav = $("#browseNav" ).val();
   var options = { terms : $('#termSearch').val(), annotationSearch : $('#annoSearch').val(),
     validationState: $('#validationState').val(), annotationState: $('#annotationState').val(), browseNum: $('#browseNum').val(),
     from: $('#fromDate').val(), to: $('#toDate').val(),
     // FIXME normalize including annotations
-    member: $('#annoMember').val(), annotations: ($("#browseNav" ).val() === 'annotations') ? '*' : null};
+    member: $('#annoMember').val(), annotations: (nav === 'annotations' || nav === 'tree') ? '*' : null};
   return options;
 }
 
@@ -209,7 +210,7 @@ function doCluster() {
   // use the generated clientID for the current query
   clusterSub = pubsub.cluster(options, function(results) {
     console.log('/clusterResults', results);
-    browseCluster.doTreemap(results.clusters, '#browse', resultView);
+    browseCluster.render(results.clusters, '#browse', resultView);
     resultsLib.updateResults(results);
   });
 }
@@ -229,7 +230,10 @@ function updateQuerySub() {
 // query browse
     if ($("#browseNav" ).val() === 'annotations') {
       $('.browse.sidebar').sidebar('show');
-      browseAnnotations.doTreemap(results, '#browse', resultView);
+      browseTreemap.render(results, '#browse', resultView);
+    } else if ($("#browseNav" ).val() === 'tree') {
+      $('.browse.sidebar').sidebar('show');
+      browseTree.render(results, '#browse', resultView);
     } else {
       $('.browse.sidebar').sidebar('hide');
     }

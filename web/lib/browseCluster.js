@@ -7,7 +7,7 @@
 
 var utils = require('./clientUtils');
 
-exports.doTreemap = function(data, target, resultView) {
+exports.render= function(data, target, resultView) {
   $(target).removeClass('treemap');
   data.forEach(function(d) {
     d.size = d.documents.length;

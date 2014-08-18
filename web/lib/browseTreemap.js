@@ -1,4 +1,4 @@
-// ### browseAnnotations
+// ### browseTreemap
 /*jslint browser: true */
 /*jslint node: true */
 /* global $,d3 */
@@ -7,7 +7,7 @@
 
 var utils = require('./clientUtils');
 
-exports.doTreemap = function(results, target, resultView) {
+exports.render = function(results, target, resultView) {
   $(target).addClass('treemap');
   renderTreemap(results.annotationOverview, target);
   window.onresize = function() { renderTreemap(results.annotationOverview, target);};
@@ -43,7 +43,7 @@ exports.doTreemap = function(results, target, resultView) {
           div.transition()
             .duration(200)
             .style("opacity", 0.9);
-            div.html(d.name + ' (' + (d.children ? d.children.length + ' sub' : d.size + ' items') + ')')
+            div.html(d.text + ' (' + (d.children ? d.children.length + ' sub' : d.size + ' items') + ')')
               .style("left", (d3.event.pageX) + "px")
               .style("top", (d3.event.pageY - 28) + "px");
           })
@@ -66,7 +66,7 @@ exports.doTreemap = function(results, target, resultView) {
       .attr("transform", transform)
       .attr("dy", ".35em")
       .style("opacity", function(d) { return d.dx * ky > 12 ? 1 : 0; })
-      .text(function(d) { return d.name; });
+      .text(function(d) { return d.text; });
 
 /*
     d3.select(window)
