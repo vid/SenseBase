@@ -232,5 +232,6 @@ function updateResults(results, newView) {
   } else {
     $(container).html('<i>No items.</i>');
     $('#queryCount').html('0');
+    resultView.render(container, results, this);
   }
 }

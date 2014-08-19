@@ -4,30 +4,45 @@
 /* global $,Slick */
 'use strict';
 
-var utils = require('./clientUtils');
+var utils = require('./clientUtils'), pubsub = require('../../lib/pubsub-client');
+var _ = require('lodash');
 $.extend(true, window, { Slick: { Data: { RemoteModel: RemoteModel }}});
-var grid;
+var grid, loadingIndicator = null;
+
+var detailsFormatter = function (row, cell, value, columnDef, dataContext) {
+  var s =dataContext.uri + '<br /><b><a href="' + dataContext.uri + '" target=_blank>' + dataContext.title + '</a></b><br/>';
+  console.log('sssss', s, dataContext);
+  return s;
+};
+
+var dateFormatter = function (row, cell, value, columnDef, dataContext) {
+  var d = new Date(value);
+  return (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear();
+};
 
 var columns = [
-  {id: "num", name: "#", field: "index", width: 40},
-  {id: "uri", name: "Document", width: 520, formatter: storyTitleFormatter, cssClass: "cell-story"},
-  {id: "date", name: "Date", field: "create_ts", width: 60, formatter: dateFormatter, sortable: true},
-  {id: "annotations", name: "Annotations", field: "annotations", width: 60, sortable: true}
+  {id: 'num', name: '#', field: 'index'},
+  {id: "document", name: "Document", width: 520, formatter: detailsFormatter, cssClass: "cell-details", editor: Slick.Editors.Text},
+  {id: 'date', name: 'Date', field: 'create_ts', width: 60, formatter: dateFormatter, sortable: true, editor: Slick.Editors.DateEditor},
+//  {id: "annotations", name: "Annotations", field: "annotations", width: 60, sortable: true}
 ];
 
 var options = {
   editable: true,
-  enableAddRow: false,
-  enableCellNavigation: false,
-  autoHeight: true
+  autoHeight: true,
+  enableAddRow: true,
+  enableCellNavigation: true,
+  autoEdit: true,
+  forceFitColumns: true,
+  fullWidthRows: true
 };
-
-var loadingIndicator = null;
 
 var loader = new Slick.Data.RemoteModel();
 
 exports.render = function(dest, results) {
+  $('dest').append('<div id="pager"></div>');
   grid = new Slick.Grid(dest, loader.data, columns, options);
+//  grid.setSelectionModel(new Slick.CellSelectionModel());
 
   grid.onViewportChanged.subscribe(function (e, args) {
     console.log('onViewportChanged');
@@ -48,9 +63,9 @@ exports.render = function(dest, results) {
       var $g = $(dest);
 
       loadingIndicator
-          .css("position", "absolute")
-          .css("top", $g.position().top + $g.height() / 2 - loadingIndicator.height() / 2)
-          .css("left", $g.position().left + $g.width() / 2 - loadingIndicator.width() / 2);
+        .css("position", "absolute")
+        .css("top", $g.position().top + $g.height() / 2 - loadingIndicator.height() / 2)
+        .css("left", $g.position().left + $g.width() / 2 - loadingIndicator.width() / 2);
     }
 
     loadingIndicator.show();
@@ -63,10 +78,9 @@ exports.render = function(dest, results) {
     }
 
     grid.updateRowCount();
-    console.log('G', grid);
     grid.render();
 
-//    loadingIndicator.fadeOut();
+    //loadingIndicator.fadeOut();
   });
 
   $("#txtSearch").keyup(function (e) {
@@ -85,21 +99,6 @@ exports.render = function(dest, results) {
   grid.onViewportChanged.notify();
 };
 
-var storyTitleFormatter = function (row, cell, value, columnDef, dataContext) {
-  console.log('HIHIHI');
-  var s ="<b><a href='" + dataContext["url"] + "' target=_blank>" +
-            dataContext.title + "</a></b><br/>";
-  var desc = dataContext.text;
-  if (desc) { // on Hackernews many stories don't have a description
-      s += desc;
-  }
-  return s;
-};
-
-var dateFormatter = function (row, cell, value, columnDef, dataContext) {
-  return 'HI';// (value.getMonth()+1) + "/" + value.getDate() + "/" + value.getFullYear();
-};
-
 
 
 // Pubsub slickgrid remote model
@@ -110,8 +109,6 @@ function RemoteModel() {
   var searchstr = "";
   var sortcol = null;
   var sortdir = 1;
-  var h_request = null;
-  var req = null; // ajax request
 
   // events
   var onDataLoading = new Slick.Event();
@@ -135,6 +132,7 @@ function RemoteModel() {
 
 
   function clear() {
+    console.log('clear', data.length);
     for (var key in data) {
       delete data[key];
     }
@@ -144,12 +142,6 @@ function RemoteModel() {
 
   function ensureData(from, to) {
     console.log('ensureData', from, to);
-    if (req) {
-      req.abort();
-      for (var i = req.fromPage; i <= req.toPage; i++)
-        data[i * PAGESIZE] = undefined;
-    }
-
     if (from < 0) {
       from = 0;
     }
@@ -170,6 +162,7 @@ function RemoteModel() {
       onDataLoaded.notify({from: from, to: to});
       return;
     }
+    pubsub.queryResults(onSuccess);
 
 /*
     var url = "http://api.thriftdb.com/api.hnsearch.com/items/_search?filter[fields][type][]=submission&q=" + searchstr + "&start=" + (fromPage * PAGESIZE) + "&limit=" + (((toPage - fromPage) * PAGESIZE) + PAGESIZE);
@@ -202,7 +195,6 @@ function RemoteModel() {
     }, 50);
   */
     onSuccess();
-//    setTimeout(onSuccess, 500);
   }
 
   function onError(fromPage, toPage) {
@@ -210,11 +202,19 @@ function RemoteModel() {
   }
 
   function onSuccess(resp) {
-    var from = 0, to = 1000;
-    for (var i = 0; i < to; i++) {
-      data[from + i] = { index: i, create_ts: new Date(), uri: 'hi'+i};
+    var from = 0, to = 1000, i = 0;
+    if (_.isObject(resp) && resp.hits.hits.length > 0) {
+      resp.hits.hits.forEach(function(hit) {
+        var d = hit._source;
+        data[from + i] = { index: i, create_ts: d.timestamp, uri: d.uri, title: d.title};
+        i++;
+      });
+      data.length = Math.min(resp.hits.hits.length, 1000); // limitation of the API
+      console.log('RESP', resp, 'data', data);
+    } else {
+    console.log('no RESP', resp);
+//      data = {length: 0};
     }
-    console.log('onSuccess', data);
     /*
     var from = resp.request.start, to = from + resp.results.length;
     data.length = Math.min(parseInt(resp.hits),1000); // limitation of the API
@@ -231,8 +231,6 @@ function RemoteModel() {
     }
     */
 
-    data.length = Math.min(1000,1000); // limitation of the API
-    req = null;
 
     onDataLoaded.notify({from: from, to: to});
   }

@@ -9,7 +9,7 @@
 // module variables
 var homepage = window.senseBase.homepage;
 
-var resultViews = { scatter: require('../lib/results.scatter'), grid: require('../lib/results.slickgrid'),
+var resultViews = { scatter: require('../lib/results.scatter'), grid: require('../lib/results.grid'),
   debug: require('../lib/results.debug')}, resultView = resultViews.grid, querySub, clusterSub, qs;
 
 var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav', 'browseNum'];
@@ -222,7 +222,9 @@ function updateQuerySub() {
     querySub.cancel();
   }
 
-  querySub = pubsub.queryResults(function(results) {
+    resultsLib.updateResults({});
+
+/*  querySub = pubsub.queryResults(function(results) {
     console.log('/queryResults', results);
 
     resultsLib.updateResults(results);
@@ -238,6 +240,7 @@ function updateQuerySub() {
       $('.browse.sidebar').sidebar('hide');
     }
   });
+  */
 }
 
 // perform a general query
