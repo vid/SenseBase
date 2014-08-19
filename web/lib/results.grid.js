@@ -4,27 +4,15 @@
 /* global $,Slick */
 'use strict';
 
-var utils = require('./clientUtils'), pubsub = require('../../lib/pubsub-client');
+var utils = require('./clientUtils'), pubsub = require('../../lib/pubsub-client'), details = require('./grid/document-details');
 var _ = require('lodash');
 $.extend(true, window, { Slick: { Data: { RemoteModel: RemoteModel }}});
 var grid, loadingIndicator = null;
 
-var detailsFormatter = function (row, cell, value, columnDef, dataContext) {
-  var s =dataContext.uri + '<br /><b><a href="' + dataContext.uri + '" target=_blank>' + dataContext.title + '</a></b><br/>';
-  console.log('sssss', s, dataContext);
-  return s;
-};
-
-var dateFormatter = function (row, cell, value, columnDef, dataContext) {
-  var d = new Date(value);
-  return (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear();
-};
-
 var columns = [
   {id: 'num', name: '#', field: 'index'},
-  {id: "document", name: "Document", width: 520, formatter: detailsFormatter, cssClass: "cell-details", editor: Slick.Editors.Text},
-  {id: 'date', name: 'Date', field: 'create_ts', width: 60, formatter: dateFormatter, sortable: true, editor: Slick.Editors.DateEditor},
-//  {id: "annotations", name: "Annotations", field: "annotations", width: 60, sortable: true}
+  {id: "document", name: "Document", width: 520, formatter: details.formatter, cssClass: "cell-details", editor: details.editor},
+  {id: 'annotations', name: 'Annotations', field: 'annotations', width: 60, sortable: true}
 ];
 
 var options = {
@@ -34,7 +22,8 @@ var options = {
   enableCellNavigation: true,
   autoEdit: true,
   forceFitColumns: true,
-  fullWidthRows: true
+  fullWidthRows: true,
+  rowHeight: 50
 };
 
 var loader = new Slick.Data.RemoteModel();
@@ -206,7 +195,7 @@ function RemoteModel() {
     if (_.isObject(resp) && resp.hits.hits.length > 0) {
       resp.hits.hits.forEach(function(hit) {
         var d = hit._source;
-        data[from + i] = { index: i, create_ts: d.timestamp, uri: d.uri, title: d.title};
+        data[from + i] = { index: i, create_ts: d.timestamp, uri: d.uri, title: d.title, content: d.content};
         i++;
       });
       data.length = Math.min(resp.hits.hits.length, 1000); // limitation of the API

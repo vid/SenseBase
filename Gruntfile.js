@@ -7,7 +7,7 @@ module.exports = function(grunt) {
     'services/*.js',
     // frontend
     'web/dashboard/*.js',
-    'web/lib/*.js',
+    'web/lib/**/*.js',
     'web/iframe/*.js',
     'services/**',
     'util/**'
