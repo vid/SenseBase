@@ -10,9 +10,9 @@ var grid;
 
 var columns = [
   {id: "num", name: "#", field: "index", width: 40},
-  {id: "story", name: "Story", width: 520, formatter: storyTitleFormatter, cssClass: "cell-story"},
+  {id: "uri", name: "Document", width: 520, formatter: storyTitleFormatter, cssClass: "cell-story"},
   {id: "date", name: "Date", field: "create_ts", width: 60, formatter: dateFormatter, sortable: true},
-  {id: "points", name: "Points", field: "points", width: 60, sortable: true}
+  {id: "annotations", name: "Annotations", field: "annotations", width: 60, sortable: true}
 ];
 
 var options = {
@@ -30,6 +30,7 @@ exports.render = function(dest, results) {
   grid = new Slick.Grid(dest, loader.data, columns, options);
 
   grid.onViewportChanged.subscribe(function (e, args) {
+    console.log('onViewportChanged');
     var vp = grid.getViewport();
     loader.ensureData(vp.top, vp.bottom);
   });
@@ -41,6 +42,7 @@ exports.render = function(dest, results) {
   });
 
   loader.onDataLoading.subscribe(function () {
+    console.log('dataLoading', loader.data);
     if (!loadingIndicator) {
       loadingIndicator = $("<span class='loading-indicator'><label>Buffering...</label></span>").appendTo(document.body);
       var $g = $(dest);
@@ -61,6 +63,7 @@ exports.render = function(dest, results) {
     }
 
     grid.updateRowCount();
+    console.log('G', grid);
     grid.render();
 
 //    loadingIndicator.fadeOut();
@@ -83,9 +86,10 @@ exports.render = function(dest, results) {
 };
 
 var storyTitleFormatter = function (row, cell, value, columnDef, dataContext) {
+  console.log('HIHIHI');
   var s ="<b><a href='" + dataContext["url"] + "' target=_blank>" +
-            dataContext["title"] + "</a></b><br/>";
-  var desc = dataContext["text"];
+            dataContext.title + "</a></b><br/>";
+  var desc = dataContext.text;
   if (desc) { // on Hackernews many stories don't have a description
       s += desc;
   }
@@ -157,11 +161,9 @@ function RemoteModel() {
     var fromPage = Math.floor(from / PAGESIZE);
     var toPage = Math.floor(to / PAGESIZE);
 
-    while (data[fromPage * PAGESIZE] !== undefined && fromPage < toPage)
-      fromPage++;
+    while (data[fromPage * PAGESIZE] !== undefined && fromPage < toPage) { fromPage++; }
 
-    while (data[toPage * PAGESIZE] !== undefined && fromPage < toPage)
-      toPage--;
+    while (data[toPage * PAGESIZE] !== undefined && fromPage < toPage) { toPage--; }
 
     if (fromPage > toPage || ((fromPage == toPage) && data[fromPage * PAGESIZE] !== undefined)) {
       // TODO:  look-ahead
@@ -199,7 +201,8 @@ function RemoteModel() {
       req.toPage = toPage;
     }, 50);
   */
-    setTimeout(onSuccess, 500);
+    onSuccess();
+//    setTimeout(onSuccess, 500);
   }
 
   function onError(fromPage, toPage) {
@@ -207,9 +210,9 @@ function RemoteModel() {
   }
 
   function onSuccess(resp) {
-    var from = 0, to = 10;
+    var from = 0, to = 1000;
     for (var i = 0; i < to; i++) {
-      data[from + i] = { create_ts: new Date(), text: 'hi'+i};
+      data[from + i] = { index: i, create_ts: new Date(), uri: 'hi'+i};
     }
     console.log('onSuccess', data);
     /*
@@ -228,6 +231,7 @@ function RemoteModel() {
     }
     */
 
+    data.length = Math.min(1000,1000); // limitation of the API
     req = null;
 
     onDataLoaded.notify({from: from, to: to});
