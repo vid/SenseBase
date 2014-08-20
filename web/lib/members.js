@@ -6,10 +6,11 @@
 
 'use strict';
 
-var justEdited, rTeams, editingMember;
+var context, justEdited, rTeams, editingMember;
 
-exports.init = function(pubsub) {
-  pubsub.subTeamList(function(teams) {
+exports.init = function(ctx) {
+  context = ctx;
+  context.pubsub.subTeamList(function(teams) {
     $('#aneditor').hide();
     console.log('teams', teams);
     // populate any team containers

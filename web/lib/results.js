@@ -3,34 +3,38 @@
 // Result actions.
 /*jslint browser: true */
 /*jslint node: true */
-/* global $,doQuery,submitQuery */
+/* global $ */
 'use strict';
 
 var currentURI, noUpdates, context = {};
 // hasQueuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
-var queryRefresher, hasQueuedUpdates, queuedNotifier;
+var clusterSub, querySub, queryRefresher, hasQueuedUpdates, queuedNotifier;
 
-var lastResults, lastAnno, resultView;
+var lastResults, resultView;
 
 // FIXME modularize these
 exports.hasQueuedUpdates = hasQueuedUpdates;
 exports.noUpdates = noUpdates;
 exports.queuedNotifier = queuedNotifier;
 exports.setupQueryRefresher = setupQueryRefresher;
-exports.lastResults = lastResults;
 
 exports.displayItemSidebar = displayItemSidebar;
 exports.hideItemSidebar = hideItemSidebar;
 exports.updateResults = updateResults;
+exports.doQuery = doQuery;
+exports.moreLikeThis = moreLikeThis;
+exports.setResultView = setResultView;
 
-var annoTree = require('./annoTree.js');
+var annoTree = require('./annoTree.js'), utils = require('../lib/clientUtils'), treeInterface = require('./tree-interface'),
+  browseCluster = require('../lib/browseCluster'), browseTree = require('../lib/browseTree'),
+  browseTreemap = require('../lib/browseTreemap');
 
-exports.init = function(pubsub, submitQuery, resultViewIn) {
-  context.pubsub = pubsub;
-  resultView = resultViewIn;
+exports.init = function(ctx, resultView) {
+  setResultView(resultView);
+  context = ctx;
 
   // receive annotations
-  pubsub.annotations(function(data) {
+  context.pubsub.annotations(function(data) {
     console.log('/annotations', data);
     // update query items
     if (data.annotationSummary && lastResults.hits) {
@@ -50,7 +54,7 @@ exports.init = function(pubsub, submitQuery, resultViewIn) {
   });
 
   // delete an item
-  pubsub.subDeletedItem(function(item) {
+  context.pubsub.subDeletedItem(function(item) {
     console.log('/deletedItem', item, lastResults);
     if (lastResults && lastResults.hits) {
       var i = 0, l = lastResults.hits.hits.length;
@@ -65,25 +69,9 @@ exports.init = function(pubsub, submitQuery, resultViewIn) {
     }
   });
 
-  // set up form
-  $('.query.input').keyup(function(e) {
-    if (e.keyCode == 13) submitQuery();
-  });
-  $('.query.submit').click(submitQuery);
-
-  $('#fromDate').datepicker();
-  $('#toDate').datepicker();
-  $('#refreshQueries').click(function(e) {
-    if ($(e.target).prop('checked')) {
-      setupQueryRefresher(5000);
-    } else {
-      clearQueryRefresher();
-    }
-  });
-
 
   // Add new or update item.
-  pubsub.updateItem(function(result) {
+  context.pubsub.updateItem(function(result) {
     console.log('/updateItem', result, lastResults);
     result = normalizeResult(result);
     if (!lastResults.hits) {
@@ -101,6 +89,10 @@ exports.init = function(pubsub, submitQuery, resultViewIn) {
     updateResults(lastResults);
   });
 };
+
+function setResultView(r) {
+  resultView = r;
+}
 
 // FIXME normalize fields between base and _source
 function normalizeResult(result) {
@@ -122,6 +114,33 @@ function clearQueryRefresher() {
   }
 }
 
+function moreLikeThis(uris) {
+  context.pubsub.moreLikeThis(uris);
+}
+
+// perform a general query
+function doQuery(options) {
+  context.pubsub.query(gotResults, options);
+}
+
+function gotResults(results) {
+  updateResults(results);
+
+// query browse
+  if ($("#browseNav" ).val() === 'annotations') {
+    $('.browse.sidebar').sidebar('show');
+    browseTreemap.render(results, '#browse', resultView);
+  } else if ($("#browseNav" ).val() === 'tree') {
+    $('.browse.sidebar').sidebar('show');
+    browseTree.render(results, '#browse', resultView);
+  } else if ($("#browseNav" ).val() === 'cluster') {
+    $('.browse.sidebar').sidebar('show');
+    browseCluster.render(results, '#browse', resultView);
+  } else {
+    $('.browse.sidebar').sidebar('hide');
+  }
+}
+
 function setupQueryRefresher(interval) {
   clearQueryRefresher();
   queryRefresher = setInterval(doQuery, interval);
@@ -131,9 +150,9 @@ function setupQueryRefresher(interval) {
 function displayItemSidebar(uri) {
   // subscribe to annotation
   $('.subscribe.annotation').click(function() {
-    if (lastAnno) {
+    if (treeInterface.lastAnno) {
       $('.subscribe.modal').modal('show');
-      $('#subscribeItems').val('annotation:'+lastAnno.flattened);
+      $('#subscribeItems').val('annotation:'+treeInterface.lastAnno.flattened);
     }
   });
   $('.context.dropdown').dropdown();
@@ -151,55 +170,6 @@ function setCurrentURI(u) {
   currentURI = u.replace(/#.*/, '');
   console.log('currentURI', currentURI);
 }
-
-var treeInterface = {
-  hover: function(anno) {},
-  select: function(anno, e, data) {
-    // selected an annotation
-    if (anno) {
-      lastAnno = anno;
-      $('.subscribe.annotation').removeClass('disabled');
-      console.log(anno);
-      $('#annoType option:contains(anno.type)').prop('selected', true);
-      // for now categories only
-      $('#annoValue').val(anno.text);
-      $('#annoBy').val(anno.annotatedBy);
-      $('#annotatedAt').html(anno.annotatedAt || '&nbsp;');
-      $('.filter.icon').click(function() {
-        console.log(anno, 'filtering on', this);
-        if ($(this).hasClass('by')) {
-          $('#annoMember').val('"' + anno.annotatedBy + '"');
-          $('#annotationState').val('provided');
-        } else {
-          $('#annoSearch').val('"' + anno.text + '"');
-        }
-        submitQuery();
-      });
-
-      // set state buttons accordingly
-      $('.annotation.button').removeClass('disabled');
-      if (anno.state === 'erased') {
-        $('.erase.annotation').addClass('disabled');
-      } else if (anno.state === 'validated') {
-        $('.validate.button').addClass('disabled');
-      } else {
-        $('.unvalidate.button').addClass('disabled');
-      }
-      var annoFunctions = { anno: anno, select: function() { console.log(anno); } };
-      $('.annotation.button').click(annoFunctions.select);
-    } else {
-      $('.subscribe.annotation').addClass('disabled');
-      lastAnno = null;
-    }
-    // it has children
-    if (data.node.children.length < 1) {
-      $('.annotation.children').hide();
-    } else {
-      $('.annotation.children').show();
-      $('.annotation.children .count').html(data.node.children.length);
-    }
-  }
-};
 
 function updateResults(results, newView) {
   resultView = newView || resultView;
@@ -228,10 +198,38 @@ function updateResults(results, newView) {
   if (results.hits) {
     $(container).html('');
     $('#queryCount').html(results.hits.hits.length === results.hits.total ? results.hits.total : (results.hits.hits.length + '/' + results.hits.total));
-    resultView.render(container, results, this);
+    resultView.render(container, results, context);
   } else {
     $(container).html('<i>No items.</i>');
     $('#queryCount').html('0');
-    resultView.render(container, results, this);
+    resultView.render(container, results, context);
   }
+}
+
+
+
+// **** move these to views **********
+
+exports.removeSelected = function() {
+  var i = lastResults.hits.hits.length, sel = getSelected();
+  for (i; i > 0; ) {
+    i--;
+    if (sel.indexOf(lastResults.hits.hits[i]._source.uri) < 0) {
+      delete lastResults.hits.hits[i];
+    }
+  }
+  updateResults(lastResults);
+};
+
+exports.getSelected = getSelected;
+
+// return all items selected
+function getSelected() {
+  var selected = [];
+  $('.selectItem').each(function() {
+    if ($(this).is(':checked')) {
+      selected.push(utils.deEncID($(this).attr('name').replace('cb_', '')));
+    }
+  });
+  return selected;
 }

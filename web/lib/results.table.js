@@ -10,7 +10,7 @@
 var utils = require('./clientUtils');
 var homepage = window.senseBase.homepage;
 
-exports.render = function(dest, results, resultsLib) {
+exports.render = function(dest, results, context) {
   var curURI, shown = false, selectedURI;
 
   // display or close uri controls and frame (for link)
@@ -29,17 +29,17 @@ exports.render = function(dest, results, resultsLib) {
         window.location.hash = '';
         window.location.hash = id;
       }
-      if (resultsLib.hasQueuedUpdates) {
+      if (context.resultsLib.hasQueuedUpdates) {
         console.log('displaying queued updates');
-        resultsLib.updateResults(resultsLib.lastResults);
-        resultsLib.hasQueuedUpdates = null;
+        context.resultsLib.updateResults(context.resultsLib.lastResults);
+        context.resultsLib.hasQueuedUpdates = null;
       }
-      resultsLib.hideItemSidebar();
+      context.resultsLib.hideItemSidebar();
       curURI = null;
       shown = false;
-      resultsLib.noUpdates = false;
+      context.resultsLib.noUpdates = false;
     } else {
-      resultsLib.displayItemSidebar(uri);
+      context.resultsLib.displayItemSidebar(uri);
       curURI = uri;
       if ($el.hasClass('selectURI')) {
         $('#preview').remove();
@@ -51,9 +51,9 @@ exports.render = function(dest, results, resultsLib) {
         console.log($el, uri);
         $el.parent().after('<iframe style="width: 100%" id="preview" src="' + uri +'"></iframe>');
         window.location.hash = id;
-        resultsLib.noUpdates = true;
+        context.resultsLib.noUpdates = true;
       } else {
-        resultsLib.noUpdates = false;
+        context.resultsLib.noUpdates = false;
         window.location.hash = '';
       }
       shown = true;
@@ -65,6 +65,7 @@ exports.render = function(dest, results, resultsLib) {
   $(dest).append('<table id="resultsTable" class="ui sortable table"><thead><tr><th class="descending">' +
     'Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table>');
   var count = 0;
+  console.log('R',results);
   results.hits.hits.forEach(function(r) {
     var v = r.fields || r._source, highlight = '';
     if (r.highlight) {

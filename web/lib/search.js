@@ -6,9 +6,10 @@
 /* global $,alert,doQuery */
 'use strict';
 
-var savedSearches;
+var savedSearches, context;
 
-exports.init = function(pubsub, resultsLib) {
+exports.init = function(ctx) {
+  context = ctx;
   // set team input as select2 input
   $('.team.container').select2();
   setupCronInput();
@@ -57,7 +58,7 @@ exports.init = function(pubsub, resultsLib) {
   );
 
 // Retreive existing searches.
-  pubsub.subSearches(function(results) {
+  context.pubsub.subSearches(function(results) {
     savedSearches = results;
     if (results && results.hits.total > 0) {
       // display saved searches
@@ -77,7 +78,7 @@ exports.init = function(pubsub, resultsLib) {
   $('.save.search').click(function() {
     var searchInput = getSearchInput();
     if (searchInput.valid && searchInput.searchName.length > 0) {
-      pubsub.searchSave(searchInput);
+      context.pubsub.searchSave(searchInput);
     } else {
       alert('Missing parameters');
     }
@@ -140,12 +141,12 @@ exports.init = function(pubsub, resultsLib) {
       return;
     }
     console.log('publishing', searchInput);
-    pubsub.searchQueue(searchInput);
+    context.pubsub.searchQueue(searchInput);
     if ($('#refreshSearch').prop('checked')) {
       $('#annoSearch').val($('#searchCategories').val());
     //  $('#validationState').val('queued');
       $('#refreshQueries').prop('checked', true);
-      resultsLib.setupQueryRefresher(5000);
+      context.resultsLib.setupQueryRefresher(5000);
     }
     doQuery();
   }

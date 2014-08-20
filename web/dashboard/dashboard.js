@@ -9,24 +9,19 @@
 // module variables
 var homepage = window.senseBase.homepage;
 
-var resultViews = { scatter: require('../lib/results.scatter'), grid: require('../lib/results.grid'),
-  debug: require('../lib/results.debug')}, resultView = resultViews.grid, querySub, clusterSub, qs;
-
-var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav', 'browseNum'];
-
-var basePage = location.pathname + '?';
+var resultViews = { scatter: require('../lib/results.scatter'), table: require('../lib/results.table'),
+  debug: require('../lib/results.debug')},  querySub, clusterSub;
 
 var resultsLib = require('../lib/results'), membersLib = require('../lib/members'), searchLib = require('../lib/search'),
-  utils = require('../lib/clientUtils'), browseCluster = require('../lib/browseCluster'), browseTree = require('../lib/browseTree'),
-  browseTreemap = require('../lib/browseTreemap'), pubsub = require('../../lib/pubsub-client').init(window.senseBase);
-
-var _ = require('lodash');
+  queryLib = require('../lib/query'), pubsub = require('../../lib/pubsub-client').init(window.senseBase);
 
 // initialize page functions
 exports.init = function() {
-  resultsLib.init(pubsub, submitQuery, resultView);
-  searchLib.init(pubsub, resultsLib);
-  membersLib.init(pubsub);
+  var context = {pubsub: pubsub, resultsLib: resultsLib, queryLib: queryLib};
+  resultsLib.init(context, resultViews.table);
+  searchLib.init(context);
+  membersLib.init(context);
+  queryLib.init(context);
 
   setupDND('uploadItem', homepage + 'upload');
   setupDND('uploadWorkfile', homepage + 'workfile');
@@ -80,7 +75,7 @@ exports.init = function() {
   $('.subscribe.item').click(function() {
     if ($('.selected.label').text() > 0) {
       $('.subscribe.modal').modal('show');
-      $('#subscribeItems').val(_.map(getSelected(), function(s) { return 'uri:'+s; }).join('\n'));
+      $('#subscribeItems').val(resultsLib.getSelected().map(function(s) { return 'uri:'+s; }).join('\n'));
     }
   });
 
@@ -95,7 +90,7 @@ exports.init = function() {
   // morelikethis
   $('.morelikethis.selected').click(function() {
     if ($('.selected.label').text() > 0) {
-      moreLikeThis(getSelected());
+      resultsLib.moreLikeThis(resultsLib.getSelected());
     }
   });
   // annotate selected
@@ -108,22 +103,13 @@ exports.init = function() {
   $('.confirm.annotate.button').click(function() {
     var annotations = $('#selectedAnnotations').val().split(',').map(function(a) { return { type: 'category', category: a.trim()}; });
     if (annotations.length) {
-      pubsub.saveAnnotations(getSelected(), annotations);
+      pubsub.saveAnnotations(resultsLib.getSelected(), annotations);
       return false;
     }
   });
 
   // remove selected
-  $('.remove.selected').click(function() {
-    var i = resultsLib.lastResults.hits.hits.length, sel = getSelected();
-    for (i; i > 0; ) {
-      i--;
-      if (sel.indexOf(resultsLib.lastResults.hits.hits[i]._source.uri) < 0) {
-        delete resultsLib.lastResults.hits.hits[i];
-      }
-    }
-    resultsLib.updateResults(resultsLib.lastResults);
-  });
+  $('.remove.selected').click(resultsLib.removeSelected);
 
   // delete selected
   $('.delete.selected').click(function() {
@@ -133,7 +119,7 @@ exports.init = function() {
   });
 
   $('.confirm.delete.button').click(function() {
-    pubsub.delete(getSelected());
+    pubsub.delete(resultsLib.getSelected());
     return false;
   });
 
@@ -149,7 +135,7 @@ exports.init = function() {
     } else if ($(this).hasClass('debug')) {
       resultView = resultViews.debug;
     } else {
-      resultView = resultViews.grid;
+      resultView = resultViews.table;
     }
     resultsLib.updateResults(resultsLib.lastResults, resultView);
   });
@@ -177,142 +163,8 @@ exports.init = function() {
 
   // set up qs for parameters (from http://stackoverflow.com/a/3855394 )
   // initial query
-  updateQueryForm();
-  submitQuery();
-
-  // needed by filter
-  window.doQuery = doQuery;
-  window.submitQuery = submitQuery;
+  queryLib.updateQueryForm();
+  queryLib.submitQuery();
 
 };
 // end of init
-
-// formulate query parameters
-function getQueryOptions() {
-  var nav = $("#browseNav" ).val();
-  var options = { terms : $('#termSearch').val(), annotationSearch : $('#annoSearch').val(),
-    validationState: $('#validationState').val(), annotationState: $('#annotationState').val(), browseNum: $('#browseNum').val(),
-    from: $('#fromDate').val(), to: $('#toDate').val(),
-    // FIXME normalize including annotations
-    member: $('#annoMember').val(), annotations: (nav === 'annotations' || nav === 'tree') ? '*' : null};
-  return options;
-}
-
-// perform a cluster query
-function doCluster() {
-  // cancel any outstanding query
-  if (clusterSub) {
-    clusterSub.cancel();
-  }
-
-  var options = getQueryOptions();
-
-  // use the generated clientID for the current query
-  clusterSub = pubsub.cluster(options, function(results) {
-    console.log('/clusterResults', results);
-    browseCluster.render(results.clusters, '#browse', resultView);
-    resultsLib.updateResults(results);
-  });
-}
-
-// update the query results subscription to this clientID
-function updateQuerySub() {
-  // cancel any outstanding query
-  if (querySub) {
-    querySub.cancel();
-  }
-
-    resultsLib.updateResults({});
-
-/*  querySub = pubsub.queryResults(function(results) {
-    console.log('/queryResults', results);
-
-    resultsLib.updateResults(results);
-
-// query browse
-    if ($("#browseNav" ).val() === 'annotations') {
-      $('.browse.sidebar').sidebar('show');
-      browseTreemap.render(results, '#browse', resultView);
-    } else if ($("#browseNav" ).val() === 'tree') {
-      $('.browse.sidebar').sidebar('show');
-      browseTree.render(results, '#browse', resultView);
-    } else {
-      $('.browse.sidebar').sidebar('hide');
-    }
-  });
-  */
-}
-
-// perform a general query
-function doQuery() {
-
-  var options = getQueryOptions();
-  // use the generated clientID for the current query
-  updateQuerySub();
-  pubsub.query(options);
-}
-
-// return all items selected
-function getSelected() {
-  var selected = [];
-  $('.selectItem').each(function() {
-    if ($(this).is(':checked')) {
-      selected.push(utils.deEncID($(this).attr('name').replace('cb_', '')));
-    }
-  });
-  return selected;
-}
-
-// submit a query
-function submitQuery() {
-// save form contents in querystring
-  var ss = [];
-  queryFields.forEach(function(i) {
-    if ($('#'+i).val()) {
-      ss.push(i + '=' + $('#'+i).val());
-    }
-  });
-
-  window.history.pushState('query form', 'Query', basePage + ss.join('&'));
-
-  if ($("#browseNav" ).val() === 'cluster') {
-    $('#browse').html('<img src="loading.gif" alt="loading" /><br />Loading cluster treemap');
-    $('.browse.sidebar').sidebar('show');
-    doCluster();
-  } else {
-    doQuery();
-  }
-  return false;
-}
-
-// update the query form based on query fields
-function updateQueryForm() {
-  // populate the querystring object
-  if (!qs) {
-    qs = (function(a) {
-      if (a === "") return {};
-      var b = {};
-      for (var i = 0; i < a.length; ++i) {
-        var p=a[i].split('=');
-        if (p.length != 2) continue;
-        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
-      }
-      return b;
-    })(window.location.search.substr(1).split('&'));
-  }
-
-  queryFields.forEach(function(f) {
-    if (qs[f]) {
-      $('#'+f).val(qs[f]);
-    }
-  });
-}
-
-function moreLikeThis(uris) {
-  pubsub.moreLikeThis(uris);
-  updateQuerySub();
-}
-
-function refreshAnnos(uri) {
-  pubsub.updateContennt(uri);
-}
