@@ -42,7 +42,7 @@ function getQueryOptions() {
     from: $('#fromDate').val(), to: $('#toDate').val(),
     // FIXME normalize including annotations
     member: $('#annoMember').val(), annotations: (nav === 'annotations' || nav === 'tree') ? '*' : null,
-    cluster: (nav === 'cluster')};
+    nav: nav};
   return options;
 }
 
@@ -58,9 +58,11 @@ function submitQuery() {
 
   window.history.pushState('query form', 'Query', basePage + ss.join('&'));
   var options = getQueryOptions();
-  if (options.cluster) {
-    $('#browse').html('<img src="loading.gif" alt="loading" /><br />Loading cluster treemap');
+  if (options.nav) {
+    $('#browse').html('<img src="loading.gif" alt="loading" /><br />Loading ' + options.nav);
     $('.browse.sidebar').sidebar('show');
+  } else {
+    $('.browse.sidebar').sidebar('hide');
   }
   context.resultsLib.doQuery(options);
   return false;

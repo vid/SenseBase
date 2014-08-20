@@ -8,7 +8,7 @@
 
 var currentURI, noUpdates, context = {};
 // hasQueuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
-var clusterSub, querySub, queryRefresher, hasQueuedUpdates, queuedNotifier;
+var querySub, queryRefresher, hasQueuedUpdates, queuedNotifier;
 
 var lastResults, resultView;
 
@@ -123,13 +123,10 @@ function gotResults(results) {
 
 // query browse
   if ($("#browseNav" ).val() === 'annotations') {
-    $('.browse.sidebar').sidebar('show');
     browseTreemap.render(results, '#browse', resultView);
   } else if ($("#browseNav" ).val() === 'tree') {
-    $('.browse.sidebar').sidebar('show');
     browseTree.render(results, '#browse', resultView);
   } else if ($("#browseNav" ).val() === 'cluster') {
-    $('.browse.sidebar').sidebar('show');
     browseCluster.render(results, '#browse', resultView);
   } else {
     $('.browse.sidebar').sidebar('hide');
