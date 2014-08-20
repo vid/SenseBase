@@ -23,7 +23,7 @@ em {
   font-style: normal;
 }
 
-.anedit { 
+.anedit {
   display: none;
 }
 
@@ -69,7 +69,7 @@ a {
 /* file upload */
 .holder.hover { border: 4px dashed #0c0; }
 .holder img { display: block; margin: 10px auto; }
-progress { width: 100%; } 
+progress { width: 100%; }
 progress:after { content: '%'; }
 .fail { background: #c00; padding: 2px; color: #fff; }
 
@@ -80,7 +80,7 @@ a:active {text-decoration:underline;}
 
 .image {
     height: 24px;
-} 
+}
 
 
 
@@ -108,15 +108,15 @@ a:active {text-decoration:underline;}
   pointer-events: none;
 }
 
-div.tooltip {   
-  position: absolute;           
-  width: 10em;;                  
-  height: 3em;;                 
-  padding: 2px;             
-  font: 12px sans-serif;        
-  background: white;   
-  border: 0px;      
-  pointer-events: none;         
+div.tooltip {
+  position: absolute;
+  width: 10em;;
+  height: 3em;;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: white;
+  border: 0px;
+  pointer-events: none;
   z-index: 999;
 }
 
@@ -127,10 +127,9 @@ div.tooltip {
 // slickgrid
 @import url('slick-default-theme.css');
 
-#myGrid {
-  background: white;
-  outline: 0;
-  border: 1px solid gray;
+#gridContainer * {
+  font-family: arial;
+  font-size: 8pt;
 }
 
 .grid-header {
@@ -323,5 +322,3 @@ input.editor-checkbox {
   padding: 0;
   border: 0;
 }
-
-

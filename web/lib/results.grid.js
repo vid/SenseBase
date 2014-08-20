@@ -7,10 +7,14 @@
 var utils = require('./clientUtils'), details = require('./grid/document-details');
 var grid, loadingIndicator = null;
 
+var annotationsFormatter = function(row, cell, value, columnDef, dataContext) {
+  return '<div class="ui tiny orange annotations button"><i class="checked tiny checkbox icon"></i> ' +  dataContext.annotations + '</div>';
+};
+
 var columns = [
   {id: 'num', name: '#', field: 'index'},
   {id: "document", name: "Document", width: 520, formatter: details.formatter, cssClass: "cell-details", editor: details.editor},
-  {id: 'annotations', name: 'Annotations', field: 'annotations', width: 60, sortable: true}
+  {id: 'annotations', name: 'Annotations', field: 'annotations', width: 60, sortable: true, formatter: annotationsFormatter}
 ];
 
 var options = {
@@ -27,7 +31,9 @@ var options = {
 var loader = require('./grid/pubsub-loader').init();
 
 exports.render = function(dest, results) {
-  $('dest').append('<div id="pager"></div>');
+  $(dest).append('<div id="gridContainer"></div>');
+  $(dest).append('<div id="pager"></div>');
+  dest = '#gridContainer';
   grid = new Slick.Grid(dest, loader.data, columns, options);
 //  grid.setSelectionModel(new Slick.CellSelectionModel());
 
@@ -42,6 +48,11 @@ exports.render = function(dest, results) {
     var vp = grid.getViewport();
     loader.ensureData(vp.top, vp.bottom);
   });
+
+  grid.onClick.subscribe(function(e, args) {
+    var item = grid.getDataItem(args.row);
+    console.log('item', item);
+  }
 
   loader.onDataLoading.subscribe(function () {
     console.log('dataLoading', loader.data);

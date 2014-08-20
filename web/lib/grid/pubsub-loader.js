@@ -5,7 +5,7 @@
 'use strict';
 
 var loader;
-var pubsub = require('../../../lib/pubsub-client');
+var pubsub = require('../../../lib/pubsub-client'), utils = require('../../../lib/utils');
 var _ = require('lodash');
 
 exports.init = function() {
@@ -87,12 +87,14 @@ function RemoteModel() {
   function onSuccess(resp) {
     var from = 0, to = 1000, i = 0;
     if (_.isObject(resp) && resp.hits.hits.length > 0) {
+      data.length = Math.min(resp.hits.hits.length, 1000); // limitation of the API
       resp.hits.hits.forEach(function(hit) {
         var d = hit._source;
-        data[from + i] = { index: i, create_ts: d.timestamp, uri: d.uri, title: d.title, content: d.content};
+        data[from + i] = { index: i, create_ts: d.timestamp, uri: d.uri, title: d.title,
+          annotations: d.state === utils.states.content.annotated ? (d.annotationSummary.unvalidated + d.annotationSummary.validated) : 0};
+        data[from + i].index = from + i;
         i++;
       });
-      data.length = Math.min(resp.hits.hits.length, 1000); // limitation of the API
       console.log('RESP', resp, 'data', data);
     } else {
     console.log('no RESP', resp);
