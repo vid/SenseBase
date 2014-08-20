@@ -7,7 +7,7 @@ Interest in this software is welcome.
 
 Install ElasticSearch (1.0+) and Node.js (tested with version 0.10). You'll need the ElasticSearch carrot2 plugin for clustering.
 
-Check out the SenseBase repo, `cd` to it, then `npm install SenseBase`; `npm install -g grunt`
+Check out the SenseBase repo, `cd` to it, then `npm install SenseBase`; `npm install -g grunt`; `npm install -g bower`
 
 Then `npm install`, `bower install`, `grunt libs`. Finally, `grunt clientids` to initialize local-site.json and assign local authentication IDs for agents.
 
