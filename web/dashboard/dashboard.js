@@ -131,25 +131,25 @@ exports.init = function() {
   // FIXME toggle graph or table view
   $('.visualisation.item').click(function() {
     if ($(this).hasClass('scatter')) {
-      resultView = resultViews.scatter;
+      resultsLib.setResultView(resultViews.scatter);
     } else if ($(this).hasClass('debug')) {
-      resultView = resultViews.debug;
+      resultsLib.setResultView(resultViews.debug);
     } else {
-      resultView = resultViews.table;
+      resultsLib.setResultView(resultViews.table);
     }
-    resultsLib.updateResults(resultsLib.lastResults, resultView);
+    resultsLib.updateResults(resultsLib.lastResults);
   });
 
   $('.select.all').click(function() {
     $('.selectItem').prop('checked', true);
-    resultView.checkSelected();
+    resultsLib.view.checkSelected();
   });
 
   $('.select.invert').click(function() {
     $('.selectItem').each(function() {
       $(this).prop('checked', !$(this).prop('checked'));
     });
-    resultView.checkSelected();
+    resultsLib.view.checkSelected();
   });
 
   // drag and drop members

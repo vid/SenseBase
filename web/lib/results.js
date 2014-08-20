@@ -23,14 +23,14 @@ exports.hideItemSidebar = hideItemSidebar;
 exports.updateResults = updateResults;
 exports.doQuery = doQuery;
 exports.moreLikeThis = moreLikeThis;
-exports.setResultView = setResultView;
+exports.view = resultView;
 
 var annoTree = require('./annoTree.js'), utils = require('../lib/clientUtils'), treeInterface = require('./tree-interface'),
   browseCluster = require('../lib/browseCluster'), browseTree = require('../lib/browseTree'),
   browseTreemap = require('../lib/browseTreemap');
 
-exports.init = function(ctx, resultView) {
-  setResultView(resultView);
+exports.init = function(ctx, view) {
+  resultView = view;
   context = ctx;
 
   // receive annotations
@@ -89,10 +89,6 @@ exports.init = function(ctx, resultView) {
     updateResults(lastResults);
   });
 };
-
-function setResultView(r) {
-  resultView = r;
-}
 
 // FIXME normalize fields between base and _source
 function normalizeResult(result) {
@@ -171,8 +167,7 @@ function setCurrentURI(u) {
   console.log('currentURI', currentURI);
 }
 
-function updateResults(results, newView) {
-  resultView = newView || resultView;
+function updateResults(results) {
   if (results) {
     lastResults = results;
   } else {

@@ -1,6 +1,6 @@
-// ### Dashboard
+// ### query
 //
-// General module for SenseBase browser client.
+// query interface interactions
 /* jslint browser: true */
 /* jslint node: true */
 /* global $ND */
