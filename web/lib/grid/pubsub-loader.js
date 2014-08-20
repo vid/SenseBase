@@ -34,7 +34,7 @@ function RemoteModel() {
 
   function isDataLoaded(from, to) {
     for (var i = from; i <= to; i++) {
-      if (data[i] === undefined || data[i] == null) {
+      if (data[i] === undefined || data[i] === null) {
         console.log('failing', from, to, data);
         return false;
       }
@@ -160,4 +160,4 @@ function RemoteModel() {
     "onDataLoaded": onDataLoaded
   };
 
-};
+}

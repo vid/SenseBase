@@ -25,7 +25,7 @@ exports.editor = function(args) {
     $uri = $('<input style="width: 99%" type=text />')
       .appendTo($container)
       .bind('keydown', scope.handleKeyDown);
-      
+
     scope.focus();
   };
 

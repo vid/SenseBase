@@ -52,7 +52,7 @@ exports.render = function(dest, results) {
   grid.onClick.subscribe(function(e, args) {
     var item = grid.getDataItem(args.row);
     console.log('item', item);
-  }
+  });
 
   loader.onDataLoading.subscribe(function () {
     console.log('dataLoading', loader.data);
