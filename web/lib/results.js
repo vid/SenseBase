@@ -1,6 +1,6 @@
 // ### Results
 //
-// Result actions.
+// Result actions. Interact with result set and views.
 /*jslint browser: true */
 /*jslint node: true */
 /* global $ */
@@ -15,7 +15,6 @@ var lastResults, resultView;
 // FIXME modularize these
 exports.hasQueuedUpdates = hasQueuedUpdates;
 exports.noUpdates = noUpdates;
-exports.queuedNotifier = queuedNotifier;
 exports.setupQueryRefresher = setupQueryRefresher;
 
 exports.displayItemSidebar = displayItemSidebar;

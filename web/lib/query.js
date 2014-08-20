@@ -68,7 +68,7 @@ function submitQuery() {
 
 // update the query form based on query fields
 function updateQueryForm() {
-  // populate the querystring object
+  // set up qs for parameters (from http://stackoverflow.com/a/3855394 )
   if (!qs) {
     qs = (function(a) {
       if (a === "") return {};

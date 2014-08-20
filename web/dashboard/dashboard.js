@@ -131,11 +131,11 @@ exports.init = function() {
   // FIXME toggle graph or table view
   $('.visualisation.item').click(function() {
     if ($(this).hasClass('scatter')) {
-      resultsLib.setResultView(resultViews.scatter);
+      resultsLib.view = resultViews.scatter;
     } else if ($(this).hasClass('debug')) {
-      resultsLib.setResultView(resultViews.debug);
+      resultsLib.view = resultViews.debug;
     } else {
-      resultsLib.setResultView(resultViews.table);
+      resultsLib.view = resultViews.table;
     }
     resultsLib.updateResults(resultsLib.lastResults);
   });
@@ -160,11 +160,8 @@ exports.init = function() {
     }
   });
 
-
-  // set up qs for parameters (from http://stackoverflow.com/a/3855394 )
   // initial query
   queryLib.updateQueryForm();
   queryLib.submitQuery();
 
 };
-// end of init
