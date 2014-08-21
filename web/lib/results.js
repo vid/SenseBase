@@ -28,9 +28,11 @@ var annoTree = require('./annoTree.js'), utils = require('../lib/clientUtils'), 
   browseCluster = require('../lib/browseCluster'), browseTree = require('../lib/browseTree'),
   browseTreemap = require('../lib/browseTreemap');
 
+
 exports.init = function(ctx, view) {
   setResultView(view);
   context = ctx;
+  treeInterface.init(ctx);
 
   // receive annotations
   context.pubsub.annotations(function(data) {
