@@ -65,7 +65,6 @@ exports.render = function(dest, results, context) {
   $(dest).append('<table id="resultsTable" class="ui sortable table"><thead><tr><th class="descending">' +
     'Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table>');
   var count = 0;
-  console.log('R',results);
   results.hits.hits.forEach(function(r) {
     var v = r.fields || r._source, highlight = '';
     if (r.highlight) {

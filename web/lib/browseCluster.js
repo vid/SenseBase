@@ -9,7 +9,6 @@ var utils = require('./clientUtils');
 
 exports.render= function(results, target, resultView) {
   var data = results.clusters;
-  console.log('D', data);
   $(target).removeClass('treemap');
   data.forEach(function(d) {
     d.size = d.documents.length;

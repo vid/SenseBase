@@ -121,13 +121,17 @@ function doQuery(options) {
 function gotResults(results) {
   updateResults(results);
 
-// query browse
-  if ($("#browseNav" ).val() === 'annotations') {
-    browseTreemap.render(results, '#browse', resultView);
-  } else if ($("#browseNav" ).val() === 'tree') {
-    browseTree.render(results, '#browse', resultView);
-  } else if ($("#browseNav" ).val() === 'cluster') {
-    browseCluster.render(results, '#browse', resultView);
+  var browser;
+  if (results.nav === 'annotations') {
+    browser = browseTreemap;
+  } else if (results.nav === 'tree') {
+    browser = browseTree;
+  } else if (results.nav === 'cluster') {
+    browser = browseCluster;
+  }
+  if (browser) {
+  $('#browse').html();
+    browser.render(results, '#browse', resultView);
   } else {
     $('.browse.sidebar').sidebar('hide');
   }
