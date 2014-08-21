@@ -162,7 +162,12 @@ exports.init = function() {
     }
   });
 
-  // initial query
+  window.onpopstate = function(event) {
+    if(event && event.state) {
+      location.reload();
+    }
+  };
+  // initial query if not popping state
   queryLib.updateQueryForm();
   queryLib.submitQuery();
 

@@ -8,13 +8,12 @@
 
 var currentURI, noUpdates, context = {};
 // hasQueuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
-var querySub, queryRefresher, hasQueuedUpdates, queuedNotifier;
+var hasQueuedUpdates, queuedNotifier;
 
 var lastResults, resultView;
 
 exports.hasQueuedUpdates = hasQueuedUpdates;
 exports.noUpdates = noUpdates;
-exports.setupQueryRefresher = setupQueryRefresher;
 
 exports.displayItemSidebar = displayItemSidebar;
 exports.hideItemSidebar = hideItemSidebar;
@@ -24,8 +23,8 @@ exports.moreLikeThis = moreLikeThis;
 exports.setResultView = setResultView;
 
 var annoTree = require('./annoTree.js'), utils = require('../lib/clientUtils'), treeInterface = require('./tree-interface'),
-  browseCluster = require('../lib/browseCluster'), browseTree = require('../lib/browseTree'),
-  browseTreemap = require('../lib/browseTreemap');
+  browseCluster = require('../lib/browse-cluster'), browseTree = require('../lib/browse-tree'),
+  browseTreemap = require('../lib/browse-treemap');
 
 exports.init = function(ctx, view) {
   setResultView(view);
@@ -107,12 +106,6 @@ function normalizeResult(result) {
   return result;
 }
 
-function clearQueryRefresher() {
-  if (queryRefresher) {
-    clearInterval(queryRefresher);
-  }
-}
-
 function moreLikeThis(uris) {
   context.pubsub.moreLikeThis(uris);
 }
@@ -135,17 +128,11 @@ function gotResults(results) {
   }
   if (browser) {
   $('#browse').html();
-    browser.render(results, '#browse', resultView);
+    browser.render('#browse', results, resultView);
   } else {
     $('.browse.sidebar').sidebar('hide');
   }
 }
-
-function setupQueryRefresher(interval) {
-  clearQueryRefresher();
-  queryRefresher = setInterval(doQuery, interval);
-}
-
 // populate and display the URI's sidebar
 function displayItemSidebar(uri) {
   // subscribe to annotation

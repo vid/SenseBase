@@ -16,6 +16,7 @@ var qs;
 var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav', 'browseNum'];
 var basePage = location.pathname + '?';
 var context;
+var queryRefresher;
 
 var $annoSearch = $('#annoSearch');
 
@@ -57,9 +58,9 @@ exports.init = function(ctx) {
   $('#toDate').datepicker();
   $('#refreshQueries').click(function(e) {
     if ($(e.target).prop('checked')) {
-      context.resultsLib.setupQueryRefresher(5000);
+      setupQueryRefresher(5000);
     } else {
-      context.resultsLib.clearQueryRefresher();
+      clearQueryRefresher();
     }
   });
 };
@@ -86,7 +87,7 @@ function submitQuery() {
     }
   });
 
-  window.history.pushState('query form', 'Query', basePage + ss.join('&'));
+  window.history.pushState({query: ss}, 'dashboard', basePage + ss.join('&'));
   var options = getQueryOptions();
   if (options.nav) {
     $('#browse').html('<img src="loading.gif" alt="loading" /><br />Loading ' + options.nav);
@@ -100,6 +101,7 @@ function submitQuery() {
 
 // update the query form based on URI query fields
 function updateQueryForm() {
+  var p = (window.location.search.substr(1)).split('&');
   // set up qs for parameters (from http://stackoverflow.com/a/3855394 )
   if (!qs) {
     qs = (function(a) {
@@ -111,7 +113,7 @@ function updateQueryForm() {
         b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
       }
       return b;
-    })(window.location.search.substr(1).split('&'));
+    }(p));
   }
 
   queryFields.forEach(function(f) {
@@ -120,4 +122,15 @@ function updateQueryForm() {
     }
   });
   setAnnotationTags();
+}
+
+function clearQueryRefresher() {
+  if (queryRefresher) {
+    clearInterval(queryRefresher);
+  }
+}
+
+function setupQueryRefresher(interval) {
+  clearQueryRefresher();
+  queryRefresher = setInterval(context.resultsLib.doQuery, interval);
 }
