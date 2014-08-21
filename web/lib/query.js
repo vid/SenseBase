@@ -20,6 +20,7 @@ var context;
 var $annoSearch = $('#annoSearch');
 
 function addAnnotationTag(anno) {
+  $annoSearch.attr('placeholder', '');
   var tags = $annoSearch.val().split(',').filter(function(v) { return v.length > 0; });
   tags.push(anno);
   $annoSearch.select2('data', tags.map(function(t) { return { text: t}; }));
