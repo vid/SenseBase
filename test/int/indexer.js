@@ -1,4 +1,6 @@
 // Tests for configured indexer (ElasticQuery)
+/*jslint node: true */
+/* global describe,it */
 'use strict';
 
 var expect = require("expect.js");
@@ -137,4 +139,3 @@ describe('Indexer', function(done) {
   });
   */
 });
-

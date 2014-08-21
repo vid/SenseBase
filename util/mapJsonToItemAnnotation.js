@@ -119,7 +119,7 @@ function mapToItem(item, merge) {
       annos.push(annotations.createAnnotation({ hasTarget: cItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level, state: valState }));
     }
   }
-  // then vals
+  // then vals;
   for (var a in proto.vals) {
     var def = proto.vals[a];
     var level = def.level.slice(0);
