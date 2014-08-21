@@ -5,17 +5,15 @@
       <input class="query input" id="annoMember" />
       <select id="annotationState"><option value="visited">Visited</option><option value="requested">Annotation requested</option><option value="provided">Annotation provided</option></select>
     </div>
-    <div class="four wide function field">
+    <div class="two wide function field">
       <div class="field">
-        <label for="annoSearch">Annotations</label>
-        <input class="query input" id="annoSearch" />
-      </div>
-      <div class="inline field">
-        Results <select id="browseNum"><option value="100">100</option><option selected value="500">500</option><option value="1000">1000</option><option value="2000">2000</option><option value="5000">5000</option></select>
+        <label for="browseNum">Results</label>
+        <select id="browseNum"><option value="100">100</option><option selected value="500">500</option><option value="1000">1000</option><option value="2000">2000</option><option value="5000">5000</option></select>
       </div>
     </div>
-    <div class="four wide function field">
-      <div class="inline field">
+    <div class="two wide function field">
+      <div class="field">
+        <label for="validationState">State</label>
         <select id="validationState">
           <option value="all">Everything</option>
           <option value="val">Has validated</option>
@@ -25,43 +23,14 @@
           <option value="queued">Not visited (queued)</option>
         </select>
       </div>
-      <div class="inline field">
-        <span class="ui checkbox">
-          <input id="refreshQueries" type="checkbox" />
-          <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label>
-        </span>
-      </div>
     </div>
-    <!--
-    <div class="ui three wide column stackable page grid" style="display: none">
-      <div class="column">
-        <div class="field">
-          <label for="fromDate">From</label>
-          <input id="fromDate" />
-        </div>
-        <div class="field">
-          <label for="toDate">To</label>
-          <input id="toDate" />
-        </div>
-        <div class="field">
-          <label for="queryMember">Member</label>
-          <input id="queryMember" />
-        </div>
-      </div>
+    <div class="two wide function field">
+      <label for="fromDate">From</label>
+      <input id="fromDate" />
     </div>
-    -->
-    <div class="three wide function field">
-      <div class="field">
-        <label for="browseNav">Navigator</label>
-        <select id="browseNav">
-          <option value="">None</option>
-          <option value="tree">Tree</option>
-          <option value="annotations">Annotations</option>
-          <option value="cluster">Cluster</option>
-        </select>
-      </div>
-      <div class="field">
-        <button class="ui blue mini query submit button" id="queryForm">Update</button> &nbsp;
+    <div class="two wide function field field">
+        <label for="toDate">To</label>
+        <input id="toDate" />
       </div>
     </div>
   </div>

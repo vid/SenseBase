@@ -12,7 +12,6 @@ var querySub, queryRefresher, hasQueuedUpdates, queuedNotifier;
 
 var lastResults, resultView;
 
-// FIXME modularize these
 exports.hasQueuedUpdates = hasQueuedUpdates;
 exports.noUpdates = noUpdates;
 exports.setupQueryRefresher = setupQueryRefresher;
@@ -27,7 +26,6 @@ exports.setResultView = setResultView;
 var annoTree = require('./annoTree.js'), utils = require('../lib/clientUtils'), treeInterface = require('./tree-interface'),
   browseCluster = require('../lib/browseCluster'), browseTree = require('../lib/browseTree'),
   browseTreemap = require('../lib/browseTreemap');
-
 
 exports.init = function(ctx, view) {
   setResultView(view);

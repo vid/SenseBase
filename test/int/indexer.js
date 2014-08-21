@@ -50,7 +50,7 @@ describe('Indexer', function(done) {
     });
   });
 
-  it('should wait a second for ndexing', function(done) {
+  it('should wait a second for indexing', function(done) {
     setTimeout(function() {
       done();
     }, 1000);

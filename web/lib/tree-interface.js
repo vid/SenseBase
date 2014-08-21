@@ -25,12 +25,12 @@ exports.select = function(anno, e, data) {
     $('#annoBy').val(anno.annotatedBy);
     $('#annotatedAt').html(anno.annotatedAt || '&nbsp;');
     $('.filter.icon').click(function() {
-      console.log(anno, 'filtering on', this);
+//      console.log(anno, 'filtering on', this);
       if ($(this).hasClass('by')) {
         $('#annoMember').val('"' + anno.annotatedBy + '"');
         $('#annotationState').val('provided');
       } else {
-        $('#annoSearch').val('"' + anno.text + '"');
+        context.queryLib.addAnnotationTag(anno.text);
       }
       context.queryLib.submitQuery();
     });

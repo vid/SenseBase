@@ -31,7 +31,7 @@
   <div id="browse" style="width: 100%; height: 98%"></div>
 </div>
 <div class="ui content">
-  <div class="ui grey mini menu" style="margin: 2px">
+  <div class="ui grey small menu" style="margin: 2px">
     <a title="Select all" class="select all item">
       <i class="checkmark icon"></i>
     </a>
@@ -89,12 +89,6 @@
       <i class="filter icon"></i>
       <span id="queryCount"><img src="loading.gif" alt="loading results" /></span>
     </a>
-    <div class="item">
-      <div class="ui small query icon input">
-        <input id="termSearch" type="text" placeholder="Query..." />
-        <i class="query icon query submit"></i>
-      </div>
-    </div>
     <a title="Toggle team" class="team toggle item">
       <i class="users icon"></i>
     </a>
@@ -129,6 +123,43 @@
   <progress class="hidden" id="uploadprogress" min="0" max="100" value="0">0</progress>
 
   <div class="holder query results" id="uploadItem" style="height: 90%; width: 100%; padding: 0px; overflow: auto">
+    <div class="ui grey small menu" style="margin: 0">
+      <div class="item">
+        <div class="field">
+          <label for="browseNav">Navigator</label>
+          <select id="browseNav">
+            <option value="">None</option>
+            <option value="tree">Tree</option>
+            <option value="annotations">Annotations</option>
+            <option value="cluster">Cluster</option>
+          </select>
+        </div>
+      </div>
+      <div class="item">
+        <div class="field">
+          <input id="termSearch" type="text" placeholder="Query…" />
+          <i class="query icon query submit"></i>
+        </div>
+      </div>
+      <div class="item">
+        <div class="field">
+          <input class="query input" id="annoSearch" placeholder="Annotations…" style="min-width: 10em" />
+        </div>
+      </div>
+      <div class="item">
+        <div class="field">
+          <button class="ui blue mini query submit button" id="queryForm">Update</button> &nbsp;
+        </div>
+      </div>
+      <div class="item">
+        <div class="field">
+          <span class="ui checkbox">
+            <input id="refreshQueries" type="checkbox" />
+            <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label>
+          </span>
+        </div>
+      </div>
+    </div>
     <div id="results" style="width: 100%; height: 100%">
     </div>
   </div>

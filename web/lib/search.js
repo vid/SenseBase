@@ -143,12 +143,12 @@ exports.init = function(ctx) {
     console.log('publishing', searchInput);
     context.pubsub.searchQueue(searchInput);
     if ($('#refreshSearch').prop('checked')) {
-      $('#annoSearch').val($('#searchCategories').val());
+      context.queryLib.addAnnotation($('#searchCategories').val());
     //  $('#validationState').val('queued');
       $('#refreshQueries').prop('checked', true);
       context.resultsLib.setupQueryRefresher(5000);
     }
-    doQuery();
+    context.queryLib.submitQuery();
   }
 
 };

@@ -8,12 +8,41 @@
 exports.getQueryOptions = getQueryOptions;
 exports.submitQuery = submitQuery;
 exports.updateQueryForm = updateQueryForm;
+exports.addAnnotationTag = addAnnotationTag;
+exports.setAnnotationTags = setAnnotationTags;
 
 // function to calc querystring
 var qs;
 var queryFields = ['termSearch', 'annoSearch', 'fromDate', 'toDate', 'annoMember', 'browseNav', 'browseNum'];
 var basePage = location.pathname + '?';
 var context;
+
+var $annoSearch = $('#annoSearch');
+
+function addAnnotationTag(anno) {
+  var tags = $annoSearch.val().split(',').filter(function(v) { return v.length > 0; });
+  tags.push(anno);
+  $annoSearch.select2('data', tags.map(function(t) { return { text: t}; }));
+  $annoSearch.val(tags.join(','));
+}
+
+function setAnnotationTags(tags) {
+  if (tags === undefined) {
+    tags = $annoSearch.val().split(',');
+  }
+  $annoSearch.select2({
+    formatNoMatches: function(term) { return ""; },
+    matcher: function(term, text, opt) {
+       return true;
+     },
+    tags: tags,
+    tokenSeparators: [',']
+  });
+  $annoSearch.on('change', function(e) {
+    $annoSearch.val(e.val.join(','));
+    submitQuery();
+  });
+}
 
 exports.init = function(ctx) {
   context = ctx;
@@ -37,7 +66,7 @@ exports.init = function(ctx) {
 // formulate query parameters
 function getQueryOptions() {
   var nav = $("#browseNav" ).val();
-  var options = { terms : $('#termSearch').val(), annotationSearch : $('#annoSearch').val(),
+  var options = { terms : $('#termSearch').val(), annotationSearch : $annoSearch.val(),
     validationState: $('#validationState').val(), annotationState: $('#annotationState').val(), browseNum: $('#browseNum').val(),
     from: $('#fromDate').val(), to: $('#toDate').val(),
     // FIXME normalize including annotations
@@ -68,12 +97,12 @@ function submitQuery() {
   return false;
 }
 
-// update the query form based on query fields
+// update the query form based on URI query fields
 function updateQueryForm() {
   // set up qs for parameters (from http://stackoverflow.com/a/3855394 )
   if (!qs) {
     qs = (function(a) {
-      if (a === "") return {};
+      if (a === '') return {};
       var b = {};
       for (var i = 0; i < a.length; ++i) {
         var p=a[i].split('=');
@@ -89,4 +118,5 @@ function updateQueryForm() {
       $('#'+f).val(qs[f]);
     }
   });
+  setAnnotationTags();
 }
