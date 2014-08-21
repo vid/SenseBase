@@ -130,14 +130,16 @@ exports.init = function() {
 
   // FIXME toggle graph or table view
   $('.visualisation.item').click(function() {
+    var view;
     if ($(this).hasClass('scatter')) {
-      resultsLib.view = resultViews.scatter;
+      view = resultViews.scatter;
     } else if ($(this).hasClass('debug')) {
-      resultsLib.view = resultViews.debug;
+      view = resultViews.debug;
     } else {
-      resultsLib.view = resultViews.table;
+      view = resultViews.table;
     }
-    resultsLib.updateResults(resultsLib.lastResults);
+    resultsLib.setResultView(view);
+    resultsLib.updateResults();
   });
 
   $('.select.all').click(function() {

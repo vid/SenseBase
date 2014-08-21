@@ -31,7 +31,7 @@ exports.render = function(dest, results, context) {
       }
       if (context.resultsLib.hasQueuedUpdates) {
         console.log('displaying queued updates');
-        context.resultsLib.updateResults(context.resultsLib.lastResults);
+        context.resultsLib.updateResults();
         context.resultsLib.hasQueuedUpdates = null;
       }
       context.resultsLib.hideItemSidebar();

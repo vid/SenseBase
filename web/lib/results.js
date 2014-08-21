@@ -22,14 +22,14 @@ exports.hideItemSidebar = hideItemSidebar;
 exports.updateResults = updateResults;
 exports.doQuery = doQuery;
 exports.moreLikeThis = moreLikeThis;
-exports.view = resultView;
+exports.setResultView = setResultView;
 
 var annoTree = require('./annoTree.js'), utils = require('../lib/clientUtils'), treeInterface = require('./tree-interface'),
   browseCluster = require('../lib/browseCluster'), browseTree = require('../lib/browseTree'),
   browseTreemap = require('../lib/browseTreemap');
 
 exports.init = function(ctx, view) {
-  resultView = view;
+  setResultView(view);
   context = ctx;
 
   // receive annotations
@@ -88,6 +88,10 @@ exports.init = function(ctx, view) {
     updateResults(lastResults);
   });
 };
+
+function setResultView(view) {
+  resultView = view;
+}
 
 // FIXME normalize fields between base and _source
 function normalizeResult(result) {
@@ -167,12 +171,12 @@ function setCurrentURI(u) {
   console.log('currentURI', currentURI);
 }
 
+// Update displayed results using results view.  If passed results are null, use lastResults.
 function updateResults(results) {
-  if (results) {
-    lastResults = results;
-  } else {
+  if (results === undefined) {
     results = lastResults;
   }
+  lastResults = results;
 
   // content is being viewed or edited, delay updates
   if (noUpdates) {
