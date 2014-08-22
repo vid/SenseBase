@@ -12,7 +12,7 @@ var uniq = utils.getUnique(), uniqMember = 'member'+uniq, uniqURI = 'http://test
 describe('Indexer', function(done) {
   it('should reset test app', function(done) {
     testApp.start(function(err, ok) {
-      expect(err).to.be.null;
+      expect(err).to.be(undefined);
       done();
     });
   });
@@ -21,15 +21,15 @@ describe('Indexer', function(done) {
     var cItem = annotations.createContentItem({title: 'test title', uri: uniqURI, content: 'test content ' + uniq});
     cItem.visitors = { member: uniqMember};
     indexer._saveContentItem(cItem, function(err, res) {
-      expect(err).to.be.null;
+      expect(err).to.be(null);
       done();
     });
   });
 
   it('should retrieve by URI', function(done) {
     indexer.retrieveByURI(uniqURI, function(err, r) {
-      expect(err).to.be.null;
-      expect(r.exists).to.be.true;
+      expect(err).to.be(null);
+      expect(r.found).to.not.be(undefined);
       done();
     });
   });
@@ -37,14 +37,14 @@ describe('Indexer', function(done) {
   it('should index an annotation', function(done) {
     var annoCategory = annotations.createAnnotation({hasTarget: uniqURI, annotatedBy: uniqMember, type: 'category', category: uniqCategory});
     indexer.saveAnnotations(uniqURI, annoCategory, function(err, res) {
-      expect(err).to.be.null;
+      expect(err).to.be(null);
       done();
     });
   });
 
   it('should retrieve annotations', function(done) {
     indexer.retrieveAnnotations(uniqURI, function(err, res) {
-      expect(err).to.be.null;
+      expect(err).to.be(null);
       expect(res.length).to.be(1);
       done();
     });
@@ -59,36 +59,36 @@ describe('Indexer', function(done) {
   it('should form search', function(done) {
 // delay for ElasticSearch refresh delay
     indexer.formQuery({}, function(err, res) {
-      expect(err).to.be.null;
+      expect(err).to.be(null);
       expect(res.hits.total).to.be(1);
       done();
     });
   });
 
   it('should form search by member', function(done) {
-    var found = { member: uniqMember, annotationState: utils.states.content.visited }
+    var found = { member: uniqMember, annotationState: utils.states.content.visited };
 
     indexer.formQuery(found, function(err, res) {
-      expect(err).to.be.null;
+      expect(err).to.be(null);
       expect(res.hits.total).to.be(1);
       done();
     });
   });
 
   it('should return no results for form search by non-member', function(done) {
-    var notFound = { member: uniqMember + 'nonense', annotationState: utils.states.content.visited }
+    var notFound = { member: uniqMember + 'nonense', annotationState: utils.states.content.visited };
     indexer.formQuery(notFound, function(err, res) {
-      expect(err).to.be.null;
+      expect(err).to.be(null);
       expect(res.hits.total).to.be(0);
       done();
     });
   });
 
   it('should form search by terms', function(done) {
-    var found = { terms: uniq }
+    var found = { terms: uniq };
 
     indexer.formQuery(found, function(err, res) {
-      expect(err).to.be.null;
+      expect(err).to.be(null);
       expect(res.hits.total).to.be(1);
       done();
     });

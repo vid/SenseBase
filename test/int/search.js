@@ -3,6 +3,8 @@
 // as pages are accessed, previousState is set to last state
 // if they have previousState as queue, search.queueLinks finds relevance
 // if relevance is > 0, relevant page links are added
+/*jslint node: true */
+/* global describe,it */
 'use strict';
 
 var fs = require('fs'), expect = require('expect.js');
@@ -13,7 +15,7 @@ var uniq = utils.getUnique(), uniqLink = 'http://test.com/' + uniq, testTag = 't
 describe('Scraper links', function(done) {
   it('should reset test app', function(done) {
     testApp.start(function(err, ok) {
-      expect(err).to.be.null;
+      expect(err).to.be(undefined);
       done();
     });
   });
@@ -26,8 +28,8 @@ describe('Scraper links', function(done) {
     setTimeout(function() {
       // find any queued link from preceeding
       search.getQueuedLink(function(err, queuedLink) {
-        expect(queuedLink.uri).to.not.be.null;
-        expect(queuedLink.queued.categories.length > 0).to.be.true;
+        expect(queuedLink.uri).to.not.be(null);
+        expect(queuedLink.queued.categories.length > 0).to.be(true);
         expect(queuedLink.queued.categories[0]).to.equal(testTag);
         done();
       }, 1);
@@ -38,10 +40,9 @@ describe('Scraper links', function(done) {
 // verify not enough time has passed for a new link to be processed
   it('should have less available queued links', function(done) {
     search.getQueuedLink(function(err, queuedLink) {
-      expect(queuedLink).to.be.null;
+      expect(queuedLink).to.be(undefined);
       done();
     }, 1);
 
   });
 });
-
