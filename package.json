@@ -5,6 +5,7 @@
   "description": "SenseBase basis for workgroup annotation.",
   "dependencies": {
     "Sentimental": "0.0.4",
+    "bionode-ncbi": "^0.2.1",
     "cheerio": "~0.13.1",
     "colors": "~0.6.2",
     "connect-flash": "^0.1.1",
