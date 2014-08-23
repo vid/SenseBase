@@ -1,4 +1,7 @@
 // Tests file upload api.
+/*jslint node: true */
+/* global describe, it */
+
 'use strict';
 
 var expect = require("expect.js"), indexer = require('../../lib/indexer.js'), fs = require('fs'), path = require('path');
@@ -13,13 +16,12 @@ describe('File upload', function(done){
     var uploadingFileRequest = { files : { file: { name: uniq, path: uniqPath} } };
 
     fileUpload.uploadFile(uploadingFileRequest, function(err, resp) {
-      expect(resp).to.not.be.null;
-      expect(err).to.be.null;
-      expect(resp.buffer.indexOf(uniq) > -1).to.be.true;
-      expect(path.join(GLOBAL.config.uploadDirectory, uniq)).to.be.true;
-      expect(fs.existsSync(uniqPath)).to.be.false;
+      expect(resp).to.not.be(undefined);
+      expect(err).to.be(undefined);
+      expect(resp.buffer.indexOf(uniq) > -1).to.be(true);
+      expect(path.join(GLOBAL.config.uploadDirectory, uniq)).to.be(true);
+      expect(fs.existsSync(uniqPath)).to.be(false);
       done();
     });
   });
 });
-
