@@ -143,6 +143,7 @@ exports.init = function(ctx) {
     console.log('publishing', searchInput);
     context.pubsub.searchQueue(searchInput);
     if ($('#refreshSearch').prop('checked')) {
+      console.log(context.queryLib);
       context.queryLib.addAnnotation($('#searchCategories').val());
     //  $('#validationState').val('queued');
       $('#refreshQueries').prop('checked', true);

@@ -3,8 +3,13 @@
 // as pages are accessed, previousState is set to last state
 // if they have previousState as queue, search.queueLinks finds relevance
 // if relevance is > 0, relevant page links are added
+<<<<<<< HEAD
 /* globals describe, it */
 /* jshint node: true */
+=======
+/*jslint node: true */
+/* global describe,it */
+>>>>>>> 53777938d3cf3532f0ee5daed08069644f85c582
 'use strict';
 
 var fs = require('fs'), expect = require('expect.js');
@@ -28,7 +33,11 @@ describe('Scraper links', function(done) {
     setTimeout(function() {
       // find any queued link from preceeding
       search.getQueuedLink(function(err, queuedLink) {
+<<<<<<< HEAD
         expect(queuedLink.uri).to.not.be(undefined);
+=======
+        expect(queuedLink.uri).to.not.be(null);
+>>>>>>> 53777938d3cf3532f0ee5daed08069644f85c582
         expect(queuedLink.queued.categories.length > 0).to.be(true);
         expect(queuedLink.queued.categories[0]).to.equal(testTag);
         done();

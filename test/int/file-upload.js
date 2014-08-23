@@ -1,7 +1,11 @@
 // Tests file upload api.
 /*jslint node: true */
+<<<<<<< HEAD
 /* global describe, it */
 
+=======
+/* global describe,it */
+>>>>>>> 53777938d3cf3532f0ee5daed08069644f85c582
 'use strict';
 
 var expect = require("expect.js"), indexer = require('../../lib/indexer.js'), fs = require('fs'), path = require('path');
