@@ -10,6 +10,7 @@ exports.submitQuery = submitQuery;
 exports.updateQueryForm = updateQueryForm;
 exports.addAnnotationTag = addAnnotationTag;
 exports.setAnnotationTags = setAnnotationTags;
+exports.setupQueryRefresher = setupQueryRefresher;
 
 // function to calc querystring
 var qs;
