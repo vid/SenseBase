@@ -7,7 +7,7 @@ Interest in this software is welcome.
 
 Install ElasticSearch (1.0+) and Node.js (tested with version 0.10). You'll need the ElasticSearch carrot2 plugin for clustering.
 
-Check out the SenseBase repo, `cd` to it, then `npm install SenseBase`; `npm install -g grunt`; `npm install -g bower`
+Check out the SenseBase repo, `cd` to it, then `npm install`; npm install -g grunt`; `npm install -g bower`
 
 ## Configure
 
@@ -51,11 +51,11 @@ create a config.js:
 	//
 	};
 
-Then `npm install`, `bower install`, `grunt libs`. Finally, `grunt clientids` to initialize local-site.json and assign local authentication IDs for agents.
+Then `grunt libs`. Finally, `grunt clientids` to initialize local-site.json and assign local authentication IDs for agents.
 
 ## Run
 
-Launch the software standalone with `node app.js` (after generating assets).
+Launch the software standalone with `node app.js` (after generating assets), or just by running `grunt` (the default task).
 
 If including SenseBase from your own project, you can create a bootstrap that looks like this:
 
