@@ -12,12 +12,12 @@ var doc = '<html><script lah lah></script><body class="something">Good <b>bad</b
 describe('sentiment', function(done){
   it('should identify the candidates', function(done) {
     sentiment.doProcess({ uri: 'test', content: doc, text: utils.getTextFromHtml(doc), selector: 'body'}, function(err, result) {
-      expect(err).to.be.undefined;
-      expect(result.annoRows.length > 0).to.be.true;
+      expect(err).to.be(null);
+      expect(result.annoRows.length > 0).to.be(true);
       var annos = _.groupBy(result.annoRows, function(r) { return r.type;});
-      expect(annos.value.size === 1).to.be.true;
-      expect(annos.quote.size === 3).to.be.true;
-      expect(annos.quote[0].ranges.length === 1).to.be.true;
+      expect(annos.value.length).to.be(1);
+      expect(annos.quote.length).to.be(3);
+      expect(annos.quote[0].ranges.length).to.be(1);
       done();
     });
   });
