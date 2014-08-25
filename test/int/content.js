@@ -1,10 +1,6 @@
 // Tests for configured indexer (ElasticSearch).
 /*jslint node: true */
-<<<<<<< HEAD
-/* global describe, it */
-=======
 /* global describe,it */
->>>>>>> 53777938d3cf3532f0ee5daed08069644f85c582
 'use strict';
 
 var expect = require("expect.js");
@@ -36,11 +32,7 @@ describe('Content', function(done) {
     indexer.retrieveByURI(uniqURI, function(err, r) {
       expect(err).to.be(undefined);
       var cItem = r._source;
-<<<<<<< HEAD
-      expect(cItem).to.not.be(undefined);
-=======
       expect(cItem).not.to.be(undefined);
->>>>>>> 53777938d3cf3532f0ee5daed08069644f85c582
       expect(cItem.state).to.be(utils.states.content.queued);
       ongoing = cItem;
       done();
