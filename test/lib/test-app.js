@@ -8,4 +8,4 @@ exports.start = function(callback) {
   senseBase.start(require('./test-config.js').config, callback);
 
   reset.resetAll(callback);
-}
+};

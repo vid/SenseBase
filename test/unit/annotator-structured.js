@@ -10,7 +10,7 @@ describe('Structural annotators', function(done){
   it('should extract regexes fields', function(done) {
     var sampleDoc = fs.readFileSync('test/data/structural/regexes.html').toString();
     annotatorStructural.doProcess({ uri: testGlobal.config.HOMEPAGE + '/test', text: sampleDoc}, testGlobal.config.structuralMatches, function(err, result) {
-      expect(err).to.be.undefined;
+      expect(err).to.be(undefined);
       var annos = result.annoRows;
       var l = annos.length;
       expect(l).to.be(21);
@@ -20,7 +20,7 @@ describe('Structural annotators', function(done){
   it('should extract tableDateValues fields', function(done) {
     var sampleDoc = fs.readFileSync('test/data/structural/tableDatedValues.html').toString();
     annotatorStructural.doProcess({ uri: testGlobal.config.HOMEPAGE + '/tableDateValuesTest', text: sampleDoc}, testGlobal.config.structuralMatches, function(err, result) {
-      expect(err).to.be.undefined;
+      expect(err).to.be(undefined);
       var annos = result.annoRows;
       var l = annos.length;
       expect(l).to.be(3);
