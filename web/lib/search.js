@@ -59,19 +59,26 @@ exports.init = function(ctx) {
 
 // Retreive existing searches.
   context.pubsub.subSearches(function(results) {
+    console.log('subSearches', results);
     savedSearches = results;
     if (results && results.hits.total > 0) {
       // display saved searches
       $('.load.search').click(function() {
         $('.load.modal').modal('show');
       });
+      $('#savedSearches tbody').html('');
+      results.hits.hits.forEach(function(i) {
+        var s = i._source;
+        $('#savedSearches tbody').append('<tr onclick="javascript:$(\'#loadSearch\').val(\'' + s.searchName + '\')"><td>' + s.searchName + '</td><td>' + s.categories + '</td><td>' + s.team +
+          '</td><td>' + s.input + '</td><td>' + s.cron + '</td><td>' + s.lastRun + '</td></tr>');
+      });
+      /*
       $("#loadSearch").select2({
         data: results.hits.hits.map(function(i) { return { id: i._source.searchName, text: i._source.searchName }; })
       });
-      $('.load.search').attr('disabled', false);
-    } else {
-      $('.load.search').attr('disabled', true);
+      */
     }
+    $('.load.search').attr('disabled', false);
   });
 
   // save a search

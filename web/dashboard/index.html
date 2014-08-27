@@ -233,11 +233,16 @@
 </div>
 <div class="ui search load modal hidden form">
   <div class="content">
-    <div class="inline field">
-      Name <input id="loadSearch" style="width: 80%" />
-    </div>
+    <table style="width: 100%" id="savedSearches">
+      <thead>
+        <tr><th>Name</th><th>Categories</th><th>Team</th><th>Input</th><th>Scheduled</th><th>Last run</th></tr>
+      </thead>
+      <tbody>
+      </tbody>
+      </table>
   </div>
   <div class="actions">
+    <input id="loadSearch" name="loadSearch" />
     <button class="ui button">Cancel</button>
     <button class="ui confirm search load button">Load</button>
   </div>
