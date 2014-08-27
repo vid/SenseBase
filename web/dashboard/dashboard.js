@@ -13,7 +13,8 @@ var resultViews = { scatter: require('../lib/results.scatter'), table: require('
   debug: require('../lib/results.debug')},  querySub, clusterSub;
 
 var resultsLib = require('../lib/results'), membersLib = require('../lib/members'), searchLib = require('../lib/search'),
-  queryLib = require('../lib/query'), pubsub = require('../../lib/pubsub-client').init(window.senseBase);
+  queryLib = require('../lib/query'), watchlist = require('../lib/watchlist'),
+  pubsub = require('../../lib/pubsub-client').init(window.senseBase);
 
 // initialize page functions
 exports.init = function() {
@@ -24,7 +25,6 @@ exports.init = function() {
   queryLib.init(context);
 
   setupDND('uploadItem', homepage + 'upload');
-  setupDND('uploadWorkfile', homepage + 'workfile');
   // General setup and functions
 
   // main menu interaction
@@ -34,7 +34,7 @@ exports.init = function() {
 
   $('.details.toggle').click(function() { $('.details.sidebar').sidebar('toggle'); });
 
-  $('.dashboard.toggle').click(function() { $('.dashboard.sidebar').sidebar('toggle'); });
+  $('.dashboard.toggle').click(function() { $('.dashboard.sidebar').sidebar('toggle'); watchlist.init(context); });
 
   $('.dropdown').dropdown('hide');
 

@@ -165,27 +165,25 @@
 
 <div class="ui bottom dashboard sidebar" style="background: white">
   <h1>Dashboard</h1>
-  <div class="ui dashboard grid">
-    <div class="three wide column">
-      <h2>Watchlist</h2>
-    </div>
-    <div class="three wide column">
-      <h2>Activity</h2>
-    </div>
-    <div class="ten wide column">
-      <h2>Workspace</h2>
-      <div class="ui annotate form">
-        <div class="field">
-          Upload
-          <div class="holder" id="uploadWorkfile" style="border: 1px solid black; height: 3em; width: 100%; overflow: auto">
-            Drag RIS or CSV files here
-          </div>
-        </div>
-        <div class="field">
-          ID field <input id="idField" />
-        </div>
-      </div>
-    </div>
+  <div class="ui workspace menu">
+    <a class="active green item">
+      Watchlist
+    </a>
+    <a class="red item"d2f">
+      Activity
+    </a>
+    <a class="blue item">
+      Workspace
+    </a>
+  </div>
+  <div class="content">
+    <table style="width: 100%" id="watchlist">
+      <thead>
+        <tr><th></th><th>Match</th><th>Matches</th><th>Last notification</th></tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
   </div>
 </div>
 
@@ -235,7 +233,7 @@
   <div class="content">
     <table style="width: 100%" id="savedSearches">
       <thead>
-        <tr><th>Name</th><th>Categories</th><th>Team</th><th>Input</th><th>Scheduled</th><th>Last run</th></tr>
+        <tr><th></th><th>Name</th><th>Categories</th><th>Hits</th><th>Team</th><th>Input</th><th>Scheduled</th><th>Last run</th></tr>
       </thead>
       <tbody>
       </tbody>

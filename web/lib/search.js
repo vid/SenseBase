@@ -7,6 +7,9 @@
 'use strict';
 
 var savedSearches, context;
+var _ = require('lodash');
+
+var sline = _.template('<tr onclick=\'javascript:$("#loadSearch").val("<%= searchName %>")\'><td><div class="ui icon button"><i class="remove icon"></i></div></td><td><%= searchName %></td><td><a><%= categories %></a></td><td><%= hits %><td><%= team %></td><td><%= input %></td><td><%= cron %></td><td><%= lastRun %></td></tr>');
 
 exports.init = function(ctx) {
   context = ctx;
@@ -59,7 +62,6 @@ exports.init = function(ctx) {
 
 // Retreive existing searches.
   context.pubsub.subSearches(function(results) {
-    console.log('subSearches', results);
     savedSearches = results;
     if (results && results.hits.total > 0) {
       // display saved searches
@@ -67,10 +69,10 @@ exports.init = function(ctx) {
         $('.load.modal').modal('show');
       });
       $('#savedSearches tbody').html('');
-      results.hits.hits.forEach(function(i) {
-        var s = i._source;
-        $('#savedSearches tbody').append('<tr onclick="javascript:$(\'#loadSearch\').val(\'' + s.searchName + '\')"><td>' + s.searchName + '</td><td>' + s.categories + '</td><td>' + s.team +
-          '</td><td>' + s.input + '</td><td>' + s.cron + '</td><td>' + s.lastRun + '</td></tr>');
+      _.pluck(results.hits.hits, '_source').forEach(function(i) {
+        i.lastRun = 'Never';
+        i.hits = 0;
+        $('#savedSearches tbody').append(sline(i));
       });
       /*
       $("#loadSearch").select2({
