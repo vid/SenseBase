@@ -3,7 +3,7 @@
 // rename to dashboard
 /*jslint browser: true */
 /*jslint node: true */
-/* global $,alert,doQuery */
+/* global $,alert */
 'use strict';
 
 var context;
