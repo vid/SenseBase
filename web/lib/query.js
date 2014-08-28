@@ -75,7 +75,6 @@ function getQueryOptions() {
     // FIXME normalize including annotations
     member: $('#annoMember').val(), annotations: (nav === 'annotations' || nav === 'tree') ? '*' : null,
     nav: nav};
-    console.log('o', options);
   return options;
 }
 

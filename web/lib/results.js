@@ -112,7 +112,8 @@ function moreLikeThis(uris) {
 }
 
 function gotResults(results) {
-  console.log('gotResults', results, 'from', JSON.stringify(results.query, null, 2));
+  results.JSONquery = JSON.stringify(results.query, null, 2);
+  console.log('gotResults', results);
   updateResults(results);
 
   var browser;
