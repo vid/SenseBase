@@ -80,7 +80,6 @@ exports.init = function(ctx) {
       });
       */
     }
-    $('.load.search').attr('disabled', false);
   });
 
   // save a search
