@@ -17,8 +17,9 @@ exports.noUpdates = noUpdates;
 
 exports.displayItemSidebar = displayItemSidebar;
 exports.hideItemSidebar = hideItemSidebar;
+
+exports.gotResults = gotResults;
 exports.updateResults = updateResults;
-exports.doQuery = doQuery;
 exports.moreLikeThis = moreLikeThis;
 exports.setResultView = setResultView;
 
@@ -110,12 +111,8 @@ function moreLikeThis(uris) {
   context.pubsub.moreLikeThis(uris);
 }
 
-// perform a general query
-function doQuery(options) {
-  context.pubsub.query(gotResults, options);
-}
-
 function gotResults(results) {
+  console.log('gotResults', results, 'from', JSON.stringify(results.query, null, 2));
   updateResults(results);
 
   var browser;

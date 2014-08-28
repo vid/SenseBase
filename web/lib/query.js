@@ -21,6 +21,25 @@ var queryRefresher;
 
 var $annoSearch = $('#annoSearch');
 
+exports.init = function(ctx) {
+  context = ctx;
+  // set up form
+  $('.query.input').keyup(function(e) {
+    if (e.keyCode == 13) submitQuery();
+  });
+  $('.query.submit').click(submitQuery);
+
+  $('#fromDate').datepicker();
+  $('#toDate').datepicker();
+  $('#refreshQueries').click(function(e) {
+    if ($(e.target).prop('checked')) {
+      setupQueryRefresher(5000);
+    } else {
+      clearQueryRefresher();
+    }
+  });
+};
+
 function addAnnotationTag(anno) {
   $annoSearch.attr('placeholder', '');
   var tags = $annoSearch.val().split(',').filter(function(v) { return v.length > 0; });
@@ -47,34 +66,16 @@ function setAnnotationTags(tags) {
   });
 }
 
-exports.init = function(ctx) {
-  context = ctx;
-  // set up form
-  $('.query.input').keyup(function(e) {
-    if (e.keyCode == 13) submitQuery();
-  });
-  $('.query.submit').click(submitQuery);
-
-  $('#fromDate').datepicker();
-  $('#toDate').datepicker();
-  $('#refreshQueries').click(function(e) {
-    if ($(e.target).prop('checked')) {
-      setupQueryRefresher(5000);
-    } else {
-      clearQueryRefresher();
-    }
-  });
-};
-
 // formulate query parameters
 function getQueryOptions() {
   var nav = $("#browseNav" ).val();
-  var options = { terms : $('#termSearch').val(), annotationSearch : $annoSearch.val(),
+  var options = { terms : $('#termSearch').val(), annotationSearch : $annoSearch.val().split(','),
     validationState: $('#validationState').val(), annotationState: $('#annotationState').val(), browseNum: $('#browseNum').val(),
     from: $('#fromDate').val(), to: $('#toDate').val(),
     // FIXME normalize including annotations
     member: $('#annoMember').val(), annotations: (nav === 'annotations' || nav === 'tree') ? '*' : null,
     nav: nav};
+    console.log('o', options);
   return options;
 }
 
@@ -96,8 +97,13 @@ function submitQuery() {
   } else {
     $('.browse.sidebar').sidebar('hide');
   }
-  context.resultsLib.doQuery(options);
+  doQuery(options);
   return false;
+}
+
+// perform a general query
+function doQuery(options) {
+  context.pubsub.query(context.resultsLib.gotResults, options);
 }
 
 // update the query form based on URI query fields
@@ -133,5 +139,5 @@ function clearQueryRefresher() {
 
 function setupQueryRefresher(interval) {
   clearQueryRefresher();
-  queryRefresher = setInterval(context.resultsLib.doQuery, interval);
+  queryRefresher = setInterval(doQuery, interval);
 }
