@@ -100,6 +100,31 @@ describe('Indexer', function(done) {
     });
   });
 
+  it('should save a member record', function(done) {
+    var saveRecord = indexer.saveMemberRecord('testRecord', 'testField');
+    var testRecord = { member: 'test', testField: 72};
+    saveRecord(testRecord, function(err, res) {
+      expect(err).to.be(null);
+      done();
+    });
+  });
+
+  it('should wait a second for indexing', function(done) {
+    setTimeout(function() {
+      done();
+    }, 1000);
+  });
+
+  it('should retrieve a member record', function(done) {
+    var retrieveRecord = indexer.retrieveMemberRecords('testRecord', ['testField']);
+    retrieveRecord('test', function(err, res) {
+      expect(err).to.be(null);
+      expect(res.hits.total).to.be(1);
+      expect(res.hits.hits[0]._source.testField).to.be(72);
+      done();
+    });
+  });
+
 /*
   it('should return no results for non-terms', function(done) {
     var notFound = { terms: uniq + 'nonsense' }
