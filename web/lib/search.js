@@ -24,6 +24,10 @@ exports.init = function(ctx) {
 
   $('input.cron').val();
 
+  $('.load.search').click(function() {
+    $('.load.modal').modal('show');
+  });
+  
   // setup semantic-ui form validation
   $('.searching.form').form(
     {
@@ -65,9 +69,6 @@ exports.init = function(ctx) {
     savedSearches = results;
     if (results && results.hits.total > 0) {
       // display saved searches
-      $('.load.search').click(function() {
-        $('.load.modal').modal('show');
-      });
       $('#savedSearches tbody').html('');
       _.pluck(results.hits.hits, '_source').forEach(function(i) {
         i.lastRun = 'Never';
