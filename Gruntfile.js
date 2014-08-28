@@ -189,6 +189,6 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['mochaTest:devUnitTest', 'mochaTest:devIntegrationTest']);
   grunt.registerTask('tidy', ['jshint', 'plato']);
   grunt.registerTask('libs', [ 'concat:js', 'uglify:js', 'concat:css' ]);
-  grunt.registerTask('clientids', [ 'execute:clientds']);
+  grunt.registerTask('clientids', [ 'execute:clientids']);
   grunt.registerTask('services', [ 'execute:services']);
 };
