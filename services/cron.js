@@ -7,11 +7,12 @@ GLOBAL.config.indexer = require('../lib/indexer.js');
 
 var cron = require('cron');
 
-setInterval(checkCrons, 5000);
+checkCrons();
 
 function checkCrons() {
-  GLOBAL.config.indexer.retrieveSearches('demo', function(err, res) {
-    console.log(err, res);
+  GLOBAL.config.indexer.retrieveSearches({}, function(err, res) {
+    console.log(err, JSON.stringify(res, null, 2));
   });
+  setTimeout(checkCrons, 5000);
 
 }

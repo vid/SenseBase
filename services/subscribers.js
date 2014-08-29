@@ -10,7 +10,7 @@ var pubsub = require('../lib/pubsub-client').init({ homepage: context.config.HOM
 var _ = require('lodash');
 
 // retrieve subscriptions
-  pubsub.retrieveSubscriptions('*', function(results) {
+  pubsub.retrieveSubscriptions({}, function(results) {
     if (results.hits) {
       var subscriptions = _.pluck(results.hits.hits, '_source');
     }
