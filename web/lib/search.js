@@ -27,7 +27,7 @@ exports.init = function(ctx) {
   $('.load.search').click(function() {
     $('.load.modal').modal('show');
   });
-  
+
   // setup semantic-ui form validation
   $('.searching.form').form(
     {
@@ -121,7 +121,7 @@ exports.init = function(ctx) {
   // set up the cron scheduler input
   function setupCronInput(val) {
     $('input.cron').jqCron({
-      enabled_minute: false,
+      enabled_minute: true,
       multiple_dom: true,
       multiple_month: true,
       multiple_mins: true,
