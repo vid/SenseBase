@@ -2,34 +2,44 @@
 /*jslint node: true */
 'use strict';
 
-GLOBAL.config = require('../config.js').config;
-GLOBAL.config.indexer = require('../lib/indexer.js');
-
 var _ = require('lodash'), later = require('later');
 
-var crons = [];
-checkCrons();
+GLOBAL.config = require('../config.js').config;
+var auth = require('../lib/auth');
+auth.setupUsers(GLOBAL);
+var clientID = auth.clientIDByUsername('system');
+var pubsub = require('../lib/pubsub-client').init({ homepage: GLOBAL.config.HOMEPAGE, clientID: clientID });
+GLOBAL.config.indexer = require('../lib/indexer.js');
+var jobs = [];
 
-function checkCrons() {
-  var i = crons.length;
-  for (i; i > 0; i--) {
-    delete crons[i];
-  }
+var searchLib = require('../lib/search.js');
+setupJobs();
+
+pubsub.subSearchUpdates(setupJobs);
+
+function setupJobs() {
+  jobs.forEach(function(job) {
+    job.clear();
+    job = null;
+  });
+  jobs = [];
+  console.log('JOBS', JSON.stringify(jobs, null, 2));
 
   GLOBAL.config.indexer.retrieveSearches({}, function(err, res) {
     if (res.hits && res.hits.total > 0) {
       _.pluck(res.hits.hits, '_source').forEach(function(search) {
         if (search.cron) {
-          var secs = later.parse.cron(search.cron);
-          console.log('setting up', search.searchName, search.cron, secs);
+          var sched = later.parse.cron(search.cron);
+          console.log('setting up', search.searchName, search.cron, sched);
 
-          // execute logTime one time on the next occurrence of the text schedule
-          var cron = later.setTimeout(function() {console.log(search);}, secs);
+          var cron = later.setInterval(function() {
+            console.log('running', search);
+            searchLib.queueSearcher(search);
+          }, sched);
 
-          crons.push(cron);
-        }else{ console.log('no', search);}
+          jobs.push(cron);
+        }
       });
     }
   });
-  setInterval(checkCrons, 5000);
 }
