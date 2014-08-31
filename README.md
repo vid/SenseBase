@@ -5,9 +5,9 @@ Interest in this software is welcome.
 
 ## Install
 
-Install ElasticSearch (1.0+) and Node.js (tested with version 0.10). You'll need the ElasticSearch carrot2 plugin for clustering.
+Install ElasticSearch (1.0+) and Node.js (tested with version 0.10). You'll optionally need the ElasticSearch carrot2 plugin for clustering.
 
-Check out the SenseBase repo, `cd` to it, then `npm install`; npm install -g grunt`; `npm install -g bower`
+Check out the SenseBase repo, `cd` to it, then `npm install`; `npm install -g grunt-cli`; `npm install -g bower`
 
 ## Configure
 
@@ -43,10 +43,6 @@ create a config.js:
 	  doCache : true,
 	  doAuth: true,
 	  logStream : { write: function() {}},
-	  annotationLocations: {
-
-	  },
-	  structuralMatches: [ <configured structuralMatches> ],
 	  apis : { <configured api keys> }
 	//
 	};
@@ -68,14 +64,13 @@ executing `grunt services`.
 
 # Develop
 
-* `npm install -g grunt-cli`
-* `grunt` which watches code changes and starts app.js.
+`grunt` watches code changes after starting app.js.
 
 ## Programming notes
 
-app.js creates a configured instance of sensebase.js (index.js).
+app.js creates a configured instance of index.js.
 
-index.js manages access and bootstraps /lib/pubsub.js
+index.js manages front-end access and bootstraps /lib/pubsub.js
 
 All 'team' interaction is via pubsub.js. ElasticSearch is not exposed and should be firewalled.
 
