@@ -69,4 +69,4 @@ exports.config = {
         'Medications', 'Activity', 'Diet', 'Follow Up', 'Instructions']
     }
   ]
-}
+};
