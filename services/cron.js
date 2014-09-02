@@ -33,7 +33,7 @@ function setupJobs() {
           console.log('setting up', search.searchName, search.cron, sched);
 
           var cron = later.setInterval(function() {
-            console.log('running', search);
+            console.log('running', new Date(), search);
             searchLib.queueSearcher(search);
           }, sched);
 
