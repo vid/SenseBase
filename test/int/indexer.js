@@ -101,7 +101,7 @@ describe('Indexer', function(done) {
   });
 
   it('should save a member record', function(done) {
-    var saveRecord = indexer.saveMemberRecord('testRecord', 'testField');
+    var saveRecord = indexer.saveRecord('testRecord', 'testField');
     var testRecord = { member: 'test', testField: 72};
     saveRecord(testRecord, function(err, res) {
       expect(err).to.be(null);
@@ -116,7 +116,7 @@ describe('Indexer', function(done) {
   });
 
   it('should retrieve a member record', function(done) {
-    var retrieveRecord = indexer.retrieveMemberRecords('testRecord', ['testField']);
+    var retrieveRecord = indexer.retrieveRecords('testRecord', ['testField']);
     retrieveRecord('test', function(err, res) {
       expect(err).to.be(null);
       expect(res.hits.total).to.be(1);
