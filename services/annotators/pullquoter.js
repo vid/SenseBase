@@ -8,7 +8,7 @@ var pullquoter = require('../.././node_modules/pullquoter/lib/pullquoter.js');
 
 var annoLib = require('./annotateLib'), annotations = require('../../lib/annotations'), utils = require('../../lib/utils.js');
 
-var name = 'Quote';
+var name = 'Pullquoter';
 exports.doProcess = doProcess;
 
 // wait for annotation requests
