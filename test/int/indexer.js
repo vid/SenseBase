@@ -4,8 +4,9 @@
 'use strict';
 
 var expect = require("expect.js");
-var indexer = require('../../lib/indexer.js'), annotations = require('../../lib/annotations.js'), testApp = require('../lib/test-app.js'), utils = require('../../lib/utils.js');
+
 GLOBAL.config = require('../lib/test-config.js').config;
+var indexer = require('../../lib/indexer.js'), annotations = require('../../lib/annotations.js'), testApp = require('../lib/test-app.js'), utils = require('../../lib/utils.js');
 
 var uniq = utils.getUnique(), uniqMember = 'member'+uniq, uniqURI = 'http://test.com/' + uniq, uniqCategory = 'category' + uniq;
 
@@ -17,11 +18,40 @@ describe('Indexer', function(done) {
     });
   });
 
+// partial functions
+  it('should save a record', function(done) {
+    var saveRecord = indexer.saveRecord('testRecord', function(data) { return data.testField; });
+    var testRecord = { member: 'test', testField: 72};
+    saveRecord(testRecord, function(err, res) {
+      expect(err).to.be(null);
+      done();
+    });
+  });
+
+  it('should wait a second for indexing', function(done) {
+    setTimeout(function() {
+      done();
+    }, 1000);
+  });
+
+  it('should retrieve a record', function(done) {
+    var retrieveRecord = indexer.retrieveRecords('testRecord', ['testField']);
+    retrieveRecord('test', function(err, res) {
+      expect(err).to.be(null);
+      expect(res.hits.total).to.be(1);
+      expect(res.hits.hits[0]._source.testField).to.be(72);
+      done();
+    });
+  });
+
   it('should index a page', function(done) {
     var cItem = annotations.createContentItem({title: 'test title', uri: uniqURI, content: 'test content ' + uniq});
     cItem.visitors = { member: uniqMember};
-    indexer._saveContentItem(cItem, function(err, res) {
+    cItem.text = cItem.content;
+
+    indexer.saveContentItem(cItem, function(err, res) {
       expect(err).to.be(null);
+      expect(res._id).to.not.be(null);
       done();
     });
   });
@@ -38,20 +68,6 @@ describe('Indexer', function(done) {
       expect(r).to.not.be(undefined);
       done();
     });
-  });
-
-  it('should index an annotation', function(done) {
-    var annoCategory = annotations.createAnnotation({hasTarget: uniqURI, annotatedBy: uniqMember, type: 'category', category: uniqCategory});
-    indexer.saveAnnotations(uniqURI, annoCategory, function(err, res) {
-      expect(err).to.be(null);
-      done();
-    });
-  });
-
-  it('should wait a second for indexing', function(done) {
-    setTimeout(function() {
-      done();
-    }, 1000);
   });
 
   it('should form search', function(done) {
@@ -88,31 +104,6 @@ describe('Indexer', function(done) {
     indexer.formQuery(found, function(err, res) {
       expect(err).to.be(null);
       expect(res.hits.total).to.be(1);
-      done();
-    });
-  });
-
-  it('should save a member record', function(done) {
-    var saveRecord = indexer.saveRecord('testRecord', 'testField');
-    var testRecord = { member: 'test', testField: 72};
-    saveRecord(testRecord, function(err, res) {
-      expect(err).to.be(null);
-      done();
-    });
-  });
-
-  it('should wait a second for indexing', function(done) {
-    setTimeout(function() {
-      done();
-    }, 1000);
-  });
-
-  it('should retrieve a member record', function(done) {
-    var retrieveRecord = indexer.retrieveRecords('testRecord', ['testField']);
-    retrieveRecord('test', function(err, res) {
-      expect(err).to.be(null);
-      expect(res.hits.total).to.be(1);
-      expect(res.hits.hits[0]._source.testField).to.be(72);
       done();
     });
   });

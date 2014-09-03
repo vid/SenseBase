@@ -15,9 +15,6 @@ var pubsub, search = require('./lib/search.js'), content = require('./lib/conten
 
 // Start server with configuration.
 exports.start = function(config, callback) {
-  config.indexer = require('./lib/indexer.js');
-  config.pageCache = require('./lib/pageCache.js');
-
   // proxy rewriting
   config.onRequest = proxied.onRequest;
   config.onRetrieve = proxied.onRetrieve;
@@ -32,6 +29,9 @@ exports.start = function(config, callback) {
   } catch (e) {
     throw new Error('local-site.json is missing, create it with build task in README.');
   }
+
+  config.indexer = require('./lib/indexer.js');
+  config.pageCache = require('./lib/pageCache.js');
 
   auth.setupUsers(GLOBAL);
   pubsub = require('./lib/pubsub.js');

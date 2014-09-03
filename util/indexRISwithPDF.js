@@ -22,8 +22,8 @@ var myUser = 'indexRISwithPDF';
 var fs = require('fs');
 var cheerio = require("cheerio");
 GLOBAL.config = require('../config.js').config;
-var indexer = require('../lib/indexer.js');
-var annotations = require('../lib/annotations.js');
+GLOBAL.config.indexer = require('../lib/indexer.js');
+var contentLib = require('../lib/content.js'), annotations = require('../lib/annotations.js');
 
 var risMapping = require(__dirname + '/risMapping.json');
 
@@ -76,8 +76,8 @@ while (risLines.length && processed < maxProcess) { // or until we find an item
 bulk.forEach(function(b) {
   var cItem = b.cItem;
   var annos = b.annotations;
-  indexer._saveContentItem(cItem, checkError);
-  indexer.saveAnnotations(cItem.uri, annos, checkError);
+  contentLib.indexContentItem(cItem, checkError);
+  contentLib.saveAnnotations(cItem.uri, annos, checkError);
 });
 
 function checkError(err, data) {
