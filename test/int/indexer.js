@@ -48,14 +48,6 @@ describe('Indexer', function(done) {
     });
   });
 
-  it('should retrieve annotations', function(done) {
-    indexer.retrieveAnnotations(uniqURI, function(err, res) {
-      expect(err).to.be(null);
-      expect(res.length).to.be(1);
-      done();
-    });
-  });
-
   it('should wait a second for indexing', function(done) {
     setTimeout(function() {
       done();
