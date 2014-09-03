@@ -23,7 +23,6 @@ function setupJobs() {
     job = null;
   });
   jobs = [];
-  console.log('JOBS', JSON.stringify(jobs, null, 2));
 
   GLOBAL.config.indexer.retrieveSearches({}, function(err, res) {
     if (res.hits && res.hits.total > 0) {
