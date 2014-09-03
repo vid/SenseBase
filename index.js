@@ -11,7 +11,7 @@ var fs = require('fs'),
   _ = require('lodash');
 
 var utils = require('./lib/utils'), proxied = require('./lib/proxy-rewrite.js');
-var pubsub, search = require('./lib/search.js'), content = require('./lib/content.js'), auth = require('./lib/auth');
+var pubsub, auth = require('./lib/auth');
 
 // Start server with configuration.
 exports.start = function(config, callback) {

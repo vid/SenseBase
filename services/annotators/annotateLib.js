@@ -30,9 +30,7 @@ function publishAnnotations(annotator, uri, annotations) {
   if (!GLOBAL.authed) {
     auth.setupUsers(GLOBAL);
   }
-  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAA', annotator, auth.clientIDByUsername(annotator));
   var clientID = auth.clientIDByUsername(annotator);
-  console.log('FOO', annotator, clientID);
   fayeClient.publish('/saveAnnotations', { clientID: clientID, annotator: annotator, uri: uri, annotations: annotations });
 }
 
