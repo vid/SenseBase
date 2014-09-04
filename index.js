@@ -14,7 +14,8 @@ var utils = require('./lib/utils'), proxied = require('./lib/proxy-rewrite.js');
 var pubsub, auth = require('./lib/auth');
 
 // Start server with configuration.
-exports.start = function(config, callback) {
+exports.start = function(context, callback) {
+  var config = context.config;
   // proxy rewriting
   config.onRequest = proxied.onRequest;
   config.onRetrieve = proxied.onRetrieve;
@@ -24,18 +25,13 @@ exports.start = function(config, callback) {
 // Globally shared config.
   GLOBAL.config = config;
   var users;
-  try {
-    users = require('./local-site.json').logins;
-  } catch (e) {
-    throw new Error('local-site.json is missing, create it with build task in README.');
-  }
 
-  config.indexer = require('./lib/indexer.js');
-  config.pageCache = require('./lib/pageCache.js');
-
-  auth.setupUsers(GLOBAL);
+  auth.setupUsers(GLOBAL, context.logins);
   pubsub = require('./lib/pubsub.js');
   GLOBAL.config.pubsub = pubsub;
+  GLOBAL.config.auth = auth;
+  config.indexer = require('./lib/indexer.js');
+  config.pageCache = require('./lib/pageCache.js');
 
 // Express stuff.
   var app = express();
