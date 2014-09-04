@@ -4,7 +4,7 @@
 
 var _ = require('lodash'), later = require('later');
 
-require('../index.js').setup();
+require(process.cwd() + '/index.js').setup();
 var clientID = GLOBAL.svc.auth.clientIDByUsername('system');
 
 var pubsub = require('../lib/pubsub-client').init({ homepage: GLOBAL.config.HOMEPAGE, clientID: clientID }),
