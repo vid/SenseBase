@@ -2,11 +2,10 @@
 /*jslint node: true */
 'use strict';
 
-var context = { config: require('../config.js').config };
-var auth = require('../lib/auth');
-auth.setupUsers(context);
-var clientID = auth.clientIDByUsername('system');
-var pubsub = require('../lib/pubsub-client').init({ homepage: context.config.HOMEPAGE, clientID: clientID }), subscripionLib = require('../lib/subscriptions');
+require(process.cwd() + '/index.js').setup();
+
+var clientID = GLOBAL.svc.auth.clientIDByUsername('system');
+var pubsub = require('../lib/pubsub-client').init({ homepage: GLOBAL.config.HOMEPAGE, clientID: clientID }), subscripionLib = require('../lib/subscriptions');
 var _ = require('lodash');
 
 // retrieve subscriptions

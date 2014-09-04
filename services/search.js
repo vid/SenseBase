@@ -2,9 +2,7 @@
 /*jslint node: true */
 'use strict';
 
-GLOBAL.config = require('../config.js').config;
-GLOBAL.config.indexer = require('../lib/indexer.js');
-GLOBAL.config.pubsub = require('../lib/pubsub.js');
+require('../index.js').setup();
 
 var search = require('../lib/search.js');
 

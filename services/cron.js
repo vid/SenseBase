@@ -4,15 +4,14 @@
 
 var _ = require('lodash'), later = require('later');
 
-GLOBAL.config = require('../config.js').config;
-var auth = require('../lib/auth');
-auth.setupUsers(GLOBAL);
-var clientID = auth.clientIDByUsername('system');
-var pubsub = require('../lib/pubsub-client').init({ homepage: GLOBAL.config.HOMEPAGE, clientID: clientID });
-GLOBAL.config.indexer = require('../lib/indexer.js');
+require('../index.js').setup();
+var clientID = GLOBAL.svc.auth.clientIDByUsername('system');
+
+var pubsub = require('../lib/pubsub-client').init({ homepage: GLOBAL.config.HOMEPAGE, clientID: clientID }),
+  searchLib = require('../lib/search.js');
+
 var jobs = [];
 
-var searchLib = require('../lib/search.js');
 setupJobs();
 
 pubsub.subSearchUpdates(setupJobs);
@@ -24,7 +23,7 @@ function setupJobs() {
   });
   jobs = [];
 
-  GLOBAL.config.indexer.retrieveSearches({}, function(err, res) {
+  GLOBAL.svc.indexer.retrieveSearches({}, function(err, res) {
     if (res.hits && res.hits.total > 0) {
       _.pluck(res.hits.hits, '_source').forEach(function(search) {
         if (search.cron) {
