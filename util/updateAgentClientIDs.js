@@ -13,7 +13,7 @@ if (fs.existsSync('./local-site.json')) {
 }
 
 var updatedLogins = site.logins.map(function(login) {
-  if (login.type === 'Agent' && login.status === 'available') {
+  if (login.type === 'Agent' || login.type === 'Searcher' && login.status === 'available') {
     login.clientID = auth.generateClientID(login.username);
   } else {
     delete login.clientID;
