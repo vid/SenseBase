@@ -10,8 +10,6 @@
 var fs = require('fs'), expect = require('expect.js');
 var search = require('../../lib/search.js'), testApp = require('../lib/test-app.js'), utils = require('../../lib/utils.js');
 
-var uniq = utils.getUnique(), uniqLink = 'http://test.com/' + uniq, testTag = 'tag-'+utils.getUnique(), uniqMember = 'member'+uniq;
-
 describe('Scraper links', function(done) {
   it('should reset test app', function(done) {
     testApp.start(function(err, ok) {
@@ -22,7 +20,7 @@ describe('Scraper links', function(done) {
 
 // save a link and verify one can be retrieved after saving time
   it('should queue a link', function(done) {
-    search.queueLink(uniqLink, {member: uniqMember, categories: [testTag], relevance: 1});
+    search.queueLink(GLOBAL.testing.uniqLink, {member: GLOBAL.testing.uniqMember, categories: [GLOBAL.testing.uniqCategory], relevance: 1});
 
     // wait for link to be saved
     setTimeout(function() {
@@ -30,7 +28,7 @@ describe('Scraper links', function(done) {
       search.getQueuedLink(function(err, queuedLink) {
         expect(queuedLink.uri).to.not.be(undefined);
         expect(queuedLink.queued.categories.length > 0).to.be(true);
-        expect(queuedLink.queued.categories[0]).to.equal(testTag);
+        expect(queuedLink.queued.categories[0]).to.equal(GLOBAL.testing.uniqCategory);
         done();
       }, 1);
     }, 1200);

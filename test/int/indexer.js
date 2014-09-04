@@ -5,10 +5,7 @@
 
 var expect = require("expect.js");
 
-GLOBAL.config = require('../lib/test-config.js').config;
-var indexer = require('../../lib/indexer.js'), annotations = require('../../lib/annotations.js'), testApp = require('../lib/test-app.js'), utils = require('../../lib/utils.js');
-
-var uniq = utils.getUnique(), uniqMember = 'member'+uniq, uniqURI = 'http://test.com/' + uniq, uniqCategory = 'category' + uniq;
+var annotations = require('../../lib/annotations.js'), testApp = require('../lib/test-app.js'), utils = require('../../lib/utils.js');
 
 describe('Indexer', function(done) {
   it('should reset test app', function(done) {
@@ -20,7 +17,7 @@ describe('Indexer', function(done) {
 
 // partial functions
   it('should save a record', function(done) {
-    var saveRecord = indexer.saveRecord('testRecord', function(data) { return data.testField; });
+    var saveRecord = GLOBAL.config.indexer.saveRecord('testRecord', function(data) { return data.testField; });
     var testRecord = { member: 'test', testField: 72};
     saveRecord(testRecord, function(err, res) {
       expect(err).to.be(null);
@@ -35,7 +32,7 @@ describe('Indexer', function(done) {
   });
 
   it('should retrieve a record', function(done) {
-    var retrieveRecord = indexer.retrieveRecords('testRecord', ['testField']);
+    var retrieveRecord = GLOBAL.config.indexer.retrieveRecords('testRecord', ['testField']);
     retrieveRecord('test', function(err, res) {
       expect(err).to.be(null);
       expect(res.hits.total).to.be(1);
@@ -45,11 +42,11 @@ describe('Indexer', function(done) {
   });
 
   it('should index a page', function(done) {
-    var cItem = annotations.createContentItem({title: 'test title', uri: uniqURI, content: 'test content ' + uniq});
-    cItem.visitors = { member: uniqMember};
+    var cItem = annotations.createContentItem({title: 'test title', uri: GLOBAL.testing.uniqURI, content: 'test content ' + GLOBAL.testing.uniq});
+    cItem.visitors = { member: GLOBAL.testing.uniqMember};
     cItem.text = cItem.content;
 
-    indexer.saveContentItem(cItem, function(err, res) {
+    GLOBAL.config.indexer.saveContentItem(cItem, function(err, res) {
       expect(err).to.be(null);
       expect(res._id).to.not.be(null);
       done();
@@ -63,7 +60,7 @@ describe('Indexer', function(done) {
   });
 
   it('should retrieve by URI', function(done) {
-    indexer.retrieveByURI(uniqURI, function(err, r) {
+    GLOBAL.config.indexer.retrieveByURI(GLOBAL.testing.uniqURI, function(err, r) {
       expect(err).to.be(null);
       expect(r).to.not.be(undefined);
       done();
@@ -72,7 +69,7 @@ describe('Indexer', function(done) {
 
   it('should form search', function(done) {
 // delay for ElasticSearch refresh delay
-    indexer.formQuery({}, function(err, res) {
+    GLOBAL.config.indexer.formQuery({}, function(err, res) {
       expect(err).to.be(null);
       expect(res.hits.total).to.be(1);
       done();
@@ -80,9 +77,9 @@ describe('Indexer', function(done) {
   });
 
   it('should form search by member', function(done) {
-    var found = { member: uniqMember, annotationState: utils.states.content.visited };
+    var found = { member: GLOBAL.testing.uniqMember, annotationState: utils.states.content.visited };
 
-    indexer.formQuery(found, function(err, res) {
+    GLOBAL.config.indexer.formQuery(found, function(err, res) {
       expect(err).to.be(null);
       expect(res.hits.total).to.be(1);
       done();
@@ -90,8 +87,8 @@ describe('Indexer', function(done) {
   });
 
   it('should return no results for form search by non-member', function(done) {
-    var notFound = { member: uniqMember + 'nonense', annotationState: utils.states.content.visited };
-    indexer.formQuery(notFound, function(err, res) {
+    var notFound = { member: GLOBAL.testing.uniqMember + 'nonense', annotationState: utils.states.content.visited };
+    GLOBAL.config.indexer.formQuery(notFound, function(err, res) {
       expect(err).to.be(null);
       expect(res.hits.total).to.be(0);
       done();
@@ -99,9 +96,9 @@ describe('Indexer', function(done) {
   });
 
   it('should form search by terms', function(done) {
-    var found = { terms: uniq };
+    var found = { terms: GLOBAL.testing.uniq };
 
-    indexer.formQuery(found, function(err, res) {
+    GLOBAL.config.indexer.formQuery(found, function(err, res) {
       expect(err).to.be(null);
       expect(res.hits.total).to.be(1);
       done();
