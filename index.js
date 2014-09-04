@@ -6,32 +6,17 @@
 var fs = require('fs'),
   http = require('http'),
   flash = require('connect-flash'),
-  express = require('express'),
-  util = require('util'),
-  _ = require('lodash');
+  express = require('express');
 
-var utils = require('./lib/utils'), proxied = require('./lib/proxy-rewrite.js');
-var pubsub, auth = require('./lib/auth');
+var utils = require('./lib/utils'), proxied = require('./lib/proxy-rewrite.js'), pageCache = require('./lib/pageCache.js'),
+  pubsub = require('./lib/pubsub.js'), auth = require('./lib/auth'), indexer = require('./lib/indexer.js');
+
+exports.setup = setup;
 
 // Start server with configuration.
 exports.start = function(context, callback) {
-  var config = context.config;
-  // proxy rewriting
-  config.onRequest = proxied.onRequest;
-  config.onRetrieve = proxied.onRetrieve;
-  config.inject = proxied.inject;
-  config.sitebase = config.sitebase || '';
-
-// Globally shared config.
-  GLOBAL.config = config;
-  var users;
-
-  auth.setupUsers(GLOBAL, context.logins);
-  pubsub = require('./lib/pubsub.js');
-  GLOBAL.config.pubsub = pubsub;
-  GLOBAL.config.auth = auth;
-  config.indexer = require('./lib/indexer.js');
-  config.pageCache = require('./lib/pageCache.js');
+  setup(context);
+  var config = GLOBAL.config;
 
 // Express stuff.
   var app = express();
@@ -56,7 +41,7 @@ exports.start = function(context, callback) {
 
   var filterProxy = require('filter-proxy');
 
-  filterProxy.start(GLOBAL.config);
+  filterProxy.start(proxied);
 
 // Interactive command line.
 
@@ -66,3 +51,27 @@ exports.start = function(context, callback) {
     callback();
   }
 };
+
+// Set up the GLOBAL environment with configuration and services
+//
+// Defaults to directory config and users if no context is passed.
+//
+// pubsub will need to be started on its own.
+
+function setup(context) {
+  if (GLOBAL.config) {
+    console.log('already configured');
+    console.trace();
+    return;
+  }
+  if (!context) {
+    context = require('./config.js');
+  }
+
+  GLOBAL.config = context.config;
+
+  var svc = { pubsub: pubsub, auth: auth, indexer: indexer, pageCache: pageCache };
+
+  GLOBAL.svc = svc;
+  auth.setupUsers(GLOBAL, context.logins);
+}

@@ -80,7 +80,7 @@ ContentItems initially have an state of 'visited' (or 'queued' if searching, the
 
 Everything else (aside from direct field data) is saved as an annotation.
 
-Global configuration and services used by libraries is via the GLOBAL.config object. Tests can use this to provide mocks.
+Global configuration and services used by libraries are via the GLOBAL.config and svc objects. Tests can use this to provide mocks.
 
 ## Services
 
