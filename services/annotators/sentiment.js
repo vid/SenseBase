@@ -22,7 +22,7 @@ function doProcess(combo, callback) {
     // process each individual callback
     var sentiments = analyze((text + '.').trim());
     var score = sentiments.score;
-    annoRows.push(annotations.createAnnotation({type: 'value', annotatedBy: name, hasTarget: uri, key: 'score', value : score }));
+    annoRows.push(annotations.createAnnotation({type: 'value', annotatedBy: name, hasTarget: uri, key: 'score', isA: 'Number', value : score }));
 
     var seen = {};
     ['positive', 'negative'].forEach(function(set) {
