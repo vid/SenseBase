@@ -6,12 +6,11 @@
 
 'use strict';
 
-var xml2js = require('xml2js');
+var siteRequests = require(process.cwd() + '/lib/site-requests.js');
 
 var name = 'PubmedArticle';
 
-var annoLib = require('./annotateLib').init(name), annotations = require('../../lib/annotations'), utils = require('../../lib/utils.js'), sites = require('../../lib/sites.js'), siteQueries = require('../../util/siteQueries');
-
+var annoLib = require('./annotateLib').init(name);
 //process({ uri: 'http://www.ncbi.nlm.nih.gov/pubmed/11139488'});
 
 // wait for annotation requests
@@ -24,70 +23,8 @@ function doProcess(combo, callback) {
   var match = GLOBAL.config.HOMEPAGE + 'files/';
   // it's a local file, try to locate it on databases
   if (uri.indexOf(match) === 0) {
-    siteQueries.findPubMedArticle(uri.replace(match, ''), function(err, res, u) {
-      if (res) {
-        console.log('found', u);
-        processFound(u, function(err, res) {
-          // now substitute back the local URI
-          res.uri = uri;
-
-          res.annoRows.forEach(function(r) {
-            r.hasTarget = uri;
-          });
-          callback(null, res);
-        });
-      } else {
-        processFound(uri, callback);
-      }
-    });
+    siteRequests.processLocalFilenameSearch(match, uri, callback);
   } else {
-    processFound(uri, callback);
+    siteRequests.processFound(uri, callback);
   }
-}
-
-function processFound(uri, callback) {
-  var founds = sites.findMatch(uri);
-
-  founds.forEach(function(found) {
-// an additional request exists
-    if (found.addRequest) {
-      found.addRequest.forEach(function(areq) {
-        // specific processor
-        var processor = sites.processors[areq.processor];
-        var loc = processor.getURI(uri);
-        GLOBAL.info(name, loc, found.addRequest, areq.name);
-        // local name
-        var reqName = areq.name;
-        // retrieve contents and process
-        utils.retrieve(loc, function(err, resp) {
-          if (err) {
-            GLOBAL.error(reqName, err);
-          } else {
-            if (processor.type === 'XML') {
-              // process XML using this processor
-              processXML(reqName, uri, processor, resp, callback);
-            } else {
-              GLOBAL.error('unknown processor type', processor.type);
-            }
-          }
-        });
-      });
-    }
-  });
-}
-
-// process retrieved content as XML
-function processXML(name, uri, processor, resp, callback) {
-  var parser = new xml2js.Parser();
-
-  parser.parseString(resp, function (err, xml) {
-    if (err) {
-      GLOBAL.error(name, err);
-      return;
-    } else {
-      processor.getAnnotations(name, uri, xml, function(err, annoRows) {
-        callback(err, {name: name, uri: uri, annoRows: annoRows});
-      });
-    }
-  });
 }
