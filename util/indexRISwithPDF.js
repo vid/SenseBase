@@ -21,8 +21,9 @@ var myUser = 'indexRISwithPDF';
 
 var fs = require('fs');
 var cheerio = require("cheerio");
-GLOBAL.config = require('../config.js').config;
-GLOBAL.config.indexer = require('../lib/indexer.js');
+
+require('../index.js').setup();
+
 var contentLib = require('../lib/content.js'), annotations = require('../lib/annotations.js');
 
 var risMapping = require(__dirname + '/risMapping.json');

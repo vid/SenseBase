@@ -9,11 +9,9 @@ var importer =  require('../util/mapJsonToItemAnnotation'), contentLib = require
 var importLimit = 5;
 var LOOKUP_URIS = true, SAVE = true;
 
-console.log('LOOKUP_URIS', LOOKUP_URIS, 'SAVE', SAVE);
+require('../index.js').setup();
 
-GLOBAL.config = require('../config.js').config;
-GLOBAL.config.indexer = require('../lib/indexer.js');
-GLOBAL.config.pubsub = require('../lib/pubsub.js');
+console.log('LOOKUP_URIS', LOOKUP_URIS, 'SAVE', SAVE);
 
 var i = 0;
 // get your field mappings

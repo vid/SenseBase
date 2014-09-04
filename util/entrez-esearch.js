@@ -4,7 +4,8 @@
 
 'use strict';
 
-GLOBAL.config = require(__dirname + '/../config.js').config;
+require(process.cwd() + '/index.js').setup();
+
 var utils = require('../lib/utils.js'), scraperLib = require('../lib/search');
 
 exports.queueEsearchResults = queueEsearchResults;
