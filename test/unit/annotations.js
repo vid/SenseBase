@@ -22,13 +22,15 @@ describe('Annotations', function(done){
 
   it('should create value annotation with isA', function() {
     var annoValue = annotations.createAnnotation({hasTarget: item.uri, annotatedBy: 'test', type: 'value', isA: 'Number', key: 'test key', value: 99, selector: 'body'});
-    expect(annoValue.Number).to.be(99);
+    expect(annoValue.typed).to.not.be(null);
+    expect(annoValue.typed.Number).to.be(99);
   });
 
   it('should create annoRange annotation', function() {
     var quoteRange = annotations.createRange({exact: 'quote exact', offset: 100, selector: 'body'});
     var annoRange = annotations.createAnnotation({hasTarget: item.uri, annotatedBy: 'test', type: 'quote', quote: 'test', ranges: quoteRange});
-    expect(quoteRange).to.not.be(null);
+    expect(annoRange).to.not.be(null);
+    expect(annoRange.ranges.length).to.not.be(1);
   });
 
   it('should create valueQuote annotation', function() {
