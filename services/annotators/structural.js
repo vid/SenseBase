@@ -1,16 +1,18 @@
+// # Structural
 // Strucutural annotator looks for structure and extracts fields
 // FIXME: extract multi lines
 /*jslint node: true */
 
 'use strict';
 
-var annoLib = require('./annotateLib'), annotations = require('../../lib/annotations'), sites = require('../../lib/sites.js');
 var cheerio = require('cheerio');
 
 var name = 'Structural';
 
+var annoLib = require('./annotateLib').init(name), annotations = require('../../lib/annotations'), utils = require('../../lib/utils.js');
+
 // wait for annotation requests
-annoLib.requestAnnotate(doProcess);
+annoLib.setupAnnotator(doProcess);
 
 exports.name = name;
 

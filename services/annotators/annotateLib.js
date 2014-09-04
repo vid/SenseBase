@@ -1,38 +1,32 @@
+// # annotateLib
 // Annotation helpers including pubsub.
 /*jslint node: true */
 
 'use strict';
 
-if (!GLOBAL.config) {
-  GLOBAL.config = require('../../config.js').config;
-}
-var faye = require('faye');
-var bayeux = new faye.NodeAdapter({mount: '/montr', timeout: 45});
-var fayeClient = new faye.Client(GLOBAL.config.FAYEHOST);
-var annoLib = require('../../lib/annotations'), utils = require('../../lib/utils'), auth = require('../../lib/auth');
+require(process.cwd() + '/index.js').setup();
+
+var pubsub, annoLib = require('../../lib/annotations'), utils = require('../../lib/utils'), auth = require('../../lib/auth');
+
+exports.init = function(name) {
+  var clientID = GLOBAL.svc.auth.clientIDByUsername(name);
+  pubsub = require(process.cwd() + '/lib/pubsub-client').init({ homepage: GLOBAL.config.HOMEPAGE, clientID: clientID });
+  return this;
+};
 
 // receive requests for annotations
-exports.requestAnnotate = function(callback) {
+exports.setupAnnotator = function(callback) {
   // Presuming we are running standalone. Set up clientIDs for agents.
-  fayeClient.subscribe('/requestAnnotate', function(data) {
+  pubsub.subRequestAnnotate(function(data) {
     callback(data, function(err, data) {
       if (err) {
         GLOBAL.error(err);
       } else {
-        publishAnnotations(data.name, data.uri, data.annoRows);
+        pubsub.saveAnnotations([data.uri], data.annoRows);
       }
     });
   });
 };
-
-// publish request to save annotations
-function publishAnnotations(annotator, uri, annotations) {
-  if (!GLOBAL.authed) {
-    auth.setupUsers(GLOBAL);
-  }
-  var clientID = auth.clientIDByUsername(annotator);
-  fayeClient.publish('/saveAnnotations', { clientID: clientID, annotator: annotator, uri: uri, annotations: annotations });
-}
 
 exports.rangesFromMatches = rangesFromMatches;
 

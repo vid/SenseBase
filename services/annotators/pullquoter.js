@@ -1,3 +1,4 @@
+// # Pullquoter
 // Tries to extract significant quotes.
 /*jslint node: true */
 
@@ -6,13 +7,14 @@
 // Reqular require doesn't seem to work.
 var pullquoter = require('../.././node_modules/pullquoter/lib/pullquoter.js');
 
-var annoLib = require('./annotateLib'), annotations = require('../../lib/annotations'), utils = require('../../lib/utils.js');
-
 var name = 'Pullquoter';
+
+var annoLib = require('./annotateLib').init(name), annotations = require('../../lib/annotations'), utils = require('../../lib/utils.js');
+
 exports.doProcess = doProcess;
 
 // wait for annotation requests
-annoLib.requestAnnotate(doProcess);
+annoLib.setupAnnotator(doProcess);
 
 function doProcess(combo, callback) {
   var uri = combo.uri, html = combo.html, text = combo.text, selector = combo.selector, annoRows = [];

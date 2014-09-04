@@ -1,13 +1,13 @@
+// #annotationSet
 // Finds words in text and adds tags.
 // FIXME update to standalone pubsub
 /*jslint node: true */
 
 'use strict';
 
-var http = require('http');
-var request = require('request');
+var name = 'AnnotationSet';
+var annoLib = require('./annotateLib').init(name), annotations = require('../../lib/annotations'), utils = require('../../lib/utils.js');
 
-exports.name = 'AnnotationSet';
 exports.doProcess = function(text, callback) {
   var annoRows = [];
   candidates(text, function(sets) {

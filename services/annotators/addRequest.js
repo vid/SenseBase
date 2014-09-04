@@ -1,3 +1,4 @@
+// # addRequest
 // Secondary request for annotations.
 //
 // Find any secondary requests relevant to a URI and execute them.
@@ -6,14 +7,15 @@
 'use strict';
 
 var xml2js = require('xml2js');
-var annoLib = require('./annotateLib'), annotations = require('../../lib/annotations'), sites = require('../../lib/sites.js'), utils = require('../../lib/utils.js'), siteQueries = require('../../util/siteQueries');
 
-var name = 'addRequest';
+var name = 'PubmedArticle';
+
+var annoLib = require('./annotateLib').init(name), annotations = require('../../lib/annotations'), utils = require('../../lib/utils.js'), sites = require('../../lib/sites.js'), siteQueries = require('../../util/siteQueries');
 
 //process({ uri: 'http://www.ncbi.nlm.nih.gov/pubmed/11139488'});
 
 // wait for annotation requests
-annoLib.requestAnnotate(doProcess);
+annoLib.setupAnnotator(doProcess);
 
 function doProcess(combo, callback) {
   var uri = combo.uri;

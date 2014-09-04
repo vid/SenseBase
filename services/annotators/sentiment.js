@@ -5,13 +5,14 @@
 
 var analyze = require('Sentimental').analyze;
 
-var annoLib = require('./annotateLib'), annotations = require('../../lib/annotations'), utils = require('../../lib/utils.js');
-
 var name = 'AFINN Sentiment';
+
+var annoLib = require('./annotateLib').init(name), annotations = require('../../lib/annotations'), utils = require('../../lib/utils.js');
+
 exports.doProcess = doProcess;
 
 // wait for annotation requests
-annoLib.requestAnnotate(doProcess);
+annoLib.setupAnnotator(doProcess);
 
 function doProcess(combo, callback) {
   var uri = combo.uri, content = combo.content, text = combo.text, selector = combo.selector, annoRows = [];
