@@ -18,8 +18,8 @@ describe('Content', function(done) {
   });
 
   it('should index a queued page', function(done) {
-    var cItem = annotations.createContentItem({title: 'test title', uri: GLOBAL.testing.uniqURI, queued : { lastAttempt: new Date().toISOString() }} );
-    content.indexContentItem(cItem, {member: GLOBAL.testing.uniqMember, state: utils.states.content.queued}, function(err, res) {
+    var desc = annotations.createContentItem({ title: 'test title', uri: GLOBAL.testing.uniqURI, queued : { lastAttempt: new Date().toISOString() }} );
+    content.indexContentItem(desc, {member: GLOBAL.testing.uniqMember, state: utils.states.content.queued}, function(err, res) {
       expect(err).to.be(null);
       expect(res._id).to.not.be(null);
       done();
@@ -33,7 +33,7 @@ describe('Content', function(done) {
   });
 
   it('should retrieve the indexed page', function(done) {
-    GLOBAL.config.indexer.retrieveByURI(GLOBAL.testing.uniqURI, function(err, r) {
+    GLOBAL.svc.indexer.retrieveByURI(GLOBAL.testing.uniqURI, function(err, r) {
       expect(err).to.be(null);
       var cItem = r._source;
       expect(cItem).not.to.be(undefined);
@@ -58,7 +58,7 @@ describe('Content', function(done) {
   });
 
   it('should retrieve the updated page with content', function(done) {
-    GLOBAL.config.indexer.retrieveByURI(GLOBAL.testing.uniqURI, function(err, r) {
+    GLOBAL.svc.indexer.retrieveByURI(GLOBAL.testing.uniqURI, function(err, r) {
       expect(err).to.be(null);
       var cItem = r._source;
       expect(cItem).to.not.be(undefined);

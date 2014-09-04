@@ -17,7 +17,7 @@ describe('Indexer', function(done) {
 
 // partial functions
   it('should save a record', function(done) {
-    var saveRecord = GLOBAL.config.indexer.saveRecord('testRecord', function(data) { return data.testField; });
+    var saveRecord = GLOBAL.svc.indexer.saveRecord('testRecord', function(data) { return data.testField; });
     var testRecord = { member: 'test', testField: 72};
     saveRecord(testRecord, function(err, res) {
       expect(err).to.be(null);
@@ -32,7 +32,7 @@ describe('Indexer', function(done) {
   });
 
   it('should retrieve a record', function(done) {
-    var retrieveRecord = GLOBAL.config.indexer.retrieveRecords('testRecord', ['testField']);
+    var retrieveRecord = GLOBAL.svc.indexer.retrieveRecords('testRecord', ['testField']);
     retrieveRecord('test', function(err, res) {
       expect(err).to.be(null);
       expect(res.hits.total).to.be(1);
@@ -46,7 +46,7 @@ describe('Indexer', function(done) {
     cItem.visitors = { member: GLOBAL.testing.uniqMember};
     cItem.text = cItem.content;
 
-    GLOBAL.config.indexer.saveContentItem(cItem, function(err, res) {
+    GLOBAL.svc.indexer.saveContentItem(cItem, function(err, res) {
       expect(err).to.be(null);
       expect(res._id).to.not.be(null);
       done();
@@ -60,7 +60,7 @@ describe('Indexer', function(done) {
   });
 
   it('should retrieve by URI', function(done) {
-    GLOBAL.config.indexer.retrieveByURI(GLOBAL.testing.uniqURI, function(err, r) {
+    GLOBAL.svc.indexer.retrieveByURI(GLOBAL.testing.uniqURI, function(err, r) {
       expect(err).to.be(null);
       expect(r).to.not.be(undefined);
       done();
@@ -69,7 +69,7 @@ describe('Indexer', function(done) {
 
   it('should form search', function(done) {
 // delay for ElasticSearch refresh delay
-    GLOBAL.config.indexer.formQuery({}, function(err, res) {
+    GLOBAL.svc.indexer.formQuery({}, function(err, res) {
       expect(err).to.be(null);
       expect(res.hits.total).to.be(1);
       done();
@@ -79,7 +79,7 @@ describe('Indexer', function(done) {
   it('should form search by member', function(done) {
     var found = { member: GLOBAL.testing.uniqMember, annotationState: utils.states.content.visited };
 
-    GLOBAL.config.indexer.formQuery(found, function(err, res) {
+    GLOBAL.svc.indexer.formQuery(found, function(err, res) {
       expect(err).to.be(null);
       expect(res.hits.total).to.be(1);
       done();
@@ -88,7 +88,7 @@ describe('Indexer', function(done) {
 
   it('should return no results for form search by non-member', function(done) {
     var notFound = { member: GLOBAL.testing.uniqMember + 'nonense', annotationState: utils.states.content.visited };
-    GLOBAL.config.indexer.formQuery(notFound, function(err, res) {
+    GLOBAL.svc.indexer.formQuery(notFound, function(err, res) {
       expect(err).to.be(null);
       expect(res.hits.total).to.be(0);
       done();
@@ -98,7 +98,7 @@ describe('Indexer', function(done) {
   it('should form search by terms', function(done) {
     var found = { terms: GLOBAL.testing.uniq };
 
-    GLOBAL.config.indexer.formQuery(found, function(err, res) {
+    GLOBAL.svc.indexer.formQuery(found, function(err, res) {
       expect(err).to.be(null);
       expect(res.hits.total).to.be(1);
       done();
