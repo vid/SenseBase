@@ -57,19 +57,19 @@ function getUnMapped() {
 }
 
 // converts a mapped item to an ContentItem and Annotations
-// adding an optional queed state
+// adding an optional queued state
 function mapToItem(item, merge) {
   // first pass, find fields and annos and add to a proto
-  var proto = {categories: [], vals: [], doAnnotations: item.doAnnotations};
+  var proto = {categories: [], vals: [], doAnnotations: item.doAnnotations, annotatedBy: 'system'};
   for (var key in item) {
     var mapped = flatFields[key];
     if (mapped) {
       if (mapped.level.length === 1 && mapped.level[0] === '_TOP_') {
         proto[mapped._VAL_[0]] = item[key];
       } else if (mapped._TAG_) {
-        proto.categories.push({ category: [mapped._TAG_[0] || key], content : item[key], level: mapped.level});
+        proto.categories.push({ category: [mapped._TAG_[0] || key], content : item[key], roots: mapped.level, level: mapped.level});
       } else if (mapped._VAL_) {
-        proto.vals.push({ key: mapped._VAL_[0] || key, value: item[key], level: mapped.level});
+        proto.vals.push({ key: mapped._VAL_[0] || key, value: item[key], roots: mapped.level, level: mapped.level});
       } else {
         throw new Error('unknown type' + mapped);
       }
