@@ -7,7 +7,7 @@
 var utils = require('./clientUtils');
 exports.render = function(dest, results) {
 
-  $(dest).append('<svg>');
+  $(dest).append('<svg style="width: 100%; height: 100%">');
   nv.addGraph(function() {
     var chart = nv.models.scatterChart()
       .showDistX(true)    //showDist, when true, will display those little distribution lines on the axis.
