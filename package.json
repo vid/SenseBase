@@ -5,7 +5,6 @@
   "description": "SenseBase basis for workgroup annotation.",
   "dependencies": {
     "Sentimental": "0.0.4",
-    "bionode-ncbi": "^0.2.1",
     "cheerio": "~0.13.1",
     "colors": "~0.6.2",
     "connect-flash": "^0.1.1",
@@ -45,11 +44,8 @@
     "grunt-includes": "0.4.x",
     "grunt-mocha-test": "~0.8.2",
     "grunt-plato": "~0.2.1",
-    "grunt-string-replace": "^0.2.7",
     "jshint": "~2.4.3",
-    "mocha": "~1.12.0",
-    "require-analyzer": "0.5.x",
-    "xunit-file": "0.0.4"
+    "mocha": "~1.12.0"
   },
   "scripts": {
     "test": "mocha test",
