@@ -16,7 +16,7 @@ exports.init = function(name) {
 
 // receive requests for annotations
 exports.setupAnnotator = function(callback) {
-  pubsub.item.annotations.update(function(data) {
+  pubsub.item.annotations.subAnnotate(function(data) {
     callback(data, function(err, data) {
       if (err) {
         GLOBAL.error(err);

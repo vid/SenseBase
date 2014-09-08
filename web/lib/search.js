@@ -1,4 +1,4 @@
-// ### Search
+// # Search
 //
 // lookup for saved searches
 /*jslint browser: true */

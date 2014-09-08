@@ -14,7 +14,8 @@ var jobs = [];
 
 setupJobs();
 
-pubsub.subSearchUpdates(setupJobs);
+// capture updated searches
+pubsub.search.subUpdated(setupJobs);
 
 function setupJobs() {
   jobs.forEach(function(job) {

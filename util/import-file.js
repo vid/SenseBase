@@ -25,5 +25,5 @@ context.categories.push(tag);
 
 importFiles.indexFiles([pathedFile], context, function(err, res, cItem) {
   console.log('err', err, 'res', res, 'cItem', cItem);
-  setTimeout(function() { process.exit(0); }, 1000);
+  utils.indexDelay(function() { process.exit(0); });
 });

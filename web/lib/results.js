@@ -33,7 +33,7 @@ exports.init = function(ctx, view) {
   treeInterface.init(ctx);
 
   // delete an item
-  context.pubsub.item.deleted(function(item) {
+  context.pubsub.item.subDeleted(function(item) {
     console.log('/item/deleted', item, lastResults);
     if (lastResults && lastResults.hits) {
       var i = 0, l = lastResults.hits.hits.length;
@@ -50,7 +50,7 @@ exports.init = function(ctx, view) {
 
 
   // Add new or update item.
-  context.pubsub.item.updated(function(result) {
+  context.pubsub.item.subUpdated(function(result) {
     console.log('/item/updated', result, lastResults);
     result = normalizeResult(result);
     if (!lastResults.hits) {
@@ -80,7 +80,7 @@ function normalizeResult(result) {
     if (!result._source) {
       result._source = {};
     }
-    ['title', 'timestamp', 'uri'].forEach(function(f) {
+    ['title', 'timestamp', 'uri', 'annotationSummary', 'annotations'].forEach(function(f) {
       result._source[f] = result[f];
     });
   }
