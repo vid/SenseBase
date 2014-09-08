@@ -80,7 +80,7 @@ function normalizeResult(result) {
     if (!result._source) {
       result._source = {};
     }
-    ['title', 'timestamp', 'uri', 'annotationSummary', 'annotations'].forEach(function(f) {
+    ['title', 'timestamp', 'uri', 'annotationSummary', 'annotations', 'visitors'].forEach(function(f) {
       result._source[f] = result[f];
     });
   }
