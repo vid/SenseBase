@@ -10,7 +10,7 @@ var context, justEdited, rTeams, editingMember;
 
 exports.init = function(ctx) {
   context = ctx;
-  context.pubsub.subTeamList(function(teams) {
+  context.pubsub.team.request(function(teams) {
     $('#aneditor').hide();
     console.log('teams', teams);
     // populate any team containers

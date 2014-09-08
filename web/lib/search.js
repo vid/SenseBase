@@ -65,7 +65,7 @@ exports.init = function(ctx) {
   );
 
 // Retreive existing searches.
-  context.pubsub.subSearches(function(results) {
+  context.pubsub.search.request(function(results) {
     savedSearches = results;
     if (results && results.hits.total > 0) {
       // display saved searches

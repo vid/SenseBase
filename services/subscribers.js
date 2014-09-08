@@ -9,11 +9,8 @@ var pubsub = require('../lib/pubsub-client').init({ homepage: GLOBAL.config.HOME
 var _ = require('lodash');
 
 // retrieve subscriptions
-  pubsub.retrieveSubscriptions({}, function(results) {
+  pubsub.subscriptions.request({}, function(results) {
     if (results.hits) {
       var subscriptions = _.pluck(results.hits.hits, '_source');
     }
   });
-pubsub.updateItem(function(result) {
-  console.log('update', result.uri, result.annotations);
-});

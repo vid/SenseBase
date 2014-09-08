@@ -32,29 +32,9 @@ exports.init = function(ctx, view) {
   context = ctx;
   treeInterface.init(ctx);
 
-  // receive annotations
-  context.pubsub.annotations(function(data) {
-    console.log('/annotations', data);
-    // update query items
-    if (data.annotationSummary && lastResults.hits) {
-      var i = 0, l = lastResults.hits.hits.length;
-      for (i; i < l; i++) {
-        if (lastResults.hits.hits[i]._id === data.uri) {
-          lastResults.hits.hits[i]._source.annotationSummary = data.annotationSummary;
-          break;
-        }
-      }
-      updateResults(lastResults);
-    }
-
-    if (data.uri === currentURI) {
-      annoTree.display(data.annotations, data.uri, treeInterface);
-    }
-  });
-
   // delete an item
-  context.pubsub.subDeletedItem(function(item) {
-    console.log('/deletedItem', item, lastResults);
+  context.pubsub.item.deleted(function(item) {
+    console.log('/item/deleted', item, lastResults);
     if (lastResults && lastResults.hits) {
       var i = 0, l = lastResults.hits.hits.length;
       for (i; i < l; i++) {
@@ -70,8 +50,8 @@ exports.init = function(ctx, view) {
 
 
   // Add new or update item.
-  context.pubsub.updateItem(function(result) {
-    console.log('/updateItem', result, lastResults);
+  context.pubsub.item.updated(function(result) {
+    console.log('/item/updated', result, lastResults);
     result = normalizeResult(result);
     if (!lastResults.hits) {
       lastResults = { hits: { total : 0, hits: [] } };
@@ -108,7 +88,7 @@ function normalizeResult(result) {
 }
 
 function moreLikeThis(uris) {
-  context.pubsub.moreLikeThis(uris);
+  context.pubsub.item.moreLikeThis(uris);
 }
 
 function gotResults(results) {
@@ -142,7 +122,24 @@ function displayItemSidebar(uri) {
   });
   $('.context.dropdown').dropdown();
   setCurrentURI(uri);
-  context.pubsub.annotate(uri);
+  context.pubsub.item.annotations.request(uri, function(data) {
+    console.log('/annotations', data);
+    // update query items
+    if (data.annotationSummary && lastResults.hits) {
+      var i = 0, l = lastResults.hits.hits.length;
+      for (i; i < l; i++) {
+        if (lastResults.hits.hits[i]._id === data.uri) {
+          lastResults.hits.hits[i]._source.annotationSummary = data.annotationSummary;
+          break;
+        }
+      }
+      updateResults(lastResults);
+    }
+
+    if (data.uri === currentURI) {
+      annoTree.display(data.annotations, data.uri, treeInterface);
+    }
+  });
   $('.details.sidebar').sidebar('show');
 }
 

@@ -14,7 +14,7 @@ var sline = _.template('<tr><td><div class="ui icon button"><i class="remove ico
 exports.init = function(ctx) {
   context = ctx;
 
-  context.pubsub.retrieveSubscriptions({}, function(results) {
+  context.pubsub.subscriptions.request({}, function(results) {
     $('#watchlist tbody').html('');
     if (results.hits) {
       _.pluck(results.hits.hits, '_source').forEach(function(s) {

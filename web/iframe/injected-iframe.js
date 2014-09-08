@@ -61,7 +61,7 @@ console.log('select', anno);
 
   $('.refresh.icon').click(function() {
     console.log('updateContent');
-    pubsub.updateContent({ uri: loc.href, content: doc.documentElement.outerHTML} );
+    pubsub.item.savei({ uri: loc.href, content: doc.documentElement.outerHTML} );
   });
 
   $('.minus.checkbox.icon').click(function() {

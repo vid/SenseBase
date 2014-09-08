@@ -102,7 +102,7 @@ function submitQuery() {
 
 // perform a general query
 function doQuery(options) {
-  context.pubsub.query(context.resultsLib.gotResults, options);
+  context.pubsub.query.request(context.resultsLib.gotResults, options);
 }
 
 // update the query form based on URI query fields

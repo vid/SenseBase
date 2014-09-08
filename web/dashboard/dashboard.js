@@ -10,7 +10,7 @@
 var homepage = window.senseBase.homepage;
 
 var resultViews = { scatter: require('../lib/results.scatter'), table: require('../lib/results.table'),
-  debug: require('../lib/results.debug')},  querySub;
+  debug: require('../lib/results.debug')};
 
 var resultsLib = require('../lib/results'), membersLib = require('../lib/members'), searchLib = require('../lib/search'),
   queryLib = require('../lib/query'), watchlist = require('../lib/watchlist'),
@@ -82,7 +82,7 @@ exports.init = function() {
   $('.confirm.subscribe.button').click(function() {
     var items = $('#subscribeItems').val().split('\n');
     if (items.length) {
-      pubsub.saveSubscriptions(items);
+      pubsub.subscriptions.save(items);
       return false;
     }
   });
@@ -103,7 +103,7 @@ exports.init = function() {
   $('.confirm.annotate.button').click(function() {
     var annotations = $('#selectedAnnotations').val().split(',').map(function(a) { return { type: 'category', category: a.trim()}; });
     if (annotations.length) {
-      pubsub.saveAnnotations(resultsLib.getSelected(), annotations);
+      pubsub.item.annotations.save(resultsLib.getSelected(), annotations);
       return false;
     }
   });
@@ -119,7 +119,7 @@ exports.init = function() {
   });
 
   $('.confirm.delete.button').click(function() {
-    pubsub.delete(resultsLib.getSelected());
+    pubsub.item.delete(resultsLib.getSelected());
     return false;
   });
 

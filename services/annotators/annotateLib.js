@@ -16,13 +16,12 @@ exports.init = function(name) {
 
 // receive requests for annotations
 exports.setupAnnotator = function(callback) {
-  // Presuming we are running standalone. Set up clientIDs for agents.
-  pubsub.subRequestAnnotate(function(data) {
+  pubsub.item.annotations.update(function(data) {
     callback(data, function(err, data) {
       if (err) {
         GLOBAL.error(err);
       } else {
-        pubsub.saveAnnotations([data.uri], data.annoRows);
+        pubsub.item.annotations.save([data.uri], data.annoRows);
       }
     });
   });
