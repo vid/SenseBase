@@ -87,7 +87,7 @@ exports.init = function(ctx) {
   $('.save.search').click(function() {
     var searchInput = getSearchInput();
     if (searchInput.valid && searchInput.searchName.length > 0) {
-      context.pubsub.searchSave(searchInput);
+      context.pubsub.search.save(searchInput);
     } else {
       alert('Missing parameters');
     }
@@ -150,7 +150,7 @@ exports.init = function(ctx) {
       return;
     }
     console.log('publishing', searchInput);
-    context.pubsub.searchQueue(searchInput);
+    context.pubsub.search.queue(searchInput);
     if ($('#refreshSearch').prop('checked')) {
       context.queryLib.addAnnotationTag($('#searchCategories').val());
     //  $('#validationState').val('queued');
