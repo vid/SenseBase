@@ -10,7 +10,7 @@
 var homepage = window.senseBase.homepage;
 
 var resultViews = { scatter: require('../lib/results.scatter'), table: require('../lib/results.table'),
-  debug: require('../lib/results.debug')},  querySub, clusterSub;
+  debug: require('../lib/results.debug')},  querySub;
 
 var resultsLib = require('../lib/results'), membersLib = require('../lib/members'), searchLib = require('../lib/search'),
   queryLib = require('../lib/query'), watchlist = require('../lib/watchlist'),
