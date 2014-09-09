@@ -18,6 +18,7 @@ var resultsLib = require('../lib/results'), membersLib = require('../lib/members
 
 // initialize page functions
 exports.init = function() {
+
   var context = {pubsub: pubsub, resultsLib: resultsLib, queryLib: queryLib};
   resultsLib.init(context, resultViews.table);
   searchLib.init(context);

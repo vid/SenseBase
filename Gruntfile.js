@@ -7,7 +7,7 @@ module.exports = function(grunt) {
     'services/*.js',
     // frontend
     'web/dashboard/*.js',
-    'web/lib/**/*.js',
+    'web/lib/**/*.js*',
     'web/iframe/*.js',
     'services/**',
     'util/**'
@@ -26,6 +26,9 @@ module.exports = function(grunt) {
       files: srcFiles
     },
     watch: {
+      options: {
+        livereload: true,
+      },
       assets: {
         files: assetFiles,
         tasks: ['includes'],
@@ -59,6 +62,9 @@ module.exports = function(grunt) {
         src: [ 'web/dashboard/index.js' ],
         dest: 'web/static/index.js',
         options: {
+          "transform": [
+            ["reactify", {"es6": true}]
+          ]
         }
       },
       iframe: {

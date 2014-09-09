@@ -26,7 +26,9 @@
     "tldjs": "^1.5.0",
     "unfluff": "~0.2.0",
     "winston": "~0.7.2",
-    "xml2js": "^0.4.2"
+    "xml2js": "^0.4.2",
+    "react": "~0.11.1",
+    "reactify": "~0.14.0"
   },
   "main": "index.js",
   "devDependencies": {
