@@ -20,7 +20,7 @@ context.logins = [{
 
 exports.start = function(callback) {
   var senseBase = require('../../index.js'), reset = require('../../lib/reset.js');
-  senseBase.start(context, callback);
+  senseBase.start(context);
   GLOBAL.testing = { uniq: uniq, uniqMember: uniqMember, uniqURI: uniqURI, uniqCategory: uniqCategory};
 
   reset.resetAll(callback);
