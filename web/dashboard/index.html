@@ -108,7 +108,6 @@
   include "./includes/search.html"
   </div>
   <div class="query content hidden">
-  include "./includes/query.html"
   </div>
   <div id="uploadInfo" class="hidden">
     <p id="upload" class="hidden"><label>Your browser doesn't support drag and drop, but you can still upload via this input field:<br /><input type="file" /></label></p>
@@ -133,12 +132,12 @@
       </div>
       <div class="item">
         <div class="field">
-          <input class="query input" id="termSearch" type="text" placeholder="Query…" />
+          <input class="query input terms" id="termSearch" type="text" placeholder="Query…" />
         </div>
       </div>
       <div class="item">
         <div class="field">
-          <input class="query input" id="annoSearch" placeholder="Annotations…" style="min-width: 10em" />
+          <input class="query input annotations" placeholder="Annotations…" style="min-width: 10em" />
         </div>
       </div>
       <div class="item">
@@ -246,5 +245,3 @@
 
 <script src="member.js"></script>
 <script src="index.js"></script>
-
-</html>

@@ -9,11 +9,13 @@
 // module variables
 var homepage = window.senseBase.homepage;
 
+var React = require('react');
+
 var resultViews = { scatter: require('../lib/results.scatter'), table: require('../lib/results.table'),
   debug: require('../lib/results.debug')};
 
 var resultsLib = require('../lib/results'), membersLib = require('../lib/members'), searchLib = require('../lib/search'),
-  queryLib = require('../lib/query'), watchlist = require('../lib/watchlist'),
+  queryLib = require('../lib/query.jsx'), watchlist = require('../lib/watchlist'),
   pubsub = require('../../lib/pubsub-client').init(window.senseBase);
 
 // initialize page functions
@@ -27,6 +29,13 @@ exports.init = function() {
 
   setupDND('uploadItem', homepage + 'upload');
   // General setup and functions
+
+
+// mockup
+// tag:step1 + tag:step2 + step3 + filter('((annotations.category:Absorption OR annotations.category:Animals) AND annotations.key:DateCompleted AND annotations. typed.Date:>1997)')
+  var filters = 'category: Animals,\nDateCompleted: < Jan 1, 2014';
+
+  React.renderComponent(queryLib.QueryForm({data: filters}), $('.query.content')[0]);
 
   // main menu interaction
   $('.query.toggle').click(function() { $('.query.content').toggle('hidden'); $('.query.toggle').toggleClass('active');});

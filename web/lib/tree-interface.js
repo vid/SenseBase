@@ -27,8 +27,8 @@ exports.select = function(anno, e, data) {
     $('.filter.icon').click(function() {
 //      console.log(anno, 'filtering on', this);
       if ($(this).hasClass('by')) {
-        $('#annoMember').val('"' + anno.annotatedBy + '"');
-        $('#annotationState').val('provided');
+        $('.query.member').val('"' + anno.annotatedBy + '"');
+        $('.query.annotation.state').val('provided');
       } else {
         context.queryLib.addAnnotationTag(anno.text);
       }
