@@ -41,7 +41,7 @@ describe('Queries', function(done) {
     for (c = 0; c < 5; c++) {
       uri = GLOBAL.testing.uniqURI + '-' + c;
       var cItem = annotations.createContentItem({title: 'test title', uri: uri, content: 'test content ' + GLOBAL.testing.uniq, annotations: []});
-      for (a = 0; a < 0; a++) {
+      for (a = 0; a < 5; a++) {
         date = new Date(year++, 5, 15);
         cItem.annotations.push(annotations.createAnnotation({type: 'value', isA: 'Date', annotatedBy: name, hasTarget: uri, key: 'testDate', value: date, roots: [GLOBAL.testing.uniq]}));
       }
