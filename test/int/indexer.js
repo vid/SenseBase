@@ -68,7 +68,7 @@ describe('Indexer', function(done) {
     });
   });
 
-  it('should form search', function(done) {
+  it('should form query', function(done) {
 // delay for ElasticSearch refresh delay
     GLOBAL.svc.indexer.formQuery({}, function(err, res) {
       expect(err).to.be(null);
@@ -77,7 +77,7 @@ describe('Indexer', function(done) {
     });
   });
 
-  it('should form search by member', function(done) {
+  it('should form query by member', function(done) {
     var found = { member: GLOBAL.testing.uniqMember, annotationState: utils.states.content.visited };
 
     GLOBAL.svc.indexer.formQuery(found, function(err, res) {
@@ -87,7 +87,7 @@ describe('Indexer', function(done) {
     });
   });
 
-  it('should return no results for form search by non-member', function(done) {
+  it('should return no results for form query by non-member', function(done) {
     var notFound = { member: GLOBAL.testing.uniqMember + 'nonense', annotationState: utils.states.content.visited };
     GLOBAL.svc.indexer.formQuery(notFound, function(err, res) {
       expect(err).to.be(null);
@@ -96,7 +96,7 @@ describe('Indexer', function(done) {
     });
   });
 
-  it('should form search by terms', function(done) {
+  it('should form query by terms', function(done) {
     var found = { terms: GLOBAL.testing.uniq };
 
     GLOBAL.svc.indexer.formQuery(found, function(err, res) {
