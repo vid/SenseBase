@@ -17,26 +17,39 @@ describe('Queries', function(done) {
       done();
     });
   });
+
   // save queries and content items for later tests
   it('should save sample data', function(done) {
     // create some sample data
-    dateField = [GLOBAL.testing.uniq, 'testDate', 'typed', 'Date'].join(annotations.uniqSep);
+    dateField = [GLOBAL.testing.uniq, 'testDate', 'typed', 'Date'].join(annotations.unitSep);
 
-    beforeDateQuery = { queryName: GLOBAL.testing.uniq, filters: [
-      { dateField : '< June 15, 2005'}
-    ]};
-    afterDateQuery = { queryName: GLOBAL.testing.uniq, filters: [
-      { dateField : '< June 15, 2005'}
-    ]};
+    beforeDateQuery = {
+      queryName: GLOBAL.testing.uniq + '-before',
+      member: GLOBAL.testing.uniqMember,
+      annotations: ['tag0', 'tag1', 'tag2'],
+      filters: [ { field: dateField, operator: '<', value: new Date(2003, 5, 15)} ]
+    };
+    afterDateQuery = {
+      queryName: GLOBAL.testing.uniq + '-after',
+      member: GLOBAL.testing.uniqMember,
+      annotations: ['tag3', 'tag4'],
+      filters: [
+      { field: dateField, operator: '>', value: new Date(2003, 5, 15)} ]
+    };
 
-    var annoRows = [], date, name = GLOBAL.testing.uniqMember, uri = GLOBAL.testing.uniqURI, year = 2000;
-    for (var i = 0; i < 10; i++) {
-      date = new Date(year++, 5, 15);
-      annoRows.push(annotations.createAnnotation({type: 'value', isA: 'Date', annotatedBy: name, hasTarget: uri, key: 'testDate', value: date, roots: [GLOBAL.testing.uniq]}));
+    var c, a, cItems = [], date, name = GLOBAL.testing.uniqMember, uri, year = 2000;
+    for (c = 0; c < 5; c++) {
+      uri = GLOBAL.testing.uniqURI + '-' + c;
+      var cItem = annotations.createContentItem({title: 'test title', uri: uri, content: 'test content ' + GLOBAL.testing.uniq, annotations: []});
+      for (a = 0; a < 5; a++) {
+        date = new Date(year++, 5, 15);
+        cItem.annotations.push(annotations.createAnnotation({type: 'value', isA: 'Date', annotatedBy: name, hasTarget: uri, key: 'testDate', value: date, roots: [GLOBAL.testing.uniq]}));
+      }
+      cItem.annotations.push(annotations.createAnnotation({type: 'category', annotatedBy: name, hasTarget: uri, category: 'tag' + c, roots: [GLOBAL.testing.uniq]}));
+      cItems.push(cItem);
     }
-    var cItem = annotations.createContentItem({title: 'test title', uri: GLOBAL.testing.uniqURI, content: 'test content ' + GLOBAL.testing.uniq});
-    cItem.visitors = { member: GLOBAL.testing.uniqMember};
-    GLOBAL.svc.indexer.saveContentItem(cItem, function(err, res) {
+    console.log(cItems);
+    GLOBAL.svc.indexer.saveContentItem(cItems, function(err, res) {
       expect(err).to.be(null);
       GLOBAL.svc.indexer.saveQuery(beforeDateQuery, function(err, res) {
         expect(err).to.be(null);
@@ -55,7 +68,15 @@ describe('Queries', function(done) {
   });
 
   it('should return all the results', function(done) {
-    done();
+    GLOBAL.svc.indexer.formQuery({}, function(err, res) {
+      expect(err).to.be(null);
+      expect(res.hits.total).to.be(5);
+      GLOBAL.svc.indexer.retrieveQueries({}, function(err, res) {
+        expect(err).to.be(null);
+        expect(res.hits.total).to.be(2);
+        done();
+      });
+    });
   });
 
   it('should include multiple categories in a query', function(done) {
