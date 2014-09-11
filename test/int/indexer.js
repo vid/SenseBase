@@ -63,7 +63,7 @@ describe('Indexer', function(done) {
     GLOBAL.svc.indexer.retrieveByURI(GLOBAL.testing.uniqURI, function(err, r) {
       expect(err).to.be(null);
       expect(r).to.not.be(undefined);
-      expect(r.uri).to.be(GLOBAL.testing.uniqURI);
+      expect(r._source.uri).to.be(GLOBAL.testing.uniqURI);
       done();
     });
   });
