@@ -13,9 +13,8 @@ var dateField, beforeDateQuery, afterDateQuery;
 describe('Indexer', function(done) {
   it('should reset test app', function(done) {
     testApp.start(function(err, ok) {
-      expect(err).to.be(undefined);
+      expect(err).to.be(null);
 
-console.log(GLOBAL.testing);
       dateField = [GLOBAL.testing.uniq, 'testDate', 'typed', 'Date'].join(annotations.uniqSep);
 
       beforeDateQuery = { queryName: GLOBAL.testing.uniq, filters: [
@@ -41,11 +40,11 @@ console.log(GLOBAL.testing);
     var cItem = annotations.createContentItem({title: 'test title', uri: GLOBAL.testing.uniqURI, content: 'test content ' + GLOBAL.testing.uniq});
     cItem.visitors = { member: GLOBAL.testing.uniqMember};
     GLOBAL.svc.indexer.saveContentItem(cItem, function(err, res) {
-      expect(err.to.be(null));
+      expect(err).to.be(null);
       GLOBAL.svc.indexer.saveQuery(beforeDateQuery, function(err, res) {
-        expect(err.to.be(null));
+        expect(err).to.be(null);
         GLOBAL.svc.indexer.saveQuery(afterDateQuery, function(err, res) {
-          expect(err.to.be(null));
+          expect(err).to.be(null);
           done();
         });
       });
@@ -58,15 +57,15 @@ console.log(GLOBAL.testing);
     });
   });
 
-  // save some sample results and retrieve them wtih a query
-  it('should find relevant results with a query', function(done) {
-    it('should return all the results', function(done) {
-    });
-    it('should query by date range', function(done) {
-      done();
-    });
+  it('should return all the results', function(done) {
+    done();
+  });
+
+  it('should query by date range', function(done) {
+    done();
   });
 
   it ('should compare two queries', function(done) {
+    done();
   });
 });
