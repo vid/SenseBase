@@ -10,27 +10,25 @@ var annotations = require('../../lib/annotations.js'), testApp = require('../lib
 
 var dateField, beforeDateQuery, afterDateQuery;
 
-describe('Indexer', function(done) {
+describe('Queries', function(done) {
   it('should reset test app', function(done) {
     testApp.start(function(err, ok) {
-      expect(err).to.be(null);
-
-      dateField = [GLOBAL.testing.uniq, 'testDate', 'typed', 'Date'].join(annotations.uniqSep);
-
-      beforeDateQuery = { queryName: GLOBAL.testing.uniq, filters: [
-        { dateField : '< June 15, 2005'}
-      ]};
-      afterDateQuery = { queryName: GLOBAL.testing.uniq, filters: [
-        { dateField : '< June 15, 2005'}
-      ]};
-
+      expect(err).to.be(undefined);
       done();
     });
   });
-
   // save queries and content items for later tests
   it('should save sample data', function(done) {
     // create some sample data
+    dateField = [GLOBAL.testing.uniq, 'testDate', 'typed', 'Date'].join(annotations.uniqSep);
+
+    beforeDateQuery = { queryName: GLOBAL.testing.uniq, filters: [
+      { dateField : '< June 15, 2005'}
+    ]};
+    afterDateQuery = { queryName: GLOBAL.testing.uniq, filters: [
+      { dateField : '< June 15, 2005'}
+    ]};
+
     var annoRows = [], date, name = GLOBAL.testing.uniqMember, uri = GLOBAL.testing.uniqURI, year = 2000;
     for (var i = 0; i < 10; i++) {
       date = new Date(year++, 5, 15);
