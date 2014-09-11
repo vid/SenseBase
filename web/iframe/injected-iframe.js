@@ -61,7 +61,7 @@ console.log('select', anno);
 
   $('.refresh.icon').click(function() {
     console.log('updateContent');
-    pubsub.item.savei({ uri: loc.href, content: doc.documentElement.outerHTML} );
+    pubsub.item.save({ uri: loc.href, content: doc.documentElement.outerHTML} );
   });
 
   $('.minus.checkbox.icon').click(function() {
@@ -70,25 +70,26 @@ console.log('select', anno);
     $sbIframe.css('height', '28px');
     console.log('toggle short');
   });
-  pubsub.annotate(loc.href);
-  pubsub.annotations(function(data) {
-    var annotations = data.annotations, uri = data.uri;
-    if (uri.replace(/#.*/, '') !== loc.href) {
-      console.log('ignoring annotations', uri);
-      return;
-    }
-    console.log('/annotations', data);
+  setTimeout(function() {
+    pubsub.item.annotations.request(loc.href, function(data) {
+      var annotations = data.annotations, uri = data.uri;
+      if (uri.replace(/#.*/, '') !== loc.href) {
+        console.log('ignoring annotations', uri);
+        return;
+      }
+      console.log('/annotations', data);
 
-    var treeItems = annoTree.display(annotations, uri, treeInterface);
-    displayAllAnnos(treeItems);
-    if ($('.sbAnnotation', doc).length) {
-      $('.sbAnnotation', doc).click(function() {
-        $('#sbAnnotationDetails', doc).show();
-        $('#sbAnnotationDetails pre', doc).text(JSON.stringify(treeItems.get($(this).attr('id').split('-')[2]), null, 2));
-        $('#sbAnnotationDetails', doc).click(function() { $(this).hide();} );
-      });
-    }
-  });
+      var treeItems = annoTree.display(annotations, uri, treeInterface);
+      displayAllAnnos(treeItems);
+      if ($('.sbAnnotation', doc).length) {
+        $('.sbAnnotation', doc).click(function() {
+          $('#sbAnnotationDetails', doc).show();
+          $('#sbAnnotationDetails pre', doc).text(JSON.stringify(treeItems.get($(this).attr('id').split('-')[2]), null, 2));
+          $('#sbAnnotationDetails', doc).click(function() { $(this).hide();} );
+        });
+      }
+    });
+  }, 1000);
 
 // FIXME: this needs to be better organized. but it's fun for now.
   pageAnnotations.findAndPublish(parent.window, parent.document.location.href);
