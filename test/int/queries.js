@@ -28,7 +28,6 @@ describe('Indexer', function(done) {
     });
   });
 
-
   // save queries and content items for later tests
   it('should save sample data', function(done) {
     // create some sample data
@@ -58,6 +57,10 @@ describe('Indexer', function(done) {
   });
 
   it('should return all the results', function(done) {
+    done();
+  });
+
+  it('should include multiple categories in a query', function(done) {
     done();
   });
 
