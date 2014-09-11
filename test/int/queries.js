@@ -7,7 +7,7 @@ var _ = require('lodash'), expect = require("expect.js");
 
 var annotations = require('../../lib/annotations.js'), testApp = require('../lib/test-app.js'), utils = require('../../lib/utils.js');
 
-var splitYear = new Date(2003, 5, 15), dateField, beforeDateQuery, afterDateQuery;
+var splitYear = new Date(2003, 5, 15), dateField, beforeDateQuery, afterDateQuery, beforeResults, afterResults;
 
 describe('Queries', function(done) {
   it('should reset test app', function(done) {
@@ -80,28 +80,50 @@ describe('Queries', function(done) {
     });
   });
 
-  it('should perform a filtered query', function(done) {
+  it('should perform a before filtered query', function(done) {
     GLOBAL.svc.indexer.formQuery(beforeDateQuery, function(err, res) {
       expect(err).to.be(null);
       expect(res.hits.total).to.be(3);
+      beforeResults = _.clone(res);
       var foundDates = 0;
-      _.where(res.hits.hits, { '_source': ['annotations']}).forEach(function(anno) {
+      getAnnos(res).forEach(function(anno) {
           if (anno.isA === 'Date') {
             foundDates++;
             expect(anno.typed.Date < splitYear);
           }
-        console.log(foundDates);
-        expect(foundDates).to.be(15);
       });
+      expect(foundDates).to.be(15);
       done();
     }, { sourceFields: GLOBAL.svc.indexer.sourceFields.concat(['annotations.*'])});
   });
 
-  it('should query by date range', function(done) {
-    done();
+  it('should perform an after filtered query', function(done) {
+    GLOBAL.svc.indexer.formQuery(afterDateQuery, function(err, res) {
+      expect(err).to.be(null);
+      expect(res.hits.total).to.be(2);
+      afterResults = _.clone(res);
+      var foundDates = 0;
+      getAnnos(res).forEach(function(anno) {
+        if (anno.isA === 'Date') {
+          foundDates++;
+          expect(anno.typed.Date > splitYear);
+        }
+      });
+      expect(foundDates).to.be(10);
+      done();
+    }, { sourceFields: GLOBAL.svc.indexer.sourceFields.concat(['annotations.*'])});
   });
 
   it ('should compare two queries', function(done) {
     done();
   });
 });
+
+// get the annotations from a result set of cItems
+function getAnnos(res) {
+  var annos = [];
+  _.pluck(res.hits.hits, '_source').forEach(function(cItem) {
+    annos = annos.concat(cItem.annotations);
+  });
+  return annos;
+}
