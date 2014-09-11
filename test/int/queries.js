@@ -3,10 +3,9 @@
 /* global describe,it */
 'use strict';
 
-var expect = require("expect.js");
+var _ = require('lodash'), expect = require("expect.js");
 
 var annotations = require('../../lib/annotations.js'), testApp = require('../lib/test-app.js'), utils = require('../../lib/utils.js');
-
 
 var dateField, beforeDateQuery, afterDateQuery;
 
@@ -21,20 +20,20 @@ describe('Queries', function(done) {
   // save queries and content items for later tests
   it('should save sample data', function(done) {
     // create some sample data
-    dateField = [GLOBAL.testing.uniq, 'testDate', 'typed', 'Date'].join(annotations.unitSep);
+    dateField = [GLOBAL.testing.uniqMember, GLOBAL.testing.uniq, 'testDate'];
 
     beforeDateQuery = {
       queryName: GLOBAL.testing.uniq + '-before',
       member: GLOBAL.testing.uniqMember,
       annotations: ['tag0', 'tag1', 'tag2'],
-      filters: [ { field: dateField, operator: '<', value: new Date(2003, 5, 15)} ]
+      filters: [ { type: 'value', position: dateField, operator: '<', value: new Date(2003, 5, 15)} ]
     };
     afterDateQuery = {
       queryName: GLOBAL.testing.uniq + '-after',
       member: GLOBAL.testing.uniqMember,
       annotations: ['tag3', 'tag4'],
       filters: [
-      { field: dateField, operator: '>', value: new Date(2003, 5, 15)} ]
+      { type: 'value', position: dateField, operator: '>', value: new Date(2003, 5, 15)} ]
     };
 
     var c, a, cItems = [], date, name = GLOBAL.testing.uniqMember, uri, year = 2000;
@@ -79,7 +78,13 @@ describe('Queries', function(done) {
   });
 
   it('should include multiple categories in a query', function(done) {
-    done();
+    GLOBAL.svc.indexer.formQuery(beforeDateQuery, function(err, res) {
+      expect(err).to.be(null);
+      expect(res.hits.total).to.be(3);
+      _.pluck(res.hits.hits, '_source').forEach(function (cItem) {
+      });
+      done();
+    }, { sourceFields: GLOBAL.svc.indexer.sourceFields.concat(['annotations.*'])});
   });
 
   it('should query by date range', function(done) {
