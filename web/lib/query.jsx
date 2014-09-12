@@ -16,7 +16,7 @@ var React = require('react');
 
 // function to calc querystring
 var qs;
-var queryFields = ['terms', 'annotations', 'member', 'navigator', 'number'];
+var queryFields = ['terms', 'annotations', 'member', 'navigation', 'number', 'filter'];
 var basePage = location.pathname + '?';
 var context;
 var queryRefresher;
@@ -39,8 +39,8 @@ var SelectWorkflow = React.createClass({
   render: function() {
     return (
       <div className="field">
-        <label htmlFor="annotationState">Workflow</label>
-        <select id="annotationState" className="query state"><option value="visited">Visited</option><option value="requested">Annotation requested</option><option value="provided">Annotation provided</option></select>
+        <label htmlFor="annotationState">Annotation state</label>
+        <select id="annotationState" className="query annotation state"><option value="visited">Visited</option><option value="requested">Annotation requested</option><option value="provided">Annotation provided</option></select>
       </div>
     );
   }
@@ -60,7 +60,7 @@ var SelectState = React.createClass({
   render: function() {
     return (
       <div className="field">
-        <label htmlFor="validationState">State</label>
+        <label htmlFor="validationState">Validation state</label>
         <select class="query validation state" id="validationState">
           <option value="all">Everything</option>
           <option value="val">Has validated</option>
@@ -81,28 +81,31 @@ var SelectFilter = React.createClass({
         <label for="queryFilters">
           Filters
         </label>
-        <textarea id="queryFilters" className="input filters">{this.props.data}</textarea>
+        <textarea id="queryFilters" className="query filter">{this.props.data}</textarea>
       </div>
     );
   }
 });
 
 var InputName = React.createClass({
+  handleClick: function(e){
+    e.preventDefault();
+    queryResultsTable();
+    return;
+  },
+
   render: function() {
     return (
       <div className="inline field">
         <label for="queryName">Save name</label>
         <input id="queryName" className="query name" />
+        <button onClick={this.handleClick}>Results</button>
       </div>
     );
   }
 });
 
 exports.QueryForm = React.createClass({
-  handleSubmit: function(e) {
-    e.preventDefault();
-    return;
-  },
   render: function() {
     return (
       <div className="query">
@@ -128,6 +131,31 @@ exports.QueryForm = React.createClass({
     );
   }
 });
+
+var ResultsTable = React.createClass({
+  render: function() {
+    var results = this.props.results;
+    return (
+      <table className="queryResults">
+        {results.map(function(result) {
+          return <tr key={result.uri}><td><a href="{result.uri}">{result.title}</a></td></tr>;
+        })}
+      </table>
+    );
+  }
+});
+
+function queryResultsTable(queryName, dest) {
+  var resultsTable = function(results) {
+    if (results && results.hits) {
+      console.log('resultsTable', results.hits.hits.map(function(r) { return r._source; }));
+      React.renderComponent(ResultsTable({results: results.hits.hits.map(function(r) { return r._source; })}), $('.holder')[0]);
+    }
+  };
+  var options = getQueryOptions();
+  options.annotations = options.annotations || '*';
+  context.pubsub.query.request(resultsTable, options);
+}
 
 // tag:step1 + tag:step2 + step3 + filter('((annotations.category:Absorption OR annotations.category:Animals) AND annotations.key:DateCompleted AND annotations. typed.Date:>1997)')
 var filters = [{field: "category", value: 'Animals'}, {field: 'DateCompleted', value: '< Jan 1, 2014'}];
@@ -181,12 +209,19 @@ function setAnnotationTags(tags) {
 
 // formulate query parameters
 function getQueryOptions() {
-  var nav = $(".query.navigation" ).val();
-  var options = { terms : $('.query.terms').val(), annotationSearch : $annoSearch.val().split(','),
-    validationState: $('.query.validation.state').val(), annotationState: $('.query.annotation.state').val(), browseNum: $('.query.number').val(),
-    // FIXME normalize including annotations
-    member: $('.query.member').val(), annotations: (nav === 'annotations' || nav === 'tree') ? '*' : null,
-    nav: nav};
+  var navigation = $('.query.navigation').val();
+  var options = {
+    query: {
+      terms : $('.query.terms').val(),
+      annotations : $annoSearch.val().split(','),
+      validationState: $('.query.validation.state').val(),
+      annotationState: $('.query.annotation.state').val(),
+      number: $('.query.number').val(),
+      // FIXME normalize including annotations
+      member: $('.query.member').val()
+    },
+    annotations: (navigation === 'annotations' || navigation === 'tree') ? '*' : null,
+    navigation: navigation};
   return options;
 }
 
@@ -202,8 +237,8 @@ function submitQuery() {
 
   window.history.pushState({query: ss}, 'dashboard', basePage + ss.join('&'));
   var options = getQueryOptions();
-  if (options.nav) {
-    $('#browse').html('<img src="loading.gif" alt="loading" /><br />Loading ' + options.nav);
+  if (options.navigation) {
+    $('#browse').html('<img src="loading.gif" alt="loading" /><br />Loading ' + options.navigation);
     $('.browse.sidebar').sidebar('show');
   } else {
     $('.browse.sidebar').sidebar('hide');

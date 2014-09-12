@@ -97,11 +97,11 @@ function gotResults(results) {
   updateResults(results);
 
   var browser;
-  if (results.nav === 'annotations') {
+  if (results.navigation === 'annotations') {
     browser = browseTreemap;
-  } else if (results.nav === 'tree') {
+  } else if (results.navigation === 'tree') {
     browser = browseTree;
-  } else if (results.nav === 'cluster') {
+  } else if (results.navigation === 'cluster') {
     browser = browseCluster;
   }
   if (browser) {
