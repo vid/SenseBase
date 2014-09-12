@@ -26,6 +26,7 @@ exports.init = function() {
   searchLib.init(context);
   membersLib.init(context);
   queryLib.init(context);
+  console.log('HI', resultsLib.view);
 
   setupDND('uploadItem', homepage + 'upload');
   // General setup and functions

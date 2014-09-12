@@ -71,6 +71,8 @@ exports.init = function(ctx, view) {
 
 function setResultView(view) {
   resultView = view;
+  // FIXME
+  exports.view = resultView;
 }
 
 // FIXME normalize fields between base and _source
