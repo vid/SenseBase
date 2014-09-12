@@ -157,9 +157,6 @@ function queryResultsTable(queryName, dest) {
   context.pubsub.query.request(resultsTable, options);
 }
 
-// tag:step1 + tag:step2 + step3 + filter('((annotations.category:Absorption OR annotations.category:Animals) AND annotations.key:DateCompleted AND annotations. typed.Date:>1997)')
-var filters = [{field: "category", value: 'Animals'}, {field: 'DateCompleted', value: '< Jan 1, 2014'}];
-
 exports.init = function(ctx) {
   context = ctx;
   // set up form
