@@ -41,13 +41,12 @@ describe('Scraper links', function(done) {
     }, 1);
   });
 
-
 // verify not enough time has passed for a new link to be processed
   it('should have less available queued links', function(done) {
     search.getQueuedLink(function(err, queuedLink) {
-      expect(queuedLink).to.be(undefined);
+      expect(queuedLink).to.be(null);
       done();
-    }, 1);
+    });
 
   });
 });
