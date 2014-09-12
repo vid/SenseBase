@@ -1,29 +1,34 @@
 var config = require('./config.js');
 
 module.exports = function(grunt) {
-  var srcFiles = [
-    'lib/*.js',
-    'models/*.js',
+  var libSrc = [
+    'lib/*.js'
+  ];
+  var svcSrc = [
     'services/*.js',
     // frontend
+  ];
+  var webSrc = [
     'web/dashboard/*.js',
     'web/lib/**/*.js*',
     'web/iframe/*.js',
     'services/**',
     'util/**'
   ];
+  var testSrc = [
+    'test/**/*js'
+  ];
+  var localSrc = testSrc.concat(libSrc.concat(svcSrc));
+  var allSrc = localSrc.concat(webSrc);
   var assetFiles = [
     'web/dashboard/*.html',
     'web/dashboard/*.css',
     'web/iframe/*.html'
   ];
-  var testFiles = [
-    'test/**/*js'
-  ];
 
   grunt.initConfig({
     jshint: {
-      files: srcFiles
+      files: allSrc
     },
     watch: {
       options: {
@@ -37,7 +42,7 @@ module.exports = function(grunt) {
         },
       },
       src: {
-        files: srcFiles,
+        files: allSrc,
         tasks: ['includes', 'browserify'],
         options: {
           spawn: true
@@ -47,15 +52,13 @@ module.exports = function(grunt) {
         files: ['config.js', 'app.js', 'index.js', 'lib/**'],
         tasks: ['develop'],
       },
-/*
       tests: {
-        files: testFiles.concat(srcFiles),
-        tasks: ['mochaTest:devUnitTest'],
+        files: localSrc,
+        tasks: ['mochaTest'],
         options: {
           spawn: true
         },
       },
-*/
     },
     browserify: {
       dashboard: {
@@ -126,7 +129,7 @@ module.exports = function(grunt) {
     plato: {
       BaseProxy: {
         files: {
-          'reports': srcFiles
+          'reports': allSrc
         }
       }
     },
@@ -193,7 +196,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-execute');
 
-  grunt.registerTask('default', ['includes', 'browserify', 'develop', 'watch', 'mochaTest:devUnitTest']);
+  grunt.registerTask('default', ['includes', 'browserify', 'develop', 'watch']);
   grunt.registerTask('test', ['mochaTest:devUnitTest', 'mochaTest:devIntegrationTest']);
   grunt.registerTask('tidy', ['jshint', 'plato']);
   grunt.registerTask('libs', [ 'concat:js', 'uglify:js', 'concat:css' ]);
