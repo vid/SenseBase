@@ -8,6 +8,7 @@
 // Fixes some cross site issues.
 document.domain = require('tldjs').getDomain(document.domain);
 
+var _ = require('lodash');
 var loc = window.location, doc = document, $sbPortal = $('#sbPortal'), $sbIframe = $sbPortal;
 // running in an iframe
 if (parent.window.location) {
@@ -17,7 +18,76 @@ if (parent.window.location) {
 }
 var pubsub = require('../../lib/pubsub-client').init(window.senseBase), pageAnnotations = require('../lib/page-annotations');
 
+// for a demo. sigh.
+function diffTable(results) {
+  var curRefs = $('.references-list li').text().toString().split('\n').map(function(r) { return r.trim(); });
+  $('#sbResults').html('<table><thead><tr><th>Title</th><th>Created</th><th>Source</th></tr></thead><tbody></tbody></table>');
+  console.log('diffResults', results);
+  if (results && results.hits.total > 0) {
+    var t, created;
+    t += '<tr><th colspan="4">Included</th></tr>';
+    _.pluck(results.hits.hits, '_source').forEach(function(r) {
+      created = false;
+      // included annos
+
+      r.annotations.forEach(function(a) {
+        if (a.key === 'DateCreated' && new Date(a.typed.Date) < new Date(2013, 4)) {
+          if (curRefs.indexOf(r.title) > -1) {
+            created = a.typed.Date;
+          }
+        }
+      });
+      if (created) {
+        r.created = created;
+        t += _.template('<tr><td><a href="<%= uri %>"><%= title %></a></td><td><%= created %></td><td><div class="ui tiny buttons"><div class="ui basic tiny button">PubMed</div></td></tr>', r);
+      }
+      $('#sbResults table').append(t);
+    });
+
+    t += '<tr><th colspan="4">Not included</th></tr>';
+    _.pluck(results.hits.hits, '_source').forEach(function(r) {
+      created = false;
+      // included annos
+
+      r.annotations.forEach(function(a) {
+        if (a.key === 'DateCreated' && new Date(a.typed.Date) < new Date(2013, 4)) {
+          if (curRefs.indexOf(r.title) < 0) {
+            created = a.typed.Date;
+          }
+        }
+      });
+      if (created) {
+        r.created = created;
+        t += _.template('<tr><td><a href="<%= uri %>"><%= title %></a></td><td><%= created %></td><td><div class="ui tiny buttons"><div class="ui basic tiny button">PubMed</div></td></tr>', r);
+      }
+      $('#sbResults tbody').append(t);
+    });
+
+    t += '<tr><th colspan="4">New</th></tr>';
+    _.pluck(results.hits.hits, '_source').forEach(function(r) {
+      created = false;
+      // included annos
+
+      r.annotations.forEach(function(a) {
+        if (a.key === 'DateCreated' && new Date(a.typed.Date) > new Date(2013, 3)) {
+          created = a.typed.Date;
+        }
+      });
+      if (created) {
+        r.created = created;
+        t += _.template('<tr><td><a href="<%= uri %>"><%= title %></a></td><td><%= created %></td><td><div class="ui tiny buttons"><div class="ui basic tiny button">PubMed</div></td></tr>', r);
+      }
+      $('#sbResults table').html(t);
+    });
+  }
+}
+
+function diff() {
+  pubsub.query.request(diffTable, {sourceFields: ['_id', 'uri', 'timestamp', 'title', 'visitors.*', 'annotationSummary.*', 'state', 'annotations.*'] });
+}
+
 exports.inject = function() {
+  window.senseBase.svc = { inject: this, diff: diff};
   var annoTree = require('../lib/annoTree');
   var selectMode = false, lastSelected;
   // html buffer while annotation categories are processed
