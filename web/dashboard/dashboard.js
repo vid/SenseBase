@@ -26,15 +26,11 @@ exports.init = function() {
   searchLib.init(context);
   membersLib.init(context);
   queryLib.init(context);
-  console.log('HI', resultsLib.view);
 
   setupDND('uploadItem', homepage + 'upload');
   // General setup and functions
 
-
-// mockup
-// tag:step1 + tag:step2 + step3 + filter('((annotations.category:Absorption OR annotations.category:Animals) AND annotations.key:DateCompleted AND annotations. typed.Date:>1997)')
-  var filters = 'category: Animals,\nDateCompleted: < Jan 1, 2014';
+  var filters = '';
 
   React.renderComponent(queryLib.QueryForm({data: filters}), $('.query.content')[0]);
 

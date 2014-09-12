@@ -218,7 +218,8 @@ function getQueryOptions() {
       annotationState: $('.query.annotation.state').val(),
       number: $('.query.number').val(),
       // FIXME normalize including annotations
-      member: $('.query.member').val()
+      member: $('.query.member').val(),
+      filters: [$('.query.filter').val()]
     },
     annotations: (navigation === 'annotations' || navigation === 'tree') ? '*' : null,
     navigation: navigation};
