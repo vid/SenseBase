@@ -82,8 +82,9 @@ function diffTable(results) {
   }
 }
 
-function diff() {
-  pubsub.query.request(diffTable, {sourceFields: ['_id', 'uri', 'timestamp', 'title', 'visitors.*', 'annotationSummary.*', 'state', 'annotations.*'] });
+function diff(query) {
+  query = query || {};
+  pubsub.query.request(diffTable, _.extend(query, {sourceFields: ['_id', 'uri', 'timestamp', 'title', 'visitors.*', 'annotationSummary.*', 'state', 'annotations.*'] }));
 }
 
 exports.inject = function() {

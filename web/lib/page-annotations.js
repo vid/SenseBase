@@ -23,3 +23,26 @@ exports.findAndPublish = function(page, location) {
   }
 
 };
+
+function o() {
+  var senseBase = {}, $ = {};
+    $.ajax({
+      url: senseBase.homepage + 'member.js',
+      dataType: 'script',
+      success: function() {
+        $.ajax({
+        url: senseBase.homepage + 'lib/libs.min.js',
+        dataType: 'script',
+        success: function() {
+          $.ajax({
+            url: senseBase.homepage + 'insight-injected.js',
+            dataType: 'script',
+            success: function() {
+              senseBase.svc.diff();
+            }
+          });
+        }
+      });
+    }
+  });
+}
