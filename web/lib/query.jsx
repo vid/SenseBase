@@ -16,7 +16,7 @@ var React = require('react');
 
 // function to calc querystring
 var qs;
-var queryFields = ['terms', 'annotations', 'member', 'navigation', 'number', 'filter'];
+var queryFields = ['terms', 'annotations', 'member', 'navigation', 'size', 'filter'];
 var basePage = location.pathname + '?';
 var context;
 var queryRefresher;
@@ -50,7 +50,7 @@ var SelectNumResults = React.createClass({
     return (
       <div className="field">
         <label htmlFor="browseNum">Results</label>
-        <select className="query number" id="browseNum"><option value="100">100</option><option selected value="500">500</option><option value="1000">1000</option><option value="2000">2000</option><option value="5000">5000</option></select>
+        <select className="query size" id="browseNum"><option value="100">100</option><option selected value="500">500</option><option value="1000">1000</option><option value="2000">2000</option><option value="5000">5000</option></select>
       </div>
     );
   }
@@ -213,7 +213,7 @@ function getQueryOptions() {
       annotations : $annoSearch.val().split(','),
       validationState: $('.query.validation.state').val(),
       annotationState: $('.query.annotation.state').val(),
-      number: $('.query.number').val(),
+      size: $('.query.size').val(),
       // FIXME normalize including annotations
       member: $('.query.member').val(),
       filters: [$('.query.filter').val()]
