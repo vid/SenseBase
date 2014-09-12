@@ -27,9 +27,7 @@ describe('Content', function(done) {
   });
 
   it('should wait a second for indexing', function(done) {
-    utils.indexDelay(function() {
-      done();
-    });
+    utils.indexDelay(done);
   });
 
   it('should retrieve the indexed page', function(done) {
@@ -52,9 +50,7 @@ describe('Content', function(done) {
   });
 
   it('should wait a second for indexing', function(done) {
-    utils.indexDelay(function() {
-      done();
-    });
+    utils.indexDelay(done);
   });
 
   it('should retrieve the updated page with content', function(done) {

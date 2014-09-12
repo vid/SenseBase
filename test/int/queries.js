@@ -25,13 +25,17 @@ describe('Queries', function(done) {
     beforeDateQuery = {
       queryName: GLOBAL.testing.uniq + '-before',
       member: GLOBAL.testing.uniqMember,
-      annotations: ['tag0', 'tag1', 'tag2'],
+      query: {
+        annotations: ['tag0', 'tag1', 'tag2'],
+      },
       filters: [ { type: 'value', position: dateField, operator: '<', value: splitYear} ]
     };
     afterDateQuery = {
       queryName: GLOBAL.testing.uniq + '-after',
       member: GLOBAL.testing.uniqMember,
-      annotations: ['tag3', 'tag4'],
+      query: {
+        annotations: ['tag3', 'tag4'],
+      },
       filters: [
       { type: 'value', position: dateField, operator: '>', value: splitYear} ]
     };
@@ -63,9 +67,7 @@ describe('Queries', function(done) {
   });
 
   it('should wait a second for indexing', function(done) {
-    utils.indexDelay(function() {
-      done();
-    });
+    utils.indexDelay(done);
   });
 
   it('should return all the results', function(done) {
@@ -84,15 +86,16 @@ describe('Queries', function(done) {
     GLOBAL.svc.indexer.formQuery(beforeDateQuery, function(err, res) {
       expect(err).to.be(null);
       expect(res.hits.total).to.be(3);
+      expect(res.hits.hits[0].annotations).to.not.be(null);
       beforeResults = _.clone(res);
       var foundDates = 0;
       getAnnos(res).forEach(function(anno) {
-          if (anno.isA === 'Date') {
-            foundDates++;
-            expect(anno.typed.Date < splitYear);
-          }
+        if (anno.isA === 'Date') {
+          foundDates++;
+          expect(anno.typed.Date < splitYear);
+        }
       });
-      expect(foundDates).to.be(15);
+      expect(foundDates).to.be(6);
       done();
     }, { sourceFields: GLOBAL.svc.indexer.sourceFields.concat(['annotations.*'])});
   });
@@ -109,7 +112,7 @@ describe('Queries', function(done) {
           expect(anno.typed.Date > splitYear);
         }
       });
-      expect(foundDates).to.be(10);
+      expect(foundDates).to.be(8);
       done();
     }, { sourceFields: GLOBAL.svc.indexer.sourceFields.concat(['annotations.*'])});
   });

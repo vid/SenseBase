@@ -26,9 +26,7 @@ describe('Indexer', function(done) {
   });
 
   it('should wait a second for indexing', function(done) {
-    utils.indexDelay(function() {
-      done();
-    });
+    utils.indexDelay(done);
   });
 
   it('should retrieve a record', function(done) {
@@ -54,9 +52,7 @@ describe('Indexer', function(done) {
   });
 
   it('should wait a second for indexing', function(done) {
-    utils.indexDelay(function() {
-      done();
-    });
+    utils.indexDelay(done);
   });
 
   it('should retrieve by URI', function(done) {

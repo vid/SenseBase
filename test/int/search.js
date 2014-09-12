@@ -1,5 +1,6 @@
+// # search
 // test search workflow
-// initial doc is saved to state queue with queue: { relevance: 2 }
+// initial doc is saved to state queue with queue: { relevance: x }
 // as pages are accessed, previousState is set to last state
 // if they have previousState as queue, search.queueLinks finds relevance
 // if relevance is > 0, relevant page links are added
@@ -20,18 +21,24 @@ describe('Scraper links', function(done) {
 
 // save a link and verify one can be retrieved after saving time
   it('should queue a link', function(done) {
-    search.queueLink(GLOBAL.testing.uniqLink, {member: GLOBAL.testing.uniqMember, categories: [GLOBAL.testing.uniqCategory], relevance: 1});
+    search.queueLink(GLOBAL.testing.uniqURI, {member: GLOBAL.testing.uniqMember, categories: [GLOBAL.testing.uniqCategory], relevance: 1});
+    done();
+  });
 
+  it('should wait for indexing', function(done) {
+    utils.indexDelay(done);
+  });
+
+  it('should retrieve a queued link', function(done) {
     // wait for link to be saved
-    setTimeout(function() {
-      // find any queued link from preceeding
-      search.getQueuedLink(function(err, queuedLink) {
-        expect(queuedLink.uri).to.not.be(undefined);
-        expect(queuedLink.queued.categories.length > 0).to.be(true);
-        expect(queuedLink.queued.categories[0]).to.equal(GLOBAL.testing.uniqCategory);
-        done();
-      }, 1);
-    }, 1200);
+    search.getQueuedLink(function(err, queuedLink) {
+      expect(err).to.be(null);
+      expect(queuedLink).to.not.be(null);
+      expect(queuedLink.uri).to.not.be(undefined);
+      expect(queuedLink.queued.categories.length > 0).to.be(true);
+      expect(queuedLink.queued.categories[0]).to.equal(GLOBAL.testing.uniqCategory);
+      done();
+    }, 1);
   });
 
 
