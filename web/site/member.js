@@ -8,7 +8,7 @@
     isScraper : <%= user.type == 'Scraper' %>
   }
 <% } %>
-<% if (banner) { %>
+<% if (banner && $('.ui.main') { %>
   $('body').prepend('<%= banner %>');
 <% } %>
 
