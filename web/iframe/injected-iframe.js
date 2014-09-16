@@ -82,13 +82,12 @@ function diffTable(results) {
   }
 }
 
-function diff(query) {
-  query = query || {};
-  pubsub.query.request(diffTable, _.extend(query, {sourceFields: ['_id', 'uri', 'timestamp', 'title', 'visitors.*', 'annotationSummary.*', 'state', 'annotations.*'] }));
-}
-
 exports.inject = function() {
-  window.senseBase.svc = { inject: this, diff: diff};
+  window.senseBase.svc = { pubsub: pubsub};
+};
+
+exports.temp = function() {
+  window.senseBase.svc = { pubsub: pubsub};
   var annoTree = require('../lib/annoTree');
   var selectMode = false, lastSelected;
   // html buffer while annotation categories are processed

@@ -52,6 +52,7 @@ module.exports = function(grunt) {
         files: ['config.js', 'app.js', 'index.js', 'lib/**'],
         tasks: ['develop'],
       },
+/*
       tests: {
         files: localSrc,
         tasks: ['mochaTest'],
@@ -59,6 +60,7 @@ module.exports = function(grunt) {
           spawn: true
         },
       },
+*/
     },
     browserify: {
       dashboard: {
