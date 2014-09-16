@@ -8,8 +8,10 @@
     isScraper : <%= user.type == 'Scraper' %>
   }
 <% } %>
-<% if (banner && $('.ui.main')) { %>
-  $('body').prepend('<%= banner %>');
+<% if (banner) { %>
+  if ($('.ui.main')) {
+    $('body').prepend('<%= banner %>');
+  }
 <% } %>
 
 $('body').prepend('<script src="//' + window.location.host + ':35729/livereload.js"></script>');

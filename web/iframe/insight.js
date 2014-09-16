@@ -5,8 +5,9 @@
 
 'use strict';
 
+var srcSite = 'http://lilpad.zooid.org/web/', baseDate = new Date(2013, 4);
+
 if ($('.References').length) {
-  var srcSite = 'http://lilpad.zooid.org/web/';
   var embedded = function() { lt(srcSite + 'index-injected.js', function() { go() }) };
   var libs = function() { lt(srcSite + 'lib/libs.min.js', embedded); };
 
@@ -23,7 +24,6 @@ function updateSim(results) {
 }
 
 function updateTable(results) {
-console.log('results', results);
   if (results && results.hits && results.hits.hits) {
     $('.References thead th').last().after('<th>State</th><th>Similarity</th>');
     var srcURIs = $('.Reference.URI'), notFound;
@@ -44,8 +44,10 @@ console.log('results', results);
       $('#'+id).parent().after('<td>' + state + '</td>');
     });
     for (var k in imp) {
-      var i = imp[k];
-      $('.References tbody').append('<tr><td></td><td></td><td>' + i.uri + '</td><td>New ' + getCreated(i) + '</td><td>' + getSim(i) + '</td></tr>');
+      var i = imp[k], rDate = getCreated(i);
+      var state = baseDate > rDate ? 'Not included' : 'New';
+      console.log(state, baseDate > rDate, baseDate, rDate);
+      $('.References tbody').append('<tr><td></td><td></td><td>' + i.uri + '</td><td>' + state + ' ' + rDate + '</td><td>' + getSim(i) + '</td></tr>');
     }
     updateSim();
   }
@@ -59,8 +61,11 @@ function getCreated(sRes) {
   for (var i = 0; i < sRes.annotations.length; i++) {
     var a = sRes.annotations[i];
     if (a.key === 'DateCreated') {
-      console.log('found', a.value);
-      return a.value;
+      try {
+        return new Date(a.value);
+      } catch (e) {
+        return '';
+      }
     }
   }
   return '';
