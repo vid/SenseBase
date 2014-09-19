@@ -6,11 +6,13 @@
 
 var found;
 var annotations = require('../lib/annotations.js'), utils = require('../lib/utils.js');
+var rootFun;
 
 // yucky global to simply mapping fields
 var flatFields = {};
 
-exports.init = function(json) {
+exports.init = function(json, rootFunIn) {
+  rootFun = rootFunIn;
   flatten([], json);
 };
 
@@ -96,11 +98,12 @@ function mapToItem(item, merge) {
   }
   var cItem = annotations.createContentItem(cItem);
 
-  var valState = utils.states.annotations.validated; // TODO func this
+  var roots = [], valState = utils.states.annotations.validated; // TODO func this
 
   // categories first
   for (var a in proto.categories) {
     var def = proto.categories[a];
+    roots = rootFun? rootFun(def.level) : [];
     def.level = def.level.filter(function(a) { if (a.length) { return true; }});
 
 // an array of categories
@@ -108,23 +111,23 @@ function mapToItem(item, merge) {
       def.content.forEach(function(category) {
         var level = def.level.slice(0); // copy base level
         level = level.concat(category.split('/'));
-        var a = { hasTarget: cItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level, state: valState };
+        var a = { hasTarget: cItem.uri, type: 'category', annotatedBy: proto.annotatedBy, roots: roots, category: level, state: valState };
         annos.push(annotations.createAnnotation(a));
       });
 // a single category
     } else {
       var level = def.level.slice(0); // copy base level
-      console.log('OO',def.level);
       level.push(def.category[0]);
-      annos.push(annotations.createAnnotation({ hasTarget: cItem.uri, type: 'category', annotatedBy: proto.annotatedBy, category: level, state: valState }));
+      annos.push(annotations.createAnnotation({ hasTarget: cItem.uri, type: 'category', annotatedBy: proto.annotatedBy, roots: roots, category: level, state: valState }));
     }
   }
   // then vals;
   for (var a in proto.vals) {
     var def = proto.vals[a];
     var level = def.level.slice(0);
+    roots = rootFun? rootFun(def.level) : [];
     level.push(def.category);
-    annos.push(annotations.createAnnotation({ hasTarget: cItem.uri, type: 'value', key: def.key, value: def.value, annotatedBy: proto.annotatedBy, category: level, state: valState}));
+    annos.push(annotations.createAnnotation({ hasTarget: cItem.uri, type: 'value', key: def.key, value: def.value, annotatedBy: proto.annotatedBy, roots: roots, category: level, state: valState}));
   }
   return { contentItem: cItem, annotations: annos };
 }
