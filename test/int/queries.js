@@ -95,9 +95,9 @@ describe('Queries', function(done) {
           expect(anno.typed.Date < splitYear);
         }
       });
-      expect(foundDates).to.be(6);
+      expect(foundDates).to.be(15);
       done();
-    }, { sourceFields: GLOBAL.svc.indexer.sourceFields.concat(['annotations.*'])});
+    });
   });
 
   it('should perform an after filtered query', function(done) {
@@ -112,9 +112,9 @@ describe('Queries', function(done) {
           expect(anno.typed.Date > splitYear);
         }
       });
-      expect(foundDates).to.be(8);
+      expect(foundDates).to.be(10);
       done();
-    }, { sourceFields: GLOBAL.svc.indexer.sourceFields.concat(['annotations.*'])});
+    });
   });
 
   it ('should compare two queries', function(done) {
