@@ -1,4 +1,6 @@
-// Main module for SenseBase.
+// #Index
+//
+// Main module for SenseBase server..
 /*jslint node: true */
 
 'use strict';
@@ -16,7 +18,6 @@ exports.setup = setup;
 // Start server with configuration.
 exports.start = function(context, callback) {
   setup(context);
-  var config = GLOBAL.config;
 
 // Express stuff.
   var app = express();
@@ -35,13 +36,16 @@ exports.start = function(context, callback) {
     app.enable('trust proxy');
   });
 
-  var server = app.listen(GLOBAL.config.HTTP_PORT || 9999);
+  var server = app.listen(GLOBAL.config.HTTP_PORT);
 
   pubsub.start(server);
 
-  var filterProxy = require('filter-proxy');
+  if (GLOBAL.config.PROXY_PORT) {
+    var filterProxy = require('filter-proxy');
+    proxied.PROXY_PORT = GLOBAL.config.PROXY_PORT;
 
-  filterProxy.start(proxied);
+    filterProxy.start(proxied);
+  }
 
 // Interactive command line.
 
