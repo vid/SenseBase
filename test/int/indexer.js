@@ -41,7 +41,7 @@ describe('Indexer', function(done) {
 
   it('should index a page', function(done) {
     var cItem = annotations.createContentItem({title: 'test title', uri: GLOBAL.testing.uniqURI, content: 'test content ' + GLOBAL.testing.uniq});
-    cItem.visitors = { member: GLOBAL.testing.uniqMember};
+    cItem.visitors = [{ member: GLOBAL.testing.uniqMember}];
     cItem.text = cItem.content;
 
     GLOBAL.svc.indexer.saveContentItem(cItem, function(err, res) {
