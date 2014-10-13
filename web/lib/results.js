@@ -19,6 +19,7 @@ exports.displayItemSidebar = displayItemSidebar;
 exports.hideItemSidebar = hideItemSidebar;
 
 exports.gotResults = gotResults;
+exports.gotNavigation = gotNavigation;
 exports.updateResults = updateResults;
 exports.moreLikeThis = moreLikeThis;
 exports.setResultView = setResultView;
@@ -93,11 +94,16 @@ function moreLikeThis(uris) {
   context.pubsub.item.moreLikeThis(uris);
 }
 
+// Query results were received
 function gotResults(results) {
   results.JSONquery = JSON.stringify(results.query, null, 2);
   console.log('gotResults', results);
   updateResults(results);
+}
 
+// Navigation results to accompany results
+function gotNavigation(results) {
+  console.log('gotNavigation', results);
   var browser;
   if (results.navigation === 'annotations') {
     browser = browseTreemap;
@@ -107,12 +113,13 @@ function gotResults(results) {
     browser = browseCluster;
   }
   if (browser) {
-  $('#browse').html();
+    $('#browse').html();
     browser.render('#browse', results, resultView);
   } else {
     $('.browse.sidebar').sidebar('hide');
   }
 }
+
 // populate and display the URI's sidebar
 function displayItemSidebar(uri) {
   // subscribe to annotation

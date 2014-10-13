@@ -236,6 +236,7 @@ function submitQuery() {
   window.history.pushState({query: ss}, 'dashboard', basePage + ss.join('&'));
   var options = getQueryOptions();
   if (options.navigation) {
+    context.pubsub.query.navigation(context.resultsLib.gotNavigation);
     $('#browse').html('<img src="loading.gif" alt="loading" /><br />Loading ' + options.navigation);
     $('.browse.sidebar').sidebar('show');
   } else {
