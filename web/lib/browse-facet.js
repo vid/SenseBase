@@ -7,7 +7,6 @@
 
 exports.render = function(target, results, resultView, context) {
   var annos = augment(results.annotationOverview);
-  console.log('AA', annos);
   $(target).bind('loaded.jstree', function(event, data) {
       data.instance.open_all();
     })
