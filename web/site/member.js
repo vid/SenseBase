@@ -14,4 +14,4 @@
   }
 <% } %>
 
-$('body').prepend('<script src="//' + window.location.host + ':35729/livereload.js"></script>');
+$('body').prepend('<script src="//' + window.location.hostname + ':35729/livereload.js"></script>');
