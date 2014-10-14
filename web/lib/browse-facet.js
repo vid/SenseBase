@@ -5,15 +5,29 @@
 
 'use strict';
 
+var facetSearchTimeout;
+
 exports.render = function(target, results, resultView, context) {
   var annos = augment(results.annotationOverview);
   $(target).bind('loaded.jstree', function(event, data) {
-      data.instance.open_all();
+    data.instance.open_all();
+    /*
+    $(target).prepend('Filter: <input id="facetSearch">');
+    $('#facetSearch').keyup(function () {
+      if(facetSearchTimeout) { clearTimeout(facetSearchTimeout); }
+        facetSearchTimeout = setTimeout(function () {
+          var v = $('#facetSearch').val();
+          $(target).jstree().search(v);
+        }, 250);
+      });
+    */
     })
-    .jstree({ 'core' : {
-      'data' :  annos
-    }
-  })
+    .jstree(
+      { 'core' : {
+//       'plugins' : [ 'search' ],
+        'data' :  annos
+      }
+    })
   .on('select_node.jstree', function (e, data) {
     var i, j;
     for(i = 0, j = data.selected.length; i < j; i++) {
