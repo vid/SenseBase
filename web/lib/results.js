@@ -25,7 +25,7 @@ exports.moreLikeThis = moreLikeThis;
 exports.setResultView = setResultView;
 
 var annoTree = require('./annoTree.js'), utils = require('../lib/clientUtils'), treeInterface = require('./tree-interface'),
-  browseCluster = require('../lib/browse-cluster'), browseTree = require('../lib/browse-tree'),
+  browseCluster = require('../lib/browse-cluster'), browseFacet = require('../lib/browse-facet'),
   browseTreemap = require('../lib/browse-treemap');
 
 exports.init = function(ctx, view) {
@@ -98,6 +98,7 @@ function moreLikeThis(uris) {
 function gotResults(results) {
   results.JSONquery = JSON.stringify(results.query, null, 2);
   console.log('gotResults', results);
+  $('.browse.sidebar').sidebar('show');
   updateResults(results);
 }
 
@@ -105,11 +106,11 @@ function gotResults(results) {
 function gotNavigation(results) {
   console.log('gotNavigation', results);
   var browser;
-  if (results.navigation === 'annotations') {
+  if (results.navigator === 'treemap') {
     browser = browseTreemap;
-  } else if (results.navigation === 'tree') {
-    browser = browseTree;
-  } else if (results.navigation === 'cluster') {
+  } else if (results.navigator === 'facet') {
+    browser = browseFacet;
+  } else if (results.navigator === 'cluster') {
     browser = browseCluster;
   }
   if (browser) {

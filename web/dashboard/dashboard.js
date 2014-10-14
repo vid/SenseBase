@@ -20,6 +20,7 @@ var resultsLib = require('../lib/results'), membersLib = require('../lib/members
 
 // initialize page functions
 exports.init = function() {
+  console.log('init dashboard');
 
   var context = {pubsub: pubsub, resultsLib: resultsLib, queryLib: queryLib};
   resultsLib.init(context, resultViews.table);
@@ -135,6 +136,12 @@ exports.init = function() {
     document.location.href = './logout';
   });
 
+  $('.navigator.item').click(function() {
+    $('.query.navigator').val($(this).attr('id'));
+    queryLib.submitQuery();
+    return;
+  });
+
   // FIXME toggle graph or table view
   $('.visualisation.item').click(function() {
     var view;
@@ -148,7 +155,6 @@ exports.init = function() {
     resultsLib.setResultView(view);
     resultsLib.updateResults();
   });
-
   $('.select.all').click(function() {
     $('.selectItem').prop('checked', true);
     resultsLib.view.checkSelected();

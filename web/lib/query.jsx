@@ -16,7 +16,7 @@ var React = require('react');
 
 // function to calc querystring
 var qs;
-var queryFields = ['terms', 'annotations', 'member', 'navigation', 'size', 'filter'];
+var queryFields = ['terms', 'annotations', 'member', 'navigator', 'size', 'filter'];
 var basePage = location.pathname + '?';
 var context;
 var queryRefresher;
@@ -206,7 +206,7 @@ function setAnnotationTags(tags) {
 
 // formulate query parameters
 function getQueryOptions() {
-  var navigation = $('.query.navigation').val();
+  var navigator = $('.query.navigator').val();
   var options = {
     query: {
       terms : $('.query.terms').val(),
@@ -218,27 +218,35 @@ function getQueryOptions() {
       member: $('.query.member').val(),
       filters: [$('.query.filter').val()]
     },
-    annotations: (navigation === 'annotations' || navigation === 'tree') ? '*' : null,
-    navigation: navigation};
+    annotations: (navigator === 'annotations' || navigator === 'tree') ? '*' : null,
+    navigator: navigator};
   return options;
 }
 
 // submit a query, saving it to window state
 function submitQuery() {
 // save form contents in querystring
-  var ss = [];
+// FIXME use routing
+  var ss = [], ts = [];
+  for (var i in qs) {
+    ts.push(i + '=' + qs[i]);
+  }
   queryFields.forEach(function(i) {
     if ($('.query.'+i).val()) {
       ss.push(i + '=' + $('.query.'+i).val());
     }
   });
+  if (ss.join('%') != ts.join('%')) {
+//    window.location = '?' + ss.join('&');
+    window.history.pushState({query: ss}, 'dashboard', basePage + ss.join('&'));
+  }
 
-  window.history.pushState({query: ss}, 'dashboard', basePage + ss.join('&'));
+//  window.history.pushState({query: ss}, 'dashboard', basePage + ss.join('&'));
   var options = getQueryOptions();
-  if (options.navigation) {
-    context.pubsub.query.navigation(context.resultsLib.gotNavigation);
-    $('#browse').html('<img src="loading.gif" alt="loading" /><br />Loading ' + options.navigation);
-    $('.browse.sidebar').sidebar('show');
+  if (options.navigator) {
+    context.pubsub.query.navigator(context.resultsLib.gotNavigation);
+    $('#browse').removeClass();
+    $('#browse').html('<img src="loading.gif" alt="loading" /><br />Loading ' + options.navigator);
   } else {
     $('.browse.sidebar').sidebar('hide');
   }

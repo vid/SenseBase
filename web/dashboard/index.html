@@ -120,19 +120,29 @@
   <div class="holder query results" id="uploadItem" style="height: 90%; width: 100%; padding: 0px; overflow: auto">
     <div class="ui grey small menu" style="margin: 0">
       <div class="item">
-        <div class="field">
-          <label for="browseNav">Navigator</label>
-          <select class="query navigation" id="browseNav">
-            <option value="">None</option>
-            <option value="tree">Tree</option>
-            <option value="annotations">Annotations</option>
-            <option value="cluster">Cluster</option>
-          </select>
+
+        <div title="Select results visualisation" class="ui navigator dropdown">
+          <input type="hidden" class="query navigator" />
+          <i class="search icon"></i>
+          <div class="menu">
+            <a title="Hide navigator" id="hide" class="navigator item">
+              None
+            </a>
+            <a title="Facet navigator" id="facet" class="navigator item">
+              Facet
+            </a>
+            <a title="Annotations view" id="treemap" class="navigator item">
+              Treemap
+            </a>
+            <a title="Cluster view" id="cluster" class="navigator item">
+              Cluster
+            </a>
+          </div>
         </div>
       </div>
       <div class="item">
         <div class="field">
-          <input class="query input terms" id="termSearch" type="text" placeholder="Query…" />
+          <textarea class="query input terms" style="height: 2em" id="termSearch" placeholder="Query…"></textarea>
         </div>
       </div>
       <div class="item">
@@ -149,7 +159,7 @@
         <div class="field">
           <span class="ui checkbox">
             <input id="refreshQueries" type="checkbox" />
-            <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically">Refresh</label>
+            <label for="refreshQueries" id="refreshLabel" title="Refreshes the query results periodically"><i class="refresh icon"></i></label>
           </span>
         </div>
       </div>
