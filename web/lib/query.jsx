@@ -12,7 +12,7 @@ exports.addAnnotationTag = addAnnotationTag;
 exports.setAnnotationTags = setAnnotationTags;
 exports.setupQueryRefresher = setupQueryRefresher;
 
-var React = require('react');
+var React = require('react'), _ = require('lodash');
 
 // function to calc querystring
 var qs;
@@ -180,9 +180,11 @@ exports.init = function(ctx) {
 
 function addAnnotationTag(anno) {
   $annoSearch.attr('placeholder', '');
-  var tags = $annoSearch.val().split(',').filter(function(v) { return v.length > 0; });
+  var tags = $annoSearch.val().split(',').filter(function(v) { return v && v.trim().length > 0; });
+  console.log('addAnnotationTag current', tags, 'adding', anno);
   tags.push(anno);
-  $annoSearch.select2('data', tags.map(function(t) { return { text: t}; }));
+  tags = _.uniq(tags);
+  $annoSearch.select2('data', tags.map(function(t) { return { id: t, text: t}; }));
   $annoSearch.val(tags.join(','));
 }
 
