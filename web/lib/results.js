@@ -115,7 +115,7 @@ function gotNavigation(results) {
   if (browser) {
     $('.browse.sidebar').sidebar('show');
     $('#browse').html();
-    browser.render('#browse', results, resultView);
+    browser.render('#browse', results, resultView, context);
   } else {
     $('.browse.sidebar').sidebar('hide');
   }
