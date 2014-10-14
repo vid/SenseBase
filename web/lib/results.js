@@ -98,13 +98,11 @@ function moreLikeThis(uris) {
 function gotResults(results) {
   results.JSONquery = JSON.stringify(results.query, null, 2);
   console.log('gotResults', results);
-  $('.browse.sidebar').sidebar('show');
   updateResults(results);
 }
 
 // Navigation results to accompany results
 function gotNavigation(results) {
-  console.log('gotNavigation', results);
   var browser;
   if (results.navigator === 'treemap') {
     browser = browseTreemap;
@@ -113,7 +111,9 @@ function gotNavigation(results) {
   } else if (results.navigator === 'cluster') {
     browser = browseCluster;
   }
+  console.log('gotNavigation', results, browser);
   if (browser) {
+    $('.browse.sidebar').sidebar('show');
     $('#browse').html();
     browser.render('#browse', results, resultView);
   } else {
