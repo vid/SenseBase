@@ -21,7 +21,6 @@ var basePage = location.pathname + '?';
 var context;
 var queryRefresher;
 
-
 var $annoSearch = $('.query.annotations');
 
 var SelectMember = React.createClass({
@@ -165,6 +164,12 @@ exports.init = function(ctx) {
   });
   $('.query.submit').click(submitQuery);
 
+  $('.query.terminal').click(function() {
+    window.xx = context;
+    $('.query.input.terms').val(context.resultsLib.getLastResults().query.query.bool.must[0].query_string.query);
+    clearAnnotationTags();
+  });
+
 /*
   $('#fromDate').datepicker();
   $('#toDate').datepicker();
@@ -188,22 +193,30 @@ function addAnnotationTag(anno) {
   $annoSearch.val(tags.join(','));
 }
 
+// clear input box and select for tags
+function clearAnnotationTags() {
+  $annoSearch.val();
+  $annoSearch.select2('data', null);
+}
+
 function setAnnotationTags(tags) {
   if (tags === undefined) {
     tags = $annoSearch.val().split(',');
   }
   $annoSearch.select2({
-    formatNoMatches: function(term) { return ""; },
+    formatNoMatches: function(term) { return ''; },
     matcher: function(term, text, opt) {
        return true;
      },
     tags: tags,
     tokenSeparators: [',']
   });
+  /*
   $annoSearch.on('change', function(e) {
     $annoSearch.val(e.val.join(','));
     submitQuery();
   });
+  */
 }
 
 // formulate query parameters

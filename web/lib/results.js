@@ -23,6 +23,7 @@ exports.gotNavigation = gotNavigation;
 exports.updateResults = updateResults;
 exports.moreLikeThis = moreLikeThis;
 exports.setResultView = setResultView;
+exports.getLastResults = function() { return lastResults; };
 
 var annoTree = require('./annoTree.js'), utils = require('../lib/clientUtils'), treeInterface = require('./tree-interface'),
   browseCluster = require('../lib/browse-cluster'), browseFacet = require('../lib/browse-facet'),
@@ -97,7 +98,7 @@ function moreLikeThis(uris) {
 // Query results were received
 function gotResults(results) {
   results.JSONquery = JSON.stringify(results.query, null, 2);
-  console.log('gotResults', results);
+  console.log('gotResults', JSON.stringify(results.query, null, 2), results);
   updateResults(results);
 }
 

@@ -41,6 +41,7 @@ exports.render = function(target, results, resultView, context) {
 // add facet counts &c
 function augment(el) {
   if (el.children && el.children.length > 0) {
+    el.text = el.text + ' (' + el.children.length + ')';
     el.children.forEach(function(c) {
       c = augment(c);
     });
