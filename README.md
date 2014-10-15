@@ -90,7 +90,7 @@ A few sample services are provided. Edit them by making them available in your l
 
 # Acknowledgement
 
-This project is supported by and forms the basis of http://www.github.com/TsangLab/Proxiris, as well as work developed for the PatientSense project for eHealth in Motion | Dataparc.
+This project is supported by and forms the basis of http://www.github.com/TsangLab/Proxiris, as well as work developed for the PatientSense project for [eHealth in Motion](http://www.ehealthinmotion.com) | [Dataparc](http://www.dataparc.com.com/) .
 
 # Copyright notices
 
