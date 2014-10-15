@@ -1,9 +1,14 @@
+// # annoTree
+//
+// Displays an items' annotations
+
 /*jslint browser: true */
 /*jslint node: true */
 /* global $ */
 'use strict';
 
-var treeFilterTimeout;
+var treeFilterTimeout, typesIcons = require('./types-icons.js');
+
 // display all annotations, then return a structure containing instances mapped to IDs
 exports.display = function(annotations, uri, treeInterface) {
   // utility to manage IDs for items
@@ -99,26 +104,7 @@ exports.display = function(annotations, uri, treeInterface) {
   }).jstree({
     core : { data: treeRoot },
     plugins : [ "search", "types", "wholerow" ],
-    types : {
-      default : {
-        icon : "tags icon"
-      },
-      range : {
-        icon : "ellipsis horizontal icon"
-      },
-      category : {
-        icon : "tag icon"
-      },
-      valueQuote : {
-        icon : "text width icon"
-      },
-      value : {
-        icon : "info letter icon"
-      },
-      quote : {
-        icon : "quote left icon"
-      }
-   }
+    types : typesIcons.types
   });
   $('#annoTree').jstree('open_all');
   $('#treeFilter').keyup(function () {

@@ -165,7 +165,6 @@ exports.init = function(ctx) {
   $('.query.submit').click(submitQuery);
 
   $('.query.terminal').click(function() {
-    window.xx = context;
     $('.query.input.terms').val(context.resultsLib.getLastResults().query.query.bool.must[0].query_string.query);
     $('.query.input.terms').css('width', $('.query.input.terms').width() * 1.5);
     $('.query.input.terms').css('height', $('.query.input.terms').height() * 1.5);

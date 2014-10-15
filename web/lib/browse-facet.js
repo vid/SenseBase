@@ -5,30 +5,31 @@
 
 'use strict';
 
-var facetSearchTimeout;
+var facetSearchTimeout, typesIcons = require('./types-icons.js');
 
 exports.render = function(target, results, resultView, context) {
-  var annos = augment(results.annotationOverview);
-  $(target).bind('loaded.jstree', function(event, data) {
+  var $target = $(target), annos = augment(results.annotationOverview);
+  $target
+    .bind('loaded.jstree', function(event, data) {
     data.instance.open_all();
-    /*
-    $(target).prepend('Filter: <input id="facetSearch">');
+    window.dd = data;
+    $target.prepend('Filter: <input id="facetSearch">');
     $('#facetSearch').keyup(function () {
       if(facetSearchTimeout) { clearTimeout(facetSearchTimeout); }
         facetSearchTimeout = setTimeout(function () {
           var v = $('#facetSearch').val();
-          $(target).jstree().search(v);
+          $target.jstree(true).search(v);
         }, 250);
       });
-    */
-    })
-    .jstree(
-      { 'core' : {
-//       'plugins' : [ 'search' ],
-        'data' :  annos
-      }
-    })
-  .on('select_node.jstree', function (e, data) {
+    }).jstree(
+      { core : {
+        data :  annos,
+      },
+      plugins : ['types', 'search'],
+      search : { fuzzy: false },
+      types : typesIcons.types
+    });
+  $target.on('select_node.jstree', function (e, data) {
     var i, j;
     for(i = 0, j = data.selected.length; i < j; i++) {
       console.log(data.instance.get_node(data.selected[i]));

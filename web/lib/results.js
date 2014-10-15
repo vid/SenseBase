@@ -98,12 +98,13 @@ function moreLikeThis(uris) {
 // Query results were received
 function gotResults(results) {
   results.JSONquery = JSON.stringify(results.query, null, 2);
-  console.log('gotResults', JSON.stringify(results.query, null, 2), results);
+  console.log('gotResults', results);
   updateResults(results);
 }
 
 // Navigation results to accompany results
 function gotNavigation(results) {
+  console.log('gotNavigation', results, browser);
   var browser;
   if (results.navigator === 'treemap') {
     browser = browseTreemap;
@@ -112,7 +113,6 @@ function gotNavigation(results) {
   } else if (results.navigator === 'cluster') {
     browser = browseCluster;
   }
-  console.log('gotNavigation', results, browser);
   if (browser) {
     $('.browse.sidebar').sidebar('show');
     $('#browse').html();
