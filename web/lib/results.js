@@ -27,7 +27,7 @@ exports.getLastResults = function() { return lastResults; };
 
 var annoTree = require('./annoTree.js'), utils = require('../lib/clientUtils'), treeInterface = require('./tree-interface'),
   browseCluster = require('../lib/browse-cluster'), browseFacet = require('../lib/browse-facet'),
-  browseTreemap = require('../lib/browse-treemap');
+  browseTreemap = require('../lib/browse-treemap'), browseDebug = require('../lib/browse-debug');
 
 exports.init = function(ctx, view) {
   setResultView(view);
@@ -112,6 +112,8 @@ function gotNavigation(results) {
     browser = browseFacet;
   } else if (results.navigator === 'cluster') {
     browser = browseCluster;
+  } else if (results.navigator === 'debug') {
+    browser = browseDebug;
   }
   if (browser) {
     $('.browse.sidebar').sidebar('show');
