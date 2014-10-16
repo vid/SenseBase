@@ -44,11 +44,12 @@ exports.render = function(target, results, resultView, context) {
 
 // add facet counts &c
 function augment(el) {
+  // FIXME should always have a type
   el.type = el.type || 'category';
   el.icon = (typesIcons[el.type] || typesIcons.default).icon;
   if (el.children && el.children.length > 0) {
     el.text = el.text + ' (' + el.children.length + ')';
-    el.state = { opened: el.children.length > 100 ? false : true };
+    el.state = { opened: el.children.length > 50 ? false : true };
     el.children.forEach(function(c) {
       c = augment(c);
     });
