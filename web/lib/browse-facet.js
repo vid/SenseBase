@@ -5,7 +5,7 @@
 
 'use strict';
 
-var facetSearchTimeout, typesIcons = require('./types-icons.js').types;
+var facetSearchTimeout, typesIcons = require('./types-icons.js').types, curAnnos;
 var jstreeOpts = {
   core : { },
   plugins : ['search'],
@@ -13,6 +13,8 @@ var jstreeOpts = {
 };
 
 exports.render = function(target, results, resultView, context) {
+  curAnnos = $('.query.annotations').select2('val');
+
   var $target = $(target), annos = augment(results.annotationOverview);
   $target.css('font-size', '80%');
   $target.jstree('destroy');
@@ -48,12 +50,15 @@ function augment(el) {
   el.type = el.type || 'category';
   el.icon = (typesIcons[el.type] || typesIcons.default).icon;
   if (el.children && el.children.length > 0) {
-    el.text = el.text + ' (' + el.children.length + ')';
+    el.text = el.text + ' [' + el.children.length + ']';
     el.state = { opened: el.children.length > 50 ? false : true };
     el.children.forEach(function(c) {
       c = augment(c);
     });
   } else if (el.items && el.items.length > 0) {
+    if (curAnnos.indexOf(el.text) > -1) {
+      el.state = { selected: true };
+    }
     el.data = { value: el.text };
     el.text = el.text + ' (' + el.items.length + ')';
   }
