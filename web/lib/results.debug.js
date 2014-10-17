@@ -6,7 +6,7 @@
 'use strict';
 
 exports.render = function(dest, results) {
-  $(dest).html('<pre>'+JSON.stringify(results, null, 2) + '<br />Length: ' + JSON.stringify(results, null, 2).length + '</pre>');
+  $(dest).html(Math.round(JSON.stringify(results, null, 2).length / 1024) + 'k\n<pre>' + JSON.stringify(results, null, 2) + '</pre>');
 };
 
 exports.annotations = '*';
