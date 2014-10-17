@@ -9,8 +9,8 @@ var pubsub = require('../lib/pubsub-client').init({ homepage: GLOBAL.config.HOME
 var _ = require('lodash');
 
 // retrieve subscriptions
-  pubsub.subscriptions.request({}, function(results) {
-    if (results.hits) {
-      var subscriptions = _.pluck(results.hits.hits, '_source');
-    }
-  });
+pubsub.subscriptions.request({}, function(results) {
+  if (results.hits) {
+    var subscriptions = _.pluck(results.hits.hits, '_source');
+  }
+});
