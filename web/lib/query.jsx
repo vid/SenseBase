@@ -190,8 +190,8 @@ function addAnnotationTag(anno) {
   console.log('addAnnotationTag current', tags, 'adding', anno);
   tags.push(anno);
   tags = _.uniq(tags);
-  $annoSearch.select2('data', tags.map(function(t) { return { id: t, text: t}; }));
   $annoSearch.val(tags.join(','));
+  $annoSearch.select2('data', tags.map(function(t) { return { id: t, text: t}; }));
 }
 
 // clear input box and select for tags
@@ -252,6 +252,10 @@ function submitQuery() {
       ss.push(i + '=' + $('.query.'+i).val());
     }
   });
+  var annos = $('.query.annotations').select2('val');
+  if (annos.length) {
+    ss.push('annotations=' + annos.join(','));
+  }
   if (ss.join('%') != ts.join('%')) {
 //    window.location = '?' + ss.join('&');
     window.history.pushState({query: ss}, 'dashboard', basePage + ss.join('&'));
