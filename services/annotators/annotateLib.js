@@ -4,13 +4,13 @@
 
 'use strict';
 
-require(process.cwd() + '/index.js').setup();
+require('../../index.js').setup();
 
 var pubsub, annoLib = require('../../lib/annotations'), utils = require('../../lib/utils'), auth = require('../../lib/auth');
 
 exports.init = function(name) {
   var clientID = GLOBAL.svc.auth.clientIDByUsername(name);
-  pubsub = require(process.cwd() + '/lib/pubsub-client').init({ homepage: GLOBAL.config.HOMEPAGE, clientID: clientID });
+  pubsub = require('../../lib/pubsub-client').init({ homepage: GLOBAL.config.HOMEPAGE, clientID: clientID });
   return this;
 };
 
