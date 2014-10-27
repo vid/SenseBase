@@ -19,6 +19,7 @@
     "jquery": "2.1.x",
     "later": "^1.1.6",
     "lodash": "~2.4.1",
+    "nodemw": "^0.3.16",
     "passport": "0.2.x",
     "passport-local": "0.1.x",
     "pullquoter": "0.0.2",
