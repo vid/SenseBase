@@ -52,7 +52,6 @@ exports.display = function(annotations, uri, treeInterface) {
       curParent = treeMap[roots];
       if (!curParent) {
         curParent = { text: cpos, children: [] };
-        console.log('creating', curParent, roots);
         treeMap[roots] = curParent;
         curAdd.children.push(curParent);
       }
@@ -82,8 +81,12 @@ exports.display = function(annotations, uri, treeInterface) {
     } else if (cur.type === 'category') {
     }
 
-    curParent.children.push(cur);
-    treeMap[cur.position] = cur;
+    if (curParent) {
+      curParent.children.push(cur);
+      treeMap[cur.position] = cur;
+    } else {
+      console.log('MISSING curParent', cur);
+    }
   });
 
   console.log('TREE', treeRoot, annoTotal);
