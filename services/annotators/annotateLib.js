@@ -21,6 +21,11 @@ exports.setupAnnotator = function(callback) {
       if (err) {
         GLOBAL.error(err);
       } else {
+        // add annotator name to its roots
+        data.annoRows.forEach(function (annoRow) {
+          annoRow.roots = annoRow.roots || [];
+          annoRow.roots.unshift(data.name);
+        });
         pubsub.item.annotations.save([data.uri], data.annoRows);
       }
     });
