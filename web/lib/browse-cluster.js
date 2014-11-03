@@ -27,7 +27,7 @@ exports.render= function(target, results, resultView) {
     // select selected items
     var docs = d3.event.target.__data__.documents;
     docs.forEach(function(uri) {
-      $('input[name=cb_' + utils.encID(uri) + ']').prop('checked', 'true');
+      $('input[name=cb_' + utils.encID(decodeURIComponent(uri)) + ']').prop('checked', 'true');
     });
     // update selected count
     resultView.checkSelected();
