@@ -55,12 +55,12 @@ function augment(el) {
     el.children.forEach(function(c) {
       c = augment(c);
     });
-  } else if (el.items && el.items.length > 0) {
+  } else if (el.size && el.size > 0) {
     if (curAnnos.indexOf(el.text) > -1) {
       el.state = { selected: true };
     }
     el.data = { value: el.text };
-    el.text = el.text + ' (' + el.items.length + ')';
+    el.text = el.text + ' (' + el.size + ')';
   }
   return el;
 

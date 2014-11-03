@@ -7,7 +7,7 @@
 
 var utils = require('./clientUtils');
 
-exports.render = function(target, results, resultView) {
+exports.render = function(target, results, resultView, context) {
   $(target).addClass('treemap');
   renderTreemap(results.annotationOverview, target);
   window.onresize = function() { renderTreemap(results.annotationOverview, target);};
@@ -76,13 +76,7 @@ exports.render = function(target, results, resultView) {
     function click(d) {
       if (!d.children) {
         // check selected
-        if (d.items.length) {
-          d.items.forEach(function(uri) {
-            $('input[name=cb_' + utils.encID(uri) + ']').prop('checked', 'true');
-          });
-          // update selected count
-          resultView.checkSelected();
-        }
+        context.queryLib.addAnnotationTag(d.text);
         return;
       }
 
