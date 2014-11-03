@@ -25,12 +25,7 @@ exports.render = function(dest, results) {
     .id('title')
     .x(xvalue)
     .y('y')
-    .tooltip(tooltip)
     .draw();
-}
-
-function tooltip(i) {
-  return i.title;
 }
 
 function xvalue(i) {
