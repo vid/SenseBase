@@ -9,6 +9,10 @@
     "jstree": "~3.0.0-beta10",
     "semantic-ui": "~0.16.1",
     "select2": "~3.4.8",
+    "d3plus": "~1.6.4",
     "jquery.event.drag-drop": "~2.2.1"
+  },
+  "resolutions": {
+    "jquery": ">= 1.7.1"
   }
 }

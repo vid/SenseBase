@@ -1,75 +1,38 @@
 // ### results.scatter
 /*jslint browser: true */
 /*jslint node: true */
-/* global $,nv,d3 */
+/* global $,d3,d3plus */
 'use strict';
 
-var utils = require('./clientUtils');
 exports.render = function(dest, results) {
-
-  $(dest).append('<svg style="width: 100%; height: 100%">');
-  nv.addGraph(function() {
-    var chart = nv.models.scatterChart()
-      .showDistX(true)    //showDist, when true, will display those little distribution lines on the axis.
-      .showDistY(true)
-      .transitionDuration(350)
-      .color(d3.scale.category10().range());
-
-    //Configure how the tooltip looks.
-    chart.tooltipContent(function(key, x, y, e, graph) {
-      var sel= utils.encID(e.point.data.uri);
-      return '<h3>' + e.point.data.title + '</h3>';
-    });
-
-    //Axis settings
-//    chart.xAxis.tickFormat(d3.format('.02f'));
-    chart.xAxis.tickFormat(function(d) { return d3.time.format('%b %d')(new Date(d)); });
-    chart.yAxis.tickFormat(d3.format('.02f'));
-
-    //We want to show shapes other than circles.
-    chart.scatter.onlyCircles(false);
-
-    var myData = resultsData(['timestamp'], results);
-    d3.select(dest + ' svg')
-      .datum(myData)
-      .call(chart);
-
-    nv.utils.windowResize(chart.update);
-
-    return chart;
-  });
-};
-
-
-function resultsData(fields, results) { //# groups,# points per group
-  var data = [],
-    shapes = ['circle', 'cross', 'triangle-up', 'triangle-down', 'diamond', 'square'],
-    random = d3.random.normal();
-
-  fields.forEach(function(field) {
-    var cur = { key : field, values : [] };
-
-    for (var j = 0; j < results.hits.hits.length; j++) {
-      var annos, annosVal, hit = results.hits.hits[j]._source;
-      if (hit.annotationSummary) {
-        annos = hit.annotationSummary.validated + hit.annotationSummary.unvalidated + 1;
-        annosVal = hit.annotationSummary.validated + 1;
-      } else {
-        annos = 1;
-        annosVal = 1;
-      }
-      annos = random(); //FIXME
-
-      cur.values.push({
-        x: new Date(hit[field]),
-        y: annos,
-        data: hit,
-        size: annosVal,   //Configure the size of each scatter point
-        shape: "circle"  //Configure the shape of each scatter point.
-      });
+  $(dest).html('<div id="results-scatter"></div>');
+  // instantiate d3plus
+  var data = [];
+  for (var j = 0; j < results.hits.hits.length; j++) {
+    var hit = results.hits.hits[j]._source;
+    var val = { title: hit.title, x : hit.timestamp, y : 1};
+    if (hit.annotationSummary) {
+      val.y = hit.annotationSummary.validated + hit.annotationSummary.unvalidated + 1;
     }
-    data.push(cur);
-  });
+    data.push(val);
+  }
 
-  return data;
+  var visualization = d3plus.viz()
+    .container('#results-scatter')
+    .data(data)
+    .size(5)
+    .type('scatter')
+    .id('title')
+    .x(xvalue)
+    .y('y')
+    .tooltip(tooltip)
+    .draw();
+}
+
+function tooltip(i) {
+  return i.title;
+}
+
+function xvalue(i) {
+  return new Date(i.x).getTime();
 }

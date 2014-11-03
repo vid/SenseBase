@@ -142,8 +142,6 @@ module.exports = function(grunt) {
          'bower_components/select2/select2.css',
          'bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css',
          'bower_components/jstree/dist/themes/default/style.min.css',
-         'web/ext-libs/d3plus/d3plus.css',
-         'web/ext-libs/nvd3/nv.d3.css',
          'web/ext-lib/jqCron/jqCron.css'
        ],
        dest: 'web/static/lib/libs.css'
@@ -160,7 +158,6 @@ module.exports = function(grunt) {
          'web/ext-lib/dragFile.js',
          'web/ext-lib/d3plus/d3.js',
          'web/ext-lib/d3plus/d3plus.min.js',
-         'web/ext-lib/nvd3/nv.d3.js',
          'web/ext-lib/jqCron/jqCron.js',
          'web/ext-lib/jqCron/jqCron.en.js'
         ],

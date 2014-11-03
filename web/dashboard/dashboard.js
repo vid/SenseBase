@@ -183,5 +183,11 @@ exports.init = function() {
   // initial query if not popping state
   queryLib.updateQueryForm();
   queryLib.submitQuery();
-
+  sizeResults();
+  window.addEventListener('resize', sizeResults);
+  $('.results').css('overflow', 'auto');
 };
+
+function sizeResults() {
+  $('#results').height(window.innerHeight - $('#results').offset().top);
+}
