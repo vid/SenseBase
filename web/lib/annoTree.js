@@ -97,8 +97,8 @@ exports.display = function(annotations, uri, treeInterface) {
   $.jstree.defaults.search.fuzzy = false;
 
   $('#treeContainer').html('<div id="annoTree" style="height: 100%"></div>');
-  $('#annoTree').jstree('open_all');
-  $('#annoTree').on('hover_node.jstree', function(e, data) {
+  var $tree = $('#annoTree');
+  $tree.on('hover_node.jstree', function(e, data) {
     var anno = treeItems.get(data.node.id);
     treeInterface.hover(anno, e, data);
   }).on('select_node.jstree', function(e, data) {
@@ -109,12 +109,15 @@ exports.display = function(annotations, uri, treeInterface) {
     plugins : [ "search", "types", "wholerow" ],
     types : typesIcons.types
   });
-  $('#annoTree').jstree('open_all');
+  $tree.bind("loaded.jstree", function (event, data) {
+      $(this).jstree("open_all");
+  })
+
   $('#treeFilter').keyup(function () {
     if(treeFilterTimeout) { clearTimeout(treeFilterTimeout); }
     treeFilterTimeout = setTimeout(function () {
       var v = $('#treeFilter').val();
-      $('#annoTree').jstree(true).search(v);
+      $tree.jstree(true).search(v);
     }, 250);
   });
 
