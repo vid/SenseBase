@@ -35,7 +35,7 @@ exports.display = function(annotations, uri, treeInterface) {
   };
 
   // create positions of tree items
-  var treeMap = {}, treeRoot = { text: 'Annotations', children: []}, annoTotal = 0, curParent;
+  var treeMap = {}, treeRoot = { state: { opened: true }, text: 'Annotations', children: []}, annoTotal = 0, curParent;
   annotations.forEach(function(cur) {
     annoTotal++;
     // get parent position (position without current)
@@ -51,11 +51,11 @@ exports.display = function(annotations, uri, treeInterface) {
       roots.push(cpos);
       curParent = treeMap[roots];
       if (!curParent) {
-        curParent = { text: cpos, children: [] };
+        curParent = { state: { opened: true}, text: cpos, children: [] };
         treeMap[roots] = curParent;
         curAdd.children.push(curParent);
       }
-        curAdd = curParent;
+      curAdd = curParent;
     });
 
     if (treeMap[cur.position]) {
@@ -68,6 +68,7 @@ exports.display = function(annotations, uri, treeInterface) {
     cur.text = cur.position[cur.position.length - 1];
 
     // add ranges
+    cur.state = { opened : true};
     if (cur.type === 'quote') {
       var instances = [];
       cur.ranges.forEach(function(r) {
@@ -109,9 +110,11 @@ exports.display = function(annotations, uri, treeInterface) {
     plugins : [ "search", "types", "wholerow" ],
     types : typesIcons.types
   });
+  /*
   $tree.bind("loaded.jstree", function (event, data) {
       $(this).jstree("open_all");
   })
+  */
 
   $('#treeFilter').keyup(function () {
     if(treeFilterTimeout) { clearTimeout(treeFilterTimeout); }
