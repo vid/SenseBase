@@ -312,5 +312,5 @@ function clearQueryRefresher() {
 
 function setupQueryRefresher(interval) {
   clearQueryRefresher();
-  queryRefresher = setInterval(doQuery, interval);
+  queryRefresher = setInterval(submitQuery, interval);
 }

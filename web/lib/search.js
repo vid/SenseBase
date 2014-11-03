@@ -14,7 +14,7 @@ var sline = _.template('<tr onclick=\'javascript:$("#loadSearch").val("<%= searc
 exports.init = function(ctx) {
   context = ctx;
   // set team input as select2 input
-  $('.team.container').select2();
+//  $('.team.container').select2();
   setupCronInput();
 
   // show search scheduler according to checkbox
