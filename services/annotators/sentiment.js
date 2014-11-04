@@ -11,8 +11,11 @@ var annoLib = require('./annotateLib').init(name), annotations = require('../../
 
 exports.doProcess = doProcess;
 
-// wait for annotation requests
-annoLib.setupAnnotator(doProcess);
+// setup if we're running standalone
+if (require.main === module) {
+  // wait for annotation requests
+  annoLib.setupAnnotator(doProcess);
+}
 
 function doProcess(combo, callback) {
   var uri = combo.uri, content = combo.content, text = combo.text, selector = combo.selector, annoRows = [];

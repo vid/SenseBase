@@ -11,8 +11,11 @@ var name = 'Structural';
 
 var annoLib = require('./annotateLib').init(name), annotations = require('../../lib/annotations'), utils = require('../../lib/utils.js');
 
-// wait for annotation requests
-annoLib.setupAnnotator(doProcess);
+// setup if we're running standalone
+if (require.main === module) {
+  // wait for annotation requests
+  annoLib.setupAnnotator(doProcess);
+}
 
 exports.name = name;
 

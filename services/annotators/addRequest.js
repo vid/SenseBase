@@ -13,8 +13,11 @@ var name = 'PubmedArticle';
 var annoLib = require('./annotateLib').init(name);
 //process({ uri: 'http://www.ncbi.nlm.nih.gov/pubmed/11139488'});
 
-// wait for annotation requests
-annoLib.setupAnnotator(doProcess);
+// setup if we're running standalone
+if (require.main === module) {
+  // wait for annotation requests
+  annoLib.setupAnnotator(doProcess);
+}
 
 function doProcess(combo, callback) {
   var uri = combo.uri;
