@@ -8,7 +8,7 @@ require(process.cwd() + '/index.js').setup();
 var clientID = GLOBAL.svc.auth.clientIDByUsername('system');
 
 var pubsub = require('../lib/pubsub-client').init({ homepage: GLOBAL.config.HOMEPAGE, clientID: clientID }),
-  searchLib = require('../lib/search.js');
+  searchLib = require('../lib/search.js'), utils = require('../lib/utils.js');
 
 var jobs = [];
 
