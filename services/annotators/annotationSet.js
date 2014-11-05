@@ -21,8 +21,8 @@ if (require.main === module) {
   // retrieve annotation sets
   setup();
   // wait for annotation requests
-  annoLib.setupAnnotator(doProcess);
-  console.log(process.argv[1], annotationSets.length, 'sets');
+  annoLib.setupAnnotator(name, doProcess);
+  console.log(name, annotationSets.length, 'sets');
 }
 
 // configure with these annotation sets
@@ -61,6 +61,7 @@ function doProcess(combo, callback) {
     annotationSets.forEach(function(aset) {
 
      if (text.match(aset.re)) {
+       console.log('MATCH', asset.re);
        var roots = aset.position.slice(0);
        var cat = roots.pop();
        annoRows.push(annotations.createAnnotation({type: 'category', annotatedBy: name, hasTarget: uri, roots: roots, category: cat }));

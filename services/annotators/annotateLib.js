@@ -15,8 +15,8 @@ exports.init = function(name) {
 };
 
 // receive requests for annotations
-exports.setupAnnotator = function(callback) {
-  pubsub.item.annotations.subAnnotate(function(data) {
+exports.setupAnnotator = function(name, callback) {
+  var annotate = function(data) {
     callback(data, function(err, data) {
       if (err) {
         GLOBAL.error(err);
@@ -26,10 +26,12 @@ exports.setupAnnotator = function(callback) {
           annoRow.roots = annoRow.roots || [];
           annoRow.roots.unshift(data.name);
         });
-        pubsub.item.annotations.save([data.uri], data.annoRows);
+        pubsub.item.annotations.adjure([data.uri], data.annoRows);
       }
     });
-  });
+  };
+  pubsub.item.annotations.subAnnotate(annotate);
+  pubsub.item.annotations.subAnnotate(annotate, name.replace(/ /g, '_'));
 };
 
 exports.rangesFromMatches = rangesFromMatches;

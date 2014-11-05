@@ -16,7 +16,7 @@ var annoLib = require('./annotateLib').init(name);
 // setup if we're running standalone
 if (require.main === module) {
   // wait for annotation requests
-  annoLib.setupAnnotator(doProcess);
+  annoLib.setupAnnotator(name, doProcess);
 }
 
 function doProcess(combo, callback) {

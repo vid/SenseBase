@@ -14,7 +14,7 @@ var annoLib = require('./annotateLib').init(name), annotations = require('../../
 // setup if we're running standalone
 if (require.main === module) {
   // wait for annotation requests
-  annoLib.setupAnnotator(doProcess);
+  annoLib.setupAnnotator(name, doProcess);
 }
 
 exports.name = name;
