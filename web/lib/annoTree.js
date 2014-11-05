@@ -82,12 +82,12 @@ exports.display = function(annotations, uri, treeInterface) {
     } else if (cur.type === 'category') {
     }
 
-    if (curParent) {
-      curParent.children.push(cur);
-      treeMap[cur.position] = cur;
-    } else {
+    if (!curParent) {
       console.log('MISSING curParent', cur);
+      curParent = treeRoot;
     }
+    curParent.children.push(cur);
+    treeMap[cur.position] = cur;
   });
 
   console.log('TREE', treeRoot, annoTotal);

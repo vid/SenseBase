@@ -18,9 +18,10 @@ exports.init = function(ctx) {
     var teamTypes = {};
     teams.forEach(function(m) {
       // create selects
-      if (m.status === 'available' && m.type === 'Searcher') {
+      if (m.status === 'available') {
+        var type = m.type.toLowerCase();
         // group by type
-        teamTypes[m.type] = (teamTypes[m.type] || '') + '<option value="' + m.username + '">' + m.username + '</option>';
+        teamTypes[type] = (teamTypes[type] || '') + '<option value="' + m.username + '">' + m.username + '</option>';
       }
       var row = '<a style="margin: 4px" id="' + m.username + '" class="ui small ' + (m.status === 'available' ? 'enabled' : 'disabled') + ' member image label">' +
         (m.class ? '<i class="' + m.class + ' icon"></i>' :
@@ -28,9 +29,9 @@ exports.init = function(ctx) {
         ' ' + m.username + '</a>';
       $('.teamlist.field').prepend(row);
     });
-    for (var type in teamTypes) {
-      $('.team.container').append('<optgroup label="' + type + '">' + teamTypes[type] + '</optgroup>');
-    }
+    ['searcher', 'agent', 'user'].forEach(function(type) {
+      $('.team.' + type + '.container').append('<optgroup label="' + type + '">' + teamTypes[type] + '</optgroup>');
+    });
     $('.enabled.member').draggable({stack: 'a', helper: 'clone'});
 
     $('#newName').val('');
