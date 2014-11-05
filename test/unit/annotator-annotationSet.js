@@ -9,7 +9,7 @@ var annotationSet = require('../../services/annotators/annotationSet.js'), utils
 annotationSet.setAnnotationSets([{ position: ['Cat', 'Level 1', 'Level 2'], terms: ['good'] },
   { position: ['Nocat', 'Nolevel'], terms: ['zzzzzzzzzzzz'] }]);
 
-var doc = '<html><script lah lah></script><body class="something">Good <b>bad</b> amazing</body></html>';
+var doc = '<html>\n<script lah lah></script>\n<body class="something">Good <b>bad</b> amazing\n</body>\n</html>';
 
 describe('annotationSet', function(done){
   it('should identify the category', function(done) {
