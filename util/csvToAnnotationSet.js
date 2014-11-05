@@ -66,7 +66,7 @@ function processJson(json) {
         console.log('invalid structure at', j);
         process.exit(1);
       }
-      var terms = _.map(j['Search Terms'].split(','), function(s) { return s.trim(); });
+      var terms = _.map(j['Search Terms'].split(','), function(s) { return s.trim(); }).filter(Boolean);
       sets.push({ position: pos, terms: terms });
     }
   });
