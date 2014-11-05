@@ -14,6 +14,7 @@ var doc = '<html>\n<script lah lah></script>\n<body class="something">Good <b>ba
 describe('annotationSet', function(done){
   it('should identify the category', function(done) {
     annotationSet.doProcess({ uri: 'test', content: doc, text: utils.getTextFromHtml(doc), selector: 'body'}, function(err, result) {
+      console.log(JSON.stringify(result, null, 2));
       expect(err).to.be(null);
       expect(result.annoRows.length === 1).to.be(true);
       var annos = _.groupBy(result.annoRows, function(r) { return r.type;});

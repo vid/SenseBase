@@ -28,7 +28,8 @@ if (require.main === module) {
 // configure with these annotation sets
 function setAnnotationSets(sets) {
   annotationSets = sets.map(function(s) {
-    s.re = new RegExp('(' + s.terms.join('|') + ')', 'i');
+    var r = '\\b(' + s.terms.join('|') + ')\\b';
+    s.re = new RegExp(r, 'mi');
     return s;
   });
 }
@@ -59,9 +60,7 @@ function doProcess(combo, callback) {
 
   if (text.length > 0) {
     annotationSets.forEach(function(aset) {
-
      if (text.match(aset.re)) {
-       console.log('MATCH', asset.re);
        var roots = aset.position.slice(0);
        var cat = roots.pop();
        annoRows.push(annotations.createAnnotation({type: 'category', annotatedBy: name, hasTarget: uri, roots: roots, category: cat }));
