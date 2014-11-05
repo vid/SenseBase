@@ -109,9 +109,10 @@ exports.init = function() {
   });
 
   $('.confirm.annotate.button').click(function() {
-    var annotations = $('#selectedAnnotations').val().split(',').map(function(a) { return { type: 'category', category: a.trim()}; });
-    if (annotations.length) {
-      pubsub.item.annotations.save(resultsLib.getSelected(), annotations);
+    var annotations = $('#selectedAnnotations').val() ? $('#selectedAnnotations').val().trim().split(',').map(function(a) { return { type: 'category', category: a.trim()}; }) : [];
+    var annotators = $('.team.annotators').val();
+    if (annotations.length || annotators.length) {
+      pubsub.item.annotations.adjure(resultsLib.getSelected(), annotations, annotators);
       return false;
     }
   });
