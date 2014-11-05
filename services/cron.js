@@ -25,6 +25,7 @@ function setupJobs() {
   jobs = [];
 
   GLOBAL.svc.indexer.retrieveSearches({}, function(err, res) {
+    utils.passingError(err);
     if (res.hits && res.hits.total > 0) {
       _.pluck(res.hits.hits, '_source').forEach(function(search) {
         if (search.cron) {
