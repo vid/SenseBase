@@ -1,4 +1,4 @@
-// service that periodically checks for and requests queued content
+// delete annotations by a specific member
 /*jslint node: true */
 'use strict';
 
