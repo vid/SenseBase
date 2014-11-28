@@ -35,4 +35,12 @@ describe('Search APIs', function(done) {
       done();
     });
   });
+  it('should search feeds', function(done) {
+    searchAPIs.exec('feedparser', {query: 'http://en.wikipedia.org/w/api.php?hidebots=1&days=7&limit=2&hidewikidata=1&action=feedrecentchanges&feedformat=atom', targetResults: 1}, function(err, uri, resultContext) {
+      expect(err).to.be(null);
+      expect(uri).to.not.be(undefined);
+      expect(resultContext.referers).to.not.be(undefined);
+      done();
+    });
+  });
 });

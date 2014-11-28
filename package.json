@@ -14,7 +14,6 @@
     "express-flash": "0.0.2",
     "express-namespace": "^0.1.1",
     "faye": "1.0.x",
-    "feedparser": "^0.19.1",
     "filter-proxy": "0.0.6",
     "forever": "^0.11.1",
     "jquery": "2.1.x",
