@@ -52,21 +52,23 @@ exports.init = function(ctx, view) {
 
 
   // Add new or update item.
-  context.pubsub.item.subUpdated(function(result) {
-    console.log('/item/updated', result, lastResults);
-    result = normalizeResult(result);
-    if (!lastResults.hits) {
-      lastResults = { hits: { total : 0, hits: [] } };
-    } else {
-      var i = 0, l = lastResults.hits.hits.length;
-      for (i; i < l; i++) {
-        if (lastResults.hits.hits[i]._source.uri === result._source.uri) {
-          lastResults.hits.hits.splice(i, 1);
-          break;
+  context.pubsub.item.subUpdated(function(results) {
+    console.log('/item/updated', results, 'lastResults', lastResults);
+    results.forEach(function(result) {
+      result = normalizeResult(result);
+      if (!lastResults.hits) {
+        lastResults = { hits: { total : 0, hits: [] } };
+      } else {
+        var i = 0, l = lastResults.hits.hits.length;
+        for (i; i < l; i++) {
+          if (lastResults.hits.hits[i]._source.uri === result._source.uri) {
+            lastResults.hits.hits.splice(i, 1);
+            break;
+          }
         }
       }
-    }
-    lastResults.hits.hits.unshift(result);
+      lastResults.hits.hits.unshift(result);
+    });
     updateResults(lastResults);
   });
 };
