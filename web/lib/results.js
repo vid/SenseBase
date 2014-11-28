@@ -50,7 +50,6 @@ exports.init = function(ctx, view) {
     }
   });
 
-
   // Add new or update item.
   context.pubsub.item.subUpdated(function(results) {
     console.log('/item/updated', results, 'lastResults', lastResults);
