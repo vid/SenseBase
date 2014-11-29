@@ -104,7 +104,6 @@ exports.init = function() {
     var newTitle = $('#itemTitle').val();
     var title = $('#itemTitle').val();
     var uri = context.resultsLib.currentURI;
-    console.log('URI', uri, 'TITLE', title);
     context.pubsub.item.save({ uri: uri, title: title});
     return false;
   });
