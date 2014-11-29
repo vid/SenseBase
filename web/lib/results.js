@@ -6,6 +6,7 @@
 /* global $ */
 'use strict';
 
+// currentURI is exported
 var currentURI, noUpdates, context = {};
 // hasQueuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
 var hasQueuedUpdates, queuedNotifier;
@@ -127,6 +128,7 @@ function gotNavigation(results) {
 
 // populate and display the URI's sidebar
 function displayItemSidebar(uri) {
+  exports.currentURI = uri;
   // subscribe to annotation
   $('.subscribe.annotation').click(function() {
     if (treeInterface.lastAnno) {
@@ -135,7 +137,8 @@ function displayItemSidebar(uri) {
     }
   });
   $('.context.dropdown').dropdown();
-  setCurrentURI(uri);
+  currentURI = uri.replace(/#.*/, '');
+
   context.pubsub.item.annotations.request(uri, function(data) {
     console.log('/annotations', data);
     // update query items
@@ -158,13 +161,8 @@ function displayItemSidebar(uri) {
 }
 
 function hideItemSidebar() {
+  exports.currentURI = null;
   $('.details.sidebar').sidebar('hide');
-}
-
-// sets the current annotation loc
-function setCurrentURI(u) {
-  currentURI = u.replace(/#.*/, '');
-  console.log('currentURI', currentURI);
 }
 
 // Update displayed results using results view.  If passed results are null, use lastResults.

@@ -40,6 +40,10 @@ exports.render = function(dest, results, context) {
       context.resultsLib.noUpdates = false;
     } else {
       context.resultsLib.displayItemSidebar(uri);
+      var title = $el.parents('tr').find('.selectURI.title').text();
+      console.log('title', title);
+      $('#itemTitle').val(title);
+      window.oo = this;
       curURI = uri;
       if ($el.hasClass('selectURI')) {
         $('#preview').remove();
@@ -71,8 +75,8 @@ exports.render = function(dest, results, context) {
       highlight = r.highlight.text;
     }
     var rankVal = r._score ? r._score : ++count;
-    var row = '<tr class="selectRow" id="' + utils.encID(v.uri) + '"><td data-sort-value="' + rankVal + '"><input class="selectItem" type="checkbox" name="cb_' + utils.encID(v.uri) + '" />' + rankVal + '</td><td data-sort-value="' + v.title + '">' +
-      '<div><a href="javascript:void(0)"></a><a class="selectURI" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' +
+    var row = '<tr class="selectRow" id="' + utils.encID(v.uri) + '"><td data-sort-value="' + rankVal + '"><input class="selectItem" type="checkbox" name="cb_' + utils.encID(v.uri) + '" />' + rankVal + '</td><td>' +
+      '<div><a class="selectURI title" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' +
       '<a class="selectURI content"><i class="text file icon"></i></a> <a class="selectURI uri" href="'+ v.uri + '"> ' + utils.shortenURI(v.uri) + '</a></div><div class="highlighted">' + highlight +
 '</div></td><td class="rowVisitors" data-sort-value="' + (v.visitors ? v.visitors.length : 0) + '">';
     // roll up visitors
