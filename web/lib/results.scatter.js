@@ -5,12 +5,12 @@
 'use strict';
 
 exports.render = function(dest, results) {
-  $(dest).html('<div id="results-scatter"></div>');
+  $(dest).html('<div id="results-scatter" style="width: 96%"></div>');
   // instantiate d3plus
   var data = [];
   for (var j = 0; j < results.hits.hits.length; j++) {
     var hit = results.hits.hits[j]._source;
-    var val = { title: hit.title, x : hit.timestamp, y : 1};
+    var val = { title: hit.title, x : new Date(hit.timestamp).getTime(), y : 1};
     if (hit.annotationSummary) {
       val.y = hit.annotationSummary.validated + hit.annotationSummary.unvalidated + 1;
     }
@@ -23,7 +23,7 @@ exports.render = function(dest, results) {
     .size(5)
     .type('scatter')
     .id('title')
-    .x(xvalue)
+    .x('x')
     .y('y')
     .draw();
 }
