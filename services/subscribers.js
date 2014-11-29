@@ -49,13 +49,17 @@ function send(toSend) {
       } else if (!to.email) {
         GLOBAL.error('no member', member, to);
       } else {
-        var text = '', html = '', tag = '\n--\n\n' + GLOBAL.config.HOMEPAGE;
+        var text = '', html = '';
         for (var uri in toSend[member]) {
           text += '\n' + GLOBAL.config.base + '?"' + uri + '"\n' + uri + ':\n' + toSend[member][uri].join('\n');
           html += '<br /><a href="' + GLOBAL.config.HOMEPAGE + '?terms=%22' + uri + '%22">' + uri + '</a>\n<ul>' +
             toSend[member][uri].map(function(a) { return '<li>'+a+'</li>'; }).join('') + '</ul>';
         }
-        var message = _.extend(mailOptions, { to: to.email, text: text + tag, html: html + tag });
+        var message = _.extend(mailOptions, {
+          to: to.email,
+          text: text + '\n--\n' + GLOBAL.config.HOMEPAGE,
+          html: html + '--<br />' + GLOBAL.config.HOMEPAGE
+        });
 
         transporter.sendMail(mailOptions, function(error, info) {
           if (error) {
