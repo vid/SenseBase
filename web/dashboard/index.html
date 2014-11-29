@@ -16,6 +16,11 @@
             <i class="rss icon"></i>Subscribe
           </a>
         </div>
+        <div class="item">
+          <a title="Edit title" class="edit title">
+            <i class="italic icon"></i>Edit title
+          </a>
+        </div>
       </div>
     </div>
     <div title="Validate annotation" class="ui mini validate annotation button"><i class="green checked checkbox icon"></i></div>
@@ -243,6 +248,21 @@
     <button class="ui confirm annotate button">Ok</button>
   </div>
 </div>
+
+<div class="ui edit title modal hidden form segment">
+  <div class="field">
+    <label for="itemTitle">New title:</label>
+    <div class="ui left labeled icon input">
+      <i class="pencil icon"></i>
+      <input id="itemTitle" />
+    </div>
+  </div>
+  <div class="actions" style="text-align: center">
+    <button class="ui button">Cancel</button>
+    <button class="ui confirm edit title button">Ok</button>
+  </div>
+</div>
+
 <div class="ui search load modal hidden form">
   <div class="content">
     <table style="width: 100%" id="savedSearches">

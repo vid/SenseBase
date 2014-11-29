@@ -95,6 +95,20 @@ exports.init = function() {
     }
   });
 
+  // See also subscribe to annotation.
+  $('.edit.title').click(function() {
+    $('.edit.title.modal').modal('show');
+  });
+
+  $('.edit.title.button').click(function() {
+    var newTitle = $('#itemTitle').val();
+    var title = $('#itemTitle').val();
+    var uri = context.resultsLib.currentURI;
+    console.log('URI', uri, 'TITLE', title);
+    context.pubsub.item.save({ uri: uri, title: title});
+    return false;
+  });
+
   // morelikethis
   $('.morelikethis.selected').click(function() {
     if ($('.selected.label').text() > 0) {
