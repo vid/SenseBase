@@ -6,7 +6,6 @@
 /* global $,setupDND */
 
 var context, lastAnno;
-var lastAnno = lastAnno;
 
 exports.init = function(ctx) {
   context = ctx;
@@ -16,7 +15,7 @@ exports.hover = function(anno) {};
 exports.select = function(anno, e, data) {
   // selected an annotation
   if (anno) {
-    lastAnno = anno;
+    exports.lastAnno = anno;
     $('.subscribe.annotation').removeClass('disabled');
     console.log(anno);
     $('#annoType option:contains(anno.type)').prop('selected', true);
@@ -48,7 +47,7 @@ exports.select = function(anno, e, data) {
     $('.annotation.button').click(annoFunctions.select);
   } else {
     $('.subscribe.annotation').addClass('disabled');
-    lastAnno = null;
+    exports.lastAnno = null;
   }
   // it has children
   if (data.node.children.length < 1) {
