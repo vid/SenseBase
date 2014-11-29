@@ -21,7 +21,7 @@ var params = { query: { terms: 'annotatedBy:"' + by + '"' } };
 if (size) {
   params.query.size = size;
 }
-
+params.sort = { "timestamp" : {"order" : "asc"}};
 GLOBAL.svc.indexer.formQuery(params, function(err, res) {
   if (err) {
     console.log('query error', err);
