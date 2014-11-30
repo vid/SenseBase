@@ -68,10 +68,8 @@ exports.init = function() {
 
   $(document).tooltip();
   setTimeout(function() {
-    $(document).tooltip('option', 'disabled', true);
     $('.input.terms').tooltip({ content: $('.query.help').html()});
-    $('.input.terms').attr('title', $('.query.help').html());
-    $('.help.toggle').tooltip();
+    $(document).tooltip('option', 'disabled', true);
   }, 1000);
   $('.help.toggle').click(function() {
     var isDisabled = $(document).tooltip('option', 'disabled');

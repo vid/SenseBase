@@ -291,16 +291,16 @@
 <div class="query help" style="display: none; width: 400px">
   <div class="help">
     <p>Queries by default search title, content and uri. These fields can also be queried explicitly. Use quotes for phrases. AND, OR and NOT are supported with grouping using (brackets).
-    <code>title:"The Right Way" AND content:go</code></p>
+    <code>(content:enquire OR title:Presentation*) OR title:bulletin</code></p>
     <p><strong>Wildcard Searches</strong>
     Use ? (single character) and * (any number)
     <code>te?st</code> or <code>te*st</code></p>
     <p><strong>Fuzzy Searches</strong>
-    Use a ~ with an optional similarity parameter.
-    <code>operate~</code>, <code>operate~0.8</code>, or <code>"operating budget"~2</code></p>
+    Use ~ with an optional similarity parameter.
+    <code>enquire~</code>, <code>enquire~0.8</code>, or <code>"en budget"~2</code></p>
     <p><strong>Range Searches</strong>
     <code>created:[20140101 TO 20140121]</code>, <code>title:{Aida TO Carmen}</code></p>
-    <p><strong>Boosting a Term</strong>
+    <p><strong>Boosting</strong>
     Add ^ at the end of the term.
     <code>content:"infect" AND "harm"^2</code></p>
   </div>
