@@ -6,7 +6,6 @@
   "dependencies": {
     "Sentimental": "0.0.4",
     "cheerio": "~0.13.1",
-    "colors": "~0.6.2",
     "connect-flash": "^0.1.1",
     "csvtojson": "^0.3.14",
     "es": "^0.4.4",
@@ -31,7 +30,8 @@
     "tldjs": "^1.5.0",
     "unfluff": "~0.2.0",
     "winston": "~0.7.2",
-    "xml2js": "^0.4.2"
+    "xml2js": "^0.4.2",
+    "colors": "~1.0.3"
   },
   "main": "index.js",
   "devDependencies": {

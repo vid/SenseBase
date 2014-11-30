@@ -87,7 +87,7 @@ exports.init = function() {
     }
   });
 
-  // Subscribe to selected.
+  // Watch selected.
   //
   // See also watch annotation.
   $('.watch.item').click(function() {
@@ -105,7 +105,8 @@ exports.init = function() {
     }
   });
 
-  // See also watch annotation.
+
+  // Change item title
   $('.edit.title').click(function() {
     $('.edit.title.modal').modal('show');
   });
