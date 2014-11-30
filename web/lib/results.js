@@ -129,11 +129,11 @@ function gotNavigation(results) {
 // populate and display the URI's sidebar
 function displayItemSidebar(uri) {
   exports.currentURI = uri;
-  // subscribe to annotation
-  $('.subscribe.annotation').click(function() {
+  // watchannotation
+  $('.watch.annotation').click(function() {
     if (treeInterface.lastAnno) {
-      $('.subscribe.modal').modal('show');
-      $('#subscribeItems').val('annotation:'+treeInterface.lastAnno.flattened);
+      $('.watch.modal').modal('show');
+      $('#watchItems').val('annotation:'+treeInterface.lastAnno.flattened);
     }
   });
   $('.context.dropdown').dropdown();

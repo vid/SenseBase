@@ -124,9 +124,9 @@
     {
       "id": 20001,
       "type": "Agent",
-      "username": "Subscribers",
-      "service" : "subscribers",
-      "description": "Processes subscriptions",
+      "username": "Watch",
+      "service" : "watch",
+      "description": "Processes watches",
       "status": "available"
     },
     {

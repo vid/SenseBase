@@ -12,8 +12,8 @@
       <i class="reorder icon"></i>
       <div id="itemContext" class="menu">
         <div class="item">
-          <a title="Subscribe to annotation" class="disabled subscribe annotation">
-            <i class="rss icon"></i>Subscribe
+          <a title="Watch to annotation" class="disabled watch annotation">
+            <i class="rss icon"></i>Watch
           </a>
         </div>
         <div class="item">
@@ -52,8 +52,8 @@
         <a title="Annotate selected items" class="disabled requires selected annotate item">
           <i class="tag icon"></i>Annotate
         </a>
-        <a title="Subscribe to selected items" class="disabled requires selected subscribe item">
-          <i class="rss icon"></i>Subscribe
+        <a title="Watch selected items" class="disabled requires selected watch item">
+          <i class="rss icon"></i>Watch
         </a>
         <a title="Publish" class="disabled requires selected publish item">
           <i class="up icon"></i>Publish
@@ -213,19 +213,19 @@
   </div>
 </div>
 
-<div class="ui subscribe modal hidden form">
+<div class="ui watch modal hidden form">
   <div class="content">
     <div class="message">
-      <label for="subscribeItems">Subscribe to:</label>
+      <label for="watchItems">Watch:</label>
     </div>
     <br />
     <div class="ui left labeled icon input">
-      <textarea id="subscribeItems"></textarea>
+      <textarea id="watchItems"></textarea>
     </div>
   </div>
   <div class="actions">
     <button class="ui button">Cancel</button>
-    <button class="ui confirm subscribe button">Subscribe</button>
+    <button class="ui confirm watch button">Watch</button>
   </div>
 </div>
 

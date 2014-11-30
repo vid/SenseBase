@@ -79,23 +79,23 @@ exports.init = function() {
 
   // Subscribe to selected.
   //
-  // See also subscribe to annotation.
-  $('.subscribe.item').click(function() {
+  // See also watch annotation.
+  $('.watch.item').click(function() {
     if ($('.selected.label').text() > 0) {
-      $('.subscribe.modal').modal('show');
-      $('#subscribeItems').val(resultsLib.getSelected().map(function(s) { return 'uri:'+s; }).join('\n'));
+      $('.watch.modal').modal('show');
+      $('#watchItems').val(resultsLib.getSelected().map(function(s) { return 'uri:'+s; }).join('\n'));
     }
   });
 
-  $('.confirm.subscribe.button').click(function() {
-    var items = $('#subscribeItems').val().split('\n');
+  $('.confirm.watch.button').click(function() {
+    var items = $('#watchItems').val().split('\n');
     if (items.length) {
-      pubsub.subscriptions.save(items);
+      pubsub.watch.save(items);
       return false;
     }
   });
 
-  // See also subscribe to annotation.
+  // See also watch annotation.
   $('.edit.title').click(function() {
     $('.edit.title.modal').modal('show');
   });

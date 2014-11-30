@@ -16,7 +16,7 @@ exports.select = function(anno, e, data) {
   // selected an annotation
   if (anno) {
     exports.lastAnno = anno;
-    $('.subscribe.annotation').removeClass('disabled');
+    $('.watch.annotation').removeClass('disabled');
     console.log(anno);
     $('#annoType option:contains(anno.type)').prop('selected', true);
     // for now categories only
@@ -46,7 +46,7 @@ exports.select = function(anno, e, data) {
     var annoFunctions = { anno: anno, select: function() { console.log(anno); } };
     $('.annotation.button').click(annoFunctions.select);
   } else {
-    $('.subscribe.annotation').addClass('disabled');
+    $('.watch.annotation').addClass('disabled');
     exports.lastAnno = null;
   }
   // it has children

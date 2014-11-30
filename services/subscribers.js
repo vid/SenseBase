@@ -1,4 +1,4 @@
-// service that fulfills subscriptions to updated content
+// service that fulfills watching updated content
 /* jslint node: true */
 'use strict';
 
@@ -13,21 +13,22 @@ var transporter = nodemailer.createTransport(GLOBAL.config.mailer.transport), ma
 };
 
 var clientID = GLOBAL.svc.auth.clientIDByUsername('system');
-var utils = require('../lib/utils'), pubsub = require('../lib/pubsub-client').init({ homepage: GLOBAL.config.HOMEPAGE, clientID: clientID }), subscriptionLib = require('../lib/subscriptions');
+var utils = require('../lib/utils'), pubsub = require('../lib/pubsub-client').init({ homepage: GLOBAL.config.HOMEPAGE, clientID: clientID }), watchLib = require('../lib/watch');
 
-pubsub.item.subUpdated(processSubscriptions);
+pubsub.item.subUpdated(processWatches);
 
-// process any subscriptions in the last time period
-function processSubscriptions(items) {
+// process any watches in the last time period
+function processWatches(items) {
   // queue up matches
   // { "member" : { "uri" : [ "match", "match" ] } }
   var toSend = {};
-  GLOBAL.svc.indexer.retrieveSubscriptions({}, function(err, res) {
+  GLOBAL.svc.indexer.retrieveWatches({}, function(err, res) {
+    console.log('W', res);
     if (res.hits) {
-      var subscriptions = _.pluck(res.hits.hits, '_source');
+      var watches = _.pluck(res.hits.hits, '_source');
       // for each hit
       items.forEach(function(item) {
-        var matches = subscriptionLib.matches(item, subscriptions);
+        var matches = watchLib.matches(item, watches);
         if (matches.length) {
           matches.forEach(function(match) {
             toSend[match.member] = toSend[match.member] || {};
@@ -53,7 +54,7 @@ function send(toSend) {
         for (var uri in toSend[member]) {
           text += '\n' + GLOBAL.config.base + '?"' + uri + '"\n' + uri + ':\n' + toSend[member][uri].join('\n');
           html += '<br /><a href="' + GLOBAL.config.HOMEPAGE + '?terms=%22' + uri + '%22">' + uri + '</a>\n<ul>' +
-            toSend[member][uri].map(function(a) { return '<li>'+a+'</li>'; }).join('') + '</ul>';
+            toSend[member][uri].map(function(a) { return '<li>'+a.replace(/␟/g, '>')+'</li>'; }).join('') + '</ul>';
         }
         var message = _.extend(mailOptions, {
           to: to.email,
