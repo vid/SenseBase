@@ -66,7 +66,19 @@ exports.init = function() {
     $('.member.statistics.segment').show();
   });
 
-  //  $(document).tooltip();
+  $(document).tooltip();
+  setTimeout(function() {
+    $(document).tooltip('option', 'disabled', true);
+    $('.input.terms').tooltip({ content: $('.query.help').html()});
+    $('.input.terms').attr('title', $('.query.help').html());
+    $('.help.toggle').tooltip();
+  }, 1000);
+  $('.help.toggle').click(function() {
+    var isDisabled = $(document).tooltip('option', 'disabled');
+    $(document).tooltip('option', 'disabled', !isDisabled);
+    $('.help.toggle').toggleClass('active');
+  });
+
   // input element
   var spinner = $(".spinner").spinner({
     spin: function(event, ui) {

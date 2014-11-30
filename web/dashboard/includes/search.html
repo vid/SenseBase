@@ -3,17 +3,17 @@
     <div class="four wide function field">
       <div class="field">
         <label for="searchTeam">Members</h3>
-        <select multiple class="team searcher container" style="width: 100%" id="searchTeam"></select>
+        <select title="Members that will conduct the search" multiple class="team searcher container" style="width: 100%" id="searchTeam"></select>
       </div>
       <div class="field">
         <label for="searchCategories">Apply categories</label>
-        <input id="searchCategories" />
+        <input title="Categories that will be applied to found items, comma seperated" id="searchCategories" />
       </div>
     </div>
     <div class="four wide function field">
       <div class="field">
         <label for="searchInput">Input</label>
-        <input id="searchInput" style="width: 100%" />
+        <input title="Search term or URI for search members" id="searchInput" style="width: 100%" />
       </div>
       <div class="field">
         <label for="searchContinue">Continue searching</label>
@@ -31,7 +31,7 @@
         <label for="targetResults">
           Target results
         </label>
-        <input size="4" value="10" id="targetResults" />
+        <input title="Maximum number of results" size="4" value="10" id="targetResults" />
       </div>
       <div class="field">
         <button class="ui blue mini search submit button">Queue</button>
@@ -46,11 +46,11 @@
     <div class="six wide field">
       <h3>Persistent search</h3>
       <div class="inline field">
-        <input type="checkbox" id="scheduleSearch" /> <label for="scheduleSearch">Schedule</label> <span id="scheduleInput" style="display: none"><input class="cron search" style="display: none" /></span>
+        <input title="Schedule the search" type="checkbox" id="scheduleSearch" /> <label for="scheduleSearch">Schedule</label> <span id="scheduleInput" style="display: none"><input class="cron search" style="display: none" /></span>
       </div>
       <div class="two inline fields">
         <label for="searchSave">Name</label>
-        <input id="searchName" style="width: 60%" />
+        <input title="Save name for the search" id="searchName" style="width: 60%" />
         <button class="ui mini save search button"><i class="save icon"></i></button>
         <button class="ui mini load search button"><i class="ellipsis horizontal icon"></i></button>
       </div>

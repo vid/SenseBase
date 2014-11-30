@@ -28,7 +28,7 @@ var SelectMember = React.createClass({
     return (
       <div className="field">
         <label htmlFor="annoMember">Member</label>
-        <input className="query input member" id="annoMember" />
+        <input title="Members who have visited the item" className="query input member" id="annoMember" />
       </div>
     );
   }
@@ -39,7 +39,7 @@ var SelectWorkflow = React.createClass({
     return (
       <div className="field">
         <label htmlFor="annotationState">Annotation state</label>
-        <select id="annotationState" className="query annotation state"><option value="visited">Visited</option><option value="requested">Annotation requested</option><option value="provided">Annotation provided</option></select>
+        <select title="State of item" id="annotationState" className="query annotation state"><option value="visited">Visited</option><option value="requested">Annotation requested</option><option value="provided">Annotation provided</option></select>
       </div>
     );
   }
@@ -49,7 +49,7 @@ var SelectNumResults = React.createClass({
     return (
       <div className="field">
         <label htmlFor="browseNum">Results</label>
-        <select className="query size" id="browseNum"><option value="100">100</option><option selected value="500">500</option><option value="1000">1000</option><option value="2000">2000</option><option value="5000">5000</option></select>
+        <select title="Maximum returned results" className="query size" id="browseNum"><option value="100">100</option><option selected value="500">500</option><option value="1000">1000</option><option value="2000">2000</option><option value="5000">5000</option></select>
       </div>
     );
   }
@@ -60,7 +60,7 @@ var SelectState = React.createClass({
     return (
       <div className="field">
         <label htmlFor="validationState">Validation state</label>
-        <select class="query validation state" id="validationState">
+        <select title="Validation state" class="query validation state" id="validationState">
           <option value="all">Everything</option>
           <option value="val">Has validated</option>
           <option value="unval">Has unvalidated</option>
@@ -80,7 +80,7 @@ var SelectFilter = React.createClass({
         <label for="queryFilters">
           Filters
         </label>
-        <textarea id="queryFilters" className="query filter">{this.props.data}</textarea>
+        <textarea title="Query filters" id="queryFilters" className="query filter">{this.props.data}</textarea>
       </div>
     );
   }
@@ -97,7 +97,7 @@ var InputName = React.createClass({
     return (
       <div className="inline field">
         <label for="queryName">Save name</label>
-        <input id="queryName" className="query name" />
+        <input title="Name for saved query" id="queryName" className="query name" />
         <button onClick={this.handleClick}>Results</button>
       </div>
     );

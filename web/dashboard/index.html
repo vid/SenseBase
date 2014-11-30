@@ -43,7 +43,7 @@
     <a title="Invert selection" class="select invert item">
       <i class="checkmark sign icon"></i>
     </a>
-    <div class="ui requires selected dropdown item">
+    <div title="Selected item options" class="ui requires selected dropdown item">
       <i class="reorder icon"></i>
       <div class="menu">
         <div class="header item">
@@ -100,6 +100,9 @@
     <a title="Show dashboard" class="ui dashboard toggle item">
       <i class="dashboard icon"></i>
     </a>
+    <a title="Toggle hover help" class="ui help toggle item">
+      <i class="help icon"></i>
+    </a>
     <span title="Sign out" class="right menu">
       <a class="signout item">
         <i class="sign out icon"></i>
@@ -153,7 +156,7 @@
       </div>
       <div class="item">
         <div class="field">
-          <textarea class="query input terms" style="height: 2em" id="termSearch" placeholder="Query…"></textarea>
+          <textarea title="pending" class="query input terms" style="height: 2em" id="termSearch" placeholder="Query…"></textarea>
         </div>
       </div>
       <div class="item">
@@ -284,3 +287,21 @@
 
 <script src="member.js"></script>
 <script src="index.js"></script>
+
+<div class="query help" style="display: none; width: 400px">
+  <div class="help">
+    <p>Queries by default search title, content and uri. These fields can also be queried explicitly. Use quotes for phrases. AND, OR and NOT are supported with grouping using (brackets).
+    <code>title:"The Right Way" AND content:go</code></p>
+    <p><strong>Wildcard Searches</strong>
+    Use ? (single character) and * (any number)
+    <code>te?st</code> or <code>te*st</code></p>
+    <p><strong>Fuzzy Searches</strong>
+    Use a ~ with an optional similarity parameter.
+    <code>operate~</code>, <code>operate~0.8</code>, or <code>"operating budget"~2</code></p>
+    <p><strong>Range Searches</strong>
+    <code>created:[20140101 TO 20140121]</code>, <code>title:{Aida TO Carmen}</code></p>
+    <p><strong>Boosting a Term</strong>
+    Add ^ at the end of the term.
+    <code>content:"infect" AND "harm"^2</code></p>
+  </div>
+</div>
