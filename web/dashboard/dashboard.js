@@ -105,7 +105,6 @@ exports.init = function() {
     }
   });
 
-
   // Change item title
   $('.edit.title').click(function() {
     $('.edit.title.modal').modal('show');

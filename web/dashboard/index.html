@@ -290,18 +290,20 @@
 
 <div class="query help" style="display: none">
   <div class="help">
-    <p>Queries by default search title, content and uri. These fields can also be queried explicitly. Use quotes for phrases. AND, OR and NOT are supported with grouping using (brackets).
-    <code>(content:enquire OR title:Presentation*) OR title:bulletin</code></p>
+    <p>Queries by default include title, content and uri. These fields can also be queried explicitly. Use quotes for phrases. <code>AND</code>, <code>OR</code> and <code>NOT</code> are supported with grouping using <code>(</code>brackets<code>)</code>.
+    <code>(content:enquire OR title:Presentation*) OR title:bulletin</code>, <code>annotationSummary.validated:>20</code>, <code>content:policy NOT content:city</code></p>
     <p><strong>Wildcard Searches</strong>
-    Use ? (single character) and * (any number)
-    <code>te?st</code> or <code>te*st</code></p>
+    Use <code>?</code> (single character), <code>*</code> (any number)
+    <code>te?st</code>, <code>te*st</code></p>
     <p><strong>Fuzzy Searches</strong>
-    Use ~ with an optional similarity parameter.
-    <code>enquire~</code>, <code>enquire~0.8</code>, or <code>"en budget"~2</code></p>
-    <p><strong>Range Searches</strong>
-    <code>created:[20140101 TO 20140121]</code>, <code>title:{Aida TO Carmen}</code></p>
+    Use <code>~</code> with an optional similarity parameter, or in quotes to find terms close to each other.
+    <code>enquire~</code>, <code>content:"inquire~ unpublished"~2</code></p>
+    <p><strong>Ranges</strong>
+    <code>timestamp:[2012-01-01 TO 2014-12-31]</code>
+    <p><strong>Regexes</strong>
+    <code>content:/[ei]nquiry/</code>
     <p><strong>Boosting</strong>
-    Add ^ at the end of the term.
+    Add <code>^</code> at the end of the term.
     <code>content:"infect" AND "harm"^2</code></p>
   </div>
 </div>

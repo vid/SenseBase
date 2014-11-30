@@ -6,6 +6,11 @@ body { font-family: sans-serif; border: 0px; padding: 0px; margin: 0px }
   margin-top: 0px !important;
 }
 
+.help code {
+  background-color: white;
+  color: black;
+}
+
 .function.field {
   margin: 0 !important;
 }
