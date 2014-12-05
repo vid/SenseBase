@@ -2,11 +2,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="lib/libs.css">
+<script src="lib/libs.min.js"></script>
 </head>
 <body>
-
 <% if (localJS) { %>
-  $('body').prepend('<script src="//' + window.location.hostname + '<%= localJS %>"></script>');
+<script>
+// include local script
+$(function() {
+  jQuery.getScript('//' + window.location.hostname + '<%= localJS %>');
+});
+</script>
 <% } %>
 <div class="ui form segment">
   <form method="post" action="login">

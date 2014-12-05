@@ -8,6 +8,6 @@
     isScraper : <%= user.type == 'Scraper' %>
   }
   <% if (localJS) { %>
-    $('body').prepend('<script src="//' + window.location.hostname + '<%= localJS %>"></script>');
+  jQuery.getScript('//' + window.location.hostname + '<%= localJS %>');
   <% } %>
 <% } %>
