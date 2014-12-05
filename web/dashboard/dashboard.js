@@ -28,6 +28,11 @@ exports.init = function() {
   membersLib.init(context);
   queryLib.init(context);
 
+  // forced logout (session stale?)
+  pubsub.loggedOut(function() {
+    window.location = 'login';
+  });
+
   setupDND('uploadItem', homepage + 'upload');
   // General setup and functions
 
