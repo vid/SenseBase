@@ -10,7 +10,6 @@ exports.submitQuery = submitQuery;
 exports.updateQueryForm = updateQueryForm;
 exports.addAnnotationTag = addAnnotationTag;
 exports.setAnnotationTags = setAnnotationTags;
-exports.setupQueryRefresher = setupQueryRefresher;
 
 var React = require('react'), _ = require('lodash');
 
@@ -19,7 +18,6 @@ var qs;
 var queryFields = ['terms', 'annotations', 'member', 'navigator', 'size', 'filter'];
 var basePage = location.pathname + '?';
 var context;
-var queryRefresher;
 
 var $annoSearch = $('.query.annotations');
 
@@ -175,13 +173,6 @@ exports.init = function(ctx) {
   $('#fromDate').datepicker();
   $('#toDate').datepicker();
   */
-  $('#refreshQueries').click(function(e) {
-    if ($(e.target).prop('checked')) {
-      setupQueryRefresher(5000);
-    } else {
-      clearQueryRefresher();
-    }
-  });
 };
 
 function addAnnotationTag(anno) {
@@ -201,6 +192,7 @@ function clearAnnotationTags() {
 }
 
 function setAnnotationTags(tags) {
+  clearAnnotationTags();
   if (tags === undefined) {
     tags = $annoSearch.val().split(',');
   }
@@ -209,9 +201,13 @@ function setAnnotationTags(tags) {
     matcher: function(term, text, opt) {
        return true;
      },
-    tags: tags,
+    tags: [],
     tokenSeparators: [',']
   });
+  tags.forEach(function(tag) {
+    addAnnotationTag(tag);
+  });
+
   /*
   $annoSearch.on('change', function(e) {
     $annoSearch.val(e.val.join(','));
@@ -302,15 +298,4 @@ function updateQueryForm() {
     }
   });
   setAnnotationTags();
-}
-
-function clearQueryRefresher() {
-  if (queryRefresher) {
-    clearInterval(queryRefresher);
-  }
-}
-
-function setupQueryRefresher(interval) {
-  clearQueryRefresher();
-  queryRefresher = setInterval(submitQuery, interval);
 }
