@@ -7,11 +7,7 @@
     homepage : '<%= homepage %>',
     isScraper : <%= user.type == 'Scraper' %>
   }
-<% } %>
-<% if (banner) { %>
-  if ($('.ui.main')) {
-    $('body').prepend('<%= banner %>');
-  }
-<% } else { %>
-$('body').prepend('<script src="//' + window.location.hostname + ':35729/livereload.js"></script>');
+  <% if (localJS) { %>
+    $('body').prepend('<script src="//' + window.location.hostname + '<%= localJS %>"></script>');
+  <% } %>
 <% } %>

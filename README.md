@@ -82,6 +82,10 @@ Everything else (aside from direct field data) is saved as an annotation.
 
 Global configuration and services used by libraries are via the GLOBAL.config and svc objects. Tests can use this to provide mocks.
 
+## Instance scripts
+
+Create a configuration variable called localJS pointing to a local script which will be included on every page. To enable livereload on a development instance, use `:35729/livereload.js`.
+
 ## Services
 
 SenseBase uses standalone services for annotations, retrieving searches, and other functions.
