@@ -5,8 +5,8 @@
 </head>
 <body>
 
-<% if (banner) { %>
-<%= banner %>
+<% if (localJS) { %>
+  $('body').prepend('<script src="//' + window.location.hostname + '<%= localJS %>"></script>');
 <% } %>
 <div class="ui form segment">
   <form method="post" action="login">
