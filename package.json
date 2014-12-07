@@ -6,8 +6,10 @@
   "dependencies": {
     "Sentimental": "0.0.4",
     "cheerio": "~0.13.1",
+    "colors": "~1.0.3",
     "connect-flash": "^0.1.1",
     "csvtojson": "^0.3.14",
+    "deep-diff": "^0.3.0",
     "es": "^0.4.4",
     "express": "3.4.x",
     "express-flash": "0.0.2",
@@ -30,8 +32,7 @@
     "tldjs": "^1.5.0",
     "unfluff": "~0.2.0",
     "winston": "~0.7.2",
-    "xml2js": "^0.4.2",
-    "colors": "~1.0.3"
+    "xml2js": "^0.4.2"
   },
   "main": "index.js",
   "devDependencies": {
