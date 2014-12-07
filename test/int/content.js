@@ -93,7 +93,7 @@ describe('Content', function(done) {
     expect(diff.length).to.equal(0);
     diff = content.diffContentItems(initial, updated);
     expect(diff).to.not.be(undefined);
-    expect(diff.length).to.equal(4);
+    expect(diff.length).to.equal(5);
     done();
   });
 
