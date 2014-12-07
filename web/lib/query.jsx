@@ -15,7 +15,7 @@ var React = require('react'), _ = require('lodash');
 
 // function to calc querystring
 var qs;
-var queryFields = ['terms', 'annotations', 'member', 'navigator', 'size', 'filter'];
+var queryFields = ['terms', 'annotations', 'member', 'navigator', 'size', 'filter', 'fields'];
 var basePage = location.pathname + '?';
 var context;
 
@@ -32,6 +32,17 @@ var SelectMember = React.createClass({
   }
 });
 
+var SelectFields = React.createClass({
+  render: function() {
+    return (
+      <div className="field">
+        <label htmlFor="selectFields">Fields</label>
+        <input title="Include these fields in output (comma-separated)" className="query select fields" id="selectFields" />
+      </div>
+    );
+  }
+});
+
 var SelectWorkflow = React.createClass({
   render: function() {
     return (
@@ -42,6 +53,7 @@ var SelectWorkflow = React.createClass({
     );
   }
 });
+
 var SelectNumResults = React.createClass({
   render: function() {
     return (
@@ -110,6 +122,7 @@ exports.QueryForm = React.createClass({
           <div className="fields">
             <div className="four wide function field">
               <SelectMember />
+              <SelectFields />
               <SelectWorkflow />
             </div>
             <div className="four function field">
@@ -205,7 +218,9 @@ function setAnnotationTags(tags) {
     tokenSeparators: [',']
   });
   tags.forEach(function(tag) {
-    addAnnotationTag(tag);
+    if (tag) {
+      addAnnotationTag(tag);
+    }
   });
 
   /*
@@ -224,6 +239,7 @@ function getQueryOptions() {
       terms : $('.query.terms').val(),
       annotations : $annoSearch.val().split(','),
       validationState: $('.query.validation.state').val(),
+      selectFields: $('.query.select.fields').val(),
       annotationState: $('.query.annotation.state').val(),
       size: $('.query.size').val(),
       // FIXME normalize including annotations
