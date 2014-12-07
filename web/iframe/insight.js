@@ -23,7 +23,8 @@ function updateSim(results) {
   window.senseBase.svc.pubsub.query.moreLikeThisContent($('.Reference.title').text(), $('.RR'), updateTable);
 }
 
-function updateTable(results) {
+function updateTable(res) {
+  var results = res.results;
   if (results && results.hits && results.hits.hits) {
     $('.References thead th').last().after('<th>State</th><th>Similarity</th>');
     var srcURIs = $('.Reference.URI'), notFound;

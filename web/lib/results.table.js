@@ -10,7 +10,8 @@
 var utils = require('./clientUtils');
 var homepage = window.senseBase.homepage;
 
-exports.render = function(dest, results, context) {
+exports.render = function(dest, res, context) {
+  var results = res.results, options = res.options;
   var curURI, shown = false, selectedURI;
 
   // display or close uri controls and frame (for link)
@@ -65,9 +66,14 @@ exports.render = function(dest, results, context) {
     }
     return false;
   };
-
-  $(dest).append('<table id="resultsTable" class="ui sortable table"><thead><tr><th class="descending">' +
-    'Rank</th><th>Document</th><th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table>');
+  var t = '<table id="resultsTable" class="ui sortable table"><thead><tr><th class="descending">Rank</th><th>Title</th><th>Visitors</th><th>Annotations</th>';
+  if (options.query.selectFields) {
+    options.query.selectFields.forEach(function(f) {
+      var type = f.replace(/␟.*/, '');
+      t += '<th><i class="icon ' + (type === 'category' ? 'tag' : 'info') + '"></i>' + f.replace(/.*␟/, '') + '</th>';
+    });
+  }
+  $(dest).html(t + '</tr></thead><tbody></tbody></table>');
   var count = 0;
   results.hits.hits.forEach(function(r) {
     var v = r.fields || r._source, highlight = '';
@@ -102,7 +108,20 @@ exports.render = function(dest, results, context) {
       }
     }
     row += '</td>';
-    $('#resultsTable tbody').append(row);
+    var span = '<span class="ui small label">';
+    if (options.query.selectFields) {
+      options.query.selectFields.forEach(function(f) {
+        var values = [];
+        (v.fields || []).forEach(function(v) {
+          console.log(v.flattened, f);
+          if (v.flattened.indexOf(f) === 0) {
+            values.push(v.value || v.category);
+          }
+        });
+        row += '<td data-sort-value="' + values[0] + '">' + values.length > 0 ? (span + values.join('</span> ') + span + '</span>' : '') + "</td>';
+      });
+    }
+    $('#resultsTable tbody').append(row + '</tr>');
   });
 
   $('.sortable.table').tablesort();

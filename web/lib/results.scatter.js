@@ -4,7 +4,8 @@
 /* global $,d3,d3plus */
 'use strict';
 
-exports.render = function(dest, results) {
+exports.render = function(dest, res) {
+  var results = res.results;
   $(dest).html('<div id="results-scatter" style="width: 96%"></div>');
   // instantiate d3plus
   var data = [];

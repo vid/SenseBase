@@ -32,12 +32,13 @@ var SelectMember = React.createClass({
   }
 });
 
+var s = { height: '4em', 'min-height' : '4em'};
 var SelectFields = React.createClass({
   render: function() {
     return (
       <div className="field">
         <label htmlFor="selectFields">Fields</label>
-        <input title="Include these fields in output (comma-separated)" className="query select fields" id="selectFields" />
+        <textarea title="Include these fields in output (comma-separated)" style={s} className="query select fields" id="selectFields">{this.props.data}</textarea>
       </div>
     );
   }
@@ -90,7 +91,7 @@ var SelectFilter = React.createClass({
         <label for="queryFilters">
           Filters
         </label>
-        <textarea title="Query filters" id="queryFilters" className="query filter">{this.props.data}</textarea>
+        <textarea title="Query filters" style={s} id="queryFilters" className="query filter">{this.props.data}</textarea>
       </div>
     );
   }
@@ -122,7 +123,6 @@ exports.QueryForm = React.createClass({
           <div className="fields">
             <div className="four wide function field">
               <SelectMember />
-              <SelectFields />
               <SelectWorkflow />
             </div>
             <div className="four function field">
@@ -130,7 +130,7 @@ exports.QueryForm = React.createClass({
               <SelectState />
             </div>
             <div className="four wide function field">
-              <SelectFilter data={this.props.data}  />
+              <SelectFields data={this.props.data} />
             </div>
             <div className="four wide function field">
               <InputName />
@@ -156,7 +156,8 @@ var ResultsTable = React.createClass({
 });
 
 function queryResultsTable(queryName, dest) {
-  var resultsTable = function(results) {
+  var resultsTable = function(res) {
+    var results = res.results, options = res.options;
     if (results && results.hits) {
       console.log('resultsTable', results.hits.hits.map(function(r) { return r._source; }));
       React.renderComponent(ResultsTable({results: results.hits.hits.map(function(r) { return r._source; })}), $('.holder')[0]);
@@ -239,7 +240,7 @@ function getQueryOptions() {
       terms : $('.query.terms').val(),
       annotations : $annoSearch.val().split(','),
       validationState: $('.query.validation.state').val(),
-      selectFields: $('.query.select.fields').val(),
+      selectFields: $('.query.select.fields').val().split(','),
       annotationState: $('.query.annotation.state').val(),
       size: $('.query.size').val(),
       // FIXME normalize including annotations
@@ -275,6 +276,7 @@ function submitQuery() {
 
 //  window.history.pushState({query: ss}, 'dashboard', basePage + ss.join('&'));
   var options = getQueryOptions();
+  console.log('OPTIONS', options);
   if (options.navigator) {
     context.pubsub.query.navigator(context.resultsLib.gotNavigation);
     $('#browse').removeClass();
