@@ -100,6 +100,9 @@
     <a title="Show dashboard" class="ui dashboard toggle item">
       <i class="dashboard icon"></i>
     </a>
+    <a title="Reconcile items" class="ui reconcile dashboard item">
+      <i class="lab icon"></i>
+    </a>
     <a title="Toggle hover help" class="ui help toggle item">
       <i class="help icon"></i>
     </a>
@@ -255,6 +258,29 @@
   <div class="actions" style="text-align: center">
     <button class="ui button">Cancel</button>
     <button class="ui confirm edit title button">Ok</button>
+  </div>
+</div>
+
+<div class="ui reconcile modal hidden form segment">
+  <div class="field">
+    <div class="ui message">
+      Prior to using this function, make sure you've entered a query with appropriate results
+    </div>
+    <div class="two fields">
+      <label title="Enter the field that should be searched" for="reconcileField">Field:</label>
+      <select id="reconcileField" style="padding: 4px" class="selected fields" />
+    </div>
+    <label for="reconcileValues">Values:</label>
+    <div class="ui left labeled icon input">
+      <i class="pencil icon"></i>
+      <textarea title="Enter return-seperated values for Field" id="reconcileValues"></textarea>
+    </div>
+    <div class="ui notfound message">
+    </div>
+  </div>
+  <div class="actions" style="text-align: center">
+    <button class="ui button">Cancel</button>
+    <button class="ui confirm reconcile button">Ok</button>
   </div>
 </div>
 

@@ -16,7 +16,7 @@ var resultViews = { scatter: require('../lib/results.scatter'), table: require('
 
 var resultsLib = require('../lib/results'), membersLib = require('../lib/members'), searchLib = require('../lib/search'),
   queryLib = require('../lib/query.jsx'), watchlist = require('../lib/watchlist'),
-  pubsub = require('../../lib/pubsub-client').init(window.senseBase);
+  pubsub = require('../../lib/pubsub-client').init(window.senseBase), utils = require('../lib/clientUtils');
 
 // initialize page functions
 exports.init = function() {
@@ -90,6 +90,38 @@ exports.init = function() {
         return false;
       }
     }
+  });
+
+// reconcile missing items by field
+  $('.reconcile.item').click(function() {
+    $('.reconcile.modal').modal('show');
+    $('.notfound').hide();
+  });
+
+// add missing items to results
+  $('.confirm.reconcile').click(function() {
+    var field = $('#reconcileField').val(), fieldType = utils.getFlattenedType(field), vals = $('#reconcileValues').val().split('\n');
+    var i = vals.length;
+    while (i--) {
+      var value = vals[i];
+      value = value.trim();
+      context.resultsLib.getLastQuery().results.hits.hits.forEach(function(r) {
+        r._source.fields.forEach(function(rField) {
+          // it exists
+          if (rField.flattened.indexOf(field) === 0) {
+            if ((fieldType === 'category' && rField.category === r) || (fieldType === 'value' && rField.value == value)) {
+              $('input[name=cb_' + utils.encID(decodeURIComponent(r._source.uri)) + ']').prop('checked', 'true');
+              vals.splice(i, 1);
+            }
+          }
+        });
+      });
+    }
+    $('.notfound').html((vals.length ? '<h1>Items not found</h1>' + vals.join('<br />') : '<h1>All items were found</h1>') + '<p>Found items are selected.</p>');
+    setTimeout(function() {
+      $('.reconcile.modal').modal('show');
+      $('.notfound').show();
+    }, 1500);
   });
 
   // Watch selected.

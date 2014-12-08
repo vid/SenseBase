@@ -11,7 +11,6 @@ var utils = require('./clientUtils');
 var homepage = window.senseBase.homepage;
 
 exports.render = function(dest, res, context) {
-  console.log('R', res);
   var results = res.results, options = res.options;
   var curURI, shown = false, selectedURI;
 

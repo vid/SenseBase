@@ -25,6 +25,7 @@ exports.updateResults = updateResults;
 exports.moreLikeThis = moreLikeThis;
 exports.setResultView = setResultView;
 exports.getLastQuery = function() { return lastQuery; };
+exports.addUpdated = addUpdated;
 
 var annoTree = require('./annoTree.js'), utils = require('../lib/clientUtils'), treeInterface = require('./tree-interface'),
   browseCluster = require('../lib/browse-cluster'), browseFacet = require('../lib/browse-facet'),
@@ -54,24 +55,29 @@ exports.init = function(ctx, view) {
   // Add new or update item.
   context.pubsub.item.subUpdated(function(results) {
     console.log('/item/updated', results, 'lastQuery', lastQuery);
-    results.forEach(function(result) {
-      result = normalizeResult(result);
-      if (!lastQuery.results.hits) {
-        lastQuery = { results: { hits: { total : 0, hits: [] } } };
-      } else {
-        var i = 0, l = lastQuery.results.hits.hits.length;
-        for (i; i < l; i++) {
-          if (lastQuery.results.hits.hits[i]._source.uri === result._source.uri) {
-            lastQuery.results.hits.hits.splice(i, 1);
-            break;
-          }
-        }
-      }
-      lastQuery.results.hits.hits.unshift(result);
-    });
-    updateResults(lastQuery);
+    addUpdated(results);
   });
 };
+
+// add updated items
+function addUpdated(results) {
+  results.forEach(function(result) {
+    result = normalizeResult(result);
+    if (!lastQuery.results.hits) {
+      lastQuery = { results: { hits: { total : 0, hits: [] } } };
+    } else {
+      var i = 0, l = lastQuery.results.hits.hits.length;
+      for (i; i < l; i++) {
+        if (lastQuery.results.hits.hits[i]._source.uri === result._source.uri) {
+          lastQuery.results.hits.hits.splice(i, 1);
+          break;
+        }
+      }
+    }
+    lastQuery.results.hits.hits.unshift(result);
+  });
+  updateResults(lastQuery);
+}
 
 function setResultView(view) {
   resultView = view;
@@ -189,6 +195,12 @@ function updateResults(res) {
   $('.query.button').animate({opacity: 1}, 500, 'linear');
   // use arbitrary rendering to fill results
   var container = '#results';
+  $('.selected.fields').html('<option value="">Select a field</option>');
+  if (res.options.query.selectFields) {
+    res.options.query.selectFields.forEach(function(f) {
+      $('.selected.fields').append('<option>' + f + '</option>');
+    });
+  }
   if (results.hits) {
     $(container).html('');
     $('#queryCount').html(results.hits.hits.length === results.hits.total ? results.hits.total : (results.hits.hits.length + '/' + results.hits.total));

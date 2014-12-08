@@ -5,8 +5,9 @@
 
 'use strict';
 
+var utils = require('./clientUtils');
+
 var facetSearchTimeout, typesIcons = require('./types-icons.js').types, curAnnos;
-var unitSep = '␟'; // see annotations
 var jstreeOpts = {
   core : { },
   plugins : ['search'],
@@ -44,7 +45,7 @@ exports.render = function(target, results, resultView, context) {
         var d = ref.data;
         var fields = $('.select.fields').val().split(',');
         window.d = data;
-        var t = [d.type].concat(ref.parents.slice(0, ref.parents.length - 2).reverse().map(function(p) { return data.instance.get_node(p).data.value; })).concat(d.value).join(unitSep);
+        var t = [d.type].concat(ref.parents.slice(0, ref.parents.length - 2).reverse().map(function(p) { return data.instance.get_node(p).data.value; })).concat(d.value).join(utils.unitSep);
         fields.push(t);
         $('.select.fields').val(fields.join(',').replace(/^,/, ''));
       }
