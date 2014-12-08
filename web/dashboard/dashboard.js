@@ -133,6 +133,8 @@ exports.init = function() {
           errors.push('Separate failed for ' + vals[i]);
           error = true;
         }
+      } else {
+        value = vals[i];
       }
 
       if (!error) {
