@@ -110,7 +110,7 @@ exports.init = function() {
           // it exists
           if (rField.flattened.indexOf(field) === 0) {
             if ((fieldType === 'category' && rField.category === r) || (fieldType === 'value' && rField.value == value)) {
-              $('input[name=cb_' + utils.encID(decodeURIComponent(r._source.uri)) + ']').prop('checked', 'true');
+              context.resultsLib.select(r._source.uri);
               vals.splice(i, 1);
             }
           }

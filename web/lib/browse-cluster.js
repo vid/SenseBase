@@ -7,7 +7,7 @@
 
 var utils = require('./clientUtils');
 
-exports.render= function(target, results, resultView) {
+exports.render= function(target, results, context) {
   var data = results.clusters;
   $(target).removeClass('treemap');
   data.forEach(function(d) {
@@ -27,9 +27,8 @@ exports.render= function(target, results, resultView) {
     // select selected items
     var docs = d3.event.target.__data__.documents;
     docs.forEach(function(uri) {
-      $('input[name=cb_' + utils.encID(decodeURIComponent(uri)) + ']').prop('checked', 'true');
+      context.resultsLib.select(uri);
     });
     // update selected count
-    resultView.checkSelected();
   });
 };

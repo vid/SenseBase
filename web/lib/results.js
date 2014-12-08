@@ -27,6 +27,10 @@ exports.setResultView = setResultView;
 exports.getLastQuery = function() { return lastQuery; };
 exports.addUpdated = addUpdated;
 
+exports.select = function(uri) {
+  resultView.select(uri);
+};
+
 var annoTree = require('./annoTree.js'), utils = require('../lib/clientUtils'), treeInterface = require('./tree-interface'),
   browseCluster = require('../lib/browse-cluster'), browseFacet = require('../lib/browse-facet'),
   browseTreemap = require('../lib/browse-treemap'), browseDebug = require('../lib/browse-debug');
