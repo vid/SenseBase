@@ -192,14 +192,13 @@ function updateResults(res) {
   if (results.hits) {
     $(container).html('');
     $('#queryCount').html(results.hits.hits.length === results.hits.total ? results.hits.total : (results.hits.hits.length + '/' + results.hits.total));
-    resultView.render(container, results, context);
+    resultView.render(container, res, context);
   } else {
     $(container).html('<i>No items.</i>');
     $('#queryCount').html('0');
     resultView.render(container, res, context);
   }
 }
-
 
 
 // **** move these to views **********
