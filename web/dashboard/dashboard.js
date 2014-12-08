@@ -173,7 +173,7 @@ exports.init = function() {
     if (toSet && (errors.length !== notFound)) {
       toSetReconcile = null;
     } else {
-      msg += '<p>Check to process ' + toSetReconcile.length + ' set values: <input type="checkbox" id="processReconcile" /></p>';
+      msg += '<p><input type="checkbox" id="processReconcile" /> Check then select OK to process ' + toSetReconcile.length + ' set values</p>';
     }
 
     $('.reconcile.message').html(msg);
