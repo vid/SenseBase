@@ -11,7 +11,7 @@ var currentURI, noUpdates, context = {};
 // hasQueuedUpdates and noUpdates are used to delay updates when content is being edited or viewed
 var hasQueuedUpdates, queuedNotifier;
 
-var lastResults, resultView;
+var lastQuery, resultView;
 
 exports.hasQueuedUpdates = hasQueuedUpdates;
 exports.noUpdates = noUpdates;
@@ -24,7 +24,7 @@ exports.gotNavigation = gotNavigation;
 exports.updateResults = updateResults;
 exports.moreLikeThis = moreLikeThis;
 exports.setResultView = setResultView;
-exports.getLastResults = function() { return lastResults; };
+exports.getLastQuery = function() { return lastQuery; };
 
 var annoTree = require('./annoTree.js'), utils = require('../lib/clientUtils'), treeInterface = require('./tree-interface'),
   browseCluster = require('../lib/browse-cluster'), browseFacet = require('../lib/browse-facet'),
@@ -37,13 +37,13 @@ exports.init = function(ctx, view) {
 
   // delete an item
   context.pubsub.item.subDeleted(function(item) {
-    console.log('/item/deleted', item, lastResults);
-    if (lastResults && lastResults.hits) {
-      var i = 0, l = lastResults.hits.hits.length;
+    console.log('/item/deleted', item, lastQuery);
+    if (lastQuery && lastQuery.results.hits) {
+      var i = 0, l = lastQuery.results.hits.hits.length;
       for (i; i < l; i++) {
-        if (lastResults.hits.hits[i]._id === item._id) {
-          lastResults.hits.hits.splice(i, 1);
-          updateResults(lastResults);
+        if (lastQuery.results.hits.hits[i]._id === item._id) {
+          lastQuery.results.hits.hits.splice(i, 1);
+          updateResults(lastQuery);
           return;
         }
       }
@@ -53,23 +53,23 @@ exports.init = function(ctx, view) {
 
   // Add new or update item.
   context.pubsub.item.subUpdated(function(results) {
-    console.log('/item/updated', results, 'lastResults', lastResults);
+    console.log('/item/updated', results, 'lastQuery', lastQuery);
     results.forEach(function(result) {
       result = normalizeResult(result);
-      if (!lastResults.hits) {
-        lastResults = { hits: { total : 0, hits: [] } };
+      if (!lastQuery.results.hits) {
+        lastQuery = { results: { hits: { total : 0, hits: [] } } };
       } else {
-        var i = 0, l = lastResults.hits.hits.length;
+        var i = 0, l = lastQuery.results.hits.hits.length;
         for (i; i < l; i++) {
-          if (lastResults.hits.hits[i]._source.uri === result._source.uri) {
-            lastResults.hits.hits.splice(i, 1);
+          if (lastQuery.results.hits.hits[i]._source.uri === result._source.uri) {
+            lastQuery.results.hits.hits.splice(i, 1);
             break;
           }
         }
       }
-      lastResults.hits.hits.unshift(result);
+      lastQuery.results.hits.hits.unshift(result);
     });
-    updateResults(lastResults);
+    updateResults(lastQuery);
   });
 };
 
@@ -98,10 +98,10 @@ function moreLikeThis(uris) {
 }
 
 // Query results were received
-function gotResults(res) {
+function gotResults(results) {
   results.JSONquery = JSON.stringify(results.query, null, 2);
-  console.log('gotResults', res);
-  updateResults(res.results);
+  console.log('gotResults', results);
+  updateResults(results);
 }
 
 // Navigation results to accompany results
@@ -142,15 +142,15 @@ function displayItemSidebar(uri) {
   context.pubsub.item.annotations.request(uri, function(data) {
     console.log('/annotations', data);
     // update query items
-    if (data.annotationSummary && lastResults.hits) {
-      var i = 0, l = lastResults.hits.hits.length;
+    if (data.annotationSummary && lastQuery.results.hits) {
+      var i = 0, l = lastQuery.results.hits.hits.length;
       for (i; i < l; i++) {
-        if (lastResults.hits.hits[i]._id === data.uri) {
-          lastResults.hits.hits[i]._source.annotationSummary = data.annotationSummary;
+        if (lastQuery.results.hits.hits[i]._id === data.uri) {
+          lastQuery.results.hits.hits[i]._source.annotationSummary = data.annotationSummary;
           break;
         }
       }
-      updateResults(lastResults);
+      updateResults(lastQuery);
     }
 
     if (data.uri === currentURI) {
@@ -165,12 +165,13 @@ function hideItemSidebar() {
   $('.details.sidebar').sidebar('hide');
 }
 
-// Update displayed results using results view.  If passed results are null, use lastResults.
-function updateResults(results) {
-  if (results === undefined) {
-    results = lastResults;
+// Update displayed results using results view.  If passed results are null, use lastQuery.
+function updateResults(res) {
+  if (res === undefined) {
+    res = lastQuery;
   }
-  lastResults = results;
+  var results = res.results;
+  lastQuery = res;
 
   // content is being viewed or edited, delay updates
   if (noUpdates) {
@@ -195,7 +196,7 @@ function updateResults(results) {
   } else {
     $(container).html('<i>No items.</i>');
     $('#queryCount').html('0');
-    resultView.render(container, results, context);
+    resultView.render(container, res, context);
   }
 }
 
@@ -204,14 +205,14 @@ function updateResults(results) {
 // **** move these to views **********
 
 exports.removeSelected = function() {
-  var i = lastResults.hits.hits.length, sel = getSelected();
+  var i = lastQuery.results.hits.hits.length, sel = getSelected();
   for (i; i > 0; ) {
     i--;
-    if (sel.indexOf(lastResults.hits.hits[i]._source.uri) < 0) {
-      delete lastResults.hits.hits[i];
+    if (sel.indexOf(lastQuery.results.hits.hits[i]._source.uri) < 0) {
+      delete lastQuery.results.hits.hits[i];
     }
   }
-  updateResults(lastResults);
+  updateResults(lastQuery);
 };
 
 exports.getSelected = getSelected;
