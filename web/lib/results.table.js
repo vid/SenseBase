@@ -11,6 +11,8 @@ var utils = require('./clientUtils');
 var homepage = window.senseBase.homepage;
 
 exports.render = function(dest, res, context) {
+  $('.select').show();
+  $('.axis').hide();
   var results = res.results, curURI, shown = false, selectedURI, selNotNum = {}, selFields = res.options.query.selectFields;
 
   // display or close uri controls and frame (for link)
