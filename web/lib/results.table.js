@@ -66,7 +66,7 @@ exports.render = function(dest, res, context) {
     return false;
   };
   var n, f, t = '<table id="resultsTable" class="ui sortable table"><thead><tr><th class="descending">Rank</th><th>Title</th>';
-  if (selFields) {
+  if (selFields.length) {
     for (n = 0; n < selFields.length; n++) {
       f = selFields[n];
       t += '<th><i class="' + selectedClass(n) + ' icon ' + (utils.getFlattenedType(f) === 'category' ? 'tag' : 'info') + '"></i>' + f.replace(/.*␟/, '') + '</th>';
@@ -85,7 +85,7 @@ exports.render = function(dest, res, context) {
       '<a class="selectURI content"><i class="text file icon"></i></a> <a class="selectURI uri" href="'+ v.uri + '"> ' + utils.shortenURI(v.uri) + '</a></div><div class="highlighted">' + highlight +
 '</div></td>';
 
-    if (selFields) {
+    if (selFields.length) {
       var values, span = '<span style="border-radius: 0.325em; background-color: #eee; margin: 2px; padding: 4px; font-size: 80%; white-space:nowrap;">';
       for (n = 0; n < selFields.length; n++ ) {
         f = selFields[n];

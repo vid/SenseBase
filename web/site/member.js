@@ -2,7 +2,7 @@
   (parent.window || window).location = '<%= homepage %>login';
 <% } else { %>
   var senseBase = {
-    username : '<%= user.username %>',
+    username : '<%= user%>',
     clientID: '<%= clientID %>',
     homepage : '<%= homepage %>',
     isScraper : <%= user.type == 'Scraper' %>

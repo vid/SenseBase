@@ -19,8 +19,8 @@ body { font-family: sans-serif; border: 0px; padding: 0px; margin: 0px }
   margin-top: 1em;
   border-bottom: 1px dotted grey;
 }
-table {
-  font-size: 90%;
+table td, th {
+  font-size: 95%;
 }
 
 em {
@@ -118,7 +118,8 @@ div.tooltip {
   width: 10em;;
   height: 3em;;
   padding: 2px;
-  font: 12px sans-serif;
+  font: "Open Sans", sans-serif;
+
   background: white;
   border: 0px;
   pointer-events: none;

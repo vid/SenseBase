@@ -32,6 +32,7 @@ exports.init = function() {
   pubsub.loggedOut(function() {
     window.location = 'login';
   });
+  $('.member.name').html(window.senseBase.username);
 
   setupDND('uploadItem', homepage + 'upload');
   // General setup and functions
