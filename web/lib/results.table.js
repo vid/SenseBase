@@ -11,7 +11,7 @@ var utils = require('./clientUtils');
 var homepage = window.senseBase.homepage;
 
 exports.render = function(dest, res, context) {
-  var results = res.results, options = res.options;
+  var results = res.results, options = res.options || { query: {}};
   var curURI, shown = false, selectedURI;
 
   // display or close uri controls and frame (for link)

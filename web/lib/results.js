@@ -103,8 +103,8 @@ function normalizeResult(result) {
   return result;
 }
 
-function moreLikeThis(uris) {
-  context.pubsub.item.moreLikeThis(uris);
+function moreLikeThis(uris, options) {
+  context.pubsub.item.moreLikeThis(uris, options);
 }
 
 // Query results were received

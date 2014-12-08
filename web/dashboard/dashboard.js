@@ -225,12 +225,6 @@ exports.init = function() {
     return false;
   });
 
-  // morelikethis
-  $('.morelikethis.selected').click(function() {
-    if ($('.selected.label').text() > 0) {
-      resultsLib.moreLikeThis(resultsLib.getSelected());
-    }
-  });
   // annotate selected
   $('.annotate.selected').click(function() {
     if ($('.selected.label').text() > 0) {

@@ -176,6 +176,13 @@ exports.init = function(ctx) {
   });
   $('.query.submit').click(submitQuery);
 
+  // morelikethis
+  $('.morelikethis.selected').click(function() {
+    if ($('.selected.label').text() > 0) {
+      context.resultsLib.moreLikeThis(context.resultsLib.getSelected(), getQueryOptions());
+    }
+  });
+
   $('.query.terminal').click(function() {
     $('.query.input.terms').val(context.resultsLib.getLastQuery().results.query.query.bool.must[0].query_string.query);
     $('.query.input.terms').css('width', $('.query.input.terms').width() * 1.5);
