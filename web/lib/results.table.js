@@ -108,7 +108,7 @@ exports.render = function(dest, res, context) {
       }
     }
     row += '</td>';
-    var span = '<span class="ui small label">';
+    var span = '<span class="ui small label" style="text-transform: none">';
     if (options.query.selectFields) {
       options.query.selectFields.forEach(function(f) {
         var values = [];
@@ -133,7 +133,7 @@ exports.render = function(dest, res, context) {
     $('.showa').click(function() {
       $(this).next().toggle();
     });
-    $('.selectItem').click(checkSelected);
+    $('.selectItem').on('click', checkSelected);
     $('table').on('tablesort:complete', function(event, tablesort) {
       setupTable();
     });
@@ -142,6 +142,11 @@ exports.render = function(dest, res, context) {
 };
 
 exports.checkSelected = checkSelected;
+
+exports.select = function(uri) {
+  $('input[name=cb_' + utils.encID(decodeURIComponent(uri)) + ']').prop('checked', 'true');
+  checkSelected();
+};
 
 function checkSelected() {
   var hasSelected = 0;
