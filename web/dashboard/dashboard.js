@@ -9,7 +9,7 @@
 // module variables
 var homepage = window.senseBase.homepage;
 
-var React = require('react');
+var React = require('react'), _ = require('lodash');
 
 var resultViews = { scatter: require('../lib/results.scatter'), table: require('../lib/results.table'),
   debug: require('../lib/results.debug')};
@@ -100,7 +100,7 @@ exports.init = function() {
 
 // add missing items to results
   $('.confirm.reconcile').click(function() {
-    var field = $('#reconcileField').val(), fieldType = utils.getFlattenedType(field), vals = $('#reconcileValues').val().split('\n');
+    var field = $('#reconcileField').val(), fieldType = utils.getFlattenedType(field), vals = _.uniq($('#reconcileValues').val().split('\n'));
     var i = vals.length;
     while (i--) {
       var value = vals[i];
@@ -117,7 +117,7 @@ exports.init = function() {
         });
       });
     }
-    $('.notfound').html((vals.length ? '<h1>Items not found</h1>' + vals.join('<br />') : '<h1>All items were found</h1>') + '<p>Found items are selected.</p>');
+    $('.notfound').html((vals.length ? '<h1>Items not found: ' + vals.length + '</h1>' + vals.join('<br />') : '<h1>All items were found</h1>') + '<p>Found items are selected.</p>');
     setTimeout(function() {
       $('.reconcile.modal').modal('show');
       $('.notfound').show();
