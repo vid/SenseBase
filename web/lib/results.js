@@ -98,10 +98,10 @@ function moreLikeThis(uris) {
 }
 
 // Query results were received
-function gotResults(results) {
+function gotResults(res) {
   results.JSONquery = JSON.stringify(results.query, null, 2);
-  console.log('gotResults', results);
-  updateResults(results);
+  console.log('gotResults', res);
+  updateResults(res.results);
 }
 
 // Navigation results to accompany results
