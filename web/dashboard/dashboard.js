@@ -97,10 +97,10 @@ exports.init = function() {
   $('.reconcile.item').click(function() {
     toSetReconcile = null;
     $('.reconcile.modal').modal('show');
-    $('.notfound').hide();
+    $('.reconcile.message').hide();
   });
 
-// add missing items to results
+// add missing items to results, update fields in batch
   $('.confirm.reconcile').click(function() {
     var field = $('#reconcileField').val(), fieldType = utils.getFlattenedType(field), vals = _.uniq($('#reconcileValues').val().split('\n')),
       toSet = $('#setReconciledField').val(), setSep = $('#reconcileSep').val();
@@ -109,13 +109,9 @@ exports.init = function() {
       return;
     }
 
-    // process validated updates
-    if (toSetReconcile) {
-      toSetReconcile.forEach(function(t) {
-        var s = { uri: t.uri };
-        s[toSet] = t.setVal;
-        context.pubsub.item.save(s);
-      });
+    // confirmed set fields
+    if (toSetReconcile && $('#processReconcile').is(':checked')) {
+      processReconcile(field, toSet, setSep, toSetReconcile);
       toSetReconcile = null;
       return;
     }
@@ -127,6 +123,9 @@ exports.init = function() {
     while (i--) {
       error = false;
       var setVal, value;
+      if (vals[i].trim().length < 1) {
+        continue;
+      }
       if (toSet) {
         value = vals[i].split(setSep)[0];
         setVal = vals[i].split(setSep)[1];
@@ -162,18 +161,40 @@ exports.init = function() {
         }
       }
     }
-    $('.notfound').html((errors.length ? '<h1>Not found: ' + notFound + '; errors:</h1>' + errors.join('<br />') :
-      '<h1>All items were found</h1>' + (toSet ? '<p>Select OK to process ' + toSetReconcile.length + ' set values</p>' : '')) + '<p>Found items (' + isFound + ') are selected.</p>');
+    var msg = '<p><strong>Found items</strong> (' + isFound + ') are selected.</p>';
+    /*jshint browser: true, plusplus: true */
+    // not ok to proceed (some didn't match)
     if (errors.length) {
-      toSetReconcile = null;
+      msg += '<p><strong>Not found</strong>: ' + notFound + '</p>' +
+        '<p><strong>Errors:</strong>' + errors.map(function(e) { return '<li>' + e + '</li>'; }).join('\n') + '</ul>';
+    } else {
+      msg += '<p><strong>All items were found</strong></p>';
     }
-    console.log('REC', toSetReconcile);
+    if (toSet && (errors.length !== notFound)) {
+      toSetReconcile = null;
+    } else {
+      msg += '<p>Check to process ' + toSetReconcile.length + ' set values: <input type="checkbox" id="processReconcile" /></p>';
+    }
+
+    $('.reconcile.message').html(msg);
     setTimeout(function() {
       $('.reconcile.modal').modal('show');
-      $('.notfound').show();
+      $('.reconcile.message').show();
     }, 1100);
   });
 
+  // process validated updates
+  function processReconcile(field, toSet, setSep, reconcileSet) {
+    // process validated updates
+    if (reconcileSet) {
+      reconcileSet.forEach(function(t) {
+        var s = { uri: t.uri };
+        s[toSet] = t.setVal;
+        context.pubsub.item.save(s);
+      });
+      return;
+    }
+  }
   // Watch selected.
   //
   // See also watch annotation.
