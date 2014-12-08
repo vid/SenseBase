@@ -87,7 +87,7 @@ exports.render = function(dest, res, context) {
 '</div></td>';
 
     if (options.query.selectFields) {
-      var span = '<span class="ui small label" style="text-transform: none">';
+      var span = '<span style="border-radius: 0.325em; background-color: #eee; margin: 2px; padding: 4px; font-size: 80%; white-space:nowrap;">';
       options.query.selectFields.forEach(function(f) {
         var values = [];
         (v.fields || []).forEach(function(v) {
@@ -98,7 +98,7 @@ exports.render = function(dest, res, context) {
             }
           }
         });
-        row += '<td data-sort-value="' + values[0] + '">' + (values.length > 0 ? (span + values.join('</span> ' + span) + '</span>') : '') + '</td>';
+        row += '<td data-sort-value="' + values[0] + '">' + (values.length > 0 ? ('<div style="line-height: 150%;">' + span + values.join('</span> ' + span) + '</span></div>') : '') + '</td>';
       });
     }
 
