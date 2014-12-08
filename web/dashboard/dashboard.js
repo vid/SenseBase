@@ -92,36 +92,86 @@ exports.init = function() {
     }
   });
 
+  var toSetReconcile;
 // reconcile missing items by field
   $('.reconcile.item').click(function() {
+    toSetReconcile = null;
     $('.reconcile.modal').modal('show');
     $('.notfound').hide();
   });
 
 // add missing items to results
   $('.confirm.reconcile').click(function() {
-    var field = $('#reconcileField').val(), fieldType = utils.getFlattenedType(field), vals = _.uniq($('#reconcileValues').val().split('\n'));
-    var i = vals.length;
-    while (i--) {
-      var value = vals[i];
-      value = value.trim();
-      context.resultsLib.getLastQuery().results.hits.hits.forEach(function(r) {
-        r._source.fields.forEach(function(rField) {
-          // it exists
-          if (rField.flattened.indexOf(field) === 0) {
-            if ((fieldType === 'category' && rField.category === r) || (fieldType === 'value' && rField.value == value)) {
-              context.resultsLib.select(r._source.uri);
-              vals.splice(i, 1);
-            }
-          }
-        });
-      });
+    var field = $('#reconcileField').val(), fieldType = utils.getFlattenedType(field), vals = _.uniq($('#reconcileValues').val().split('\n')),
+      toSet = $('#setReconciledField').val(), setSep = $('#reconcileSep').val();
+      if (setSep === '<tab>') setSep = "\t";
+    if (!field) {
+      return;
     }
-    $('.notfound').html((vals.length ? '<h1>Items not found: ' + vals.length + '</h1>' + vals.join('<br />') : '<h1>All items were found</h1>') + '<p>Found items are selected.</p>');
+
+    // process validated updates
+    if (toSetReconcile) {
+      toSetReconcile.forEach(function(t) {
+        var s = { uri: t.uri };
+        s[toSet] = t.setVal;
+        context.pubsub.item.save(s);
+      });
+      toSetReconcile = null;
+      return;
+    }
+
+    var i = vals.length, errors = [], notFound = 0, isFound = 0, error;
+    if (toSet) {
+      toSetReconcile = [];
+    }
+    while (i--) {
+      error = false;
+      var setVal, value;
+      if (toSet) {
+        value = vals[i].split(setSep)[0];
+        setVal = vals[i].split(setSep)[1];
+        if (!value || !setVal) {
+          errors.push('Separate failed for ' + vals[i]);
+          error = true;
+        }
+      }
+
+      if (!error) {
+        value = value.trim();
+        var found = false;
+        context.resultsLib.getLastQuery().results.hits.hits.forEach(function(r) {
+          r._source.fields.forEach(function(rField) {
+            // it exists
+            if (rField.flattened.indexOf(field) === 0) {
+              if ((fieldType === 'category' && rField.category === r) || (fieldType === 'value' && rField.value == value)) {
+                context.resultsLib.select(r._source.uri);
+                found = true;
+                isFound++;
+                if (toSet && r._source[toSet] !== setVal) {
+                  toSetReconcile.push( { setVal: setVal, uri: r._source.uri});
+                }
+
+                return;
+              }
+            }
+          });
+        });
+        if (!found) {
+          notFound++;
+          errors.push(value + ' not found');
+        }
+      }
+    }
+    $('.notfound').html((errors.length ? '<h1>Not found: ' + notFound + '; errors:</h1>' + errors.join('<br />') :
+      '<h1>All items were found</h1>' + (toSet ? '<p>Select OK to process ' + toSetReconcile.length + ' set values</p>' : '')) + '<p>Found items (' + isFound + ') are selected.</p>');
+    if (errors.length) {
+      toSetReconcile = null;
+    }
+    console.log('REC', toSetReconcile);
     setTimeout(function() {
       $('.reconcile.modal').modal('show');
       $('.notfound').show();
-    }, 1500);
+    }, 1100);
   });
 
   // Watch selected.
@@ -148,7 +198,6 @@ exports.init = function() {
   });
 
   $('.edit.title.button').click(function() {
-    var newTitle = $('#itemTitle').val();
     var title = $('#itemTitle').val();
     var uri = context.resultsLib.currentURI;
     context.pubsub.item.save({ uri: uri, title: title});

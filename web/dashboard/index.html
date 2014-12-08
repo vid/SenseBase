@@ -264,16 +264,21 @@
 <div class="ui reconcile modal hidden form segment">
   <div class="field">
     <div class="ui message">
-      Prior to using this function, make sure you've entered a query with appropriate results
+      Prior to using this function, make sure you've entered a query with appropriate results and fields.
     </div>
     <div class="two fields">
-      <label title="Enter the field that should be searched" for="reconcileField">Field:</label>
+      <label title="Enter the field that should be searched" for="reconcileField">Find field:</label>
       <select id="reconcileField" style="padding: 4px" class="selected fields"></select>
     </div>
     <br style="clear: both" />
     <div class="field">
-      <label for="reconcileValues">Values (one per line):</label>
+      <label for="reconcileValues">Values (one per line; use a tab for Set field values):</label>
       <textarea title="Enter return-seperated values for Field" id="reconcileValues"></textarea>
+    </div>
+    <div class="two fields">
+      <label title="Optional: enter a field that should be set per value" for="setReconciledField">Set field:</label>
+      <select id="setReconciledField" style="padding: 4px" class="all fields"></select>
+      Separator <select id="reconcileSep" style="padding: 4px"><option value="&lt;tab&gt;">Tab</option><option value="|">|</option><option value=",">,</option></select>
     </div>
     <div class="ui notfound message" style="height: 10em; overflow: auto">
     </div>

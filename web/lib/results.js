@@ -200,11 +200,16 @@ function updateResults(res) {
   // use arbitrary rendering to fill results
   var container = '#results';
   $('.selected.fields').html('<option value="">Select a field</option>');
+  var baseFields = ['title'];
   if (res.options.query.selectFields) {
     res.options.query.selectFields.forEach(function(f) {
       $('.selected.fields').append('<option>' + f + '</option>');
     });
   }
+  $('.all.fields').html('<option value="">Select a field</option>');
+  baseFields.forEach(function(f) {
+    $('.all.fields').append('<option>' + f + '</option>');
+  });
   if (results.hits) {
     $(container).html('');
     $('#queryCount').html(results.hits.hits.length === results.hits.total ? results.hits.total : (results.hits.hits.length + '/' + results.hits.total));
