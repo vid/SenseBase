@@ -11,8 +11,7 @@ var utils = require('./clientUtils');
 var homepage = window.senseBase.homepage;
 
 exports.render = function(dest, res, context) {
-  var results = res.results, options = res.options || { query: {}};
-  var curURI, shown = false, selectedURI;
+  var results = res.results, curURI, shown = false, selectedURI, selNotNum = {}, selFields = res.options.query.selectFields;
 
   // display or close uri controls and frame (for link)
   selectedURI = function(ev) {
@@ -66,12 +65,12 @@ exports.render = function(dest, res, context) {
     }
     return false;
   };
-  var t = '<table id="resultsTable" class="ui sortable table"><thead><tr><th class="descending">Rank</th><th>Title</th>';
-  if (options.query.selectFields) {
-    options.query.selectFields.forEach(function(f) {
-      var type = f.replace(/␟.*/, '');
-      t += '<th><i class="icon ' + (type === 'category' ? 'tag' : 'info') + '"></i>' + f.replace(/.*␟/, '') + '</th>';
-    });
+  var n, f, t = '<table id="resultsTable" class="ui sortable table"><thead><tr><th class="descending">Rank</th><th>Title</th>';
+  if (selFields) {
+    for (n = 0; n < selFields.length; n++) {
+      f = selFields[n];
+      t += '<th><i class="' + selectedClass(n) + ' icon ' + (utils.getFlattenedType(f) === 'category' ? 'tag' : 'info') + '"></i>' + f.replace(/.*␟/, '') + '</th>';
+    }
   }
   $(dest).html(t + '<th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table>');
   var count = 0;
@@ -86,20 +85,30 @@ exports.render = function(dest, res, context) {
       '<a class="selectURI content"><i class="text file icon"></i></a> <a class="selectURI uri" href="'+ v.uri + '"> ' + utils.shortenURI(v.uri) + '</a></div><div class="highlighted">' + highlight +
 '</div></td>';
 
-    if (options.query.selectFields) {
-      var span = '<span style="border-radius: 0.325em; background-color: #eee; margin: 2px; padding: 4px; font-size: 80%; white-space:nowrap;">';
-      options.query.selectFields.forEach(function(f) {
-        var values = [];
+    if (selFields) {
+      var values, span = '<span style="border-radius: 0.325em; background-color: #eee; margin: 2px; padding: 4px; font-size: 80%; white-space:nowrap;">';
+      for (n = 0; n < selFields.length; n++ ) {
+        f = selFields[n];
+        values = [];
         (v.fields || []).forEach(function(v) {
           if (v.flattened.indexOf(f) === 0) {
             var val = v.value || (v.category ? v.category[v.category.length - 1] : '');
             if (val) {
+              if (!selNotNum[n] && isNaN(val)) {
+                selNotNum[n] = true;
+              }
               values.push(val);
             }
           }
         });
+        // add number class to numbers
         row += '<td data-sort-value="' + values[0] + '">' + (values.length > 0 ? ('<div style="line-height: 150%;">' + span + values.join('</span> ' + span) + '</span></div>') : '') + '</td>';
-      });
+      }
+      for (n = 0; n < selFields.length; n++) {
+        if (!selNotNum[n]) {
+          $('.' + selectedClass(n)).addClass('number');
+        }
+      }
     }
 
     // visitors
@@ -148,7 +157,6 @@ exports.render = function(dest, res, context) {
       setupTable();
     });
   }
-
 };
 
 exports.checkSelected = checkSelected;
@@ -157,6 +165,11 @@ exports.select = function(uri) {
   $('input[name=cb_' + utils.encID(decodeURIComponent(uri)) + ']').prop('checked', 'true');
   checkSelected();
 };
+
+// return a consistent classname for selected fields
+function selectedClass(n) {
+  return 'selfield_' + n;
+}
 
 function checkSelected() {
   var hasSelected = 0;
