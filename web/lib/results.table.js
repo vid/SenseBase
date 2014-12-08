@@ -113,12 +113,12 @@ exports.render = function(dest, res, context) {
       options.query.selectFields.forEach(function(f) {
         var values = [];
         (v.fields || []).forEach(function(v) {
-          console.log(v.flattened, f);
           if (v.flattened.indexOf(f) === 0) {
-            values.push(v.value || v.category);
+            var val = v.value || (v.category ? v.category[v.category.length - 1] : '');
+            values.push(val);
           }
         });
-        row += '<td data-sort-value="' + values[0] + '">' + values.length > 0 ? (span + values.join('</span> ') + span + '</span>' : '') + "</td>';
+        row += '<td data-sort-value="' + values[0] + '">' + (values.length > 0 ? (span + values.join('</span> ' + span) + '</span>') : '') + '</td>';
       });
     }
     $('#resultsTable tbody').append(row + '</tr>');

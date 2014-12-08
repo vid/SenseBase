@@ -276,7 +276,6 @@ function submitQuery() {
 
 //  window.history.pushState({query: ss}, 'dashboard', basePage + ss.join('&'));
   var options = getQueryOptions();
-  console.log('OPTIONS', options);
   if (options.navigator) {
     context.pubsub.query.navigator(context.resultsLib.gotNavigation);
     $('#browse').removeClass();
