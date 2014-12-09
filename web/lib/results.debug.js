@@ -6,6 +6,5 @@
 'use strict';
 
 exports.render = function(dest, res) {
-  var res = res.results;
-  $(dest).html(Math.round(JSON.stringify(results, null, 2).length / 1024) + 'k\n<pre>' + JSON.stringify(results, null, 2) + '</pre>');
+  $(dest).html(Math.round(JSON.stringify(res, null, 2).length / 1024) + 'k\n<pre>' + JSON.stringify(res, null, 2) + '</pre>');
 };
