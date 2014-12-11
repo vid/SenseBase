@@ -11,8 +11,10 @@ agents and immediate updates in the front-end.
 Compared to similar projects, components of SenseBase were selected to enable newcomer developers to participate without having to learn a complex "stack." An annotating agent or search
 interface can be created in a dozen lines of Javascript.
 
-The project will have its greatest value in constant, cohesive, supported development. At the same time, it is extremely important to support interoperability between annotation systems
+The project will have its greatest value in constant, cohesive, supported development, recognizing the importance of supporting interoperability between annotation systems
 to create a smarter, next generation Web.
+
+The general software distribution is released under AGPL terms (see COPYING), though selected components and distributions may be released under alternate terms as appropriate to support long term development.
 
 ## Install
 
