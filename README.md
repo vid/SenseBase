@@ -1,7 +1,16 @@
 
-# UNDER CONSTRUCTION
+# Overview
 
-Interest in this software is welcome.  
+SenseBase is designed to support distributed research centers, using modern, scalable, accessible open source components. The open source process is as important as the components. 
+We want to be part of a community of technical and non technical users making open research easier.
+
+"Out of the box," SenseBase supports large collections of documents exposing a fantastic search engine, with accessible methods to add documents (drag and drop, programmatic).
+The provided Web front end supports navigation, tagging and visualization. Its publish/subscribe architecture permits simplified and robust distribution of search and processing
+agents and immediate updates in the front-end.
+
+Compared to similar projects, components of SenseBase were selected to enable newcomer developers to participate without having to learn a complex "stack."
+The project will have its greatest value in constant, cohesive, supported development. At the same time, it is extremely important to support interoperability between annotation systems
+to create a smarter, next generation Web.
 
 ## Install
 
