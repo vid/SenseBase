@@ -1,18 +1,22 @@
 
 # Overview
 
-SenseBase is designed to support distributed research centers, using modern, scalable, accessible open source components. The open source process is as important as the components. 
-We want to be part of a community of technical and non technical users making open research easier.
+SenseBase is designed to support distributed research centers, using modern, scalable, accessible open source components. The open source process is as important as the components.
+We want to be part of a community of technical and non technical users making open research and knowledge curation easier.
 
-"Out of the box," SenseBase supports large collections of documents exposing a fantastic search engine, with accessible methods to add documents (drag and drop, programmatic).
+"Out of the box," SenseBase supports large collections of documents exposing a fantastic search engine, with accessible methods to add and organize documents (drag and drop, programmatic).
 The provided Web front end supports navigation, tagging and visualization. Its publish/subscribe architecture permits simplified and robust distribution of search and processing
 agents and immediate updates in the front-end.
 
-Compared to similar projects, components of SenseBase were selected to enable newcomer developers to participate without having to learn a complex "stack."
+Compared to similar projects, components of SenseBase were selected to enable newcomer developers to participate without having to learn a complex "stack." An annotating agent or search
+interface can be created in a dozen lines of Javascript.
+
 The project will have its greatest value in constant, cohesive, supported development. At the same time, it is extremely important to support interoperability between annotation systems
 to create a smarter, next generation Web.
 
 ## Install
+
+Install issues? Please create an issue.
 
 Install ElasticSearch (1.0+) and Node.js (tested with version 0.10). You'll optionally need the ElasticSearch carrot2 plugin for clustering.
 
