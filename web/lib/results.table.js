@@ -26,6 +26,7 @@ exports.render = function(dest, res, context) {
     }
 
     if (shown) {
+      $('.selfield').show();
       $('#preview').remove();
       if ($el.hasClass('selectURI')) {
         window.location.hash = '';
@@ -41,6 +42,7 @@ exports.render = function(dest, res, context) {
       shown = false;
       context.resultsLib.noUpdates = false;
     } else {
+      $('.selfield').hide();
       context.resultsLib.displayItemSidebar(uri);
       var title = $el.parents('tr').find('.selectURI.title').text();
       console.log('title', title);
@@ -71,7 +73,7 @@ exports.render = function(dest, res, context) {
   if (selFields.length) {
     for (n = 0; n < selFields.length; n++) {
       f = selFields[n];
-      t += '<th><i class="' + selectedClass(n) + ' icon ' + (utils.getFlattenedType(f) === 'category' ? 'tag' : 'info') + '"></i>' + f.replace(/.*␟/, '') + '</th>';
+      t += '<th><i class="selfield ' + selectedClass(n) + ' icon ' + (utils.getFlattenedType(f) === 'category' ? 'tag' : 'info') + '"></i>' + f.replace(/.*␟/, '') + '</th>';
     }
   }
   $(dest).html(t + '<th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table>');
@@ -104,7 +106,7 @@ exports.render = function(dest, res, context) {
           }
         });
         // add number class to numbers
-        row += '<td data-sort-value="' + values[0] + '">' + (values.length > 0 ? ('<div style="line-height: 150%;">' + span + values.join('</span> ' + span) + '</span></div>') : '') + '</td>';
+        row += '<td class="selfield" data-sort-value="' + values[0] + '">' + (values.length > 0 ? ('<div style="line-height: 150%;">' + span + values.join('</span> ' + span) + '</span></div>') : '') + '</td>';
       }
       for (n = 0; n < selFields.length; n++) {
         if (!selNotNum[n]) {
