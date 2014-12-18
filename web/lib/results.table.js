@@ -73,7 +73,7 @@ exports.render = function(dest, res, context) {
   if (selFields.length) {
     for (n = 0; n < selFields.length; n++) {
       f = selFields[n];
-      t += '<th><i class="selfield ' + selectedClass(n) + ' icon ' + (utils.getFlattenedType(f) === 'category' ? 'tag' : 'info') + '"></i>' + f.replace(/.*␟/, '') + '</th>';
+      t += '<th class="selfield"><i class="' + selectedClass(n) + ' icon ' + (utils.getFlattenedType(f) === 'category' ? 'tag' : 'info') + '"></i>' + f.replace(/.*␟/, '') + '</th>';
     }
   }
   $(dest).html(t + '<th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table>');
