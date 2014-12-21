@@ -32,7 +32,7 @@ module.exports = function(grunt) {
     },
     watch: {
       options: {
-        livereload: true,
+        livereload: config.liveReloadPort 
       },
       assets: {
         files: assetFiles,
