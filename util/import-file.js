@@ -19,7 +19,6 @@ var tag = process.argv[2], file = process.argv[3], member = process.argv[4] || '
 
 var pathedFile =  { path: path.normalize(file), name: path.basename(file)};
 var context = { member: member, categories: [tag]};
-
 var tag = { type: 'value', roots: ['import', new Date()], key: 'RefID', value: pathedFile.name.replace(/_.*/, ''), state: utils.states.annotations.validated};
 context.categories.push(tag);
 
