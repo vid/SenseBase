@@ -88,7 +88,7 @@ function doImport(d) {
   });
   cItem.visitors = [{ member: 'import', '@timestamp': new Date().toISOString() }];
   if (SAVE) {
-    conentLib.indexContentItem(cItem);
+    contentLib.indexContentItem(cItem);
   }
 
   imported++;
