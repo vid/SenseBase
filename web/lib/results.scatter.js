@@ -9,9 +9,9 @@ exports.render = render;
 function render(dest, res) {
   $('.select').hide();
   $('.axis').show();
-  $('#selectY').on('change', function() { render(dest, res); });
+  $('.selected.axis').on('change', function() { render(dest, res); });
+  var xAxis = $('#selectX').val();
   var yAxis = $('#selectY').val();
-  console.log('yAxis', yAxis);
 
   var results = res.results;
   $(dest).html('<div id="results-scatter" style="width: 96%"></div>');
@@ -19,26 +19,26 @@ function render(dest, res) {
   var data = [];
   for (var j = 0; j < results.hits.hits.length; j++) {
     var hit = results.hits.hits[j]._source;
-    var point = { title: hit.title, x : new Date(hit.timestamp).getTime(), y : 1};
+    var point = { title: hit.title };
+
+    if (xAxis) {
+      point.x = setAxis(xAxis, hit);
+    } else {
+      point.x = new Date(hit.timestamp).getTime();
+    }
     if (yAxis) {
-      (hit.fields || []).forEach(function(v) {
-        if (v.flattened.indexOf(yAxis) === 0) {
-          var val = parseInt((v.typed ? (v.typed.Number || v.typed.Date) : null) || v.value || (v.category ? v.category[v.category.length - 1] : null), 10) || 0;
-          if (val) {
-            point.y = val;
-            console.log('using', val, yAxis);
-          }
-        }
-      });
+      point.y = setAxis(yAxis, hit);
     } else {
       if (hit.annotationSummary) {
         point.y = hit.annotationSummary.validated + hit.annotationSummary.unvalidated + 1;
+      } else {
+        point.y = 1;
       }
     }
     data.push(point);
   }
 
-  console.log('viz data' ,data);
+  console.log('viz data', 'xAxis', xAxis, 'yAxis', yAxis, data);
   var visualization = d3plus.viz()
     .container('#results-scatter')
     .data(data)
@@ -48,6 +48,25 @@ function render(dest, res) {
     .x('x')
     .y('y')
     .draw();
+}
+
+function setAxis(axis, hit, def) {
+  for (var i = 0; i < hit.fields.length; i++) {
+    var v = hit.fields[i];
+    if (v.flattened.indexOf(axis) === 0) {
+      var val;
+      if (v.typed) {
+        val = v.typed.Number || new Date(v.typed.Date).getTime();
+      } else {
+        val = parseInt(v.value || (v.category ? v.category[v.category.length - 1] : null), 10) || 0;
+      }
+      if (val) {
+        console.log('returning', val, axis);
+        return val;
+      }
+    }
+  }
+  return def;
 }
 
 function xvalue(i) {
