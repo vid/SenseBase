@@ -29,7 +29,7 @@ mbox.on('message', function(message) {
   mailparser.on('end', function(mail) {
     console.log(++count, mail.subject);
     var headers = mail.headers;
-    var uri = GLOBAL.config.HOMEPAGE + process.hrtime(start);
+    var uri = GLOBAL.config.HOMEPAGE + '/content/' + process.hrtime(start);
     desc = annoLib.createContentItem({ title: mail.subject || '<NOTITLE>', content: mail.html || mail.text || '<NOCONTENT>', uri: uri, annotations: [] } );
     for (var h in headers) {
       if (h === 'date') {
@@ -52,5 +52,5 @@ mbox.on('message', function(message) {
 process.stdin.pipe(mbox);
 
 mbox.on('end', function() {
-  setTimeout(process.exit, 5000);
+  setTimeout(process.exit, 915000);
 });
