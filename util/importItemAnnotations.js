@@ -73,7 +73,8 @@ function doImport(d) {
     var r = importer.mapToItem(d, { queued: queued });
 
     console.log('ITEM', r.contentItem._id, r.annotations.length);
-    cItem = r.contentItem, annotations = r.annotations;
+    cItem = r.contentItem;
+    annotations = r.annotations;
     cItem.annotations = annotations;
   } else {
     d.queued = queued;
