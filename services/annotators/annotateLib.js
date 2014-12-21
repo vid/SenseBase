@@ -44,7 +44,7 @@ function instancesFromMatches(word, text, selector) {
   while ((match = re.exec(text)) !== null) {
     GLOBAL.debug(text.length, text.substring(0, 10), word, match.index, text.substr(match.index, word.length));
     // It's not in a tag
-    if (text.indexOf('>', match.index) > text.indexOf('<'.match.index)) {
+    if (text.indexOf('<' < 0) || (text.indexOf('>', match.index) > text.indexOf('<'.match.index))) {
       ret.push(annoLib.createInstance({exact: text.substr(match.index, word.length), instance: instance, selector: selector}));
     }
     instance++;
