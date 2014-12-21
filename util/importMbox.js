@@ -9,6 +9,7 @@ var contentLib = require('../lib/content'), annoLib = require('../lib/annotation
 var MailParser  = require('mailparser').MailParser;
 var Mbox        = require('node-mbox');
 var mbox        = new Mbox();
+var arrvals = ['date', 'from', 'to', 'cc', 'bcc', 'references', 'inReplyTo', 'message-id', 'mime-version', 'content-type'];
 
 var count = 0, start = process.hrtime();
 // [ 1800216, 25 ]
@@ -23,24 +24,43 @@ if (!root || !mboxname) {
 require('../index.js').setup();
 
 // wait for message events
-var desc;
 mbox.on('message', function(message) {
   var mailparser = new MailParser({ streamAttachments : true });
   mailparser.on('end', function(mail) {
-    console.log(++count, mail.subject);
-    var headers = mail.headers;
-    var uri = GLOBAL.config.HOMEPAGE + '/content/' + process.hrtime(start);
-    desc = annoLib.createContentItem({ title: mail.subject || '<NOTITLE>', content: mail.html || mail.text || '<NOCONTENT>', uri: uri, annotations: [] } );
-    for (var h in headers) {
-      if (h === 'date') {
-        desc.annotations.push(annoLib.createAnnotation({type: 'value', annotatedBy: annotator, hasTarget: uri, key: 'date', isA: 'Date', value : new Date(headers[h]) }));
-        desc.created = new Date(headers[h]);
-      } else {
-        desc.annotations.push(annoLib.createAnnotation({annotatedBy: annotator, hasTarget: uri, type: 'value', key: h, value: headers[h], root: 'cpunks'}));
+    var uri = GLOBAL.config.HOMEPAGE + 'content/' + process.hrtime(start);
+    console.log(++count, mail.subject, uri);
+    var desc = annoLib.createContentItem({ title: mail.subject || '<NOTITLE>', content: mail.html || mail.text || '<NOCONTENT>', uri: uri } ), annos = [];
+    annos.push(annoLib.createAnnotation({root:root, annotatedBy: annotator, hasTarget: uri, type: 'category', category: mboxname}));
+    arrvals.forEach(function(h) {
+      var header = mail[h] || mail.headers[h];
+      if (!header) {
+        return;
       }
-    }
+      if (h === 'date') {
+        var date = new Date(header);
+        annos.push(annoLib.createAnnotation({root:root, type: 'value', annotatedBy: annotator, hasTarget: uri, key: 'date', isA: 'Date', value : date }));
+        annos.push(annoLib.createAnnotation({root:root, type: 'category', annotatedBy: annotator, hasTarget: uri, isA: 'Number', category : [ 'year', date.getYear() ] }));
+      } else if (Array.isArray(header)) {
+        header.forEach(function(aheader) {
+          if (aheader.address) {
+            annos.push(annoLib.createAnnotation({root:root, type: 'category', annotatedBy: annotator, hasTarget: uri, category : ['address', aheader.address.toLowerCase().replace(/.*\./, ''), aheader.address] }));
+            if (aheader.name) {
+              annos.push(annoLib.createAnnotation({root:root, type: 'category', annotatedBy: annotator, hasTarget: uri, category : ['name', (aheader.name.substring(0, 1) || '').toLowerCase(), aheader.name] }));
+            }
+          } else {
+            annos.push(annoLib.createAnnotation({root:root, annotatedBy: annotator, hasTarget: uri, type: 'value', key: h, value: aheader}));
+          }
+        });
+      } else {
+        annos.push(annoLib.createAnnotation({root:root, annotatedBy: annotator, hasTarget: uri, type: 'value', key: h, value: header}));
+      }
+    });
+    desc.annotations = annos;
     contentLib.indexContentItem(desc, {member: annotator}, function(err, res) {
-      console.log(err, res);
+      console.log(res.items);
+      if (err) {
+        console.log(err, res);
+      }
     });
   });
   mailparser.write(message);
@@ -52,5 +72,5 @@ mbox.on('message', function(message) {
 process.stdin.pipe(mbox);
 
 mbox.on('end', function() {
-  setTimeout(process.exit, 915000);
+  setTimeout(process.exit, 60000);
 });
