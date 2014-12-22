@@ -79,14 +79,15 @@ exports.render = function(dest, res, context) {
   $(dest).html(t + '<th>Visitors</th><th>Annotations</th></tr></thead><tbody></tbody></table>');
   var count = 0;
   results.hits.hits.forEach(function(r) {
-    var v = r.fields || r._source, highlight = '';
+    var v = r.fields || r._source, title = v.title, highlightText = '';
     if (r.highlight) {
-      highlight = r.highlight.text;
+      highlightText = r.highlight.text || '';
+      title = r.highlight.title || title;
     }
     var rankVal = r._score ? r._score : ++count;
     var row = '<tr class="selectRow" id="' + utils.encID(v.uri) + '"><td data-sort-value="' + rankVal + '"><input class="selectItem" type="checkbox" name="cb_' + utils.encID(v.uri) + '" />' + rankVal + '</td><td>' +
-      '<div><a class="selectURI title" href="'+ v.uri + '">' + (v.title ? v.title : '(no title)') + '</a><br />' +
-      '<a class="selectURI content"><i class="text file icon"></i></a> <a class="selectURI uri" href="'+ v.uri + '"> ' + utils.shortenURI(v.uri) + '</a></div><div class="highlighted">' + highlight +
+      '<div><a class="selectURI title" href="'+ v.uri + '">' + (title || '(no title)') + '</a><br />' +
+      '<a class="selectURI content"><i class="text file icon"></i></a> <a class="selectURI uri" href="'+ v.uri + '"> ' + utils.shortenURI(v.uri) + '</a></div><div class="highlighted">' + highlightText +
 '</div></td>';
 
     if (selFields.length) {
