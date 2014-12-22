@@ -28,9 +28,9 @@ mbox.on('message', function(message) {
   var mailparser = new MailParser({ streamAttachments : true });
   mailparser.on('end', function(mail) {
     var uri = GLOBAL.config.HOMEPAGE + 'content/' + process.hrtime(start);
-    console.log(++count, mail.subject, uri);
+//    console.log(++count, mail.subject, uri);
     var desc = annoLib.createContentItem({ title: mail.subject || '<NOTITLE>', content: mail.html || mail.text || '<NOCONTENT>', uri: uri } ), annos = [];
-    annos.push(annoLib.createAnnotation({root:root, annotatedBy: annotator, hasTarget: uri, type: 'category', category: mboxname}));
+    annos.push(annoLib.createAnnotation({root:root, state: 'validated', annotatedBy: annotator, hasTarget: uri, type: 'category', category: mboxname}));
     arrvals.forEach(function(h) {
       var header = mail[h] || mail.headers[h];
       if (!header) {
@@ -38,39 +38,52 @@ mbox.on('message', function(message) {
       }
       if (h === 'date') {
         var date = new Date(header);
-        annos.push(annoLib.createAnnotation({root:root, type: 'value', annotatedBy: annotator, hasTarget: uri, key: 'date', isA: 'Date', value : date }));
-        annos.push(annoLib.createAnnotation({root:root, type: 'category', annotatedBy: annotator, hasTarget: uri, isA: 'Number', category : [ 'year', date.getYear() ] }));
-      } else if (Array.isArray(header)) {
-        header.forEach(function(aheader) {
-          if (aheader.address) {
-            annos.push(annoLib.createAnnotation({root:root, type: 'category', annotatedBy: annotator, hasTarget: uri, category : ['address', aheader.address.toLowerCase().replace(/.*\./, ''), aheader.address] }));
+        desc.created = date;
+        annos.push(annoLib.createAnnotation({root:root, state: 'validated', type: 'value', annotatedBy: annotator, hasTarget: uri, key: 'date', isA: 'Date', value : date }));
+        annos.push(annoLib.createAnnotation({root:root, state: 'validated', type: 'category', annotatedBy: annotator, hasTarget: uri, isA: 'Number', category : [ 'year', date.getYear() ] }));
+      } else {
+        (Array.isArray(header) ? header : [header]).forEach(function(aheader) {
+          // email address
+          if (aheader.address !== undefined) {
+            annos.push(annoLib.createAnnotation({root:root, state: 'validated', type: 'category', annotatedBy: annotator, hasTarget: uri, category : [h, 'address', addressString(aheader.address).replace(/.*\./, ''), addressString(aheader.address)] }));
             if (aheader.name) {
-              annos.push(annoLib.createAnnotation({root:root, type: 'category', annotatedBy: annotator, hasTarget: uri, category : ['name', (aheader.name.substring(0, 1) || '').toLowerCase(), aheader.name] }));
+              annos.push(annoLib.createAnnotation({root:root, state: 'validated', type: 'category', annotatedBy: annotator, hasTarget: uri, category : [h, 'name', (aheader.name.substring(0, 1) || '').toLowerCase(), aheader.name] }));
+            }
+          // group address
+          } else if (aheader.group) {
+            annos.push(annoLib.createAnnotation({root:root, state: 'validated', type: 'category', annotatedBy: annotator, hasTarget: uri, category : [h, 'group', addressString(aheader.group.address)] }));
+            if (aheader.group.name) {
+              annos.push(annoLib.createAnnotation({root:root, state: 'validated', type: 'category', annotatedBy: annotator, hasTarget: uri, category : [h, 'group', 'name', (aheader.group.name.substring(0, 1) || '').toLowerCase(), aheader.group.name] }));
             }
           } else {
-            annos.push(annoLib.createAnnotation({root:root, annotatedBy: annotator, hasTarget: uri, type: 'value', key: h, value: aheader}));
+            annos.push(annoLib.createAnnotation({root:root, state: 'validated', annotatedBy: annotator, hasTarget: uri, type: 'category', category: [h, header]}));
           }
         });
-      } else {
-        annos.push(annoLib.createAnnotation({root:root, annotatedBy: annotator, hasTarget: uri, type: 'value', key: h, value: header}));
       }
     });
     desc.annotations = annos;
-    contentLib.indexContentItem(desc, {member: annotator}, function(err, res) {
-      console.log(res.items);
-      if (err) {
-        console.log(err, res);
-      }
-    });
+    (function(cItem){
+      contentLib.indexContentItem(desc, {member: annotator}, function(err, res) {
+        if (err || res.items[0].index.error) {
+          console.log(err || res.items[0].index.error, 'cItem', JSON.stringify(cItem, null, 2), JSON.stringify(res, null, 2));
+        }
+      });
+    }(desc));
   });
   mailparser.write(message);
   mailparser.end();
 
 });
 
+// transform characters in an address to an acceptable range or a default
+function addressString(s) {
+  return (s || '').toLowerCase().replace(/[^a-z\u00E0-\u00FC]/g, '') || '<NOADDRESS>';
+}
+
 // pipe stdin to mbox parser
 process.stdin.pipe(mbox);
 
 mbox.on('end', function() {
-  setTimeout(process.exit, 60000);
+  console.log('waiting 300 seconds for pubsub annotations');
+  setTimeout(process.exit, 300000);
 });
