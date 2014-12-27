@@ -18,6 +18,8 @@ The general software distribution is released under AGPL terms (see COPYING), th
 
 ## Install
 
+For easiest install, use [Docker](https://github.com/vid/SenseBase_docker).
+
 Install issues? Please create an issue.
 
 Install ElasticSearch (1.0+) and Node.js (tested with version 0.10). You'll optionally need the ElasticSearch carrot2 plugin for clustering.
