@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "dependencies": {
     "faye": "~1.0.0",
-    "jquery": "~2.1.0",
     "Semantic-UI": "~0.13.1",
     "jquery-ui": "~1.10.4",
     "jstree": "~3.0.0-beta10",
@@ -12,6 +11,6 @@
     "jquery.event.drag-drop": "~2.2.1"
   },
   "resolutions": {
-    "jquery": ">= 1.7.1"
+    "jquery": "~2.1.3"
   }
 }

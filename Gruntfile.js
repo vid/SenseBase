@@ -148,7 +148,7 @@ module.exports = function(grunt) {
       },
       js : {
         src : [
-         'bower_components/jquery/jquery.js',
+         'bower_components/jquery/dist/jquery.js',
          'bower_components/jquery-ui/ui/jquery-ui.js',
          'bower_components/jquery.event.drag-drop/event.drag/jquery.event.drag.js',
          'bower_components/jstree/dist/jstree.min.js',
