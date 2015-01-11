@@ -13,10 +13,11 @@ var homepage = window.senseBase.homepage;
 exports.render = function(dest, res, context) {
   $('.select').show();
   $('.axis').hide();
-  var results = res.results, curURI, shown = false, selectedURI, selNotNum = {}, selFields = res.options.query.selectFields;
+  var results = res.results, curURI, shown = false, selNotNum = {}, selFields = res.options.query.selectFields;
 
   // display or close uri controls and frame (for link)
-  selectedURI = function(ev) {
+  var selectedURI = function(ev) {
+    console.log('SELURI');
 // FIXME firing twice
     $('.selectRow').removeClass('active');
     var $el = $(this), id = $el.parents('tr').attr('id'), uri = decodeURIComponent(utils.deEncID(id));
@@ -148,19 +149,19 @@ exports.render = function(dest, res, context) {
     $('#resultsTable tbody').append(row + '</tr>');
   });
 
-  $('.sortable.table').tablesort();
   setupTable();
 
   function setupTable() {
-    $('.selectURI').click(selectedURI);
-    $('.annotations.button').click(selectedURI);
-    $('.showa').click(function() {
+    $('.selectURI,.annotations.button').on('click', selectedURI);
+    $('.showa').on('click', function() {
       $(this).next().toggle();
     });
     $('.selectItem').on('click', checkSelected);
+    /*
     $('table').on('tablesort:complete', function(event, tablesort) {
       setupTable();
     });
+    */
   }
 };
 
