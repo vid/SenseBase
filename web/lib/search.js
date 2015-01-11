@@ -9,7 +9,7 @@
 var savedSearches, context;
 var _ = require('lodash');
 
-var sline = _.template('<tr onclick=\'javascript:$("#loadSearch").val("<%= searchName %>")\'><td><div class="ui icon button"><i class="remove icon"></i></div></td><td><%= searchName %></td><td><a><%= categories %></a></td><td><%= hits %><td><%= team %></td><td><div style="height: 2.5em; overflow: auto"><%= input %></div></td><td><%= cron %></td></tr>');
+var sline = _.template('<tr onclick=\'javascript:$("#loadSearch").val("<%= searchName %>")\'><td><div class="ui icon button"><i class="remove icon"></i></div></td><td><%= searchName %></td><td><a><%= categories %></a></td><%= team %></td><td><div style="height: 2.5em; overflow: auto"><%= input %></div></td><td><%= cron %></td></tr>');
 
 exports.init = function(ctx) {
   context = ctx;
