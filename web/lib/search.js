@@ -71,7 +71,6 @@ exports.init = function(ctx) {
       // display saved searches
       $('#savedSearches tbody').html('');
       _.pluck(results.hits.hits, '_source').forEach(function(i) {
-        i.hits = 0;
         $('#savedSearches tbody').append(sline(i));
       });
       /*
