@@ -64,7 +64,7 @@ exports.init = function(ctx) {
     }
   );
 
-// Retreive existing searches.
+// Retrieve existing searches.
   context.pubsub.search.request(function(results) {
     savedSearches = results;
     if (results && results.hits.total > 0) {
@@ -150,6 +150,20 @@ exports.init = function(ctx) {
       return;
     }
     console.log('publishing', searchInput);
+    $('.search.message').html('Search results:');
+    $('.search.message').removeClass('hidden');
+    context.pubsub.status('queued', function(res) {
+      console.log(res);
+      var message = '';
+      if (res.err) {
+        message = res.err;
+      } else {
+        message = 'found <a target="_searchresult" href="' + res.status.uri + '">' + res.status.uri + '</a> from ' + res.status.source;
+      }
+
+      $('.search.message').append('<div>' + message + '</div>');
+    });
+
     context.pubsub.search.queue(searchInput);
     context.queryLib.setAnnotationTags($('#searchCategories').val().split(','));
     context.queryLib.submitQuery();
