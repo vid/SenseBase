@@ -63,7 +63,25 @@ exports.init = function(ctx, view) {
       addUpdated(results);
     }
   });
+
+  $('.validate.button').on('click', function() {
+    setState('validated', treeInterface.lastNode);
+  });
+  $('.unvalidate.button').on('click', function() {
+    setState('unvalidated', treeInterface.lastNode);
+  });
+  $('.delete.button').on('click', function() {
+    setState('deleted', treeInterface.lastNode);
+  });
 };
+
+// determine type and set state(s) appropriately
+function setState(state, item) {
+  var i = annoTree.treeItems.get(item.id);
+  if (i) {
+     console.log('I', i); 
+  }
+}
 
 // add updated items
 function addUpdated(results) {

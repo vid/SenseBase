@@ -5,7 +5,7 @@
 /* jslint node: true */
 /* global $,setupDND */
 
-var context, lastAnno;
+var context;
 
 exports.init = function(ctx) {
   context = ctx;
@@ -17,7 +17,7 @@ exports.select = function(anno, e, data) {
   if (anno) {
     exports.lastAnno = anno;
     $('.watch.annotation').removeClass('disabled');
-    console.log(anno);
+    console.log('select', anno);
     $('#annoType option:contains(anno.type)').prop('selected', true);
     // for now categories only
     $('#annoValue').val(anno.text);
@@ -36,16 +36,15 @@ exports.select = function(anno, e, data) {
 
     // set state buttons accordingly
     $('.annotation.button').removeClass('disabled');
-    if (anno.state === 'erased') {
+    if (anno._state === 'erased') {
       $('.erase.annotation').addClass('disabled');
-    } else if (anno.state === 'validated') {
+    } else if (anno._state === 'validated') {
       $('.validate.button').addClass('disabled');
     } else {
       $('.unvalidate.button').addClass('disabled');
     }
-    var annoFunctions = { anno: anno, select: function() { console.log(anno); } };
-    $('.annotation.button').click(annoFunctions.select);
   } else {
+    $('.annotation.button').addClass('disabled');
     $('.watch.annotation').addClass('disabled');
     exports.lastAnno = null;
   }
@@ -56,4 +55,5 @@ exports.select = function(anno, e, data) {
     $('.annotation.children').show();
     $('.annotation.children .count').html(data.node.children.length);
   }
+  exports.lastNode = data.node;
 };

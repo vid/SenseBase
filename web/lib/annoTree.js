@@ -14,23 +14,25 @@ exports.display = function(annotations, uri, treeInterface) {
   // utility to manage IDs for items
   var treeItems = {
     // ids and their items
-    map : {},
+    mapped : {},
     // id issued in sequence
     _id : 0,
     reset : function() {
-      this.map = {};
+      this.mapped = {};
       this._id = 0;
     },
     // get an id
     id : function(o) {
       this._id++;
       o.__id = this._id;
-      this.map[this._id] = o;
+      // FIXME collusion with tree state
+      o._state = o.state;
+      this.mapped[this._id] = o;
       return this._id;
     },
     // return the item for this id
     get : function(i) {
-      return this.map[i];
+      return this.mapped[i];
     }
   };
 
@@ -124,6 +126,7 @@ exports.display = function(annotations, uri, treeInterface) {
     }, 250);
   });
 
-  console.log('treeAnnos', treeMap);
+  console.log('treeAnnos', treeMap, 'treeItems', treeItems);
+  exports.treeItems = treeItems;
   return treeItems;
 };
