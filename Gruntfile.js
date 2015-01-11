@@ -32,7 +32,7 @@ module.exports = function(grunt) {
     },
     watch: {
       options: {
-        livereload: config.liveReloadPort 
+        livereload: config.liveReloadPort
       },
       assets: {
         files: assetFiles,
@@ -72,12 +72,14 @@ module.exports = function(grunt) {
           ]
         }
       },
+      /*
       iframe: {
         src: [ 'web/iframe/index-injected.js' ],
         dest: 'web/static/index-injected.js',
         options: {
         }
       },
+    */
     },
     includes: {
       files: {
@@ -89,6 +91,7 @@ module.exports = function(grunt) {
           silent: false,
         }
       },
+      /*
       iframe: {
         src: ['web/iframe/iframe.html'],
         dest: 'web/site',
@@ -98,6 +101,7 @@ module.exports = function(grunt) {
           silent: false,
         }
       }
+      */
     },
     develop: {
       server: {
