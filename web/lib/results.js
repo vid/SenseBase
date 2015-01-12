@@ -79,7 +79,11 @@ exports.init = function(ctx, view) {
 function setState(state, item) {
   var i = annoTree.treeItems.get(item.id);
   if (i) {
-     console.log('I', i); 
+    if (i._state !== state) {
+       i.state = state;
+       i.annotatedBy = window.senseBase.username;
+       context.pubsub.item.save({ uri: i.hasTarget, annotations: [i]});
+     }
   }
 }
 
