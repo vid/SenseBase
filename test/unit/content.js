@@ -44,7 +44,7 @@ describe('Content', function() {
     });
   });
 
-  if('should compare content', function() {
+  describe('should compare content', function() {
     var ci = annoLib.createContentItem({ title: 'original title', uri: 'http://test.com', queued : { lastAttempt: '2015-01-17T21:18:35.189Z' }} );
 
     var original = {
