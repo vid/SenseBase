@@ -64,19 +64,17 @@ exports.init = function(ctx, view) {
     }
   });
 
-  $('.validate.button').on('click', function() {
+  $('.validate.annotation.button').on('click', function() {
     setState('validated', treeInterface.lastNode);
   });
-  $('.unvalidate.button').on('click', function() {
+  $('.unvalidate.annotation.button').on('click', function() {
     setState('unvalidated', treeInterface.lastNode);
-  });
-  $('.delete.button').on('click', function() {
-    setState('deleted', treeInterface.lastNode);
   });
 };
 
 // determine type and set state(s) appropriately
 function setState(state, item) {
+  console.log(annoTree);
   var i = annoTree.treeItems.get(item.id);
   if (i) {
     if (i._state !== state) {
