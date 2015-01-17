@@ -9,11 +9,13 @@
     "colors": "~1.0.3",
     "connect-flash": "^0.1.1",
     "csvtojson": "^0.3.14",
+    "deep-diff": "^0.3.0",
     "es": "^0.4.4",
     "express": "3.4.x",
     "express-flash": "0.0.2",
     "express-namespace": "^0.1.1",
     "faye": "1.0.x",
+    "feedparser": "~0.19.2",
     "filter-proxy": "0.0.6",
     "forever": "^0.11.1",
     "jquery": "2.1.x",
@@ -31,8 +33,7 @@
     "tldjs": "^1.5.0",
     "unfluff": "~0.2.0",
     "winston": "~0.7.2",
-    "xml2js": "^0.4.2",
-    "feedparser": "~0.19.2"
+    "xml2js": "^0.4.2"
   },
   "main": "index.js",
   "devDependencies": {

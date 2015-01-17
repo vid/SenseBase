@@ -88,13 +88,4 @@ describe('Content', function(done) {
     });
   });
 
-  it('should find the difference in the changed versions', function(done) {
-    var diff = content.diffContentItems(updated, updated);
-    expect(diff.length).to.equal(0);
-    diff = content.diffContentItems(initial, updated);
-    expect(diff).to.not.be(undefined);
-    expect(diff.length).to.equal(5);
-    done();
-  });
-
 });
