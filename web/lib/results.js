@@ -74,12 +74,14 @@ exports.init = function(ctx, view) {
 
 // determine type and set state(s) appropriately
 function setState(state, item) {
-  var i = annoTree.treeItems.get(item.id);
-  if (i) {
-    if (i._state !== state) {
-       i.state = state;
-       i.annotatedBy = window.senseBase.username;
-       context.pubsub.item.save({ uri: i.hasTarget, annotations: [i]});
+  var anno = annoTree.treeItems.get(item.id);
+  if (anno) {
+    if (anno._state !== state) {
+      // FIXME refresh from server
+       anno.state = anno._state = state;
+       anno.annotatedBy = window.senseBase.username;
+       treeInterface.setAnnoState(anno);
+       context.pubsub.item.save({ uri: anno.hasTarget, annotations: [anno]});
      }
   }
 }
@@ -159,7 +161,8 @@ function gotNavigation(results) {
 
 // populate and display the URI's sidebar
 function displayItemSidebar(uri) {
-  exports.currentURI = uri;
+  uri = (uri || currentURI).replace(/#.*/, '');
+  exports.currentURI = currentURI = uri;
   // watchannotation
   $('.watch.annotation').click(function() {
     if (treeInterface.lastAnno) {
@@ -168,12 +171,12 @@ function displayItemSidebar(uri) {
     }
   });
   $('.context.dropdown').dropdown();
-  currentURI = uri.replace(/#.*/, '');
 
   context.pubsub.item.annotations.request(uri, function(data) {
     console.log('/annotations', data);
     // update query items
     if (data.annotationSummary && lastQuery.results.hits) {
+      console.log('CHECKME why would this fire?');
       var i = 0, l = lastQuery.results.hits.hits.length;
       for (i; i < l; i++) {
         if (lastQuery.results.hits.hits[i]._id === data.uri) {

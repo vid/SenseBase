@@ -12,6 +12,8 @@ exports.init = function(ctx) {
 };
 
 exports.hover = function(anno) {};
+exports.setAnnoState = setAnnoState;
+
 exports.select = function(anno, e, data) {
   // selected an annotation
   if (anno) {
@@ -34,15 +36,7 @@ exports.select = function(anno, e, data) {
       context.queryLib.submitQuery();
     });
 
-    // set state buttons accordingly
-    $('.annotation.button').removeClass('disabled');
-    if (anno._state === 'erased') {
-      $('.erase.annotation').addClass('disabled');
-    } else if (anno._state === 'validated') {
-      $('.validate.button').addClass('disabled');
-    } else {
-      $('.unvalidate.button').addClass('disabled');
-    }
+    setAnnoState(anno);
   } else {
     $('.annotation.button').addClass('disabled');
     $('.watch.annotation').addClass('disabled');
@@ -57,3 +51,15 @@ exports.select = function(anno, e, data) {
   }
   exports.lastNode = data.node;
 };
+
+function setAnnoState(anno) {
+  // set state buttons accordingly
+  $('.annotation.button').removeClass('disabled');
+  if (anno._state === 'erased') {
+    $('.erase.annotation').addClass('disabled');
+  } else if (anno._state === 'validated') {
+    $('.validate.button').addClass('disabled');
+  } else {
+    $('.unvalidate.button').addClass('disabled');
+  }
+}
