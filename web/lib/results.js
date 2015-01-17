@@ -74,7 +74,6 @@ exports.init = function(ctx, view) {
 
 // determine type and set state(s) appropriately
 function setState(state, item) {
-  console.log(annoTree);
   var i = annoTree.treeItems.get(item.id);
   if (i) {
     if (i._state !== state) {
