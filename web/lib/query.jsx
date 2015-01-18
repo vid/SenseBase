@@ -97,19 +97,25 @@ var SelectFilter = React.createClass({
   }
 });
 
-var InputName = React.createClass({
-  handleClick: function(e){
+var Export = React.createClass({
+  handleClick: function(e) {
     e.preventDefault();
-    queryResultsTable();
+    var loc = 'export/' + $('#exportType').val() + '?' + getQueryString().join('&') + '&includeUnvalidated=' + $('#includeUnvalidated').is(':checked');
+    console.log(loc);
     return;
   },
 
   render: function() {
     return (
       <div className="inline field">
-        <label for="queryName">Save name</label>
-        <input title="Name for saved query" id="queryName" className="query name" />
-        <button onClick={this.handleClick}>Results</button>
+        <h3>Export</h3>
+        <select title="Select export type" id="exportType">
+          <option value="tsv">TSV</option>
+          <option value="ris">RIS</option>
+          <option value="json">JSON</option>
+        </select><br />
+        <input type="checkbox" id="includeUnvalidated" /> <label htmlFor="includeUnvalidated">Include unvalidated</label><br />
+        <button className="ui mini button" onClick={this.handleClick}>Export</button>
       </div>
     );
   }
@@ -133,7 +139,7 @@ exports.QueryForm = React.createClass({
               <SelectFields data={this.props.data} />
             </div>
             <div className="four wide function field">
-              <InputName />
+              <Export />
             </div>
           </div>
         </form>
@@ -259,14 +265,9 @@ function getQueryOptions() {
   return options;
 }
 
-// submit a query, saving it to window state
-function submitQuery() {
-// save form contents in querystring
-// FIXME use routing
-  var ss = [], ts = [];
-  for (var i in qs) {
-    ts.push(i + '=' + qs[i]);
-  }
+// encodes query parameters as qs
+function getQueryString() {
+  var ss = [];
   queryFields.forEach(function(i) {
     if ($('.query.'+i).val()) {
       ss.push(i + '=' + $('.query.'+i).val());
@@ -276,6 +277,18 @@ function submitQuery() {
   if (annos.length) {
     ss.push('annotations=' + annos.join(','));
   }
+  return ss;
+}
+
+// submit a query, saving it to window state
+function submitQuery() {
+// save form contents in querystring
+// FIXME use routing
+  var ts = [];
+  for (var i in qs) {
+    ts.push(i + '=' + qs[i]);
+  }
+  var ss = getQueryString();
   if (ss.join('%') != ts.join('%')) {
 //    window.location = '?' + ss.join('&');
     window.history.pushState({query: ss}, 'dashboard', basePage + ss.join('&'));
