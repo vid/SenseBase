@@ -102,6 +102,7 @@ var Export = React.createClass({
     e.preventDefault();
     var loc = 'export/' + $('#exportType').val() + '?' + getQueryString().join('&') + '&includeUnvalidated=' + $('#includeUnvalidated').is(':checked');
     console.log(loc);
+    window.location = loc;
     return;
   },
 
