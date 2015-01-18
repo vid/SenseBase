@@ -60,7 +60,7 @@ var SelectNumResults = React.createClass({
     return (
       <div className="field">
         <label htmlFor="browseNum">Results</label>
-        <select title="Maximum returned results" className="query size" id="browseNum"><option value="100">100</option><option value="250">250</option><option selected value="500">500</option><option value="1000">1000</option><option value="2000">2000</option><option value="5000">5000</option>option value="90000">90000</option></select>
+        <select title="Maximum returned results" className="query size" id="browseNum"><option value="100">100</option><option value="250">250</option><option selected value="500">500</option><option value="1000">1000</option><option value="2000">2000</option><option value="5000">5000</option><option value="90000">90000</option></select>
       </div>
     );
   }
