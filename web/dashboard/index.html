@@ -4,7 +4,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="lib/libs.css" />
   <link rel="stylesheet" href="dashboard.css" />
-  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open Sans">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open%20Sans" />
+  <title>Sensebase Instance</title>
 </head>
 <body>
 <div class="ui details right sidebar">
@@ -72,14 +73,14 @@
       </div>
       <div class="ui red selected label count" style="width: 3em; text-align: center">0</div>
     </div>
-    <a title="Select X axis data selection" class="visualization axis" style="display: none">
+    <span title="Select X axis data selection" class="visualization axis" style="display: none">
       <label for="selectX">X</label>
       <select style="padding: 4px; margin: 2px" class="selected fields axis" id="selectX"></select>
-    </a>
-    <a title="Select Y axis data selection" class="visualization axis" style="display: none">
+    </span>
+    <span title="Select Y axis data selection" class="visualization axis" style="display: none">
       <label for="selectY">X</label>
       <select style="padding: 4px; margin: 2px" class="selected fields axis" id="selectY"></select>
-    </a>
+    </span>
 
     <div title="Select results visualisation" class="ui visualization dropdown item">
       <i class="unhide icon"></i>
@@ -139,7 +140,7 @@
     <p id="formdata">XHR2's FormData is not supported</p>
     <p id="progress">XHR2's upload progress isn't supported</p>
   </div>
-  <progress class="hidden" id="uploadprogress" min="0" max="100" value="0">0</progress>
+  <progress class="hidden" id="uploadprogress" max="100" value="0">0</progress>
 
   <div class="holder query results" id="uploadItem" style="width: 100%; padding: 0px; overflow: auto">
     <div class="ui grey small menu" style="margin: 0">
@@ -187,7 +188,7 @@
       </div>
       <div class="item">
         <div class="field">
-          <input id="refresh" type="checkbox"><label for="refresh">Refresh on change</label></button>
+          <input id="refresh" type="checkbox"><label for="refresh">Refresh on change</label>
         </div>
       </div>
     </div>
@@ -201,7 +202,7 @@
     <a class="active green item">
       Watchlist
     </a>
-    <a class="red item"d2f">
+    <a class="red item">
       Activity
     </a>
     <a class="blue item">
@@ -323,7 +324,6 @@
     <button class="ui confirm search load button">Load</button>
   </div>
 </div>
-</body>
 <script src="lib/libs.min.js"></script>
 
 <script src="member.js"></script>
@@ -348,3 +348,5 @@
     <code>content:"infect" AND "harm"^2</code></p>
   </div>
 </div>
+
+</body>
