@@ -1,5 +1,5 @@
 // convert data in RIS format to JSON
-/*jslint node: true */
+/*jslint node: true, esnext: true */
 
 'use strict';
 
@@ -16,12 +16,12 @@ var foundFields = {}, notFoundRecords = [];
 
 exports.risToJson = function(src, options) {
   options = options || {};
-  var risLines = fs.readFileSync(src).toString().split(/\n/);
+  let risLines = fs.readFileSync(src).toString().split(/\n/);
 
-  var cur = {}, risFound = [], processed = 0, lastField, notFoundKeys = {}, i;
+  let cur = {}, risFound = [], processed = 0, lastField, notFoundKeys = {}, i;
 
   for (i = 0 ; i < risLines.length; i++) {
-    var l = risLines[i], key, val, hasKey;
+    let l = risLines[i], key, val, hasKey;
     if (l.substring(4, 5) === '-') { // new field in record
       hasKey = true;
       key = l.substr(0, 4).trim();
@@ -39,7 +39,7 @@ exports.risToJson = function(src, options) {
       }
     } else if (hasKey) { // new field in record
 //      console.log(key, val);
-      var dest = risMapping[key];
+      let dest = risMapping[key];
       foundFields[dest] = foundFields[dest] ? foundFields[dest] + 1 : 1;
 
       if (!dest ) {
@@ -66,8 +66,8 @@ exports.risToJson = function(src, options) {
         throw "no lastField " + l;
       }
 //      console.log('combining to', lastField);
-      var dest = risMapping[lastField];
-      var o = cur[dest];
+      let dest = risMapping[lastField];
+      let o = cur[dest];
       if (typeof dest !== 'string') {
         try{
         o = cur[dest].pop();
